@@ -19,30 +19,56 @@ class create_plate_db:
     
     def create_table(self):
         #self.conn
-        self.c.execute("CREATE TABLE plates (id integer primary key autoincrement, numWell integer, numColumns integer, numRows integer, surfWell real, volWell real, workVol real)")
+        self.c.execute("CREATE TABLE plates (id integer primary key autoincrement, numWell integer, numColumns integer, numRows integer, surfWell real, volWell real, workVol real, refURL text)")
         self.conn.commit()
         #self.close
         	
     def add_value(self, value):
         #self.conn
-        self.c.execute("INSERT INTO plates VALUES (Null,?,?,?,?,?,?) ", value) 
+        self.c.execute("INSERT INTO plates VALUES (Null,?,?,?,?,?,?,?) ", value) 
         self.conn.commit()
         #self.close
         
-    def get_value(self, val):
-        #self.conn
-        #print(val) 
-        r = self.c.execute('SELECT * FROM plates WHERE numWell=?', (96, )) 
+    def get_by_numWell(self, numWell):
+        self.c.execute('SELECT * FROM plates WHERE numWell=?', (numWell,)) 
         return self.c.fetchone()
-        #print(self.c.fetchone())
-        #self.close()
         
+    def get_all(self):
+        self.c.execute('SELECT * FROM plates')
+        return self.c.fetchall()
+        
+    def delete_by_id(self, id):
+        self.c.execute('DELETE FROM plates WHERE id=?', (id,))
+        self.conn.commit()
+        
+    def get_column_name(self):
+        cursor = self.c.execute('SELECT * FROM plates WHERE id=0')
+        names = [description[0] for description in cursor.description]
+        return names
+        
+    def get_dict(self, query):
+        names = self.get_column_name()
+        results = {} 
+        for name, value in zip(names, query):
+            results[name] = value
+        return results
+        
+    def add_column_text(self, name):
+        self.c.execute('ALTER TABLE plates ADD COLUMN ? TEXT', (name,)) 
+        self.conn.commit()
         
 if __name__ == "__main__":
     Plates = create_plate_db('/storage/emulated/0/qpython/projects3/BioPlate/plates.db')
     #Plates.create_table()
-    #Plates.add_value((96, 12, 8, 0.29, 200, 200))
-    print(Plates.get_value(96)) 
+    #Plates.add_value((96, 12, 8, 0.29, 200, 200, 'https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f'))
+    #Plates.add_value((6, 3, 2, 9.5, 2000, 2000,  ' https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f'))
+    #print(Plates.get_by_numWell(6))
+    #Plates.delete_by_id(2)
+    print(Plates.get_all())
+    #print(Plates.get_column_name())
+    #Plates.add_column_text("refURL")
+    plate = Plates.get_dict(Plates.get_by_numWell(96))
+    print(plate['numWell'], plate['refURL']) 
     Plates.close
     
         
