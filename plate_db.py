@@ -27,23 +27,23 @@ class create_plate_db:
         return self.conn.cursor()
         
     def open_close(connexion=False, cursor=False):
-        def pass_func(func):
-            def pass_self(self, func):
-                def wrapper(self, *args, **kwargs):
-                    conn = self.connexion
-                    if connexion:
-                        print("connexion")
-                    elif cursor:
-                        print("cursor")
-                    else:
-                        print("none of this") 
-                    val = func(self, conn, *args) 
-                    conn.close
-                    print("close")
-                    return val
-                return wrapper
-            return pass_self
-        return pass_func
+        def pass_self(func):
+            def wrapper(self, *args, **kwargs):
+                conn = self.connexion
+                curs = conn.cursor()
+                if connexion:
+                    val = func(self, conn, *args)
+                elif cursor:
+                    val = func(self, curs, *args)
+                elif commit:
+                    val = func(self, curs, *args)
+                    conn.commit() 
+                else:
+                    print("none of this") 
+                conn.close
+                return val
+            return wrapper
+        return pass_self
 
         
         
@@ -61,14 +61,15 @@ class create_plate_db:
         #self.close
         
     @open_close(cursor=True)
-    def get_by_numWell(self, conn, numWell):
-        cursor = conn.cursor()
+    def get_by_numWell(self, cursor, numWell):
         cursor.execute('SELECT * FROM plates WHERE numWell=?', (numWell,)) 
         return cursor.fetchone() 
-        
-    def get_all(self):
-        self.c.execute('SELECT * FROM plates')
-        return self.c.fetchall()
+    
+    @property
+    @open_close(cursor=True)    
+    def get_all(self, cursor):
+        cursor.execute('SELECT * FROM plates')
+        return cursor.fetchall()
         
     def delete_by_id(self, id):
         self.c.execute('DELETE FROM plates WHERE id=?', (id,))
@@ -104,7 +105,7 @@ if __name__ == "__main__":
     #print(plate['numWell'], plate['refURL']) 
     Plates.close
     print(Plates.get_by_numWell(6))
-    print(Plates.get_all())
+    print(Plates.get_all)
         
         
         
