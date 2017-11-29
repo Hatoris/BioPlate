@@ -2,6 +2,7 @@ from tabulate import tabulate
 import string
 import re
 import ast
+from database.plate_db import create_plate_db
 
 """
 TODO: add sqlite3 for plates information add surface and volume too
@@ -11,7 +12,7 @@ TODO: add sqlite3 for plates information add surface and volume too
 class plate:
     "A row is symbolise by it's letter, a column by a number" 
     
-    def __init__(self, NumWell):
+    def __init__(self, DB, NumWell):
         "plates number of well : [column, row]"
         self.plates = {6 : [3, 2], 12 : [4, 3], 24 : [6, 4], 96 : [12, 8]}
         if re.search("^\d+", str(NumWell)):

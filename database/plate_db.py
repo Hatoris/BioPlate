@@ -7,13 +7,10 @@ import os
 class create_plate_db:
 
     def __init__(self, DB):
-        #try:
         self.DB = os.path.join(sys.path[0], DB) 
         self.conn = self.connexion
-        #except :
-            #print(sys.exc_info()[0]) 
         self.c = self.conn.cursor()
-        #self.close = self.conn.close()
+        self.create_table
       
     @property
     def close(self):
@@ -50,7 +47,7 @@ class create_plate_db:
     @property    
     @open_close(commit=True)
     def create_table(cursor):
-        cursor.execute("CREATE TABLE plates (id integer primary key autoincrement, numWell integer, numColumns integer, numRows integer, surfWell real, volWell real, workVol real, refURL text)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS plates (id integer primary key autoincrement, numWell integer, numColumns integer, numRows integer, surfWell real, volWell real, workVol real, refURL text)")
      
     @open_close(commit=True)   	
     def add_value(cursor, value):
@@ -96,8 +93,10 @@ class create_plate_db:
         elif isinstance(querys, tuple):
             for name, value in zip(names, querys):
                     results[name] = value
-        return results
-        
+        else:
+            print("This is not a proper object : " + querys) 
+        return results       
+            
     def add_column_text(self, name):
         self.c.execute('ALTER TABLE plates ADD COLUMN ? TEXT', (name,)) 
         self.conn.commit()
@@ -107,7 +106,7 @@ if __name__ == "__main__":
     #path = os.path.join(sys.path[0], 'plates.db')
     Plates = create_plate_db('plates.db')
     Plates.close
-    Plates.create_table()
+    #Plates.create_table
     #Plates.add_value((96, 12, 8, 0.29, 200, 200, 'https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f'))
     #Plates.add_value((6, 3, 2, 9.5, 2000, 2000,  ' https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f'))
     #Plates.add_value((24, 6, 4, 0.33, 400, 400, 'https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f'))
@@ -122,7 +121,7 @@ if __name__ == "__main__":
     All = Plates.get_all
     #print(All)
     #print(Plates.get_column_name)
-    print(Plates.get_dict(All, key="numWell"))
+    print(Plates.get_dict(All , key="numWell"))
     #print(Plates.get_dict(Plates.get_by_numWell(24), key="numWell"))
         
         
