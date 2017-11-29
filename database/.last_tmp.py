@@ -1,13 +1,17 @@
 import sqlite3
 import sys
 import os
+import re
 
 
 
 class create_plate_db:
 
     def __init__(self, DB):
-        self.DB = os.path.join(sys.path[0], DB) 
+        if re.search('database', sys.path[0]):
+            self.DB = os.path.join(sys.path[0], DB)
+        else :
+            self.DB = os.path.join(sys.path[0], 'database/' + DB) 
         self.conn = self.connexion
         self.c = self.conn.cursor()
         self.create_table
@@ -95,8 +99,8 @@ class create_plate_db:
                     results[name] = value
         else:
             print("This is not a proper object : " + querys) 
-        return results
-        
+        return results       
+            
     def add_column_text(self, name):
         self.c.execute('ALTER TABLE plates ADD COLUMN ? TEXT', (name,)) 
         self.conn.commit()
@@ -118,8 +122,9 @@ if __name__ == "__main__":
     #plate = Plates.get_dict(Plates.get_by_numWell(96))
     #print(plate['numWell'], plate['refURL']) 
     #print(Plates.get_by_numWell(24))
-    All = Plates.get_all
+    #All = Plates.get_all
+    well = Plates.get_by_numWell(96)
     #print(All)
-    print(Plates.get_column_name)
-    print(Plates.get_dict(All , key="numWell"))
+    #print(Plates.get_column_name)
+    print(Plates.get_dict(well , key="numWell"))
     #print(Plates.get_dict(Plates.get_by_numWell(24), key="numWell"))
