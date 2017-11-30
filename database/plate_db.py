@@ -1,7 +1,5 @@
 from general_db import general_db
 
-
-
 class create_plate_db(general_db):
         
     @property    
