@@ -3,7 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 
-
 Base = declarative_base() 
 
 class Plate(Base):
@@ -66,11 +65,12 @@ def get_plate(session, numWell):
 #add_plate(session, numWell=24, numColumns=6, numRows=4,  surfWell=0.33, maxVolWell=400, workVolWell=400, refURL='https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f') 
 
 
+if __name__ == '__main__':
 
-plate1 = session.query(Plate).first() 
-print(plate1)
-print(plate1.numWell)
-all = session.query(Plate).all()
-#p6 = session.query(Plate).filter(Plate.numWell == 6).one()
-p6 = get_plate(session, 96)
-print("plate 6 : " + str(p6))
+    plate1 = session.query(Plate).first() 
+    print(plate1)
+    print(plate1.numWell)
+    all = session.query(Plate).all()
+    #p6 = session.query(Plate).filter(Plate.numWell == 6).one()
+    p6 = get_plate(session, 96)
+    print("plate 6 : " + str(p6)) 

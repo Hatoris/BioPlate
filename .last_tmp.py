@@ -2,20 +2,25 @@ from tabulate import tabulate
 import string
 import re
 import ast
-from database.plate_db import create_plate_db
+#from database.plate_db import create_plate_db
+from database.new_general_db import get_plate
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-"""
-TODO: add sqlite3 for plates information add surface and volume too
-
-"""
 
 class plate:
     "A row is symbolise by it's letter, a column by a number" 
     
-    def __init__(self, DB, NumWell):
+    def __init__(self, NumWell):
         "plates number of well : [column, row]"
         #self.plates = {6 : [3, 2], 12 : [4, 3], 24 : [6, 4], 96 : [12, 8]}
-        self.plates = create_plate_db(DB)
+        Base = declarative_base()
+        engine = create_engine('sqlite:////storage/emulated/0/qpython/projects3/BioPlate/database/plate.db')
+        Base.metadata.create_all(engine)
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession() 
+        self.plates = get_plate(session, NumWell)
         if re.search("^\d+", str(NumWell)):
             self.NumWell = NumWell
         elif re.search("\[\d+,", str(NumWell)):
@@ -23,16 +28,16 @@ class plate:
             self.NumWell= int(column) * int(row)
             self.plates[self.NumWell] = [column, row]
         self.letter = list(string.ascii_uppercase)
-        self.plates_infos = self.plates.get_dict(self.plates.get_by_numWell(self.NumWell)) 
+        #self.plates_infos = self.plates.get_dict(self.plates.get_by_numWell(self.NumWell)) 
         self.plate = self.plate_array
         
     @property
     def plate_array(self):
         "return a nested array representation of plate" 
         plate = []
-        column = [x for x in range(self.plates_infos['numColumns']+1)]
+        column = [x for x in range(self.plates.numColumns+1)]
         plate.append(column)
-        for i in range(self.plates_infos['numRows']):
+        for i in range(self.plates.numRows):
             row = [''] * (len(column) - 1) 
             row.insert(0, self.letter[i])
             plate.append(row)
@@ -144,7 +149,7 @@ class plate:
 
 if __name__ == '__main__':
 
-    Plate = plate('plates.db', 96)
+    Plate = plate(96)
     #print(Plate.plates)
     #print(re.split('(\d+)' ,'C12')) 
     #print(Plate.table(Plate.plate))
@@ -169,4 +174,3 @@ if __name__ == '__main__':
     #Plate.add_multi_value('A-C[1,5]', ['test1', 'test2', 'test3'])
     #Plate.add_multi_value('6-8[A,F]', ['test1', 'test2', 'test3'])
     print(Plate.table(Plate.plate))
-    print(Plate.plates_infos['surfWell'])
