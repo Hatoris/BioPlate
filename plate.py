@@ -19,7 +19,7 @@ class Plate:
     "A row is symbolise by it's letter, a column by a number"
 
 
-    def __init__(self, args, key='numWell', LoN='L'):
+    def __init__(self, args, key='numWell'):
         "plates number of well : [column, row]"
         #self.plates = {6 : [3, 2], 12 : [4, 3], 24 : [6, 4], 96 : [12, 8]}
         self.plates = get_plate(args, key=key)[0]
@@ -32,24 +32,7 @@ class Plate:
             self.plates[self.NumWell] = [column, row]
         """
         self.letter = np.array(list(string.ascii_uppercase))
-        if LoN == 'L':
-            self.plate = self.plate_array
-        else:
-            self.plate1 = self.plate_array1
-
-
-        
-    @property
-    def plate_array(self):
-        "return a nested array representation of plate" 
-        plate = []
-        column = [x for x in range(self.plates.numColumns+1)]
-        plate.append(column)
-        for i in range(self.plates.numRows):
-            row = [''] * (len(column) - 1) 
-            row.insert(0, self.letter[i])
-            plate.append(row)
-        return plate
+        self.plate1 = self.plate_array1
 
     @property
     def plate_array1(self):
@@ -65,14 +48,6 @@ class Plate:
         row, column = filter(None, re.split('(\d+)' ,well))
         row = self.well_letter_index(row)
         return row, int(column)
-      
-    def add_value(self, well, value):
-        "add a value to a given well position eg : 'A1'" 
-        plate = self.plate
-        row, column = self.matrix_well(well)
-        plate[row].insert(column, value)
-        self.plate = plate
-        return plate
 
     def add_value1(self, well, value):
         "add a value to a given well position eg : 'A1'"
@@ -80,21 +55,6 @@ class Plate:
         row, column = self.matrix_well(well)
         plate[row, column] = value
         self.plate1 = plate
-        return plate
-
-    def add_value_row(self, wells, value):
-        "wells = row[start,stop,step]"
-        plate = self.plate
-        row, l= list(filter(None, re.split('(\[\d+,\d+,?\d?\])' ,wells.replace(" ","")))) 
-        row = self.well_letter_index(row)
-        val = ast.literal_eval(l)
-        val if len(val) == 3 else val.append(1)
-        if val[0] == 0:
-            print("can't assign value on 0")
-            return
-        for i in range(val[0], val[1]+1, val[2]):
-            plate[row][i] = value
-        self.plate = plate
         return plate
 
     def add_value_row1(self, wells, value):
@@ -112,22 +72,6 @@ class Plate:
             self.plate1 = plate
             return plate
 
-    def add_value_column(self, wells, value):
-        "wells = column[start letter, stop letter, step number]"
-        plate = self.plate
-        column, row = list(filter(None, re.split('(\d+)' ,wells.replace(" ",""))))
-        row = list(row)
-        try:
-            step = int(row[5]) if row[5] else 1
-        except:
-            step = 1
-        start = self.well_letter_index(row[1])
-        end = self.well_letter_index(row[3]) + 1
-        for row in range(start, end, step):
-            plate[row][int(column)] = value
-        self.plate = plate
-        return plate
-
     def add_value_column1(self, wells, value):
         "wells = column[start letter, stop letter, step number]"
         plate = self.plate1
@@ -144,35 +88,6 @@ class Plate:
         plate[row_start:row_end, int(column)] = value
         self.plate1 = plate
         return plate
-        
-### Old list
-    def add_values(self, values):
-        "values is a dict with keys are position and values are value" 
-        for key, value in values.items():
-            self.evaluate(key, value)
-        return self.plate
-
-    def add_multi_value(self, multi_wells, values):
-        "multi_wells = 'A-C[1-5]', values = ['val1' , 'val2', 'val3']"
-        wells = self.multi_row_column(multi_wells)
-        if len(wells) == len(values):
-            for well, value in zip(wells, values):
-                self.evaluate(well, value)
-
-    def evaluate(self, wells, value):
-        "select the right function too add value on wells format (column[], row[], row column)" 
-        if re.search("^(\d+\[)", wells):
-            return self.add_value_column(wells, value) 
-        elif re.search("^([A-Za-z]\[)", wells):
-            return self.add_value_row(wells, value) 
-        elif re.search("[A-Za-z]\d+", wells):
-            return self.add_value(wells, value)
-        elif re.search("^[A-Za-z]-[A-Za-z]|^\d+?-\d+?", wells):
-            self.add_multi_value(wells, value) 
-        else:
-            return None
-
-### with numpy
 
     def add_values1(self, values):
         "values is a dict with keys are position and values are value"
@@ -260,24 +175,10 @@ if __name__ == '__main__':
 
     v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]' : ['Val1', 'Val2', 'Val3']}
 
-    """
-    #List
-    time_A = int(round(time.time() * 1000))
-    time.sleep(0.01)
-    Plate = Plate(96)
-    Plate.add_value('E5', 'test3')
-    Plate.add_value_row('C[3,12]', 'test')
-    Plate.add_value_column('3[A,H]', 'test4')
-    Plate.add_values(v)
-    print(Plate.table(Plate.plate))
-    time_B = int(round(time.time() * 1000))
-    print(f'List run in : {(time_B - time_A)}')
-    """
-
     #numpy
     time_1 = int(round(time.time() * 1000))
     time.sleep(0.01)
-    Plate = Plate(96, LoN='N')
+    Plate = Plate(96)
     Plate.add_value1('E5', 'test3')
     Plate.add_value_row1('C[3,12]', 'test')
     Plate.add_value_column1('3[A,H]', 'test4')
