@@ -1,11 +1,12 @@
 import ast
 import re
 import string
-import numpy as np
 import time
 
+
+import numpy as np
 from tabulate import tabulate
-from database.plate_db import get_plate
+from BioPlate.database.plate_db import get_plate
 
 """
     add value : add value to one wells (eg : 'B5)

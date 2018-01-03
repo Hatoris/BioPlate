@@ -1,5 +1,3 @@
-from database.database_function_import import *
-
 database = 'DBFiles/plate_historic.db'
 session = create_session('sqlite:///' + database)
 

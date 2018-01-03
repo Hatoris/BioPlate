@@ -1,8 +1,9 @@
-from database.database_function_import import *
+from BioPlate.database.database_function_import import *
 
 command = r'sqlite:///' + db_path('plate.db')
 engine = create_engine(command)
 session = create_session(command)
+
 
 
 class PlateDB(Base):

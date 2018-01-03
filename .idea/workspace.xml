@@ -2,8 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5207ae6c-cde9-4044-bfa9-716c38bacfa4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.last_tmp.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plate.py" afterPath="$PROJECT_DIR$/plate.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CLI/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/setup.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_plate.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/docs/README.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/__init__.py" afterPath="$PROJECT_DIR$/BioPlate/__init__.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/DBFiles/plate.db" afterPath="$PROJECT_DIR$/BioPlate/database/DBFiles/plate.db" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/__init__.py" afterPath="$PROJECT_DIR$/BioPlate/database/__init__.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/database_function_import.py" afterPath="$PROJECT_DIR$/BioPlate/database/database_function_import.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/plate_db.py" afterPath="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/database/plate_historic_db.py" afterPath="$PROJECT_DIR$/BioPlate/database/plate_historic_db.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/plate.py" afterPath="$PROJECT_DIR$/BioPlate/plate.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,45 +25,34 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/BioPlate$new_general_db.coverage" NAME="new_general_db Coverage Results" MODIFIED="1514497704323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
-    <SUITE FILE_PATH="coverage/BioPlate$plate.coverage" NAME="plate Coverage Results" MODIFIED="1514854640805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BioPlate$plate.coverage" NAME="plate Coverage Results" MODIFIED="1514932204912" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BioPlate$plate_db__1_.coverage" NAME="plate_db (1) Coverage Results" MODIFIED="1514932514395" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate/database" />
     <SUITE FILE_PATH="coverage/BioPlate$plate_historic_db.coverage" NAME="plate_historic_db Coverage Results" MODIFIED="1514506987359" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/BioPlate$plate__1_.coverage" NAME="plate (1) Coverage Results" MODIFIED="1514932993139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate" />
     <SUITE FILE_PATH="coverage/BioPlate$plate_db.coverage" NAME="plate_db Coverage Results" MODIFIED="1514756071805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
     <SUITE FILE_PATH="coverage/BioPlate$database_function_import.coverage" NAME="database_function_import Coverage Results" MODIFIED="1514661807979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
     <SUITE FILE_PATH="coverage/BioPlate$default.coverage" NAME="default Coverage Results" MODIFIED="1514659900103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:/Python36/Lib/site-packages/sqlalchemy/engine" />
     <SUITE FILE_PATH="coverage/BioPlate$test.coverage" NAME="test Coverage Results" MODIFIED="1514661084315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/BioPlate$setup.coverage" NAME="setup Coverage Results" MODIFIED="1514930960826" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="plate_db.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/plate_db.py">
+      <file leaf-file-name="plate_db.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="11" />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plate.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/plate.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="198" column="35" lean-forward="true" selection-start-line="198" selection-start-column="35" selection-end-line="198" selection-end-column="35" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="database_function_import.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+      <file leaf-file-name="plate.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="10" column="11" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="11" />
-              <folding>
-                <element signature="e#0#87#0" expanded="true" />
-              </folding>
+              <caret line="6" column="12" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="12" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -89,6 +89,11 @@
         <option value="$PROJECT_DIR$/database/database_function_import.py" />
         <option value="$PROJECT_DIR$/database/plate_db.py" />
         <option value="$PROJECT_DIR$/plate.py" />
+        <option value="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
+        <option value="$PROJECT_DIR$/BioPlate/database/database_function_import.py" />
+        <option value="$PROJECT_DIR$/BioPlate/plate.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/tests/test_plate.py" />
       </list>
     </option>
   </component>
@@ -99,10 +104,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1506" />
-    <option name="y" value="60" />
-    <option name="width" value="1918" />
-    <option name="height" value="1038" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -119,6 +124,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -129,14 +135,24 @@
             <path>
               <item name="BioPlate" type="b2602c69:ProjectViewProjectNode" />
               <item name="BioPlate" type="462c0819:PsiDirectoryNode" />
+              <item name="BioPlate" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BioPlate" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BioPlate" type="462c0819:PsiDirectoryNode" />
+              <item name="BioPlate" type="462c0819:PsiDirectoryNode" />
               <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BioPlate" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BioPlate" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -146,10 +162,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate\docs" />
+      <recent name="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate\BioPlate" />
       <recent name="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate\database\DBFiles" />
       <recent name="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate\database" />
       <recent name="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate" />
-      <recent name="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate\database\test" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -164,7 +181,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.plate">
+  <component name="RunManager" selected="Python.plate (1)">
     <configuration name="database_function_import" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -183,20 +200,20 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="default" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="plate (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="C:/Python36/Lib/site-packages/sqlalchemy/engine" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BioPlate" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="BioPlate" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:/Python36/Lib/site-packages/sqlalchemy/engine/default.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BioPlate/plate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -214,7 +231,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="BioPlate" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plate.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate\BioPlate\plate.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="plate_db (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BioPlate/database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BioPlate" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -237,37 +272,39 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="setup" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/database" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="BioPlate" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\Florian\OneDrive - Universite de Montreal\Programming\Python\BioPlate\database\test\test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/setup.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <list size="5">
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.database_function_import" />
-      <item index="1" class="java.lang.String" itemvalue="Python.default" />
-      <item index="2" class="java.lang.String" itemvalue="Python.plate_db" />
-      <item index="3" class="java.lang.String" itemvalue="Python.plate" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test" />
+      <item index="1" class="java.lang.String" itemvalue="Python.plate_db" />
+      <item index="2" class="java.lang.String" itemvalue="Python.plate" />
+      <item index="3" class="java.lang.String" itemvalue="Python.setup" />
+      <item index="4" class="java.lang.String" itemvalue="Python.plate (1)" />
+      <item index="5" class="java.lang.String" itemvalue="Python.plate_db (1)" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.plate" />
-        <item index="1" class="java.lang.String" itemvalue="Python.plate_db" />
-        <item index="2" class="java.lang.String" itemvalue="Python.test" />
-        <item index="3" class="java.lang.String" itemvalue="Python.default" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.plate (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Python.plate_db (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.plate" />
+        <item index="3" class="java.lang.String" itemvalue="Python.setup" />
+        <item index="4" class="java.lang.String" itemvalue="Python.plate_db" />
       </list>
     </recent_temporary>
   </component>
@@ -288,16 +325,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1688" y="-34" width="1696" height="1026" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31763417" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2969247" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -319,11 +356,13 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="3" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="11" />
@@ -331,27 +370,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4216">
-          <caret line="255" column="19" lean-forward="false" selection-start-line="255" selection-start-column="19" selection-end-line="255" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="10" column="11" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3451">
+          <caret line="203" column="37" lean-forward="true" selection-start-line="203" selection-start-column="37" selection-end-line="203" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4216">
+          <caret line="255" column="19" lean-forward="false" selection-start-line="255" selection-start-column="19" selection-end-line="255" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="10" column="11" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -359,27 +418,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plate.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="38" column="18" lean-forward="true" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="19" column="4" lean-forward="false" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1394">
           <caret line="82" column="43" lean-forward="true" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
@@ -388,27 +443,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/test/test.py" />
-    <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plate.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="52" lean-forward="true" selection-start-line="16" selection-start-column="52" selection-end-line="16" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="55" />
@@ -417,34 +468,30 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/test/test.py" />
-    <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/plate_historic_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_historic_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plate.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="18" column="10" lean-forward="true" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -452,51 +499,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="25" lean-forward="false" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/plate_historic_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_historic_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plate.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="50" lean-forward="true" selection-start-line="7" selection-start-column="50" selection-end-line="7" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/new_general_db.py" />
-    <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" column="18" lean-forward="false" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plate.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -509,13 +548,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DBFiles/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/database/plate_historic_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="60" column="26" lean-forward="true" selection-start-line="60" selection-start-column="26" selection-end-line="60" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python36/Lib/site-packages/sqlalchemy/engine/default.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
@@ -540,31 +572,53 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/path_database.py" />
-    <entry file="file://$PROJECT_DIR$/database/database_function_import.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_historic_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="11" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#87#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/plate_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="11" />
+        <state relative-caret-position="506">
+          <caret line="58" column="26" lean-forward="true" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plate.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="198" column="35" lean-forward="true" selection-start-line="198" selection-start-column="35" selection-end-line="198" selection-end-column="35" />
+        <state relative-caret-position="0">
+          <caret line="0" column="15" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_plate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="16" lean-forward="true" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="12" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
