@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from contextlib import contextmanager
 import os
 
 Base = declarative_base()
@@ -49,9 +50,23 @@ def create_session(sqlalchemypath):
     session = db_session()
     return session
 
+@contextmanager
+def auto_session(sqlalchemypath):
+    #session = create_session(sqlalchemypath)
+    try:
+        session = create_session(sqlalchemypath)
+        yield session
+        session.commit()
+        session.refresh()
+    except:
+        session.rollback()
+    finally:
+        session.close()
+    
+
 
 def eng_sess(db_name):
     command = r'sqlite:///' + db_path(db_name)
     engine = create_engine(command)
-    session = create_session(command)
-    return command, engine, session
+    #session = create_session(command)
+    return command, engine

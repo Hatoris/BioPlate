@@ -2,7 +2,7 @@ import BioPlate.database.database_function_import as dfi
 from sqlalchemy import Column, Integer, String, Float
 
 
-command, engine, session = dfi.eng_sess('plate.db')
+command, engine = dfi.eng_sess('plate.db')
 
 
 class PlateDB(dfi.Base):
@@ -51,32 +51,33 @@ def add_plate(numWell, numColumns, numRows, name=None, surfWell=None, maxVolWell
     :param refURL:
     :return: Nothing
     """
-    already_exist = session.query(PlateDB).filter_by(
-            numWell = numWell,
-            numColumns = numColumns,
-            numRows=numRows,
-            name=name,
-            surfWell=surfWell,
-            maxVolWell=maxVolWell,
-            workVolWell=workVolWell,
-            refURL=refURL ).\
-            count()
-
-    if not already_exist:
-        new_entry = PlateDB(
-                numWell=numWell,
-                numColumns=numColumns,
+    with dfi.session_auto(command) as session:
+        already_exist = session.query(PlateDB).filter_by(
+                numWell = numWell,
+                numColumns = numColumns,
                 numRows=numRows,
                 name=name,
                 surfWell=surfWell,
                 maxVolWell=maxVolWell,
                 workVolWell=workVolWell,
-                refURL=refURL)
-
-        session.add(new_entry)
-        session.commit()
-    else:
-        pass
+                refURL=refURL ).\
+                count()
+    
+        if not already_exist:
+            new_entry = PlateDB(
+                    numWell=numWell,
+                    numColumns=numColumns,
+                    numRows=numRows,
+                    name=name,
+                    surfWell=surfWell,
+                    maxVolWell=maxVolWell,
+                    workVolWell=workVolWell,
+                    refURL=refURL)
+    
+            session.add(new_entry)
+            #session.commit()
+        else:
+            pass
 
 
 def get_plate(args, key='numWell'):
@@ -87,8 +88,9 @@ def get_plate(args, key='numWell'):
     :param key: column name in the database
     :return:
     """
-    plt = session.query(PlateDB).filter(getattr(PlateDB, key) == args).all()
-    return plt
+    with dfi.session_auto(command) as session:
+        plt = session.query(PlateDB).filter(getattr(PlateDB, key) == args).all()
+        return plt
 
 
 def get_all_plate():
@@ -98,8 +100,9 @@ def get_all_plate():
     :param numWell: number of well in a plate (INT)
     :return: a list of plate object
     """
-    all_plate = session.query(PlateDB).all()
-    return all_plate
+    with dfi.session_auto(command) as session:
+        all_plate = session.query(PlateDB).all()
+        return all_plate
 
 
 dfi.create_table(command)
