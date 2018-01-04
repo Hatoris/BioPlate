@@ -104,6 +104,19 @@ def get_all_plate():
     with dfi.session_auto(command) as session:
         all_plate = session.query(PlateDB).all()
         return all_plate
+        
+def delete_plate(args, key='numWell'):
+    """
+
+    :param session: sqlalchemy session
+    :param args: args to search of
+    :param key: column name in the database
+    :return:
+    """
+    with dfi.session_auto(command) as session:
+        dplt = session.query(PlateDB).filter(getattr(PlateDB, key) == args).all()
+        session.delete(dplt)
+        return "plate deleted" 
 
 
 dfi.create_table(command)
