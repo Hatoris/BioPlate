@@ -1,8 +1,11 @@
-database = 'DBFiles/plate_historic.db'
-session = create_session('sqlite:///' + database)
+import BioPlate.database.database_function_import as dfi
+from sqlalchemy import Column, Integer, String, DateTime, PickleType
 
 
-class Plate_Historic(Base):
+command, engine, session = dfi.eng_sess('plate_historic.db')
+
+
+class PlateHistoric(dfi.Base):
     """
     historic of create plate
     """
@@ -53,7 +56,9 @@ def get_all_plate():
     All_plate = session.query(plate_historic).all()
     return All_plate
 
-create_session('sqlite:///' + database)
+
+dfi.create_table(command)
 
 
 if __name__ == '__main__':
+    pass

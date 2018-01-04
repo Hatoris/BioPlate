@@ -1,10 +1,7 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime, PickleType
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, mapper
-from sqlalchemy import create_engine, engine, MetaData, Table
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
 import os
-
-
 
 Base = declarative_base()
 
@@ -18,34 +15,43 @@ def db_path(db_name):
         database = rf"{os.path.abspath(os.path.join('DBFiles', db_name))}"
     elif os.path.basename(os.getcwd()) == 'BioPlate':
         database = rf"{os.path.abspath(os.path.join('database/DBFiles', db_name))}"
+    elif os.path.basename(os.getcwd()) == 'tests':
+        database = rf"{os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', db_name)))}"
     else:
         database = None
     return database
 
 
-def create_table(engine):
+def create_table(sqlalchemypath):
     """
     This function is used to return a sqlalchemy session
 
-    :param engine: 'sqlite:////./plate.db'
+    :param sqlalchemypath: 'sqlite:////./plate.db'
     :return: a sqlalchemy session object
     """
 
-    engine = create_engine(engine)
-    Base.metadata.create_all(engine)
+    my_engine = create_engine(sqlalchemypath)
+    Base.metadata.create_all(my_engine)
 
-def create_session(engine):
+
+def create_session(sqlalchemypath):
     """
     This function is used to return a sqlalchemy session
 
-    :param engine: 'sqlite:////./plate.db'
+    :param sqlalchemypath: 'sqlite:////./plate.db'
     :return: a sqlalchemy session object
     """
 
-    engine = create_engine(engine)
-    Base.metadata.bind = engine
-    DBSession = sessionmaker(bind=engine)
-    DBSession.bind = engine
-    session = DBSession()
+    my_engine = create_engine(sqlalchemypath)
+    Base.metadata.bind = my_engine
+    db_session = sessionmaker(bind=my_engine)
+    db_session.bind = my_engine
+    session = db_session()
     return session
 
+
+def eng_sess(db_name):
+    command = r'sqlite:///' + db_path(db_name)
+    engine = create_engine(command)
+    session = create_session(command)
+    return command, engine, session

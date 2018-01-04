@@ -1,12 +1,11 @@
-from BioPlate.database.database_function_import import *
-
-command = r'sqlite:///' + db_path('plate.db')
-engine = create_engine(command)
-session = create_session(command)
+import BioPlate.database.database_function_import as dfi
+from sqlalchemy import Column, Integer, String, Float
 
 
+command, engine, session = dfi.eng_sess('plate.db')
 
-class PlateDB(Base):
+
+class PlateDB(dfi.Base):
     """
     Database for plate
     """
@@ -35,6 +34,7 @@ class PlateDB(Base):
             return f"<plate N°{self.id} :  {self.name} , {self.numWell}-{self.numColumns}-{self.numRows}>"
         else:
             return f"<plate N°{self.id} : {self.numWell}-{self.numColumns}-{self.numRows}>"
+
 
 def add_plate(numWell, numColumns, numRows, name=None, surfWell=None, maxVolWell=None, workVolWell=None,
               refURL=None):
@@ -78,6 +78,7 @@ def add_plate(numWell, numColumns, numRows, name=None, surfWell=None, maxVolWell
     else:
         pass
 
+
 def get_plate(args, key='numWell'):
     """
 
@@ -88,7 +89,8 @@ def get_plate(args, key='numWell'):
     """
     plt = session.query(PlateDB).filter(getattr(PlateDB, key) == args).all()
     return plt
-        
+
+
 def get_all_plate():
     """
     get list of plate in the database
@@ -96,11 +98,11 @@ def get_all_plate():
     :param numWell: number of well in a plate (INT)
     :return: a list of plate object
     """
-    All_plate = session.query(PlateDB).all()
-    return All_plate
+    all_plate = session.query(PlateDB).all()
+    return all_plate
 
 
-Base.metadata.create_all(engine)
+dfi.create_table(command)
 
 
 if __name__ == '__main__':
@@ -110,21 +112,21 @@ if __name__ == '__main__':
               surfWell=0.29,
               maxVolWell=200,
               workVolWell=200,
-              refURL='https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f')
+              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
     add_plate(numWell=6,
               numColumns=3,
               numRows=2,
               surfWell=9.5,
               maxVolWell=2000,
               workVolWell=2000,
-              refURL=' https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f')
+              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
     add_plate(numWell=24,
               numColumns=6,
               numRows=4,
               surfWell=0.33,
               maxVolWell=400,
               workVolWell=400,
-              refURL='https://www.google.ca/url?sa=t&source=web&rct=j&url=http://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf&ved=0ahUKEwiEueSp8tnXAhXySd8KHd_ECXgQFgg1MAA&usg=AOvVaw2X9oIuhZs3izCw7OmvQE_f')
+              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
     print(get_plate(96))
     p6 = get_plate(400, key='maxVolWell')
     print(p6)
