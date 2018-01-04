@@ -74,7 +74,8 @@ class TestPlateDB(unittest.TestCase):
         self.assertEqual(self.add_plate(), 
         	                "plate with 6 added to the database")
         self.assertEqual(self.add_plate(), None)
-
+        self.assertEquals('<plate N°2 : 6-3-2>', str(pdb.get_plate(6)))
+        self.assertEquals(6, pdb.get_plate(6).numWell)
 
 if __name__ == '__main__':
     unittest.main()
