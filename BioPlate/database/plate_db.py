@@ -75,9 +75,10 @@ def add_plate(numWell, numColumns, numRows, name=None, surfWell=None, maxVolWell
                     refURL=refURL)
     
             session.add(new_entry)
+            return f"plate with {numWell} added to the database"
             #session.commit()
         else:
-            pass
+            return None
 
 
 def get_plate(args, key='numWell'):

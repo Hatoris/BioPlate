@@ -36,6 +36,13 @@ class TestPlateDB(unittest.TestCase):
         """
         self.plate_list = pdb.get_plate(96)
         self.plate = pdb.get_plate(96)[0]
+        self.add_plate = pdb.add_plate(numWell=6,
+              numColumns=3,
+              numRows=2,
+              surfWell=9.5,
+              maxVolWell=2000,
+              workVolWell=2000,
+              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
 
     def tearDown(self):
         """
@@ -61,6 +68,12 @@ class TestPlateDB(unittest.TestCase):
         self.assertEqual(self.plate.workVolWell, 200, "Error numRows association fail")
         self.assertEqual(self.plate.refURL, "https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf",
                          "Error refURL association fail")
+
+
+    def test_add_plate(self):
+        self.assertEqual(self.add_plate(), 
+        	                "plate with 6 added to the database")
+        self.assertEqual(self.add_plate(), None)
 
 
 if __name__ == '__main__':
