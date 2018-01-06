@@ -3,6 +3,7 @@ import BioPlate.database.plate_db as pdb
 import shutil
 import os
 
+
 class TestPlateDB(unittest.TestCase):
 
     @classmethod
@@ -26,7 +27,6 @@ class TestPlateDB(unittest.TestCase):
         This function is run one time at the end of tests
         :return:
         """
-        pdb.session.close_all()
         os.remove(os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', 'plate.db'))))
 
     def setUp(self):
@@ -36,13 +36,6 @@ class TestPlateDB(unittest.TestCase):
         """
         self.plate_list = pdb.get_plate(96)
         self.plate = pdb.get_plate(96)[0]
-        self.add_plate = pdb.add_plate(numWell=6,
-              numColumns=3,
-              numRows=2,
-              surfWell=9.5,
-              maxVolWell=2000,
-              workVolWell=2000,
-              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
 
     def tearDown(self):
         """
@@ -53,7 +46,6 @@ class TestPlateDB(unittest.TestCase):
 
     def test_get_plate(self):
         self.assertIsInstance(self.plate_list, list, "plate_db.get_plate don't return a list")
-        #self.assertTrue(self.plate is pdb.get_plate(12, key="numColumns"))
         self.assertEquals('<plate N°1 : 96-12-8>', str(self.plate),
                           "plate_db.get_plate don't return the appropriate format")
         self.assertTrue(str(type(self.plate)) == "<class 'BioPlate.database.plate_db.PlateDB'>",
@@ -69,13 +61,37 @@ class TestPlateDB(unittest.TestCase):
         self.assertEqual(self.plate.refURL, "https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf",
                          "Error refURL association fail")
 
-
     def test_add_plate(self):
-        self.assertEqual(self.add_plate(), 
+        add_plate_1 = pdb.add_plate(numWell=6,
+                      numColumns=3,
+                      numRows=2,
+                      surfWell=9.5,
+                      maxVolWell=2000,
+                      workVolWell=2000,
+                      refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+        self.assertEqual(add_plate_1,
         	                "plate with 6 added to the database")
-        self.assertEqual(self.add_plate(), None)
-        self.assertEquals('<plate N°2 : 6-3-2>', str(pdb.get_plate(6)))
-        self.assertEquals(6, pdb.get_plate(6).numWell)
+        add_plate_2 = pdb.add_plate(numWell=6,
+                      numColumns=3,
+                      numRows=2,
+                      surfWell=9.5,
+                      maxVolWell=2000,
+                      workVolWell=2000,
+                      refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+        self.assertEqual(add_plate_2, None)
+        self.assertEquals('<plate N°2 : 6-3-2>', str(pdb.get_plate(6)[0]))
+        self.assertEquals(6, pdb.get_plate(6)[0].numWell)
+
+    def test_delete_plate(self):
+        pdb.add_plate(numWell=24,
+              numColumns=6,
+              numRows=4,
+              surfWell=0.33,
+              maxVolWell=400,
+              workVolWell=400,
+              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+        self.assertEqual(pdb.delete_plate(24), "plate with 24 deleted")
+        self.assertEqual(pdb.get_plate(24), [])
 
 if __name__ == '__main__':
     unittest.main()
