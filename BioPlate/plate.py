@@ -77,15 +77,16 @@ class Plate:
 
     def add_value_row(self, wells, value):
         """
-        add value to a given row on a list of column (eg : 'A[2-3]', 'test 2')
-        :param wells: 'A[2-3]' => On row A add value from column 2 to 3 included
+        add value to a given row on a list of column (eg : 'A[2,3]', 'test 2')
+        :param wells: 'A[2,3]' => On row A add value from column 2 to 3 included
         :param value: 'test 2' => Value to add on selected wells
         :return: np.array([[0, 1, 2, 3],
                            [A, 0, 'test 2', 'test 2'],
                            [B, 0, 0, 0]])
         """
-        row, l= list(filter(None, re.split('(\[\d+,\d+,?\d?\])', wells.replace(" ",""))))
+        row, l= list(filter(None, re.split('(\[\d+\,\d+])|(\[\d+\-\d+\])', wells.replace(" ",""))))
         row = self.well_letter_index(row)
+        l = l.replace("-", ",")
         column = sorted(ast.literal_eval(l))
         if column[0] == 0:
             return "can't assign value on 0"
@@ -149,9 +150,9 @@ class Plate:
             return self.add_value_column(wells, value)
         elif re.search("^([A-Za-z]\[)", wells):
             return self.add_value_row(wells, value)
-        elif re.search("[A-Za-z]\d+|\d+", wells):
+        elif re.search("([A-Za-z]\d+)|(\d+[A-Za-z])", wells):
             return self.add_value(wells, value)
-        elif re.search("^[A-Za-z]-[A-Za-z]|^\d+?-\d+?", wells):
+        elif re.search("([A-Za-z]\-[A-Za-z]\[)|(\d+\-\d+\[)", wells):
             return self.add_multi_value(wells, value)
         else:
             raise SyntaxError(f"Can't find a match pattern in this {wells}")
@@ -188,16 +189,15 @@ class Plate:
         """
         # Common to row and column
         results = []
-        infos = sorted(list(filter(None, re.split('(\w)',multi_wells.replace(" ","")))))
+        infos = sorted(list(filter(None, re.split('(\W)',multi_wells.replace(" ","")))))
         to_add = ["[", ",", "]"]
-        if re.search("^[A-Za-z]-[A-Za-z]", multi_wells):
+        if re.search("([A-Za-z]-[A-Za-z]\[)", multi_wells):
             val = "row"
-        elif re.search("\d+?-\d+?", multi_wells):
+        elif re.search("(\d+\-\d+\[)", multi_wells):
             val = "column"
         else:
             val = None
             raise SyntaxError(f"Can't find a match pattern in this {multi_wells}")
-
         # Dictionarie of row and column specific informations
         start = {"row" : self.letter_index(infos[4]), "column" : int(infos[2])}
         end = {"row": self.well_letter_index(infos[5]), "column": int(infos[3]) + 1}
@@ -213,36 +213,19 @@ class Plate:
             results.append(''.join([value[val](i), a]))
         return results
 
-    def table(self, *plate, **kwargs):
+    def table(self, plate, **kwargs):
         """
         return a tabulate object of plate.array
         :param plate: numpy.array of a plate object
         :param kwargs: keys arguments use by tabulate function
         :return:
         """
-        if plate:
-            return tabulate(plate, headers='firstrow', **kwargs)
-        else:
-            return tabulate(self.plate, headers='firstrow', **kwargs)
+        return tabulate(self.plate, headers='firstrow', **kwargs)
 
 if __name__ == '__main__':
-    #Plate.evaluate('3[C,E]', 'test5')
-    #print(len(Plate.plate[1]), len(Plate.plate[2]))
-    #print(Plate.table(Plate.plate))
-    #print(Plate.table(Plate.plate))
-    #print(Plate.multi_row_column('A-E[1-5]'))
-    #Plate.add_multi_value('A-C[1,5]', ['test1', 'test2', 'test3'])
-    #Plate.add_multi_value('6-8[A,F]', ['test1', 'test2', 'test3'])
-
-    v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]' : ['Val1', 'Val2', 'Val3']}
-
-    #numpy
-    time_1 = int(round(time.time() * 1000))
-    time.sleep(0.01)
+    v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
     Plate = Plate(96)
-    print(Plate.evaluate("A1", "Test"))
+    Plate.add_values(v)
     print(Plate.table(Plate.plate))
-    time_2= int(round(time.time() * 1000))
-    print(f'numpy run in : {(time_2 - time_1)}')
 
     

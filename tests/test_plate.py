@@ -2,6 +2,7 @@ import unittest
 from BioPlate.plate import Plate
 import numpy as np
 from string import ascii_uppercase
+from tabulate import tabulate
 
 class TestPlate(unittest.TestCase):
 
@@ -85,6 +86,7 @@ class TestPlate(unittest.TestCase):
                                                 ['G', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                 ['H', '', '', '', '', '', '', '', '', '', '', '', '']],
                                                dtype='U40'))
+        np.testing.assert_array_equal(self.plt.add_value_row("D[1-7]", "Test"), self.plt.plate)
         self.assertEqual(self.plt.add_value_row("D[0,8]", 18), "can't assign value on 0")
 
     def test_add_value_column(self):
@@ -135,8 +137,47 @@ class TestPlate(unittest.TestCase):
     def test_evaluate(self):
         with self.assertRaises(SyntaxError):
             self.plt.evaluate('A:C[1-5]', ["Test1", "Test2", "Test3"])
-            self.plt.evaluate('1C', "Test1")
+        np.testing.assert_array_equal(self.plt.evaluate("2[B,E]", "Test"), self.plt.plate)
+        np.testing.assert_array_equal(self.plt.evaluate("A[1,5]", "Test"), self.plt.plate)
+        np.testing.assert_array_equal(self.plt.evaluate("1C", "Test"), self.plt.plate)
+        np.testing.assert_array_equal(self.plt.evaluate("1-3[A,C]", ["Test1", "Test2", "Test3"]), self.plt.plate)
+        np.testing.assert_array_equal(self.plt.evaluate("F-H[1,3]", ["Test1", "Test2", "Test3"]),
+                                      np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                                                ['A', 'Test1', 'Test2', 'Test3', 'Test', 'Test', '', '', '', '', '', '', ''],
+                                                ['B', 'Test1', 'Test2', 'Test3', '', '', '', '', '', '', '', '', ''],
+                                                ['C', 'Test1', 'Test2', 'Test3', '', '', '', '', '', '', '', '', ''],
+                                                ['D', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
+                                                ['E', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
+                                                ['F', 'Test1', 'Test1', 'Test1', '', '', '', '', '', '', '', '', ''],
+                                                ['G', 'Test2', 'Test2', 'Test2', '', '', '', '', '', '', '', '', ''],
+                                                ['H', 'Test3', 'Test3', 'Test3', '', '', '', '', '', '', '', '', '']], dtype='U40'))
 
+    def test_well_letter_index(self):
+        self.assertEqual(self.plt.well_letter_index("D"), 4)
+        self.assertEqual(self.plt.well_letter_index("H"), 8)
+
+    def test_letter_index(self):
+        self.assertEqual(self.plt.letter_index("D"), 3)
+        self.assertEqual(self.plt.letter_index("H"), 7)
+
+    def test_index_letter(self):
+        self.assertEqual(self.plt.index_letter(3), "D")
+        self.assertEqual(self.plt.index_letter(7), "H")
+
+    def test_all_in_one(self):
+        v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'],
+             'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
+        result = np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                           ['A', '', 'VC', 'VC', 'VC', 'VC', 'VC', 'VC', 'VC', '', '', '', ''],
+                           ['B', 'MLR', 'NT', '1.1', '1.2', '', '', '', '', '', '', '', ''],
+                           ['C', 'MLR', 'NT', '1.1', '1.2', '', '', '', '', '', '', '', ''],
+                           ['D', 'MLR', 'NT', '1.1', '1.2', '', '', '', '', '', '', '', ''],
+                           ['E', 'MLR', 'NT', '1.1', '1.2', '', '', '', 'Val1', 'Val1', 'Val1', '', ''],
+                           ['F', 'MLR', 'NT', '1.1', '1.2', '', '', '', 'Val2', 'Val2', 'Val2', '', ''],
+                           ['G', 'MLR', 'NT', '1.1', '1.2', '', '', '', 'Val3', 'Val3', 'Val3', '', ''],
+                           ['H', '', 'MS', 'MS', 'MS', 'MS', 'MS', 'MS', 'MS', '', '', '', '']], dtype='U40')
+        np.testing.assert_array_equal(self.plt.add_values(v), result)
+        self.assertEqual(self.plt.table(self.plt.plate), tabulate(result, headers='firstrow'))
 
 if __name__ == "__main__":
     unittest.main()
