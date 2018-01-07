@@ -1,12 +1,12 @@
 import ast
 import re
-import string
 import time
 
 
 import numpy as np
+from string import ascii_uppercase
 from tabulate import tabulate
-from BioPlate.database.plate_db import get_plate
+from BioPlate.database.plate_db import PlateDB
 
 """
     add value : add value to one wells (eg : 'B5)
@@ -27,8 +27,9 @@ class Plate:
         :param args: value to search in databse
         :param key: column to search args, by default column is numWell
         """
-        self.plates = get_plate(args, key=key)[0]
-        self.letter = np.array(list(string.ascii_uppercase))
+        pdb = PlateDB()
+        self.plates = pdb.get_plate(args, key=key)[0]
+        self.letter = np.array(list(ascii_uppercase))
         self.plate = self.plate_array
 
     @property
@@ -70,11 +71,9 @@ class Plate:
                            [A, 'test 1', 0, 0],
                            [B, 0, 0, 0]])
         """
-        plate = self.plate
         row, column = self.matrix_well(well)
-        plate[row, column] = value
-        self.plate = plate
-        return plate
+        self.plate[row, column] = value
+        return self.plate
 
     def add_value_row(self, wells, value):
         """
@@ -85,18 +84,14 @@ class Plate:
                            [A, 0, 'test 2', 'test 2'],
                            [B, 0, 0, 0]])
         """
-        plate = self.plate
         row, l= list(filter(None, re.split('(\[\d+,\d+,?\d?\])', wells.replace(" ",""))))
         row = self.well_letter_index(row)
-        column = ast.literal_eval(l)
-        column if len(column) == 3 else column.append(1)
+        column = sorted(ast.literal_eval(l))
         if column[0] == 0:
-            print("can't assign value on 0")
-            return
-        else :
-            plate[row, column[0]:column[1]+1] = value
-            self.plate = plate
-            return plate
+            return "can't assign value on 0"
+        else:
+            self.plate[row, column[0]:column[1]+1] = value
+            return self.plate
 
     def add_value_column(self, wells, value):
         """
@@ -107,14 +102,12 @@ class Plate:
                            [A, 0, 'test 3', 0],
                            [B, 0, 'test 3', 0]])
         """
-        plate = self.plate
         column, row = list(filter(None, re.split('(\d+)' ,wells.replace(" ",""))))
-        row = list(row)
+        row = sorted(list(row))
         row_start = self.well_letter_index(row[1])
-        row_end = self.well_letter_index(row[3]) + 1
-        plate[row_start:row_end, int(column)] = value
-        self.plate = plate
-        return plate
+        row_end = self.well_letter_index(row[2]) + 1
+        self.plate[row_start:row_end, int(column)] = value
+        return self.plate
 
     def add_values(self, values):
         """
@@ -123,9 +116,12 @@ class Plate:
         :param values: {'A1' : 'test 4', 'B3' : 'test 5'}
         :return: plate
         """
-        for key, value in values.items():
-            self.evaluate(key, value)
-        return self.plate
+        try :
+            for key, value in values.items():
+                self.evaluate(key, value)
+            return self.plate
+        except AttributeError:
+            return f"{type(values)} is a wrong format, dictionary should be used"
 
     def add_multi_value(self, multi_wells, values):
         """
@@ -134,12 +130,12 @@ class Plate:
         :param values: ['val1' , 'val2', 'val3'] => On row A add value 'val1', on row B add value 'val2' from column 1 to 5
         :return: plate
         """
-        wells = self.multi_row_column(multi_wells)
+        wells = self.split_multi_row_column(multi_wells)
         if len(wells) == len(values):
             for well, value in zip(wells, values):
                 self.evaluate(well, value)
         else:
-            print(f"for {wells} = {values} Number of wells are {len(wells)} and number of values are {len(values)}")
+            raise ValueError(f"for {wells} = {values} Number of wells are {len(wells)} and number of values are {len(values)}")
         return self.plate
 
     def evaluate(self, wells, value):
@@ -153,12 +149,12 @@ class Plate:
             return self.add_value_column(wells, value)
         elif re.search("^([A-Za-z]\[)", wells):
             return self.add_value_row(wells, value)
-        elif re.search("[A-Za-z]\d+", wells):
+        elif re.search("[A-Za-z]\d+|\d+", wells):
             return self.add_value(wells, value)
         elif re.search("^[A-Za-z]-[A-Za-z]|^\d+?-\d+?", wells):
             return self.add_multi_value(wells, value)
         else:
-            return None
+            raise SyntaxError(f"Can't find a match pattern in this {wells}")
 
     def well_letter_index(self, row_letter):
         """
@@ -166,68 +162,70 @@ class Plate:
         :param row_letter: C => letter of a row
         :return: 3 => index of row C in plate.array
         """
-        row_index = np.searchsorted(self.letter, row_letter) + 1
-        return row_index
-        
+        return np.searchsorted(self.letter, row_letter) + 1
+
     def letter_index(self, letter):
         """
         get index of a given letter in the numpy.array
         :param letter: C => letter of interest
         :return: 2 => index of letter C in letter.array
         """
-        index = np.searchsorted(self.letter, letter)
-        return index
+        return np.searchsorted(self.letter, letter)
 
-    def multi_row_column(self, multi_wells):
+    def index_letter(self, index_letter):
+        """
+        return letter of define index
+        :param index_letter: 2 => index of interest
+        :return: C => letter of a given index
+        """
+        return self.letter[index_letter]
+
+    def split_multi_row_column(self, multi_wells):
         """
         split condensed wells assignation on medium form (eg : 'A-E[1,5]' or '1-5[A,E]')
         :param multi_wells: 'A-E[1,5]' => On row A, B, C, D and E add value from column 1 to 5 included
         :return: ['A[1,5]', 'B[1,5]', 'C[1,5]', 'D[1,5]', 'E[1,5]'] => medium form of the condensed one 'A-E[1,5]'
         """
+        # Common to row and column
         results = []
+        infos = sorted(list(filter(None, re.split('(\w)',multi_wells.replace(" ","")))))
+        to_add = ["[", ",", "]"]
         if re.search("^[A-Za-z]-[A-Za-z]", multi_wells):
-            letter = list(filter(None, re.split('(\w)' ,multi_wells.replace(" ",""))))
-            letter_start = self.letter_index(letter[0])
-            letter_end = self.well_letter_index(letter[2])
-            a = ''.join(letter[3:])
-            for i in range(letter_start, letter_end):
-                results.append(''.join([self.letter[i], a]))
-            return results
+            val = "row"
         elif re.search("\d+?-\d+?", multi_wells):
-            column = list(filter(None, re.split('(\w+)' ,multi_wells.replace(" ",""))))
-            column_start = int(column[0]) 
-            column_end = int(column[2])
-            a = ''.join(column[3:])
-            for i in range(column_start, column_end + 1):
-                results.append(''.join([str(i), a]))
-            return results
+            val = "column"
+        else:
+            val = None
+            raise SyntaxError(f"Can't find a match pattern in this {multi_wells}")
 
-    def table(self, plate, **kwargs):
+        # Dictionarie of row and column specific informations
+        start = {"row" : self.letter_index(infos[4]), "column" : int(infos[2])}
+        end = {"row": self.well_letter_index(infos[5]), "column": int(infos[3]) + 1}
+        position_1 = {"row": infos[2], "column": infos[4]}
+        position_3 = {"row": infos[3], "column": infos[5]}
+        value = {"row": self.index_letter, "column": str}
+
+        # Common transformation to row and column
+        to_add.insert(1, str(position_1[val]))
+        to_add.insert(3, str(position_3[val]))
+        a = ''.join(to_add)
+        for i in range(start[val], end[val]):
+            results.append(''.join([value[val](i), a]))
+        return results
+
+    def table(self, *plate, **kwargs):
         """
         return a tabulate object of plate.array
         :param plate: numpy.array of a plate object
         :param kwargs: keys arguments use by tabulate function
         :return:
         """
-        return tabulate(plate, headers='firstrow', **kwargs)
-        
-   
+        if plate:
+            return tabulate(plate, headers='firstrow', **kwargs)
+        else:
+            return tabulate(self.plate, headers='firstrow', **kwargs)
 
 if __name__ == '__main__':
-
-
-
-    #print(Plate.plates)
-    #print(re.split('(\d+)' ,'C12')) 
-    #print(Plate.table(Plate.plate))
-    #print(Plate.matrix_well('A2'))
-    #print(Plate.matrix_well('B3'))
-    #print(Plate.table(Plate.add_value('B3', 'test')))
-    #print(Plate.add_value_row('C[3,12]', 'test'))
-    #print(Plate.table(Plate.add_value_row('C[3,12]', 'test')))
-    # print(Plate.table(Plate.plate))
-    # Plate.add_value_row('B[2 ,8,2]', 'test2')
-    #print(Plate.table(Plate.plate))
     #Plate.evaluate('3[C,E]', 'test5')
     #print(len(Plate.plate[1]), len(Plate.plate[2]))
     #print(Plate.table(Plate.plate))
@@ -242,11 +240,7 @@ if __name__ == '__main__':
     time_1 = int(round(time.time() * 1000))
     time.sleep(0.01)
     Plate = Plate(96)
-    Plate.add_value('E5', 'test3')
-    Plate.add_value('10A', 'test5')
-    Plate.add_value_row('C[3,12]', 'test')
-    Plate.add_value_column('3[A,H]', 'test4')
-    Plate.add_values(v)
+    print(Plate.evaluate("A1", "Test"))
     print(Plate.table(Plate.plate))
     time_2= int(round(time.time() * 1000))
     print(f'numpy run in : {(time_2 - time_1)}')
