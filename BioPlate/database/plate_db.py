@@ -1,5 +1,5 @@
 import BioPlate.database.database_function_import as dfi
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, exc
 
 
 class PlateDB:
@@ -123,12 +123,15 @@ class PlateDB:
         :param key: column name in the database
         :return:
         """
-        dplt = self.session.query(self.PlateDatabase).filter(getattr(self.PlateDatabase, key) == args).one()
-        numwell = dplt.numWell
-        self.session.delete(dplt)
-        self.session.commit()
-        self.session.close()
-        return f"plate with {numwell} deleted"
+        try :
+            dplt = self.session.query(self.PlateDatabase).filter(getattr(self.PlateDatabase, key) == args).one()
+            numwell = dplt.numWell
+            self.session.delete(dplt)
+            self.session.commit()
+            self.session.close()
+            return f"plate with {args} {key} deleted"
+        except exc.SQLAlchemyError:
+            return "Use a more specific key to delete the plate"
 
 
 if __name__ == '__main__':
@@ -156,8 +159,16 @@ if __name__ == '__main__':
               maxVolWell=400,
               workVolWell=400,
               refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+    pdb.add_plate(numWell=96,
+              numColumns=10,
+              numRows=6,
+              surfWell=0.29,
+              maxVolWell=200,
+              workVolWell=200,
+              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
     print(pdb.get_plate(96))
     p6 = pdb.get_plate(400, key='maxVolWell')
+    #print(pdb.delete_plate(10, key="numColumns"))
     print(p6)
     test = pdb.get_all_plate
     print(test)

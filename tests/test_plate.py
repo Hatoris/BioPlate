@@ -1,8 +1,13 @@
 import unittest
-from BioPlate.plate import Plate
+import contextlib
 import numpy as np
+import os
+
+from BioPlate.plate import Plate
+from BioPlate.database.plate_db import PlateDB
 from string import ascii_uppercase
 from tabulate import tabulate
+
 
 class TestPlate(unittest.TestCase):
 
@@ -12,7 +17,14 @@ class TestPlate(unittest.TestCase):
         This function is run one time at the beginning of tests
         :return:
         """
-        pass
+        cls.pdb = PlateDB.from_database_name('test_plate.db')
+        cls.pdb.add_plate(numWell=96,
+              numColumns=12,
+              numRows=8,
+              surfWell=0.29,
+              maxVolWell=200,
+              workVolWell=200,
+              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
 
     @classmethod
     def tearDownClass(cls):
@@ -20,14 +32,15 @@ class TestPlate(unittest.TestCase):
         This function is run one time at the end of tests
         :return:
         """
-        pass
+        with contextlib.suppress(FileNotFoundError):
+            os.remove(os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', 'test_plate.db'))))
 
     def setUp(self):
         """
         This function is run every time at the beginning of each test
         :return:
         """
-        self.plt = Plate(96)
+        self.plt = Plate(96, db_name='test_plate.db')
 
     def tearDown(self):
         """
