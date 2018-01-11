@@ -12,7 +12,7 @@ class TestPlateDB(unittest.TestCase):
         This function is run one time at the beginning of tests
         :return:
         """
-        cls.pdb = PlateDB.from_database_name('test_plate.db')
+        cls.pdb = PlateDB(db_name='test_plate.db')
         cls.pdb.add_plate(numWell=96,
               numColumns=12,
               numRows=8,
@@ -92,7 +92,7 @@ class TestPlateDB(unittest.TestCase):
               maxVolWell=400,
               workVolWell=400,
               refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
-        self.assertEqual(self.pdb.delete_plate(24), "plate with 24 deleted")
+        self.assertEqual(self.pdb.delete_plate(24), "plate with 24 numWell deleted")
         self.assertEqual(self.pdb.get_plate(24), [])
 
 if __name__ == '__main__':

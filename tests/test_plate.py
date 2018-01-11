@@ -17,7 +17,7 @@ class TestPlate(unittest.TestCase):
         This function is run one time at the beginning of tests
         :return:
         """
-        cls.pdb = PlateDB.from_database_name('test_plate.db')
+        cls.pdb = PlateDB(db_name='test_plate.db')
         cls.pdb.add_plate(numWell=96,
               numColumns=12,
               numRows=8,

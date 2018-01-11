@@ -6,7 +6,7 @@ import time
 import numpy as np
 from string import ascii_uppercase
 from tabulate import tabulate
-from BioPlate.database.plate_db import PlateDB
+from BioPlate.database.plate_db_old import PlateDB
 
 databaseName = PlateDB.database_name
 

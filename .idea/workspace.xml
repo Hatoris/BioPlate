@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5207ae6c-cde9-4044-bfa9-716c38bacfa4" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BioPlate/database/plate_db_old.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/BioPlate/database/plate_db_2.py" afterPath="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BioPlate/database/plate_db.py" afterPath="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BioPlate/database/plate_historic_db.py" afterPath="$PROJECT_DIR$/BioPlate/database/plate_historic_db.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BioPlate/database/database.py" afterPath="$PROJECT_DIR$/BioPlate/database/database.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BioPlate/plate.py" afterPath="$PROJECT_DIR$/BioPlate/plate.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/.last_tmp.py" afterPath="$PROJECT_DIR$/tests/.last_tmp.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_plate.py" afterPath="$PROJECT_DIR$/tests/test_plate.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_plate_db.py" afterPath="$PROJECT_DIR$/tests/test_plate_db.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,6 +22,7 @@
     <SUITE FILE_PATH="coverage/BioPlate$plate.coverage" NAME="plate Coverage Results" MODIFIED="1515363597264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate" />
     <SUITE FILE_PATH="coverage/BioPlate$plate_historic_db.coverage" NAME="plate_historic_db Coverage Results" MODIFIED="1515371626205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate/database" />
     <SUITE FILE_PATH="coverage/BioPlate$plate__1_.coverage" NAME="plate (1) Coverage Results" MODIFIED="1514932993139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate" />
+    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlate.coverage" NAME="Nosetests for test_plate.TestPlate Coverage Results" MODIFIED="1515692846121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlate_test_Plate_init.coverage" NAME="Nosetests for test_plate.TestPlate.test_Plate_init Coverage Results" MODIFIED="1515292382211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$database_function_import.coverage" NAME="database_function_import Coverage Results" MODIFIED="1514661807979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
     <SUITE FILE_PATH="coverage/BioPlate$plate_db.coverage" NAME="plate_db Coverage Results" MODIFIED="1515366666503" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate/database" />
@@ -27,19 +31,19 @@
     <SUITE FILE_PATH="coverage/BioPlate$plate_db__1_.coverage" NAME="plate_db (1) Coverage Results" MODIFIED="1515039250821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate/database" />
     <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlate_test_evaluate.coverage" NAME="Nosetests for test_plate.TestPlate.test_evaluate Coverage Results" MODIFIED="1515341738932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1515277052233" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate/database/DBFiles" />
-    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB_test_get_plate.coverage" NAME="Nosetests for test_plate_db.TestPlateDB.test_get_plate Coverage Results" MODIFIED="1515041698375" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB_test_get_plate.coverage" NAME="Nosetests for test_plate_db.TestPlateDB.test_get_plate Coverage Results" MODIFIED="1515692131558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$database_function_import__1_.coverage" NAME="database_function_import (1) Coverage Results" MODIFIED="1515173489033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate/database" />
     <SUITE FILE_PATH="coverage/BioPlate$Nosetests_in_test_plate_db_py.coverage" NAME="Nosetests in test_plate_db.py Coverage Results" MODIFIED="1515295877984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlate_test_add_value.coverage" NAME="Nosetests for test_plate.TestPlate.test_add_value Coverage Results" MODIFIED="1515292341399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlate_test_split_multi_row_column.coverage" NAME="Nosetests for test_plate.TestPlate.test_split_multi_row_column Coverage Results" MODIFIED="1515302267496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB_test_plate_class.coverage" NAME="Nosetests for test_plate_db.TestPlateDB.test_plate_class Coverage Results" MODIFIED="1515041459563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB_test_add_plate.coverage" NAME="Nosetests for test_plate_db.TestPlateDB.test_add_plate Coverage Results" MODIFIED="1515197997704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB_test_plate_class.coverage" NAME="Nosetests for test_plate_db.TestPlateDB.test_plate_class Coverage Results" MODIFIED="1515692019137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB_test_add_plate.coverage" NAME="Nosetests for test_plate_db.TestPlateDB.test_add_plate Coverage Results" MODIFIED="1515691848576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$default.coverage" NAME="default Coverage Results" MODIFIED="1514659900103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:/Python36/Lib/site-packages/sqlalchemy/engine" />
     <SUITE FILE_PATH="coverage/BioPlate$new_general_db.coverage" NAME="new_general_db Coverage Results" MODIFIED="1514497704323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
     <SUITE FILE_PATH="coverage/BioPlate$plate_db_2.coverage" NAME="plate_db_2 Coverage Results" MODIFIED="1515271030905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BioPlate/database" />
     <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlateDB_test_init.coverage" NAME="Nosetests for test_plate.TestPlateDB.test_init Coverage Results" MODIFIED="1515291238998" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlateDB.coverage" NAME="Nosetests for test_plate.TestPlateDB Coverage Results" MODIFIED="1515364282619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB.coverage" NAME="Nosetests for test_plate_db.TestPlateDB Coverage Results" MODIFIED="1515272124660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_TestPlateDB.coverage" NAME="Nosetests for test_plate.TestPlateDB Coverage Results" MODIFIED="1515692138743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/BioPlate$Nosetests_for_test_plate_db_TestPlateDB.coverage" NAME="Nosetests for test_plate_db.TestPlateDB Coverage Results" MODIFIED="1515692825600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/BioPlate$setup.coverage" NAME="setup Coverage Results" MODIFIED="1514930960826" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/BioPlate$tests.coverage" NAME="tests Coverage Results" MODIFIED="1515040016121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
@@ -48,8 +52,8 @@
       <file leaf-file-name="plate.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3604">
-              <caret line="230" column="35" lean-forward="true" selection-start-line="230" selection-start-column="35" selection-end-line="230" selection-end-column="35" />
+            <state relative-caret-position="742">
+              <caret line="230" column="35" lean-forward="false" selection-start-line="230" selection-start-column="35" selection-end-line="230" selection-end-column="35" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -57,22 +61,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plate_historic_db.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_historic_db.py">
+      <file leaf-file-name="plate_db_old.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="142" column="47" lean-forward="true" selection-start-line="142" selection-start-column="47" selection-end-line="142" selection-end-column="47" />
-              <folding>
-                <element signature="e#0#56#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plate_db.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
+            <state relative-caret-position="2907">
               <caret line="172" column="4" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="173" selection-end-column="15" />
               <folding>
                 <element signature="e#0#56#0" expanded="true" />
@@ -81,11 +73,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_plate.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="test_plate.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/test_plate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-408">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="306">
+              <caret line="18" column="11" lean-forward="true" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -96,10 +88,34 @@
       <file leaf-file-name="test_plate_db.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_plate_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="123" />
+            <state relative-caret-position="1139">
+              <caret line="67" column="35" lean-forward="true" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plate_db.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="82" column="0" lean-forward="true" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BioPlate/database/database.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="108" column="32" lean-forward="false" selection-start-line="108" selection-start-column="32" selection-end-line="108" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#55#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -139,15 +155,16 @@
         <option value="$PROJECT_DIR$/plate.py" />
         <option value="$PROJECT_DIR$/BioPlate/database/DBFiles/tests2.py" />
         <option value="$PROJECT_DIR$/tests/tests.py" />
-        <option value="$PROJECT_DIR$/BioPlate/database/plate_db_2.py" />
-        <option value="$PROJECT_DIR$/tests/test_plate_db.py" />
         <option value="$PROJECT_DIR$/BioPlate/database/DBFiles/test1.py" />
         <option value="$PROJECT_DIR$/BioPlate/database/database_function_import.py" />
         <option value="$PROJECT_DIR$/BioPlate/plate.py" />
-        <option value="$PROJECT_DIR$/tests/test_plate.py" />
-        <option value="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/BioPlate/database/plate_historic_db.py" />
+        <option value="$PROJECT_DIR$/BioPlate/database/plate_db_2.py" />
+        <option value="$PROJECT_DIR$/BioPlate/database/database.py" />
+        <option value="$PROJECT_DIR$/tests/test_plate_db.py" />
+        <option value="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
+        <option value="$PROJECT_DIR$/tests/test_plate.py" />
       </list>
     </option>
   </component>
@@ -178,8 +195,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -214,6 +229,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -246,7 +263,23 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.plate_historic_db">
+  <component name="RunManager" selected="Python tests.Nosetests for test_plate.TestPlate">
+    <configuration name="Nosetests for test_plate.TestPlate" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BioPlate" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_plate.TestPlate&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
     <configuration name="Nosetests for test_plate.TestPlateDB" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -263,7 +296,7 @@
       <option name="_new_target" value="&quot;test_plate.TestPlateDB&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
-    <configuration name="Nosetests for test_plate.TestPlate.test_evaluate" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+    <configuration name="Nosetests for test_plate_db.TestPlateDB" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -276,7 +309,39 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="_new_regexPattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_plate.TestPlate.test_evaluate&quot;" />
+      <option name="_new_target" value="&quot;test_plate_db.TestPlateDB&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
+    <configuration name="Nosetests for test_plate_db.TestPlateDB.test_get_plate" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BioPlate" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_plate_db.TestPlateDB.test_get_plate&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    </configuration>
+    <configuration name="Nosetests for test_plate_db.TestPlateDB.test_plate_class" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BioPlate" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_plate_db.TestPlateDB.test_plate_class&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     </configuration>
     <configuration name="database_function_import" type="PythonConfigurationType" factoryName="Python">
@@ -297,75 +362,21 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="plate" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BioPlate" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="BioPlate" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BioPlate/plate.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
-    <configuration name="plate_db" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BioPlate/database" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="BioPlate" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BioPlate/database/plate_db.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
-    <configuration name="plate_historic_db" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BioPlate/database" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="BioPlate" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BioPlate/database/plate_historic_db.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.database_function_import" />
-      <item index="1" class="java.lang.String" itemvalue="Python.plate" />
-      <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate.TestPlateDB" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate.TestPlate.test_evaluate" />
-      <item index="4" class="java.lang.String" itemvalue="Python.plate_db" />
-      <item index="5" class="java.lang.String" itemvalue="Python.plate_historic_db" />
+      <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate.TestPlateDB" />
+      <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate_db.TestPlateDB.test_plate_class" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate_db.TestPlateDB.test_get_plate" />
+      <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate_db.TestPlateDB" />
+      <item index="5" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate.TestPlate" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.plate_historic_db" />
-        <item index="1" class="java.lang.String" itemvalue="Python.plate_db" />
+        <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate.TestPlate" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate_db.TestPlateDB" />
         <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate.TestPlateDB" />
-        <item index="3" class="java.lang.String" itemvalue="Python.plate" />
-        <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate.TestPlate.test_evaluate" />
+        <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate_db.TestPlateDB.test_get_plate" />
+        <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for test_plate_db.TestPlateDB.test_plate_class" />
       </list>
     </recent_temporary>
   </component>
@@ -386,39 +397,39 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 12m 32s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_TestPlate - 2018.01.11 at 12h 47m 10s.xml">
+      <configuration name="Nosetests for test_plate.TestPlate" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 13m 07s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_TestPlate - 2018.01.11 at 12h 47m 27s.xml">
+      <configuration name="Nosetests for test_plate.TestPlate" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 18m 18s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 37m 56s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 21m 17s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 39m 42s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 22m 51s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 40m 15s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 26m 02s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 40m 23s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 26m 33s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 41m 33s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 27m 09s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 45m 44s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 31m 16s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 46m 13s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_for_test_plate_TestPlateDB - 2018.01.07 at 17h 31m 23s.xml">
-      <configuration name="Nosetests for test_plate.TestPlateDB" configurationId="tests" />
+    <history-entry file="Nosetests_for_test_plate_db_TestPlateDB - 2018.01.11 at 12h 47m 06s.xml">
+      <configuration name="Nosetests for test_plate_db.TestPlateDB" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -426,7 +437,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31653887" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31601274" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -454,21 +465,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/database_function_import.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="15" column="42" lean-forward="false" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_plate_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="48" column="9" lean-forward="false" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
@@ -485,7 +482,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -502,7 +499,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="11" />
@@ -526,7 +523,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="11" />
@@ -550,7 +547,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -574,7 +571,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1394">
           <caret line="82" column="43" lean-forward="true" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
@@ -599,7 +596,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="55" />
@@ -631,7 +628,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -713,7 +710,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BioPlate/database/DBFiles/tests2.py" />
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
@@ -739,42 +736,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_plate_db.py">
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db_old.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="123" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_plate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-408">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
+        <state relative-caret-position="2907">
           <caret line="172" column="4" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="173" selection-end-column="15" />
           <folding>
             <element signature="e#0#56#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3604">
-          <caret line="230" column="35" lean-forward="true" selection-start-line="230" selection-start-column="35" selection-end-line="230" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -791,10 +758,60 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_historic_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="142" column="47" lean-forward="true" selection-start-line="142" selection-start-column="47" selection-end-line="142" selection-end-column="47" />
+        <state relative-caret-position="487">
+          <caret line="132" column="19" lean-forward="true" selection-start-line="132" selection-start-column="19" selection-end-line="132" selection-end-column="19" />
           <folding>
             <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/plate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="742">
+          <caret line="230" column="35" lean-forward="false" selection-start-line="230" selection-start-column="35" selection-end-line="230" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="108" column="32" lean-forward="false" selection-start-line="108" selection-start-column="32" selection-end-line="108" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_plate_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1139">
+          <caret line="67" column="35" lean-forward="true" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BioPlate/database/plate_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="82" column="0" lean-forward="true" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_plate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="11" lean-forward="true" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, exc
 import os
 
 
@@ -8,9 +8,6 @@ import os
 class Database:
 
     Base = declarative_base()
-    path_to_database = {"BioPlate" : rf"{os.path.abspath(os.path.join('database/DBFiles', self.db_name))}",
-                            "database" : rf"{os.path.abspath(os.path.join('DBFiles', self.db_name))}",
-                            "tests" :  rf"{os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', self.db_name)))}"}
     
     def __init__(self, database_class, db_name):
         self.db_name = db_name
@@ -28,6 +25,9 @@ class Database:
         :param db_name: String, name of the db file
         :return: abspath of database in function of calling directory
         """
+        path_to_database = {"BioPlate": rf"{os.path.abspath(os.path.join('database/DBFiles', self.db_name))}",
+                            "database": rf"{os.path.abspath(os.path.join('DBFiles', self.db_name))}",
+                            "tests": rf"{os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', self.db_name)))}"}
         try:
             folder = os.path.basename(os.getcwd())
             return path_to_database[folder]
@@ -44,7 +44,8 @@ class Database:
         """
     
         my_engine = create_engine(self.sqlalchemypath)
-        Base.metadata.create_all(my_engine) 
+        self.Base.metadata.create_all(my_engine)
+        return f"{self.sqlalchemypath} table create"
     
     @property
     def create_session(self):
@@ -55,14 +56,14 @@ class Database:
         :return: a sqlalchemy session object
         """
         my_engine = create_engine(self.sqlalchemypath)
-        Base.metadata.bind = my_engine
+        self.Base.metadata.bind = my_engine
         db_session = sessionmaker(bind=my_engine)
         session = db_session()
         return session
     
     @property
     def create_sqlalchemypath(self):
-        return r'sqlite:///' + db_path(self.db_name)
+        return r'sqlite:///' + self.db_path
         
     def get(self, args, key=None):
         """

@@ -1,5 +1,5 @@
 import unittest
-import BioPlate.database.plate_db as pdb
+import BioPlate.database.plate_db_old as pdb
 import shutil
 import os
 
