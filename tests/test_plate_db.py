@@ -95,5 +95,32 @@ class TestPlateDB(unittest.TestCase):
         self.assertEqual(self.pdb.delete_plate(24), "plate with 24 numWell deleted")
         self.assertEqual(self.pdb.get_plate(24), [])
 
+    def test_update_plate(self):
+        self.pdb.add_plate(numWell=24,
+                           numColumns=6,
+                           numRows=4,
+                           surfWell=0.33,
+                           maxVolWell=400,
+                           workVolWell=400,
+                           refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+        plate_24 = self.pdb.get_plate(24)[0]
+        self.assertEqual(plate_24.name, None)
+        self.assertEqual(plate_24.surfWell, 0.33)
+        update = {"name" : "24_well", "surfWell" : 0.3}
+        self.assertEqual(self.pdb.update_plate(update, 24), "plate with 24 numWell updated")
+        plate_24_update = self.pdb.get_plate(24)[0]
+        self.assertEqual(plate_24_update.name, "24_well")
+        self.assertEqual(plate_24_update.surfWell, 0.3)
+        self.pdb.add_plate(numWell=24,
+                           numColumns=6,
+                           numRows=4,
+                           surfWell=0.33,
+                           maxVolWell=400,
+                           workVolWell=400,
+                           refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+        update = {"name": "24_well", "surfWell": 0.3}
+        self.assertEqual(self.pdb.update_plate(update, 24), "Use a more specific key to delete the object")
+
+
 if __name__ == '__main__':
     unittest.main()

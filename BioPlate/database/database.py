@@ -106,22 +106,28 @@ class Database:
             dplt = self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).one()
             self.session.delete(dplt)
             self.session.commit()
-            self.session.close()
             return f"plate with {args} {key} deleted"
         except exc.SQLAlchemyError:
+            self.session.rollback()
             return "Use a more specific key to delete the object"
+        finally:
+            self.session.close()
             
     def update(self, dict_update, args, key=None):
         """   dict_update = {"key to update" : new_value} """
         try:
             if not key:
                 raise ValueError("Delete should have à default key! ")
-            self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).one().update(dict_update)
+            object = self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).one()
+            for keys, value in dict_update.items():
+                setattr(object, keys, value)
             self.session.commit()
-            self.session.close()
             return f"plate with {args} {key} updated" 
         except exc.SQLAlchemyError:
+            self.session.rollback()
             return "Use a more specific key to delete the object"
+        finally:
+            self.session.close()
             
             
     
