@@ -80,14 +80,14 @@ class Database:
             if not key: 
                 raise ValueError("Get should have à défaut key! ")
             return self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).one()
-        except exc.SQLAlchemyError:
+        except exc.MultipleResultsFound:
             self.session.rollback()
             return "Use a more specific key to delete the object"
         finally:
             self.session.close()
     
     
-    def get(self, args, key=None):
+    def get(self, **kwargs):
         """
             def get_plate(self, args, key=' numWell'):
                 super(PlateDB, self).get(args, key=key)
@@ -100,7 +100,7 @@ class Database:
         try:
             if not key: 
                 raise ValueError("Get should have à défaut key! ")
-            return self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).all()
+            return self.session.query(self.database_class).filter_by(kwargs).all()
         except exc.SQLAlchemyError as e:
             self.session.rollback()
             return e
@@ -137,7 +137,7 @@ class Database:
             self.session.delete(dplt)
             self.session.commit()
             return f"plate with {args} {key} deleted"
-        except exc.SQLAlchemyError:
+        except exc.MultipleResultsFound:
             self.session.rollback()
             return "Use a more specific key to delete the object"
         finally:
@@ -153,7 +153,7 @@ class Database:
                 setattr(obj, keys, value)
             self.session.commit()
             return f"plate with {args} {key} updated" 
-        except exc.SQLAlchemyError:
+        except exc.MultipleResultsFound:
             self.session.rollback()
             return "Use a more specific key to update the object"
         finally:

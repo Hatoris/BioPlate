@@ -77,8 +77,8 @@ class PlateHist(Database) :
     def get_one_hplate(self, args, key="numWell"):
         return super().get(args, key=key) 
     
-    def get_hplate(self, args, key="numWell"):
-        return super().get(args, key=key)
+    def get_hplate(self, **kwargs):
+        return super().get(**kwargs)
           
     def get_all_hplate(self):
         return super().get_all()
