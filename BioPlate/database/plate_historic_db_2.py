@@ -74,6 +74,9 @@ class PlateHist(Database) :
     def delete_hplate(self, args, key="numWell"):
         return super().delete(args, key=key)
        
+    def get_one_hplate(self, args, key="numWell"):
+        return super().get(args, key=key) 
+    
     def get_hplate(self, args, key="numWell"):
         return super().get(args, key=key)
           

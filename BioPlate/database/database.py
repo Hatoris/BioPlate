@@ -65,6 +65,28 @@ class Database:
     def create_sqlalchemypath(self):
         return r'sqlite:///' + self.db_path
         
+    
+    def get_one(self, args, key=None):
+        """
+            def get_plate(self, args, key=' numWell'):
+                super(PlateDB, self).get(args, key=key)
+                
+        :param session: sqlalchemy session
+        :param args: args to search of
+        :param key: column name in the database
+        :return:
+        """
+        try:
+            if not key: 
+                raise ValueError("Get should have à défaut key! ")
+            return self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).one()
+        except exc.SQLAlchemyError:
+            self.session.rollback()
+            return "Use a more specific key to delete the object"
+        finally:
+            self.session.close()
+    
+    
     def get(self, args, key=None):
         """
             def get_plate(self, args, key=' numWell'):
@@ -75,11 +97,15 @@ class Database:
         :param key: column name in the database
         :return:
         """
-        if not key: 
-            raise ValueError("Get should have à défaut key! ")
-        plt = self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).all()
-        self.session.close()
-        return plt
+        try:
+            if not key: 
+                raise ValueError("Get should have à défaut key! ")
+            return self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).all()
+        except exc.SQLAlchemyError as e:
+            self.session.rollback()
+            return e
+        finally:
+            self.session.close()
         
     def get_all(self):
         """
@@ -88,9 +114,13 @@ class Database:
         :param numWell: number of well in a plate (INT)
         :return: a list of plate object
         """
-        all = self.session.query(self.database_class).all()
-        self.session.close()
-        return all
+        try:
+            return self.session.query(self.database_class).all()
+        except exc.SQLAlchemyError as e:
+            self.session.rollback()
+            return e
+        finally:
+            self.session.close()
         
     def delete(self, args, key=None):
         """

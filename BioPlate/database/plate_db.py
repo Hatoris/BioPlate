@@ -87,6 +87,9 @@ class PlateDB(Database):
     def delete_plate(self, args, key="numWell"):
         return super().delete(args, key=key)
        
+    def get_one_plate(self, args, key="numWell"):
+        return super().get(args, key=key) 
+    
     def get_plate(self, args, key="numWell"):
         return super().get(args, key=key)
           
