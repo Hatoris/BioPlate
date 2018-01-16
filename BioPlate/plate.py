@@ -6,9 +6,10 @@ import time
 import numpy as np
 from string import ascii_uppercase
 from tabulate import tabulate
-from BioPlate.database.plate_db_old import PlateDB
+from BioPlate.database.plate_db import PlateDB
+from BioPlate.database.plate_histotic_db_2 import PlateHist 
 
-databaseName = PlateDB.database_name
+
 
 """
     add value : add value to one wells (eg : 'B5)
@@ -24,12 +25,15 @@ databaseName = PlateDB.database_name
 class Plate:
     """A row is symbolise by it's letter, a column by a number"""
 
-    def __init__(self, args, key='numWell', db_name=databaseName):
+    def __init__(self, args, key='numWell', db_name=None):
         """
         :param args: value to search in database
         :param key: column to search args, by default column is numWell
         """
-        pdb = PlateDB(db_name=db_name)
+        if not db_name:
+            pdb = PlateDB()
+        else:
+            pdb = PlateDB(db_name=db_name)
         self.plates = pdb.get_plate(args, key=key)[0]
         self.letter = np.array(list(ascii_uppercase))
         self.plate = self.plate_array
@@ -214,6 +218,21 @@ class Plate:
         for i in range(start[val], end[val]):
             results.append(''.join([value[val](i), a]))
         return results
+
+    def save(self, plate_name):
+        phi = PlateHist()
+        response = phi.add_hplate(self.plates.numWell,
+        	               plate_name,
+        	               self.plate,
+        	               Plate_id = self.plates.id
+                        )
+        if isinstance(response, str):
+            return response 
+        elif isinstance(response, int):
+            dict_update = {"plate_name" : plate_name, 
+                            "plate_array" : self.plate}
+            return phi.update_hplate(dict_update, response, key="id")
+
 
     def table(self, plate, **kwargs):
         """
