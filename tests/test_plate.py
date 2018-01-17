@@ -1,8 +1,8 @@
 import unittest
 import contextlib
 import numpy as np
-import os
 
+from pathlib import Path, PurePath
 from BioPlate.plate import Plate
 from BioPlate.database.plate_db import PlateDB
 from string import ascii_uppercase
@@ -33,7 +33,7 @@ class TestPlate(unittest.TestCase):
         :return:
         """
         with contextlib.suppress(FileNotFoundError):
-            os.remove(os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', 'test_plate.db'))))
+            Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate.db')).unlink()
 
     def setUp(self):
         """

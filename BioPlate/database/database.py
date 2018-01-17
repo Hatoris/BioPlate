@@ -1,8 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine, exc
-from pathlib import Path
-import os
+from sqlalchemy.orm import sessionmaker, exc
+from sqlalchemy import create_engine
+from pathlib import Path, PurePath
 
 
 
@@ -18,23 +17,7 @@ class Database:
         self.table_create = self.create_table
         # specific to each database 
         self.database_class = database_class  
-    
-    @property
-    def db_path(self):
-        """
-    
-        :param db_name: String, name of the db file
-        :return: abspath of database in function of calling directory
-        """
-        path_to_database = {"BioPlate": rf"{os.path.abspath(os.path.join('database/DBFiles', self.db_name))}",
-                            "database": rf"{os.path.abspath(os.path.join('DBFiles', self.db_name))}",
-                            "tests": rf"{os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', self.db_name)))}"}
-        try:
-            #folder = os.path.basename(os.getcwd())
-            #return path_to_database[folder]
-            return Path(self.db_name).resolve() 
-        except KeyError:
-            return f"{folder} not in path to database"
+
     
     @property
     def create_table(self):
@@ -65,7 +48,7 @@ class Database:
     
     @property
     def create_sqlalchemypath(self):
-        return r'sqlite:///' + self.db_path
+        return r'sqlite:///' + str(PurePath(Path(__file__).parent, 'DBFiles', self.db_name))
         
     
     def get_one(self, args, key=None):
@@ -100,9 +83,7 @@ class Database:
         :return:
         """
         try:
-            if not key: 
-                raise ValueError("Get should have à défaut key! ")
-            return self.session.query(self.database_class).filter_by(kwargs).all()
+            return self.session.query(self.database_class).filter_by(**kwargs).all()
         except exc.SQLAlchemyError as e:
             self.session.rollback()
             return e

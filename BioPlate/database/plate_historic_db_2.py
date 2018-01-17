@@ -1,6 +1,5 @@
 from BioPlate.database.database import Database
 from sqlalchemy import Column, Integer, String, Date, PickleType
-from BioPlate.plate import Plate
 import datetime
 
 class PlateHist(Database) :
@@ -75,7 +74,7 @@ class PlateHist(Database) :
         return super().delete(args, key=key)
        
     def get_one_hplate(self, args, key="numWell"):
-        return super().get(args, key=key) 
+        return super().get_one(args, key=key)
     
     def get_hplate(self, **kwargs):
         return super().get(**kwargs)

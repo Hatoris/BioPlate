@@ -7,7 +7,7 @@ import numpy as np
 from string import ascii_uppercase
 from tabulate import tabulate
 from BioPlate.database.plate_db import PlateDB
-from BioPlate.database.plate_histotic_db_2 import PlateHist 
+from BioPlate.database.plate_historic_db_2 import PlateHist
 
 
 

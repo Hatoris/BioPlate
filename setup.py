@@ -20,6 +20,7 @@ setup(
         'sqlalchemy',
         'tabulate',
         'numpy',
+        'pathlib',
     ],
     long_description=read('docs\README.md'),
     classifiers=[

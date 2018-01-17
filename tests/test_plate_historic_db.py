@@ -1,8 +1,10 @@
 import unittest
 from BioPlate.database.plate_historic_db import PlateHist
-from BioPlate.database.plate import Plate
+from BioPlate.database.plate_db import PlateDB
+from BioPlate.plate import Plate
+from pathlib import Path, PurePath
 import contextlib
-import os
+
 
 
 class TestPlateDB(unittest.TestCase):
@@ -24,7 +26,7 @@ class TestPlateDB(unittest.TestCase):
         v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
         cls.plt = Plate(96, db_name='test_plate.db')
         cls.plt.add_values(v)
-        cls.phi = PlateHist(db_name = 'test_plate_historic.db'
+        cls.phi = PlateHist(db_name = 'test_plate_historic.db')
         cls.phi.add_hplate(Plate_id = cls.plt.plates.id,
                  numWell = cls.plt.plates.numWell,
                  plate_name="First plate to test",
@@ -38,15 +40,15 @@ class TestPlateDB(unittest.TestCase):
         :return:
         """
         with contextlib.suppress(FileNotFoundError):
-            os.remove(os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', 'test_plate.db'))))
-            os.remove(os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', 'test_plate_historic.db'))))
+            Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate.db')).unlink()
+            Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate_historic.db')).unlink()
 
     def setUp(self):
         """
         This function is run every time at the beginning of each test
         :return:
         """
-        self.plate_list = self.phi.get_hplate(96)
+        self.plate_list = self.phi.get_one_hplate(96)
         self.plate = self.plate_list[0]
 
     def tearDown(self):

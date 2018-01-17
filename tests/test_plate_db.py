@@ -1,7 +1,8 @@
 import unittest
 from BioPlate.database.plate_db import PlateDB
 import contextlib
-import os
+from pathlib import Path, PurePath
+
 
 
 class TestPlateDB(unittest.TestCase):
@@ -29,14 +30,15 @@ class TestPlateDB(unittest.TestCase):
         :return:
         """
         with contextlib.suppress(FileNotFoundError):
-            os.remove(os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', 'test_plate.db'))))
+            Path(PurePath(Path(__file__).parent.parent,'BioPlate/database/DBFiles', 'test_plate.db')).unlink()
+
 
     def setUp(self):
         """
         This function is run every time at the beginning of each test
         :return:
         """
-        self.plate_list = self.pdb.get_plate(96)
+        self.plate_list = self.pdb.get_plate(numWell= 96)
         self.plate = self.plate_list[0]
 
     def tearDown(self):
@@ -81,8 +83,8 @@ class TestPlateDB(unittest.TestCase):
                       workVolWell=2000,
                       refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
         self.assertEqual(add_plate_2, None)
-        self.assertEquals('<plate N°2 : 6-3-2>', str(self.pdb.get_plate(6)[0]))
-        self.assertEquals(6, self.pdb.get_plate(6)[0].numWell)
+        self.assertEquals('<plate N°2 : 6-3-2>', str(self.pdb.get_plate(numWell=6)[0]))
+        self.assertEquals(6, self.pdb.get_plate(numWell=6)[0].numWell)
 
     def test_delete_plate(self):
         self.pdb.add_plate(numWell=24,
@@ -93,7 +95,7 @@ class TestPlateDB(unittest.TestCase):
               workVolWell=400,
               refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
         self.assertEqual(self.pdb.delete_plate(24), "plate with 24 numWell deleted")
-        self.assertEqual(self.pdb.get_plate(24), [])
+        self.assertEqual(self.pdb.get_plate(numWell=24), [])
 
     def test_update_plate(self):
         self.pdb.add_plate(numWell=24,
@@ -103,12 +105,12 @@ class TestPlateDB(unittest.TestCase):
                            maxVolWell=400,
                            workVolWell=400,
                            refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
-        plate_24 = self.pdb.get_plate(24)[0]
+        plate_24 = self.pdb.get_plate(numWell=24)[0]
         self.assertEqual(plate_24.name, None)
         self.assertEqual(plate_24.surfWell, 0.33)
         update = {"name" : "24_well", "surfWell" : 0.3}
         self.assertEqual(self.pdb.update_plate(update, 24), "plate with 24 numWell updated")
-        plate_24_update = self.pdb.get_plate(24)[0]
+        plate_24_update = self.pdb.get_plate(numWell=24)[0]
         self.assertEqual(plate_24_update.name, "24_well")
         self.assertEqual(plate_24_update.surfWell, 0.3)
         self.pdb.add_plate(numWell=24,
@@ -119,7 +121,7 @@ class TestPlateDB(unittest.TestCase):
                            workVolWell=400,
                            refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
         update = {"name": "24_well", "surfWell": 0.3}
-        self.assertEqual(self.pdb.update_plate(update, 24), "Use a more specific key to delete the object")
+        self.assertEqual(self.pdb.update_plate(update, 24), "Use a more specific key to update the object")
 
 
 if __name__ == '__main__':
