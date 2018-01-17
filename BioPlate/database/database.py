@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, exc
+from pathlib import Path
 import os
 
 
@@ -29,8 +30,9 @@ class Database:
                             "database": rf"{os.path.abspath(os.path.join('DBFiles', self.db_name))}",
                             "tests": rf"{os.path.abspath(os.path.join(os.pardir, os.path.join('BioPlate/database/DBFiles', self.db_name)))}"}
         try:
-            folder = os.path.basename(os.getcwd())
-            return path_to_database[folder]
+            #folder = os.path.basename(os.getcwd())
+            #return path_to_database[folder]
+            return Path(self.db_name).resolve() 
         except KeyError:
             return f"{folder} not in path to database"
     
