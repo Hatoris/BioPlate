@@ -34,7 +34,7 @@ class Plate:
             pdb = PlateDB()
         else:
             pdb = PlateDB(db_name=db_name)
-        self.plates = pdb.get_plate(args, key=key)[0]
+        self.plates = pdb.get_one_plate(args, key=key)
         self.letter = np.array(list(ascii_uppercase))
         self.plate = self.plate_array
 
