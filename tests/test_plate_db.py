@@ -83,7 +83,7 @@ class TestPlateDB(unittest.TestCase):
                       workVolWell=2000,
                       refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
         self.assertEqual(add_plate_2, None)
-        self.assertEquals('<plate N°2 : 6-3-2>', str(self.pdb.get_plate(numWell=6)[0]))
+        self.assertEqual('<plate N°2 : 6-3-2>', str(self.pdb.get_plate(numWell=6)[0]))
         self.assertEquals(6, self.pdb.get_plate(numWell=6)[0].numWell)
 
     def test_delete_plate(self):
