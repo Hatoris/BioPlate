@@ -24,7 +24,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-!BioPlate/database/DBFiles/
+!BioPlate/database/DBFiles/.kepp
 BioPlate/database/DBFiles/*
 
 # PyInstaller
