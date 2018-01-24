@@ -7,7 +7,7 @@ import numpy as np
 from string import ascii_uppercase
 from tabulate import tabulate
 from BioPlate.database.plate_db import PlateDB
-from BioPlate.database.plate_historic_db_2 import PlateHist
+from BioPlate.database.plate_historic_db import PlateHist
 
 
 
@@ -51,6 +51,7 @@ class Plate:
         for i in range(self.plates.numRows):
             z = i + 1
             plate_representation[z][0] = self.letter[i]
+        plate_representation[0][0] = ' '
         return plate_representation
 
     def matrix_well(self, well):
@@ -219,16 +220,15 @@ class Plate:
             results.append(''.join([value[val](i), a]))
         return results
 
-    def save(self, plate_name):
-        phi = PlateHist()
-        response = phi.add_hplate(self.plates.numWell,
-        	               plate_name,
-        	               self.plate,
-        	               Plate_id = self.plates.id
-                        )
-        if isinstance(response, str):
-            return response 
-        elif isinstance(response, int):
+    def save( self, plate_name, db_hist_name=None):
+    	if not db_hist_name:
+    		phi = PlateHist()
+    	else:
+    		phi = PlateHist(db_name=db_hist_name)
+    	response = phi.add_hplate(self.plates.numWell, plate_name, self.plate, Plate_id = self.plates.id)
+    	if isinstance(response, str):
+    		return response
+    	elif isinstance(response, int):
             dict_update = {"plate_name" : plate_name, 
                             "plate_array" : self.plate}
             return phi.update_hplate(dict_update, response, key="id")
@@ -242,11 +242,52 @@ class Plate:
         :return:
         """
         return tabulate(self.plate, headers='firstrow', **kwargs)
+        
+    def iter(self, by="C"):
+    	column = self.plate[0,1:]
+    	row = self.plate[1:,0]
+    	val = self.plate[1:,1:]
+    	row2 = row.reshape(len(row),1)
+    	by = 'F' if by == "C" else "C"
+    	for r, c, v in np.nditer([row2, column, val], order=by):
+    		position = ''.join([str(r),str(c)])
+    		value = str(v)
+    		yield position, value
 
-if __name__ == '__main__':
-    v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
-    Plate = Plate(96)
-    Plate.add_values(v)
-    print(Plate.table(Plate.plate))
-
+if __name__ == '__main__': 
+	v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
+	Value = { "A1" : "Control", "C[2,10]" : "Test1", "11[B,G]" : "Test2"}
+	Plate = Plate(1, key="id")
+	Plate.add_values(Value)
+	print(Plate.table(Plate.plate, stralign="center", tablefmt="pipe"))
+	t = list(Plate.iter())
+	print(t)
+	#print(Plate.plate_array[0])
+	multi = np.array([Plate.plate_array,   Plate.plate_array])
+	multi[0][1,1]  = "tezt1"
+	multi[1][1,1] = "test2"
+	print(multi)
+	t1 = []
+	for level in multi:
+		t2 = []
+		column = level[0,1:]
+		row = level[1:,0]
+		val = level[1:,1:]
+		row2 = row.reshape(len(row),1)
+		by = 'F'
+		for r, c, v in np.nditer([row2, column, val], order=by):
+			position = ''.join([str(r),str(c)])
+			value = str(v)
+			t2.append((position, value))
+		t1.append(t2)
+	print(t1[0][0][0] == t1[1][0][0])
+	#for position, value in Plate.iter(by="R"):
+		#print(position, value)
+	#Plate.iter()
+	
+	"""
+	f = open('table.md', 'w')
+	f.write(Plate.table(Plate.plate, stralign="center", tablefmt="latex"))
+	f.close()
+	"""
     

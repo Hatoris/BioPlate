@@ -5,6 +5,7 @@ import numpy as np
 from pathlib import Path, PurePath
 from BioPlate.plate import Plate
 from BioPlate.database.plate_db import PlateDB
+from BioPlate.database.plate_historic_db import PlateHist
 from string import ascii_uppercase
 from tabulate import tabulate
 
@@ -34,6 +35,8 @@ class TestPlate(unittest.TestCase):
         """
         with contextlib.suppress(FileNotFoundError):
             Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate.db')).unlink()
+            Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate_historic.db')).unlink()
+            
 
     def setUp(self):
         """
@@ -191,6 +194,13 @@ class TestPlate(unittest.TestCase):
                            ['H', '', 'MS', 'MS', 'MS', 'MS', 'MS', 'MS', 'MS', '', '', '', '']], dtype='U40')
         np.testing.assert_array_equal(self.plt.add_values(v), result)
         self.assertEqual(self.plt.table(self.plt.plate), tabulate(result, headers='firstrow'))
+    
+    def test_save(self):
+        	self.plt.add_value('H4', 'Test')
+        	self.assertEqual(self.plt.save("test save", db_hist_name = 'test_plate_historic.db' ),  "plate test save with 96  added to database plate historic")
+        	phi = PlateHist(db_name =  'test_plate_historic.db'  )        	
+        	self.assertEqual( str(phi.get_one_hplate(96)),   f'<plate N°1: test save, 96 wells, {phi.date_now}>'   )
+        	
 
 if __name__ == "__main__":
     unittest.main()

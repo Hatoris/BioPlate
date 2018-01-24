@@ -69,7 +69,7 @@ Or
 
 All in one 
 
-`Value = { "A1" : "Control", "C[2,10]" : "Test1", "11[B,G]", "Test2"}`
+`Value = { "A1" : "Control", "C[2,10]" : "Test1", "11[B,G]" : "Test2"}`
 
 `plt.add_values(value) `
 
