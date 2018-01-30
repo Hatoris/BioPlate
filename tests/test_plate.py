@@ -55,7 +55,7 @@ class TestPlate(unittest.TestCase):
     def test_Plate_init(self):
         self.assertEqual(str(self.plt.plates), "<plate N°1 : 96-12-8>")
         self.assertEqual(str(self.plt.letter), str(np.array(list(ascii_uppercase))))
-        np.testing.assert_array_equal(self.plt.plate, np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        np.testing.assert_array_equal(self.plt.plate, np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                                 ['A', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                                 ['B', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                                 ['C', '', '', '', '', '', '', '', '', '', '', '', ''],
@@ -77,7 +77,7 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.add_value("A2", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value("H6", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value("12C", "Test"), self.plt.plate)
-        np.testing.assert_array_equal(self.plt.add_value("E8", "Test"), np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        np.testing.assert_array_equal(self.plt.add_value("E8", "Test"), np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                           ['A', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
                                                           ['B', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
                                                           ['C', '', '', '', '', '', '', '', '', '', '', '', 'Test'],
@@ -92,7 +92,7 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.add_value_row("A[4,3]", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value_row("F[9,12]", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value_row("D[6,8]", 18),
-                                      np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                                      np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                 ['A', '', '', 'Test', 'Test', '', '', '', '', '', '', '', ''],
                                                 ['B', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                 ['C', '', '', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test'],
@@ -110,7 +110,7 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.add_value_column("7[A,H]", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value_column("12[F,A]", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value_column("1[C,F]", "Test"),
-                                      np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                                      np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                 ['A', '', '', '', '', '', '', 'Test', '', '', '', '', 'Test'],
                                                 ['B', '', '', '', '', '', '', 'Test', '', '', '', '', 'Test'],
                                                 ['C', 'Test', '', 'Test', '', '', '', 'Test', '', '', '', '', 'Test'],
@@ -140,7 +140,7 @@ class TestPlate(unittest.TestCase):
             self.plt.add_multi_value('A-C[1-5]', ["Test1", "Test2"])
         np.testing.assert_array_equal(self.plt.add_multi_value('A-C[1-5]', ["Test1", "Test2", "Test3"]), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_multi_value('F-H[1-3]', ["Test1", "Test2", "Test3"]),
-                                      np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                                      np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                 ['A', 'Test1', 'Test1', 'Test1', 'Test1', 'Test1', '', '', '', '', '', '', ''],
                                                 ['B', 'Test2', 'Test2', 'Test2', 'Test2', 'Test2', '', '', '', '', '', '', ''],
                                                 ['C', 'Test3', 'Test3', 'Test3', 'Test3', 'Test3', '', '', '', '', '', '', ''],
@@ -158,7 +158,7 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.evaluate("1C", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.evaluate("1-3[A,C]", ["Test1", "Test2", "Test3"]), self.plt.plate)
         np.testing.assert_array_equal(self.plt.evaluate("F-H[1,3]", ["Test1", "Test2", "Test3"]),
-                                      np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                                      np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                 ['A', 'Test1', 'Test2', 'Test3', 'Test', 'Test', '', '', '', '', '', '', ''],
                                                 ['B', 'Test1', 'Test2', 'Test3', '', '', '', '', '', '', '', '', ''],
                                                 ['C', 'Test1', 'Test2', 'Test3', '', '', '', '', '', '', '', '', ''],
@@ -183,7 +183,7 @@ class TestPlate(unittest.TestCase):
     def test_all_in_one(self):
         v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'],
              'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
-        result = np.array([['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        result = np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                            ['A', '', 'VC', 'VC', 'VC', 'VC', 'VC', 'VC', 'VC', '', '', '', ''],
                            ['B', 'MLR', 'NT', '1.1', '1.2', '', '', '', '', '', '', '', ''],
                            ['C', 'MLR', 'NT', '1.1', '1.2', '', '', '', '', '', '', '', ''],
@@ -199,7 +199,13 @@ class TestPlate(unittest.TestCase):
         	self.plt.add_value('H4', 'Test')
         	self.assertEqual(self.plt.save("test save", db_hist_name = 'test_plate_historic.db' ),  "plate test save with 96  added to database plate historic")
         	phi = PlateHist(db_name =  'test_plate_historic.db'  )        	
-        	self.assertEqual( str(phi.get_one_hplate(96)),   f'<plate N°1: test save, 96 wells, {phi.date_now}>'   )
+        	self.assertEqual( str(phi.get_one_hplate(96)),   f'<plate N°1: test save, 96 wells, {phi.date_now}>' )
+        
+    def test_iteration(self):
+    	True
+    
+    def test_counts(self):
+    	True
         	
 
 if __name__ == "__main__":

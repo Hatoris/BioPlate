@@ -234,25 +234,77 @@ class Plate:
             return phi.update_hplate(dict_update, response, key="id")
 
 
-    def table(self, plate, **kwargs):
+    def table(self, plate, headers="firstrow",  **kwargs):
         """
         return a tabulate object of plate.array
         :param plate: numpy.array of a plate object
         :param kwargs: keys arguments use by tabulate function
         :return:
         """
-        return tabulate(self.plate, headers='firstrow', **kwargs)
+        return tabulate(plate, headers=headers, **kwargs)
         
-    def iter(self, by="C"):
-    	column = self.plate[0,1:]
-    	row = self.plate[1:,0]
-    	val = self.plate[1:,1:]
-    	row2 = row.reshape(len(row),1)
-    	by = 'F' if by == "C" else "C"
-    	for r, c, v in np.nditer([row2, column, val], order=by):
-    		position = ''.join([str(r),str(c)])
-    		value = str(v)
-    		yield position, value
+      
+    def iter_plate(self, plate, order="C"):
+        	"""
+        	generator return [well, value]
+        	:param plate: numpy.array of plate object
+        	:param order: iterate by column C or by row R
+        	"""
+        	columns = plate[0,1:]
+        	rows = plate[1:,0:1]
+        	values = plate[1:,1:]
+        	if order == "C":
+        		order = "F"
+        	elif order == "R":
+        		order = "C"
+        	res = []
+        	for row, column, value in np.nditer([rows, columns, values], order=order):
+        		well, value = ''.join([str(row),str(column)]),str(value)
+        		yield [well, value]
+        
+    def iter_evaluate(self, plate, order="C", acumulate= True):
+        	"""
+        	return a list [[well, value1, value2, value3],]
+        	"""
+        	shape = plate.shape
+        	dim = True if len(shape) >=3 else False
+        	if dim:
+        		value = list(map(lambda p: list(self.iter_plate(p, order=order)), [p for p in plate]))
+        	else:
+        		value = list(self.iter_plate(plate, order))
+        	if dim and acumulate:
+        		for a in range(1, len(value)):
+        			for i in range(len(value[0])):
+        				if value[0][i][0] == value[a][i][0]:
+        					value[0][i].append(value[a][i][1])
+        				else:
+        					pass
+        		value = value[0]
+        	return value
+       
+    def iterate(self, order="C", acumulate=True):
+    	yield from self.iter_evaluate(self.plate, order=order, acumulate=acumulate)
+    	
+    def count(self, plate):
+    	value = plate[1:,1:]
+    	unique, counts =np.unique(value, return_counts=True)
+    	return dict(zip(unique, counts))
+    	
+    def count_elements(self, plate):
+    	shape=plate.shape
+    	dim = True if len(shape) >=3 else False
+    	if dim:
+    		results = {}
+    		n = 0
+    		for p in plate:
+    			results[n] = self.count(p)
+    			n += 1 
+    	else:
+    		results = self.count(plate)   		
+    	return results
+    	
+    def counts(self):
+    	return self.count_elements(self.plate)
 
 if __name__ == '__main__': 
 	v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
@@ -260,31 +312,12 @@ if __name__ == '__main__':
 	Plate = Plate(1, key="id")
 	Plate.add_values(Value)
 	print(Plate.table(Plate.plate, stralign="center", tablefmt="pipe"))
-	t = list(Plate.iter())
-	print(t)
-	#print(Plate.plate_array[0])
+	print(Plate.plate.shape)
+	print(Plate.plate_array)	
 	multi = np.array([Plate.plate_array,   Plate.plate_array])
-	multi[0][1,1]  = "tezt1"
-	multi[1][1,1] = "test2"
-	print(multi)
-	t1 = []
-	for level in multi:
-		t2 = []
-		column = level[0,1:]
-		row = level[1:,0]
-		val = level[1:,1:]
-		row2 = row.reshape(len(row),1)
-		by = 'F'
-		for r, c, v in np.nditer([row2, column, val], order=by):
-			position = ''.join([str(r),str(c)])
-			value = str(v)
-			t2.append((position, value))
-		t1.append(t2)
-	print(t1[0][0][0] == t1[1][0][0])
-	#for position, value in Plate.iter(by="R"):
-		#print(position, value)
-	#Plate.iter()
-	
+	#print(multi)
+	#print(list( Plate.iterate(order="R")))
+	#print(Plate.table(Plate.counts(), headers="key"))
 	"""
 	f = open('table.md', 'w')
 	f.write(Plate.table(Plate.plate, stralign="center", tablefmt="latex"))
