@@ -314,13 +314,15 @@ if __name__ == '__main__':
 	print(Plate.table(Plate.plate, stralign="center", tablefmt="pipe"))
 	print(Plate.plate.shape)
 	print(Plate.plate_array)	
-	multi = np.array([Plate.plate_array,   Plate.plate_array])
+	multi = np.array([Plate.plate,   Plate.plate])
 	#print(multi)
-	#print(list( Plate.iterate(order="R")))
+	print(list(Plate.iterate(order="C")))
 	#print(Plate.table(Plate.counts(), headers="key"))
-	"""
-	f = open('table.md', 'w')
-	f.write(Plate.table(Plate.plate, stralign="center", tablefmt="latex"))
+
+"""	f = open('table.txt', 'w')
+	f.write(str(Plate.count_elements(multi)))
+	#f.write(str(list(Plate.iter_evaluate(multi, acumulate=False))))
+	#f.write(Plate.table(Plate.plate, stralign="center", tablefmt="latex"))
 	f.close()
-	"""
+"""
     
