@@ -21,6 +21,7 @@ setup(
         'tabulate',
         'numpy',
         'pathlib',
+        'xlsxwriter',
     ],
     long_description=read('docs\README.md'),
     classifiers=[
