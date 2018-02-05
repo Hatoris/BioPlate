@@ -11,7 +11,6 @@ from tabulate import tabulate
 
 
 class TestPlate(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         """
@@ -20,12 +19,12 @@ class TestPlate(unittest.TestCase):
         """
         cls.pdb = PlateDB(db_name='test_plate.db')
         cls.pdb.add_plate(numWell=96,
-              numColumns=12,
-              numRows=8,
-              surfWell=0.29,
-              maxVolWell=200,
-              workVolWell=200,
-              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+                          numColumns=12,
+                          numRows=8,
+                          surfWell=0.29,
+                          maxVolWell=200,
+                          workVolWell=200,
+                          refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
 
     @classmethod
     def tearDownClass(cls):
@@ -36,7 +35,6 @@ class TestPlate(unittest.TestCase):
         with contextlib.suppress(FileNotFoundError):
             Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate.db')).unlink()
             Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate_historic.db')).unlink()
-            
 
     def setUp(self):
         """
@@ -55,21 +53,22 @@ class TestPlate(unittest.TestCase):
     def test_Plate_init(self):
         self.assertEqual(str(self.plt.plates), "<plate N°1 : 96-12-8>")
         self.assertEqual(str(self.plt.letter), str(np.array(list(ascii_uppercase))))
-        np.testing.assert_array_equal(self.plt.plate, np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                                                                ['A', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                                ['B', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                                ['C', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                                ['D', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                                ['E', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                                ['F', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                                ['G', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                                ['H', '', '', '', '', '', '', '', '', '', '', '', '']], dtype='U40'))
+        np.testing.assert_array_equal(self.plt.plate,
+                                      np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                                                ['A', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['B', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['C', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['D', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['E', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['F', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['G', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['H', '', '', '', '', '', '', '', '', '', '', '', '']], dtype='U40'))
 
     def test_plate_array(self):
         np.testing.assert_array_equal(self.plt.plate, self.plt.plate_array)
 
     def test_matrix_well(self):
-        self.assertEqual(self.plt.matrix_well('A2'), (1,2))
+        self.assertEqual(self.plt.matrix_well('A2'), (1, 2))
         self.assertEqual(self.plt.matrix_well('G7'), (7, 7))
 
     def test_add_value(self):
@@ -77,15 +76,17 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.add_value("A2", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value("H6", "Test"), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_value("12C", "Test"), self.plt.plate)
-        np.testing.assert_array_equal(self.plt.add_value("E8", "Test"), np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                                                          ['A', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
-                                                          ['B', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
-                                                          ['C', '', '', '', '', '', '', '', '', '', '', '', 'Test'],
-                                                          ['D', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                          ['E', '', '', '', '', '', '', '', 'Test', '', '', '', ''],
-                                                          ['F', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                          ['G', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                          ['H', '', '', '', '', '', 'Test', '', '', '', '', '', '']], dtype='U40'))
+        np.testing.assert_array_equal(self.plt.add_value("E8", "Test"),
+                                      np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                                                ['A', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
+                                                ['B', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
+                                                ['C', '', '', '', '', '', '', '', '', '', '', '', 'Test'],
+                                                ['D', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['E', '', '', '', '', '', '', '', 'Test', '', '', '', ''],
+                                                ['F', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['G', '', '', '', '', '', '', '', '', '', '', '', ''],
+                                                ['H', '', '', '', '', '', 'Test', '', '', '', '', '', '']],
+                                               dtype='U40'))
 
     def test_add_value_row(self):
         np.testing.assert_array_equal(self.plt.add_value_row("C[3,12]", "Test"), self.plt.plate)
@@ -95,7 +96,8 @@ class TestPlate(unittest.TestCase):
                                       np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                 ['A', '', '', 'Test', 'Test', '', '', '', '', '', '', '', ''],
                                                 ['B', '', '', '', '', '', '', '', '', '', '', '', ''],
-                                                ['C', '', '', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test'],
+                                                ['C', '', '', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test', 'Test',
+                                                 'Test', 'Test', 'Test'],
                                                 ['D', '', '', '', '', '', '18', '18', '18', '', '', '', ''],
                                                 ['E', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                 ['F', '', '', '', '', '', '', '', '', 'Test', 'Test', 'Test', 'Test'],
@@ -118,10 +120,11 @@ class TestPlate(unittest.TestCase):
                                                 ['E', 'Test', '', 'Test', '', '', '', 'Test', '', '', '', '', 'Test'],
                                                 ['F', 'Test', '', '', '', '', '', 'Test', '', '', '', '', 'Test'],
                                                 ['G', '', '', '', '', '', '', 'Test', '', '', '', '', ''],
-                                                ['H', '', '', '', '', '', '', 'Test', '', '', '', '', '']], dtype='U40'))
+                                                ['H', '', '', '', '', '', '', 'Test', '', '', '', '', '']],
+                                               dtype='U40'))
 
     def test_add_values(self):
-        np.testing.assert_array_equal(self.plt.add_values({"A1" : "Test", "B3" : "Test"}), self.plt.plate)
+        np.testing.assert_array_equal(self.plt.add_values({"A1": "Test", "B3": "Test"}), self.plt.plate)
         self.assertEqual(self.plt.add_values(["G1", "Test", "H3", "Test"]),
                          "<class 'list'> is a wrong format, dictionary should be used")
 
@@ -141,14 +144,18 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.add_multi_value('A-C[1-5]', ["Test1", "Test2", "Test3"]), self.plt.plate)
         np.testing.assert_array_equal(self.plt.add_multi_value('F-H[1-3]', ["Test1", "Test2", "Test3"]),
                                       np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                                                ['A', 'Test1', 'Test1', 'Test1', 'Test1', 'Test1', '', '', '', '', '', '', ''],
-                                                ['B', 'Test2', 'Test2', 'Test2', 'Test2', 'Test2', '', '', '', '', '', '', ''],
-                                                ['C', 'Test3', 'Test3', 'Test3', 'Test3', 'Test3', '', '', '', '', '', '', ''],
+                                                ['A', 'Test1', 'Test1', 'Test1', 'Test1', 'Test1', '', '', '', '', '',
+                                                 '', ''],
+                                                ['B', 'Test2', 'Test2', 'Test2', 'Test2', 'Test2', '', '', '', '', '',
+                                                 '', ''],
+                                                ['C', 'Test3', 'Test3', 'Test3', 'Test3', 'Test3', '', '', '', '', '',
+                                                 '', ''],
                                                 ['D', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                 ['E', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                 ['F', 'Test1', 'Test1', 'Test1', '', '', '', '', '', '', '', '', ''],
                                                 ['G', 'Test2', 'Test2', 'Test2', '', '', '', '', '', '', '', '', ''],
-                                                ['H', 'Test3', 'Test3', 'Test3', '', '', '', '', '', '', '', '', '']], dtype='U40'))
+                                                ['H', 'Test3', 'Test3', 'Test3', '', '', '', '', '', '', '', '', '']],
+                                               dtype='U40'))
 
     def test_evaluate(self):
         with self.assertRaises(SyntaxError):
@@ -159,14 +166,16 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.evaluate("1-3[A,C]", ["Test1", "Test2", "Test3"]), self.plt.plate)
         np.testing.assert_array_equal(self.plt.evaluate("F-H[1,3]", ["Test1", "Test2", "Test3"]),
                                       np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                                                ['A', 'Test1', 'Test2', 'Test3', 'Test', 'Test', '', '', '', '', '', '', ''],
+                                                ['A', 'Test1', 'Test2', 'Test3', 'Test', 'Test', '', '', '', '', '', '',
+                                                 ''],
                                                 ['B', 'Test1', 'Test2', 'Test3', '', '', '', '', '', '', '', '', ''],
                                                 ['C', 'Test1', 'Test2', 'Test3', '', '', '', '', '', '', '', '', ''],
                                                 ['D', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
                                                 ['E', '', 'Test', '', '', '', '', '', '', '', '', '', ''],
                                                 ['F', 'Test1', 'Test1', 'Test1', '', '', '', '', '', '', '', '', ''],
                                                 ['G', 'Test2', 'Test2', 'Test2', '', '', '', '', '', '', '', '', ''],
-                                                ['H', 'Test3', 'Test3', 'Test3', '', '', '', '', '', '', '', '', '']], dtype='U40'))
+                                                ['H', 'Test3', 'Test3', 'Test3', '', '', '', '', '', '', '', '', '']],
+                                               dtype='U40'))
 
     def test_well_letter_index(self):
         self.assertEqual(self.plt.well_letter_index("D"), 4)
@@ -194,29 +203,92 @@ class TestPlate(unittest.TestCase):
                            ['H', '', 'MS', 'MS', 'MS', 'MS', 'MS', 'MS', 'MS', '', '', '', '']], dtype='U40')
         np.testing.assert_array_equal(self.plt.add_values(v), result)
         self.assertEqual(self.plt.table(self.plt.plate), tabulate(result, headers='firstrow'))
-    
+
     def test_save(self):
-        	self.plt.add_value('H4', 'Test')
-        	self.assertEqual(self.plt.save("test save", db_hist_name = 'test_plate_historic.db' ),  "plate test save with 96  added to database plate historic")
-        	phi = PlateHist(db_name =  'test_plate_historic.db'  )        	
-        	self.assertEqual( str(phi.get_one_hplate(96)),   f'<plate N°1: test save, 96 wells, {phi.date_now}>' )
-        
+        self.plt.add_value('H4', 'Test')
+        self.assertEqual(self.plt.save("test save", db_hist_name='test_plate_historic.db'),
+                         "plate test save with 96  added to database plate historic")
+        phi = PlateHist(db_name='test_plate_historic.db')
+        self.assertEqual(str(phi.get_one_hplate(96)), f'<plate N°1: test save, 96 wells, {phi.date_now}>')
+
     def test_iteration(self):
-    	Value = { "A1" : "Control", "C[2,10]" : "Test1", "11[B,G]" : "Test2"}
-    	self.plt.add_values(Value)
-    	self.assertEqual(list(self.plt.iterate()),   [['A1', 'Control'], ['B1', ''], ['C1', ''], ['D1', ''], ['E1', ''], ['F1', ''], ['G1', ''], ['H1', ''], ['A2', ''], ['B2', ''], ['C2', 'Test1'], ['D2', ''], ['E2', ''], ['F2', ''], ['G2', ''], ['H2', ''], ['A3', ''], ['B3', ''], ['C3', 'Test1'], ['D3', ''], ['E3', ''], ['F3', ''], ['G3', ''], ['H3', ''], ['A4', ''], ['B4', ''], ['C4', 'Test1'], ['D4', ''], ['E4', ''], ['F4', ''], ['G4', ''], ['H4', ''], ['A5', ''], ['B5', ''], ['C5', 'Test1'], ['D5', ''], ['E5', ''], ['F5', ''], ['G5', ''], ['H5', ''], ['A6', ''], ['B6', ''], ['C6', 'Test1'], ['D6', ''], ['E6', ''], ['F6', ''], ['G6', ''], ['H6', ''], ['A7', ''], ['B7', ''], ['C7', 'Test1'], ['D7', ''], ['E7', ''], ['F7', ''], ['G7', ''], ['H7', ''], ['A8', ''], ['B8', ''], ['C8', 'Test1'], ['D8', ''], ['E8', ''], ['F8', ''], ['G8', ''], ['H8', ''], ['A9', ''], ['B9', ''], ['C9', 'Test1'], ['D9', ''], ['E9', ''], ['F9', ''], ['G9', ''], ['H9', ''], ['A10', ''], ['B10', ''], ['C10', 'Test1'], ['D10', ''], ['E10', ''], ['F10', ''], ['G10', ''], ['H10', ''], ['A11', ''], ['B11', 'Test2'], ['C11', 'Test2'], ['D11', 'Test2'], ['E11', 'Test2'], ['F11', 'Test2'], ['G11', 'Test2'], ['H11', ''], ['A12', ''], ['B12', ''], ['C12', ''], ['D12', ''], ['E12', ''], ['F12', ''], ['G12', ''], ['H12', '']])
-    	multi = np.array([self.plt.plate, self.plt.plate])
-    	self.assertEqual( list(self.plt.iter_evaluate(multi)), [['A1', 'Control', 'Control'], ['B1', '', ''], ['C1', '', ''], ['D1', '', ''], ['E1', '', ''], ['F1', '', ''], ['G1', '', ''], ['H1', '', ''], ['A2', '', ''], ['B2', '', ''], ['C2', 'Test1', 'Test1'], ['D2', '', ''], ['E2', '', ''], ['F2', '', ''], ['G2', '', ''], ['H2', '', ''], ['A3', '', ''], ['B3', '', ''], ['C3', 'Test1', 'Test1'], ['D3', '', ''], ['E3', '', ''], ['F3', '', ''], ['G3', '', ''], ['H3', '', ''], ['A4', '', ''], ['B4', '', ''], ['C4', 'Test1', 'Test1'], ['D4', '', ''], ['E4', '', ''], ['F4', '', ''], ['G4', '', ''], ['H4', '', ''], ['A5', '', ''], ['B5', '', ''], ['C5', 'Test1', 'Test1'], ['D5', '', ''], ['E5', '', ''], ['F5', '', ''], ['G5', '', ''], ['H5', '', ''], ['A6', '', ''], ['B6', '', ''], ['C6', 'Test1', 'Test1'], ['D6', '', ''], ['E6', '', ''], ['F6', '', ''], ['G6', '', ''], ['H6', '', ''], ['A7', '', ''], ['B7', '', ''], ['C7', 'Test1', 'Test1'], ['D7', '', ''], ['E7', '', ''], ['F7', '', ''], ['G7', '', ''], ['H7', '', ''], ['A8', '', ''], ['B8', '', ''], ['C8', 'Test1', 'Test1'], ['D8', '', ''], ['E8', '', ''], ['F8', '', ''], ['G8', '', ''], ['H8', '', ''], ['A9', '', ''], ['B9', '', ''], ['C9', 'Test1', 'Test1'], ['D9', '', ''], ['E9', '', ''], ['F9', '', ''], ['G9', '', ''], ['H9', '', ''], ['A10', '', ''], ['B10', '', ''], ['C10', 'Test1', 'Test1'], ['D10', '', ''], ['E10', '', ''], ['F10', '', ''], ['G10', '', ''], ['H10', '', ''], ['A11', '', ''], ['B11', 'Test2', 'Test2'], ['C11', 'Test2', 'Test2'], ['D11', 'Test2', 'Test2'], ['E11', 'Test2', 'Test2'], ['F11', 'Test2', 'Test2'], ['G11', 'Test2', 'Test2'], ['H11', '', ''], ['A12', '', ''], ['B12', '', ''], ['C12', '', ''], ['D12', '', ''], ['E12', '', ''], ['F12', '', ''], ['G12', '', ''], ['H12', '', '']])
-    	self.assertEqual( list(self.plt.iter_evaluate(multi, acumulate=False)),    [[['A1', 'Control'], ['B1', ''], ['C1', ''], ['D1', ''], ['E1', ''], ['F1', ''], ['G1', ''], ['H1', ''], ['A2', ''], ['B2', ''], ['C2', 'Test1'], ['D2', ''], ['E2', ''], ['F2', ''], ['G2', ''], ['H2', ''], ['A3', ''], ['B3', ''], ['C3', 'Test1'], ['D3', ''], ['E3', ''], ['F3', ''], ['G3', ''], ['H3', ''], ['A4', ''], ['B4', ''], ['C4', 'Test1'], ['D4', ''], ['E4', ''], ['F4', ''], ['G4', ''], ['H4', ''], ['A5', ''], ['B5', ''], ['C5', 'Test1'], ['D5', ''], ['E5', ''], ['F5', ''], ['G5', ''], ['H5', ''], ['A6', ''], ['B6', ''], ['C6', 'Test1'], ['D6', ''], ['E6', ''], ['F6', ''], ['G6', ''], ['H6', ''], ['A7', ''], ['B7', ''], ['C7', 'Test1'], ['D7', ''], ['E7', ''], ['F7', ''], ['G7', ''], ['H7', ''], ['A8', ''], ['B8', ''], ['C8', 'Test1'], ['D8', ''], ['E8', ''], ['F8', ''], ['G8', ''], ['H8', ''], ['A9', ''], ['B9', ''], ['C9', 'Test1'], ['D9', ''], ['E9', ''], ['F9', ''], ['G9', ''], ['H9', ''], ['A10', ''], ['B10', ''], ['C10', 'Test1'], ['D10', ''], ['E10', ''], ['F10', ''], ['G10', ''], ['H10', ''], ['A11', ''], ['B11', 'Test2'], ['C11', 'Test2'], ['D11', 'Test2'], ['E11', 'Test2'], ['F11', 'Test2'], ['G11', 'Test2'], ['H11', ''], ['A12', ''], ['B12', ''], ['C12', ''], ['D12', ''], ['E12', ''], ['F12', ''], ['G12', ''], ['H12', '']], [['A1', 'Control'], ['B1', ''], ['C1', ''], ['D1', ''], ['E1', ''], ['F1', ''], ['G1', ''], ['H1', ''], ['A2', ''], ['B2', ''], ['C2', 'Test1'], ['D2', ''], ['E2', ''], ['F2', ''], ['G2', ''], ['H2', ''], ['A3', ''], ['B3', ''], ['C3', 'Test1'], ['D3', ''], ['E3', ''], ['F3', ''], ['G3', ''], ['H3', ''], ['A4', ''], ['B4', ''], ['C4', 'Test1'], ['D4', ''], ['E4', ''], ['F4', ''], ['G4', ''], ['H4', ''], ['A5', ''], ['B5', ''], ['C5', 'Test1'], ['D5', ''], ['E5', ''], ['F5', ''], ['G5', ''], ['H5', ''], ['A6', ''], ['B6', ''], ['C6', 'Test1'], ['D6', ''], ['E6', ''], ['F6', ''], ['G6', ''], ['H6', ''], ['A7', ''], ['B7', ''], ['C7', 'Test1'], ['D7', ''], ['E7', ''], ['F7', ''], ['G7', ''], ['H7', ''], ['A8', ''], ['B8', ''], ['C8', 'Test1'], ['D8', ''], ['E8', ''], ['F8', ''], ['G8', ''], ['H8', ''], ['A9', ''], ['B9', ''], ['C9', 'Test1'], ['D9', ''], ['E9', ''], ['F9', ''], ['G9', ''], ['H9', ''], ['A10', ''], ['B10', ''], ['C10', 'Test1'], ['D10', ''], ['E10', ''], ['F10', ''], ['G10', ''], ['H10', ''], ['A11', ''], ['B11', 'Test2'], ['C11', 'Test2'], ['D11', 'Test2'], ['E11', 'Test2'], ['F11', 'Test2'], ['G11', 'Test2'], ['H11', ''], ['A12', ''], ['B12', ''], ['C12', ''], ['D12', ''], ['E12', ''], ['F12', ''], ['G12', ''], ['H12', '']]])
-    
+        Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
+        self.plt.add_values(Value)
+        self.assertEqual(list(self.plt.iterate()),
+                         [['A1', 'Control'], ['B1', ''], ['C1', ''], ['D1', ''], ['E1', ''], ['F1', ''], ['G1', ''],
+                          ['H1', ''], ['A2', ''], ['B2', ''], ['C2', 'Test1'], ['D2', ''], ['E2', ''], ['F2', ''],
+                          ['G2', ''], ['H2', ''], ['A3', ''], ['B3', ''], ['C3', 'Test1'], ['D3', ''], ['E3', ''],
+                          ['F3', ''], ['G3', ''], ['H3', ''], ['A4', ''], ['B4', ''], ['C4', 'Test1'], ['D4', ''],
+                          ['E4', ''], ['F4', ''], ['G4', ''], ['H4', ''], ['A5', ''], ['B5', ''], ['C5', 'Test1'],
+                          ['D5', ''], ['E5', ''], ['F5', ''], ['G5', ''], ['H5', ''], ['A6', ''], ['B6', ''],
+                          ['C6', 'Test1'], ['D6', ''], ['E6', ''], ['F6', ''], ['G6', ''], ['H6', ''], ['A7', ''],
+                          ['B7', ''], ['C7', 'Test1'], ['D7', ''], ['E7', ''], ['F7', ''], ['G7', ''], ['H7', ''],
+                          ['A8', ''], ['B8', ''], ['C8', 'Test1'], ['D8', ''], ['E8', ''], ['F8', ''], ['G8', ''],
+                          ['H8', ''], ['A9', ''], ['B9', ''], ['C9', 'Test1'], ['D9', ''], ['E9', ''], ['F9', ''],
+                          ['G9', ''], ['H9', ''], ['A10', ''], ['B10', ''], ['C10', 'Test1'], ['D10', ''], ['E10', ''],
+                          ['F10', ''], ['G10', ''], ['H10', ''], ['A11', ''], ['B11', 'Test2'], ['C11', 'Test2'],
+                          ['D11', 'Test2'], ['E11', 'Test2'], ['F11', 'Test2'], ['G11', 'Test2'], ['H11', ''],
+                          ['A12', ''], ['B12', ''], ['C12', ''], ['D12', ''], ['E12', ''], ['F12', ''], ['G12', ''],
+                          ['H12', '']])
+        multi = np.array([self.plt.plate, self.plt.plate])
+        self.assertEqual(list(self.plt.iter_evaluate(multi)),
+                         [['A1', 'Control', 'Control'], ['B1', '', ''], ['C1', '', ''], ['D1', '', ''], ['E1', '', ''],
+                          ['F1', '', ''], ['G1', '', ''], ['H1', '', ''], ['A2', '', ''], ['B2', '', ''],
+                          ['C2', 'Test1', 'Test1'], ['D2', '', ''], ['E2', '', ''], ['F2', '', ''], ['G2', '', ''],
+                          ['H2', '', ''], ['A3', '', ''], ['B3', '', ''], ['C3', 'Test1', 'Test1'], ['D3', '', ''],
+                          ['E3', '', ''], ['F3', '', ''], ['G3', '', ''], ['H3', '', ''], ['A4', '', ''],
+                          ['B4', '', ''], ['C4', 'Test1', 'Test1'], ['D4', '', ''], ['E4', '', ''], ['F4', '', ''],
+                          ['G4', '', ''], ['H4', '', ''], ['A5', '', ''], ['B5', '', ''], ['C5', 'Test1', 'Test1'],
+                          ['D5', '', ''], ['E5', '', ''], ['F5', '', ''], ['G5', '', ''], ['H5', '', ''],
+                          ['A6', '', ''], ['B6', '', ''], ['C6', 'Test1', 'Test1'], ['D6', '', ''], ['E6', '', ''],
+                          ['F6', '', ''], ['G6', '', ''], ['H6', '', ''], ['A7', '', ''], ['B7', '', ''],
+                          ['C7', 'Test1', 'Test1'], ['D7', '', ''], ['E7', '', ''], ['F7', '', ''], ['G7', '', ''],
+                          ['H7', '', ''], ['A8', '', ''], ['B8', '', ''], ['C8', 'Test1', 'Test1'], ['D8', '', ''],
+                          ['E8', '', ''], ['F8', '', ''], ['G8', '', ''], ['H8', '', ''], ['A9', '', ''],
+                          ['B9', '', ''], ['C9', 'Test1', 'Test1'], ['D9', '', ''], ['E9', '', ''], ['F9', '', ''],
+                          ['G9', '', ''], ['H9', '', ''], ['A10', '', ''], ['B10', '', ''], ['C10', 'Test1', 'Test1'],
+                          ['D10', '', ''], ['E10', '', ''], ['F10', '', ''], ['G10', '', ''], ['H10', '', ''],
+                          ['A11', '', ''], ['B11', 'Test2', 'Test2'], ['C11', 'Test2', 'Test2'],
+                          ['D11', 'Test2', 'Test2'], ['E11', 'Test2', 'Test2'], ['F11', 'Test2', 'Test2'],
+                          ['G11', 'Test2', 'Test2'], ['H11', '', ''], ['A12', '', ''], ['B12', '', ''], ['C12', '', ''],
+                          ['D12', '', ''], ['E12', '', ''], ['F12', '', ''], ['G12', '', ''], ['H12', '', '']])
+        self.assertEqual(list(self.plt.iter_evaluate(multi, acumulate=False)), [
+            [['A1', 'Control'], ['B1', ''], ['C1', ''], ['D1', ''], ['E1', ''], ['F1', ''], ['G1', ''], ['H1', ''],
+             ['A2', ''], ['B2', ''], ['C2', 'Test1'], ['D2', ''], ['E2', ''], ['F2', ''], ['G2', ''], ['H2', ''],
+             ['A3', ''], ['B3', ''], ['C3', 'Test1'], ['D3', ''], ['E3', ''], ['F3', ''], ['G3', ''], ['H3', ''],
+             ['A4', ''], ['B4', ''], ['C4', 'Test1'], ['D4', ''], ['E4', ''], ['F4', ''], ['G4', ''], ['H4', ''],
+             ['A5', ''], ['B5', ''], ['C5', 'Test1'], ['D5', ''], ['E5', ''], ['F5', ''], ['G5', ''], ['H5', ''],
+             ['A6', ''], ['B6', ''], ['C6', 'Test1'], ['D6', ''], ['E6', ''], ['F6', ''], ['G6', ''], ['H6', ''],
+             ['A7', ''], ['B7', ''], ['C7', 'Test1'], ['D7', ''], ['E7', ''], ['F7', ''], ['G7', ''], ['H7', ''],
+             ['A8', ''], ['B8', ''], ['C8', 'Test1'], ['D8', ''], ['E8', ''], ['F8', ''], ['G8', ''], ['H8', ''],
+             ['A9', ''], ['B9', ''], ['C9', 'Test1'], ['D9', ''], ['E9', ''], ['F9', ''], ['G9', ''], ['H9', ''],
+             ['A10', ''], ['B10', ''], ['C10', 'Test1'], ['D10', ''], ['E10', ''], ['F10', ''], ['G10', ''],
+             ['H10', ''], ['A11', ''], ['B11', 'Test2'], ['C11', 'Test2'], ['D11', 'Test2'], ['E11', 'Test2'],
+             ['F11', 'Test2'], ['G11', 'Test2'], ['H11', ''], ['A12', ''], ['B12', ''], ['C12', ''], ['D12', ''],
+             ['E12', ''], ['F12', ''], ['G12', ''], ['H12', '']],
+            [['A1', 'Control'], ['B1', ''], ['C1', ''], ['D1', ''], ['E1', ''], ['F1', ''], ['G1', ''], ['H1', ''],
+             ['A2', ''], ['B2', ''], ['C2', 'Test1'], ['D2', ''], ['E2', ''], ['F2', ''], ['G2', ''], ['H2', ''],
+             ['A3', ''], ['B3', ''], ['C3', 'Test1'], ['D3', ''], ['E3', ''], ['F3', ''], ['G3', ''], ['H3', ''],
+             ['A4', ''], ['B4', ''], ['C4', 'Test1'], ['D4', ''], ['E4', ''], ['F4', ''], ['G4', ''], ['H4', ''],
+             ['A5', ''], ['B5', ''], ['C5', 'Test1'], ['D5', ''], ['E5', ''], ['F5', ''], ['G5', ''], ['H5', ''],
+             ['A6', ''], ['B6', ''], ['C6', 'Test1'], ['D6', ''], ['E6', ''], ['F6', ''], ['G6', ''], ['H6', ''],
+             ['A7', ''], ['B7', ''], ['C7', 'Test1'], ['D7', ''], ['E7', ''], ['F7', ''], ['G7', ''], ['H7', ''],
+             ['A8', ''], ['B8', ''], ['C8', 'Test1'], ['D8', ''], ['E8', ''], ['F8', ''], ['G8', ''], ['H8', ''],
+             ['A9', ''], ['B9', ''], ['C9', 'Test1'], ['D9', ''], ['E9', ''], ['F9', ''], ['G9', ''], ['H9', ''],
+             ['A10', ''], ['B10', ''], ['C10', 'Test1'], ['D10', ''], ['E10', ''], ['F10', ''], ['G10', ''],
+             ['H10', ''], ['A11', ''], ['B11', 'Test2'], ['C11', 'Test2'], ['D11', 'Test2'], ['E11', 'Test2'],
+             ['F11', 'Test2'], ['G11', 'Test2'], ['H11', ''], ['A12', ''], ['B12', ''], ['C12', ''], ['D12', ''],
+             ['E12', ''], ['F12', ''], ['G12', ''], ['H12', '']]])
+
     def test_counts(self):
-    	Value = { "A1" : "Control", "C[2,10]" : "Test1", "11[B,G]" : "Test2"}
-    	self.plt.add_values(Value)
-    	self.assertEqual(self.plt.counts(),   {'': 80, 'Control': 1, 'Test1': 9, 'Test2': 6})
-    	multi = np.array([self.plt.plate, self.plt.plate])
-    	self.assertEqual(self.plt.count_elements(multi),
-    	{0: {'': 80, 'Control': 1, 'Test1': 9, 'Test2': 6}, 1: {'': 80, 'Control': 1, 'Test1': 9, 'Test2': 6}})
-        	
+        Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
+        self.plt.add_values(Value)
+        self.assertEqual(self.plt.counts(), {'': 80, 'Control': 1, 'Test1': 9, 'Test2': 6})
+        multi = np.array([self.plt.plate, self.plt.plate])
+        self.assertEqual(self.plt.count_elements(multi),
+                         {0: {'': 80, 'Control': 1, 'Test1': 9, 'Test2': 6},
+                          1: {'': 80, 'Control': 1, 'Test1': 9, 'Test2': 6}})
+
 
 if __name__ == "__main__":
     unittest.main()
