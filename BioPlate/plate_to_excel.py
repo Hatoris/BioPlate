@@ -142,14 +142,12 @@ class plateToExcel:
 		"""
 		worksheet = self.plate_rep if not ws else ws
 		newline = 1 if not ws else 0
-		#row_multi = 0
 		for plate in plates:
 			if hd_format:
 				self.header_format(hd_format, row_multi)
 			else:
 				if not hd_format and not ws: 
-					plate = plate[1:,1:]
-					
+					plate = plate[1:,1:]					
 			for row, value in enumerate(plate):
 				row = row + row_multi
 				worksheet.write_row(row, 0, value, format)
