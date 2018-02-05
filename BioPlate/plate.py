@@ -2,14 +2,11 @@ import ast
 import re
 import time
 
-
 import numpy as np
 from string import ascii_uppercase
 from tabulate import tabulate
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
-
-
 
 """
     add value : add value to one wells (eg : 'B5)
@@ -47,7 +44,7 @@ class Plate:
                            [B, 0, 0, 0]])
         """
         plate_representation = np.zeros([self.plates.numRows + 1, self.plates.numColumns + 1], dtype='U40')
-        plate_representation[0] = np.array([x for x in range(self.plates.numColumns+1)])
+        plate_representation[0] = np.array([x for x in range(self.plates.numColumns + 1)])
         for i in range(self.plates.numRows):
             z = i + 1
             plate_representation[z][0] = self.letter[i]
@@ -61,11 +58,11 @@ class Plate:
         :return: tuple of (row, column) (eg : (1, 1))
         """
         if re.search("^([A-Za-z]\d+)", well):
-            row, column = filter(None, re.split('(\d+)' ,well))
+            row, column = filter(None, re.split('(\d+)', well))
             row = self.well_letter_index(row)
             return row, int(column)
         elif re.search("^(\d+[A-Za-z])", well):
-            column, row = filter(None, re.split('(\d+)' ,well))
+            column, row = filter(None, re.split('(\d+)', well))
             row = self.well_letter_index(row)
             return row, int(column)
 
@@ -91,14 +88,14 @@ class Plate:
                            [A, 0, 'test 2', 'test 2'],
                            [B, 0, 0, 0]])
         """
-        row, l= list(filter(None, re.split('(\[\d+\,\d+])|(\[\d+\-\d+\])', wells.replace(" ",""))))
+        row, l = list(filter(None, re.split('(\[\d+\,\d+])|(\[\d+\-\d+\])', wells.replace(" ", ""))))
         row = self.well_letter_index(row)
         l = l.replace("-", ",")
         column = sorted(ast.literal_eval(l))
         if column[0] == 0:
             return "can't assign value on 0"
         else:
-            self.plate[row, column[0]:column[1]+1] = value
+            self.plate[row, column[0]:column[1] + 1] = value
             return self.plate
 
     def add_value_column(self, wells, value):
@@ -110,7 +107,7 @@ class Plate:
                            [A, 0, 'test 3', 0],
                            [B, 0, 'test 3', 0]])
         """
-        column, row = list(filter(None, re.split('(\d+)' ,wells.replace(" ",""))))
+        column, row = list(filter(None, re.split('(\d+)', wells.replace(" ", ""))))
         row = sorted(list(row))
         row_start = self.well_letter_index(row[1])
         row_end = self.well_letter_index(row[2]) + 1
@@ -124,7 +121,7 @@ class Plate:
         :param values: {'A1' : 'test 4', 'B3' : 'test 5'}
         :return: plate
         """
-        try :
+        try:
             for key, value in values.items():
                 self.evaluate(key, value)
             return self.plate
@@ -143,7 +140,8 @@ class Plate:
             for well, value in zip(wells, values):
                 self.evaluate(well, value)
         else:
-            raise ValueError(f"for {wells} = {values} Number of wells are {len(wells)} and number of values are {len(values)}")
+            raise ValueError(
+                f"for {wells} = {values} Number of wells are {len(wells)} and number of values are {len(values)}")
         return self.plate
 
     def evaluate(self, wells, value):
@@ -196,7 +194,7 @@ class Plate:
         """
         # Common to row and column
         results = []
-        infos = sorted(list(filter(None, re.split('(\W)',multi_wells.replace(" ","")))))
+        infos = sorted(list(filter(None, re.split('(\W)', multi_wells.replace(" ", "")))))
         to_add = ["[", ",", "]"]
         if re.search("([A-Za-z]-[A-Za-z]\[)", multi_wells):
             val = "row"
@@ -206,7 +204,7 @@ class Plate:
             val = None
             raise SyntaxError(f"Can't find a match pattern in this {multi_wells}")
         # Dictionarie of row and column specific informations
-        start = {"row" : self.letter_index(infos[4]), "column" : int(infos[2])}
+        start = {"row": self.letter_index(infos[4]), "column": int(infos[2])}
         end = {"row": self.well_letter_index(infos[5]), "column": int(infos[3]) + 1}
         position_1 = {"row": infos[2], "column": infos[4]}
         position_3 = {"row": infos[3], "column": infos[5]}
@@ -220,21 +218,20 @@ class Plate:
             results.append(''.join([value[val](i), a]))
         return results
 
-    def save( self, plate_name, db_hist_name=None):
-    	if not db_hist_name:
-    		phi = PlateHist()
-    	else:
-    		phi = PlateHist(db_name=db_hist_name)
-    	response = phi.add_hplate(self.plates.numWell, plate_name, self.plate, Plate_id = self.plates.id)
-    	if isinstance(response, str):
-    		return response
-    	elif isinstance(response, int):
-            dict_update = {"plate_name" : plate_name, 
-                            "plate_array" : self.plate}
+    def save(self, plate_name, db_hist_name=None):
+        if not db_hist_name:
+            phi = PlateHist()
+        else:
+            phi = PlateHist(db_name=db_hist_name)
+        response = phi.add_hplate(self.plates.numWell, plate_name, self.plate, Plate_id=self.plates.id)
+        if isinstance(response, str):
+            return response
+        elif isinstance(response, int):
+            dict_update = {"plate_name": plate_name,
+                           "plate_array": self.plate}
             return phi.update_hplate(dict_update, response, key="id")
 
-
-    def table(self, plate, headers="firstrow",  **kwargs):
+    def table(self, plate, headers="firstrow", **kwargs):
         """
         return a tabulate object of plate.array
         :param plate: numpy.array of a plate object
@@ -242,82 +239,106 @@ class Plate:
         :return:
         """
         return tabulate(plate, headers=headers, **kwargs)
-        
-      
-    def iter_plate(self, plate, order="C"):
-        	"""
-        	generator return [well, value]
-        	:param plate: numpy.array of plate object
-        	:param order: iterate by column C or by row R
-        	"""
-        	columns = plate[0,1:]
-        	rows = plate[1:,0:1]
-        	values = plate[1:,1:]
-        	if order == "C":
-        		order = "F"
-        	elif order == "R":
-        		order = "C"
-        	res = []
-        	for row, column, value in np.nditer([rows, columns, values], order=order):
-        		well, value = ''.join([str(row),str(column)]),str(value)
-        		yield [well, value]
-        
-    def iter_evaluate(self, plate, order="C", acumulate= True):
-        	"""
-        	return a list [[well, value1, value2, value3],]
-        	"""
-        	shape = plate.shape
-        	dim = True if len(shape) >=3 else False
-        	if dim:
-        		value = list(map(lambda p: list(self.iter_plate(p, order=order)), [p for p in plate]))
-        	else:
-        		value = list(self.iter_plate(plate, order))
-        	if dim and acumulate:
-        		for a in range(1, len(value)):
-        			for i in range(len(value[0])):
-        				if value[0][i][0] == value[a][i][0]:
-        					value[0][i].append(value[a][i][1])
-        				else:
-        					pass
-        		value = value[0]
-        	return value
-       
-    def iterate(self, order="C", acumulate=True):
-    	yield from self.iter_evaluate(self.plate, order=order, acumulate=acumulate)
-    	
-    def count(self, plate):
-    	value = plate[1:,1:]
-    	unique, counts =np.unique(value, return_counts=True)
-    	return dict(zip(unique, counts))
-    	
-    def count_elements(self, plate):
-    	shape=plate.shape
-    	dim = True if len(shape) >=3 else False
-    	if dim:
-    		results = {}
-    		n = 0
-    		for p in plate:
-    			results[n] = self.count(p)
-    			n += 1 
-    	else:
-    		results = self.count(plate)   		
-    	return results
-    	
-    def counts(self):
-    	return self.count_elements(self.plate)
 
-if __name__ == '__main__': 
-	v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
-	Value = { "A1" : "Control", "C[2,10]" : "Test1", "11[B,G]" : "Test2"}
-	Plate = Plate(1, key="id")
-	Plate.add_values(Value)
-	print(Plate.table(Plate.plate, stralign="center", tablefmt="pipe"))
-	print(Plate.plate.shape)
-	print(Plate.plate_array)	
-	multi = np.array([Plate.plate,   Plate.plate])
-	#print(multi)
-	print(list(Plate.iterate(order="C")))
-	#print(Plate.table(Plate.counts(), headers="key"))
+    def iter_plate(self, plate, order="C"):
+        """
+        generator return [well, value]
+        :param plate: numpy.array of plate object
+        :param order: iterate by column C or by row R
+        """
+        columns = plate[0, 1:]
+        rows = plate[1:, 0:1]
+        values = plate[1:, 1:]
+        if order == "C":
+            order = "F"
+        elif order == "R":
+            order = "C"
+        res = []
+        for row, column, value in np.nditer([rows, columns, values], order=order):
+            well, value = ''.join([str(row), str(column)]), str(value)
+            yield [well, value]
+
+    def iter_evaluate(self, plate, order="C", acumulate=True):
+        """
+        return a list [[well, value1, value2, value3],]
+        :param plate:
+        :param order:
+        :param acumulate:
+        :return:
+        """
+        shape = plate.shape
+        dim = True if len(shape) >= 3 else False
+        if dim:
+            value = list(map(lambda p: list(self.iter_plate(p, order=order)), [p for p in plate]))
+        else:
+            value = list(self.iter_plate(plate, order))
+        if dim and acumulate:
+            for a in range(1, len(value)):
+                for i in range(len(value[0])):
+                    if value[0][i][0] == value[a][i][0]:
+                        value[0][i].append(value[a][i][1])
+                    else:
+                        pass
+            value = value[0]
+        return value
+
+    def iterate(self, order="C", acumulate=True):
+        """
+
+        :param order:
+        :param acumulate:
+        :return:
+        """
+        yield from self.iter_evaluate(self.plate, order=order, acumulate=acumulate)
+
+    def count(self, plate):
+        """
+
+        :param plate:
+        :return:
+        """
+        value = plate[1:, 1:]
+        unique, counts = np.unique(value, return_counts=True)
+        return dict(zip(unique, counts))
+
+    def count_elements(self, plate):
+        """
+
+        :param plate:
+        :return:
+        """
+        shape = plate.shape
+        dim = True if len(shape) >= 3 else False
+        if dim:
+            results = {}
+            n = 0
+            for p in plate:
+                results[n] = self.count(p)
+                n += 1
+        else:
+            results = self.count(plate)
+        return results
+
+    def counts(self):
+        """
+
+        :return:
+        """
+        return self.count_elements(self.plate)
+
+
+if __name__ == '__main__':
+    v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'], 'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
+    Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
+    Plate = Plate(1, key="id")
+    Plate.add_values(Value)
+    print(Plate.table(Plate.plate, stralign="center", tablefmt="pipe"))
+    print(Plate.plate.shape)
+    print(Plate.plate_array)
+    multi = np.array([Plate.plate, Plate.plate])
+    # print(multi)
+    print(list(Plate.iterate(order="C")))
+# print(Plate.table(Plate.counts(), headers="key"))
 
 """	f = open('table.txt', 'w')
 	f.write(str(Plate.count_elements(multi)))
@@ -325,4 +346,3 @@ if __name__ == '__main__':
 	#f.write(Plate.table(Plate.plate, stralign="center", tablefmt="latex"))
 	f.close()
 """
-    
