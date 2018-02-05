@@ -1,4 +1,5 @@
 import functools
+import time
 
 
 #@functools.lru_cache(maxsize=None)
@@ -17,5 +18,29 @@ def dimension(plate):
 	else:
 		return False
 		
-
+def timing(f):
+    def wrap(*args, **kwargs):
+        time1 = time.time()
+        ret = f(*args, **kwargs)
+        time2 = time.time()
+        print('%s function took %0.3f ms'%("test", (time2-time1)*1000.0))
+        return ret
+    return wrap
 	
+def dict_unique(dict_infos):
+	n = 0
+	for keys, values in dict_infos.items():
+		if n == 0:
+			save = values
+			n = 1
+		else:
+			try:
+				for key, value in values.items():
+					in_save = save.get(key)
+					if in_save:
+						save[key] = in_save + value
+					else:
+						save[key] = value
+			except AttributeError:
+				return dict_infos
+	return save
