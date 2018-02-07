@@ -7,6 +7,7 @@ from string import ascii_uppercase
 from tabulate import tabulate
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
+from BioPlate.utilitis import dimension
 
 """
     add value : add value to one wells (eg : 'B5)
@@ -266,8 +267,7 @@ class Plate:
         :param acumulate:
         :return:
         """
-        shape = plate.shape
-        dim = True if len(shape) >= 3 else False
+        dim = dimension(plate)
         if dim:
             value = list(map(lambda p: list(self.iter_plate(p, order=order)), [p for p in plate]))
         else:
@@ -297,9 +297,9 @@ class Plate:
         :param plate:
         :return:
         """
-        value = plate[1:, 1:]
-        unique, counts = np.unique(value, return_counts=True)
-        return dict(zip(unique, counts))
+        unique, count = np.unique(plate[1:,1:], return_counts=True)
+        count_in_dict = dict(zip(unique, count))
+        return count_in_dict
 
     def count_elements(self, plate):
         """
@@ -307,8 +307,7 @@ class Plate:
         :param plate:
         :return:
         """
-        shape = plate.shape
-        dim = True if len(shape) >= 3 else False
+        dim = dimension(plate)
         if dim:
             results = {}
             n = 0
@@ -316,7 +315,7 @@ class Plate:
                 results[n] = self.count(p)
                 n += 1
         else:
-            results = self.count(plate)
+        	results = self.count(plate)
         return results
 
     def counts(self):

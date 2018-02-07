@@ -2,10 +2,11 @@ import xlsxwriter
 import numpy as np
 
 from BioPlate.utilitis import dimension, dict_unique
+from io import BytesIO, StringIO
 
 
 class plateToExcel:
-    def __init__(self, file_name, sheets=['plate_representation', 'plate_data']):
+    def __init__(self, file_name, sheets=['plate_representation', 'plate_data'], test=False):
         """
 
         :param file_name:
@@ -14,6 +15,8 @@ class plateToExcel:
         self.fileName = file_name
         self.sheets = sheets
         self.last_row = 0
+        self.test = test
+        self.output = BytesIO() if test else None
         try:
             self.workbook = self.open_excel_file
             self.plate_rep, self.plate_data = self.select_worksheet
@@ -26,6 +29,8 @@ class plateToExcel:
 
         :return:
         """
+        if self.test:
+        	return xlsxwriter.Workbook(self.output, {'in_memory' : True})
         return xlsxwriter.Workbook(self.fileName)
 
     @property
@@ -42,6 +47,12 @@ class plateToExcel:
 
     def close(self):
         self.workbook.close()
+        
+    def get_test(self):
+    	try:
+    		return self.output.getvalue()
+    	except AttributeError:
+    		return None
 
     def past_values(self, plate_iterate):
         """
@@ -53,7 +64,7 @@ class plateToExcel:
         """
         worksheet = self.plate_data
         plate = np.array(plate_iterate)
-        shape = plate.shape
+        shape = plate.shape 
         self.past_values_header(shape[-1], worksheet)
         dim = dimension(plate)
         if dim:
@@ -107,7 +118,7 @@ class plateToExcel:
         if dict_infos:
             self.plate_information(dict_infos, acumulate=acumulate)
 
-    def plate_information(self, dict_infos, ws=None, acumulate=False):
+    def plate_information(self, dict_info, ws=None, acumulate=False):
         """
 
         :param dict_infos:
@@ -118,7 +129,9 @@ class plateToExcel:
         worksheet = self.plate_rep
         multi_row = self.last_row
         if acumulate:
-            dict_infos = dict_unique(dict_infos)
+        	dict_infos = dict_unique(dict_info)
+        else:
+        	dict_infos = dict_info
         for key in dict_infos:
             if isinstance(dict_infos[key], dict):
                 nested = True
@@ -135,8 +148,8 @@ class plateToExcel:
             heads = ['plate', 'infos', 'count']
             worksheet.write_row(multi_row, 1, heads)
             multi_row += 1
-            for num_plate, plate_infos in dict_infos.items():
-                val = self.past_infos(plate_infos, worksheet, multi_row, num_plate=num_plate)
+            for plate_num, plate_infos in dict_infos.items():
+                val = self.past_infos(plate_infos, worksheet, multi_row, num_plate=plate_num)
                 multi_row = val
 
     def past_infos(self, dicts, worksheet, initial_row, num_plate=None):
@@ -150,7 +163,7 @@ class plateToExcel:
         """
         x = 0
         for key in dicts.keys():
-            if num_plate:
+            if num_plate is not None:
                 x = 1
                 worksheet.write(initial_row, x, num_plate)
             worksheet.write(initial_row, 1 + x, key)

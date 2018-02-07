@@ -1,6 +1,6 @@
 import functools
 import time
-
+import numpy as np
 
 
 def dimension(plate):
@@ -11,7 +11,7 @@ def dimension(plate):
     """
     shape = plate.shape
     if len(shape) == 3:
-        if shape[0] > 2:
+        if shape[0] >= 2:
             return True
         else:
             raise ValueError(f"plate object have a dimision of {shape[0]} > 3")
@@ -35,26 +35,46 @@ def timing(f):
     return wrap
 
 
-@functools.lru_cache(maxsize=None)
+
 def dict_unique(dict_infos):
     """
 
     :param dict_infos:
     :return:
     """
-    n = 0
+    unique = {}
     for keys, values in dict_infos.items():
-        if n == 0:
-            save = values
-            n = 1
-        else:
-            try:
-                for key, value in values.items():
-                    in_save = save.get(key)
-                    if in_save:
-                        save[key] = in_save + value
-                    else:
-                        save[key] = value
-            except AttributeError:
-                return dict_infos
-    return save
+    	try:
+    		for key, value in values.items():
+    			if key not in unique:
+    				unique[key] = value
+    			else:
+    				unique[key] = unique[key] + value
+    	except AttributeError:
+    		return dict_infos
+    return unique
+    
+def remove_empty_iterate(iterate, hd=None):
+	dim = dimension(np.array(iterate))
+	n = 0
+	if dim:
+		rm_empty = []
+		for row in iterate:
+			rm_empty +=  remove_empty(row)
+			if not n and hd:
+				rm_empty = hd + rm_empty
+				n = 1
+	else:
+		rm_empty = remove_empty(iterate)
+		if hd:
+			rm_empty = hd + rm_empty
+	return rm_empty
+	
+def remove_empty(iterate):
+	rm_empty = []
+	for row in iterate:
+		rm_empty.append(list(filter(None, row)))
+	return rm_empty
+    	
+    	
+    	
