@@ -67,7 +67,7 @@ class Database:
             return self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).one()
         except exc.MultipleResultsFound:
             self.session.rollback()
-            return "Use a more specific key to delete the object"
+            return "Use a more specific key to get one object"
         finally:
             self.session.close()
     

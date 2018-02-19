@@ -42,6 +42,7 @@ class PlateDB(Database):
                   refURL=None):
         """
         add plate in the database
+        
         :param session: Sqlalchemy session
         :param numWell: number of well in a plate (INT)
         :param numColumns:

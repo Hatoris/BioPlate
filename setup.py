@@ -22,6 +22,9 @@ setup(
         'numpy',
         'pathlib',
         'xlsxwriter',
+        'pyexcel',
+        'pyexcel_xlsx',
+        'pyexcel_xls',
     ],
     long_description=read('docs\README.md'),
     classifiers=[
