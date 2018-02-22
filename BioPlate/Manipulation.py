@@ -2,13 +2,12 @@ import ast
 import re
 import time
 import numpy as np
+import BioPlate.utilitis as bpu 
 
 from tabulate import tabulate
-#from functools import lru_cache 
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
-from BioPlate.utilitis import dimension, _LETTER
-#from BioPlate.plate_array import BioPlateArray, BioPlate_parameters, Slice
+
 
 """
 add value : add value to one wells (eg : 'B5)
@@ -50,7 +49,7 @@ class BioPlateManipulation:
         list_in = any(isinstance(arg, list) for arg in args)
         if len(args) == 2 and not dict_in :
             well, value, *trash = args
-            if dimension(self):
+            if bpu.dimension(self):
                 plate = 0
             else:
                 plate = None
@@ -63,14 +62,14 @@ class BioPlateManipulation:
         elif len(args) == 1 and dict_in:
             well, *trash = args
             value = None
-            if dimension(self):
+            if bpu.dimension(self):
                 plate = 0
             else:
                 plate = None
         #multi_value
         if len(args) == 2 and list_in:
             *trash, well, value = args
-            if dimension(self):
+            if bpu.dimension(self):
                 plate = 0
             else:
                 plate = None
@@ -209,7 +208,7 @@ class BioPlateManipulation:
         :param row_letter: C => letter of a row
         :return: 3 => index of row C in plate.array
         """
-        return np.searchsorted(_LETTER, row_letter) + 1
+        return np.searchsorted(bpu._LETTER, row_letter) + 1
 
     #@lru_cache(maxsize=None)
     def letter_index(self, letter):
@@ -219,7 +218,7 @@ class BioPlateManipulation:
         :param letter: C => letter of interest
         :return: 2 => index of letter C in letter.array
         """
-        return np.searchsorted(_LETTER, letter)
+        return np.searchsorted(bpu._LETTER, letter)
 
     #@lru_cache(maxsize=None)
     def index_letter(self, index_letter):
@@ -228,7 +227,7 @@ class BioPlateManipulation:
         :param index_letter: 2 => index of interest
         :return: C => letter of a given index
         """
-        return _LETTER[index_letter]
+        return bpu._LETTER[index_letter]
 
     def split_multi_row_column(self, multi_wells):
         """
@@ -316,7 +315,7 @@ class BioPlateManipulation:
         :param acumulate:
         :return:
         """
-        dim = dimension(plate)
+        dim = bpu.dimension(plate)
         if dim:
             value = list(map(lambda p: list(self.iter_plate(p, order=order)), [p for p in plate]))
         else:
@@ -356,7 +355,7 @@ class BioPlateManipulation:
         :param plate:
         :return:
         """
-        dim = dimension(plate)
+        dim = bpu.dimension(plate)
         if dim:
             results = {}
             n = 0

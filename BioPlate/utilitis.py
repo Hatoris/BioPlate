@@ -4,12 +4,14 @@ import numpy as np
 
 from string import ascii_uppercase
 
+
 _LETTER = np.array(list(ascii_uppercase))
+
 
 def dimension(plate):
     """
     evaluate dimension of plate (2 or 3).
-    plate : np.array
+   plate : np.array
     return True if plate is a stack of 2D plate (=3D), false if plate object is only one plate and raise error if dimiaion is above 3.
     """
     shape = plate.shape

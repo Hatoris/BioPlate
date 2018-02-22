@@ -1,7 +1,7 @@
 from BioPlate.Array import BioPlateArray
-from BioPlate.Manipulation import BioPlateManipulation
+from BioPlate.Manipulation import BioPlateManipulation 
 from BioPlate.Stack import BioPlateStack
-from BioPlate.utilitis import dimension
+from collections import OrderedDict
 
 class BioPlate(BioPlateArray, BioPlateManipulation):
     """
@@ -12,13 +12,13 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
         self.ID = id(self)
        
     def __add__(self, other):
-        dims = dimension(self)
-        dimo = dimension(other)
-        id_list = []
-        if dims and dimo:
-            pass
-        id_list = [self.ID, other.ID]
-        return BioPlateStack(id_list)    
+        if isinstance(other, BioPlateStack):
+            newstack = BioPlateArray._get_stack_in_cache(other.ID)
+            newstack = [self.ID,] + newstack
+        else:
+            newstack = [self.ID, other.ID]
+        newstack = list(OrderedDict.fromkeys(newstack))
+        return BioPlateStack(newstack)    
               
     def add_value(self, *args):
          super().add_value(*args)
