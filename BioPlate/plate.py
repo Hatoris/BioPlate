@@ -20,5 +20,5 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
         newstack = list(OrderedDict.fromkeys(newstack))
         return BioPlateStack(newstack)    
               
-    def add_value(self, *args):
-         super().add_value(*args)
+    
+        

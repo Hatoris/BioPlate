@@ -13,11 +13,10 @@ class BioPlateStack(BioPlateManipulation):
    def __init__(self, ID_list):
        self.ID = id(self)
        BioPlateArray._add_stack_to_cache(self.ID, ID_list)
-       self.nb_BioPlate = len(ID_list)
        
        
    def __repr__(self):
-       BioPlates = [self[i] for i in range(self.nb_BioPlate)]
+       BioPlates = [self[i] for i in range(len(self))]
        return str(np.array(BioPlates))
        
    def __getitem__(self, plate_index):
@@ -26,6 +25,9 @@ class BioPlateStack(BioPlateManipulation):
    def __setitem__(self, index, value):
        self[index[0]][index[1:]] = value
         
+   def __len__(self):
+       return len(BioPlateArray._get_stack_in_cache(self.ID))
+   
    def __add__(self, other):
         if type(self[0]) == type(other):
             newstack = BioPlateArray._get_stack_in_cache(self.ID)
@@ -48,3 +50,27 @@ class BioPlateStack(BioPlateManipulation):
    @change_args 
    def add_value(self, bioplate, *args):
        super(type(bioplate), bioplate).add_value(*args)
+       
+   @change_args
+   def add_value_row(self, bioplate, *args):
+        super(type(bioplate), bioplate).add_value_row(*args)
+   
+   @change_args     
+   def add_value_column(self, bioplate, *args):
+         super(type(bioplate), bioplate).add_value_column(*args)
+         
+   @change_args 
+   def add_values(self, bioplate, *args):
+       super(type(bioplate), bioplate).add_values(*args)
+         
+   @change_args
+   def add_multi_value(self, bioplate,*args):
+       super(type(bioplate), bioplate).add_multi_value(*args)
+       
+   @change_args
+   def evaluate(self, bioplate, *args):
+        super(type(bioplate), bioplate).evaluate(*args)
+        
+   def iterate(self, order="C", accumulate=True):
+        *BioPlates, = [self[i] for i in range(len(self))]
+        yield from super()._iterate(*BioPlates, order=order, accumulate=accumulate)

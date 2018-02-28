@@ -146,3 +146,4 @@ if __name__ == "__main__":
     print(BioPlateArray.bio_plate_array(12,8))
     t2 = time()
     print(f"call 1 {t1 - t0}, call 2 {t2 - t1}")
+    print(BioPlateArray({"id" : 1}))

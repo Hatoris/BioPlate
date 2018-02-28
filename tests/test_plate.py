@@ -52,8 +52,8 @@ class TestPlate(unittest.TestCase):
 
     def test_Plate_init(self):
         self.assertEqual(str(self.plt.plates), "<plate N°1 : 96-12-8>")
-        self.assertEqual(str(self.plt.letter), str(np.array(list(ascii_uppercase))))
-        np.testing.assert_array_equal(self.plt.plate,
+        #self.assertEqual(str(self.plt.letter), str(np.array(list(ascii_uppercase))))
+        np.testing.assert_array_equal(self.plt.plates,
                                       np.array([[' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                                                 ['A', '', '', '', '', '', '', '', '', '', '', '', ''],
                                                 ['B', '', '', '', '', '', '', '', '', '', '', '', ''],
