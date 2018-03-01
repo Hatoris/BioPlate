@@ -47,30 +47,47 @@ class BioPlateStack(BioPlateManipulation):
             return func(self, bioplate, *args)
        return wrapper
     
+   def pass_all_plate(func):
+        def wrapper(self, *args, **kwargs):
+            *BioPlates, = [self[i] for i in range(len(self))]
+            return func(self, *BioPlates, **kwargs)
+        return wrapper
+    
+    
    @change_args 
    def add_value(self, bioplate, *args):
        super(type(bioplate), bioplate).add_value(*args)
+       return self
        
    @change_args
    def add_value_row(self, bioplate, *args):
         super(type(bioplate), bioplate).add_value_row(*args)
+        return self
    
    @change_args     
    def add_value_column(self, bioplate, *args):
          super(type(bioplate), bioplate).add_value_column(*args)
+         return self 
          
    @change_args 
    def add_values(self, bioplate, *args):
        super(type(bioplate), bioplate).add_values(*args)
+       return self
          
    @change_args
    def add_multi_value(self, bioplate,*args):
        super(type(bioplate), bioplate).add_multi_value(*args)
+       return self
        
    @change_args
    def evaluate(self, bioplate, *args):
-        super(type(bioplate), bioplate).evaluate(*args)
-        
-   def iterate(self, order="C", accumulate=True):
-        *BioPlates, = [self[i] for i in range(len(self))]
+       super(type(bioplate), bioplate).evaluate(*args)
+       return self
+    
+   @pass_all_plate    
+   def iterate(self, *BioPlates, order="C", accumulate=True):
         yield from super()._iterate(*BioPlates, order=order, accumulate=accumulate)
+      
+   @pass_all_plate
+   def count(self, *BioPlates, reverse=False):
+       return super()._count(*BioPlates, reverse=reverse)

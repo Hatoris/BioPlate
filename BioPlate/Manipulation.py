@@ -1,6 +1,7 @@
 import ast
 import re
 import time
+import operator
 import numpy as np
 import BioPlate.utilitis as bpu 
 
@@ -151,9 +152,6 @@ class BioPlateManipulation:
         else:
             self.__eval_well_value(well, value)
 
-
-
-
     def save(self, plate_name, db_hist_name=None):
         if not db_hist_name:
             phi = PlateHist()
@@ -205,62 +203,53 @@ class BioPlateManipulation:
              values.append(value)
         return row, column, tuple(values)
          
-    def __iterate(self, *plates):
+    def __iterate(self, *plates, Ovalue=False):
         for plate in plates:
             columns = plate[0,1:]
             rows = plate[1:, 0:1]
             values = plate[1:, 1:]
-            yield rows, columns, values
+            if Ovalue:
+                yield values
+            else:
+                yield rows, columns, values
             
     def _merge_R_C_(self, row, column):
       RC =   "".join(map(str, [row, column]))
-      return RC
-    
-    def ____iterate(self, order="C", acumulate=True):
-        """
+      return RC    
 
-        :param order:
-        :aram acumulate:
-        :return:
-        """
-        yield from self.iter_evaluate(self, order=order, acumulate=acumulate)
+    def count(self, reverse=False):
+        return self._count(self, reverse=reverse)
 
-    def count(self, plate):
+    def __count(self, plate, reverse=False):
         """
 
         :param plate:
         :return:
         """
-        unique, count = np.unique(plate[1:,1:], return_counts=True)
+        #for values in self.__iterate(*plates, Ovalue=True):
+        unique, count = np.unique(plate, return_counts=True)
         count_in_dict = dict(zip(unique, count))
+        count_in_dict = dict(sorted(count_in_dict.items(), key=lambda x:x[1], reverse=reverse))
         return count_in_dict
 
-    def count_elements(self, plate):
+    def _count(self, *plates, reverse=False):
         """
 
         :param plate:
         :return:
         """
-        dim = bpu.dimension(plate)
-        if dim:
+        if len(plates) > 1:
             results = {}
             n = 0
-            for p in plate:
-                results[n] = self.count(p)
+            for values in self.__iterate(*plates, Ovalue=True):
+                results[n] = self.__count(values, reverse=reverse)
                 n += 1
         else:
-        	results = self.coun(plate)
+        	results = self.__count(next(self.__iterate(*plates, Ovalue=True)), reverse=reverse)
         return results
-
-    def counts(self):
-        """
-
-        :return:
-        """
-        return self.count_elements(self.plate)
 
 
 if __name__ == "__main__":
     bpm = BioPlateManipulation()
-    #print(bpm.split_multi_row_column("1-8[A,C]"))
+    #print(bpm.split_multi_row_column("1-8[A,C"))
    # print(bpm.split_multi_row_column("A-G[1,8]"))
