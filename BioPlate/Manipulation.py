@@ -2,8 +2,9 @@ import ast
 import re
 import time
 import operator
+import inspect
 import numpy as np
-import BioPlate.utilitis as bpu 
+import BioPlate.utilitis as bpu
 
 from tabulate import tabulate
 from BioPlate.database.plate_db import PlateDB
@@ -152,17 +153,23 @@ class BioPlateManipulation:
         else:
             self.__eval_well_value(well, value)
 
-    def save(self, plate_name, db_hist_name=None):
-        if not db_hist_name:
+    def save(self, plate, plate_name, **kwargs):
+        dbName = kwargs.get("db_hist_name")
+        if not dbName :
             phi = PlateHist()
         else:
-            phi = PlateHist(db_name=db_hist_name)
-        response = phi.add_hplate(self.plates.numWell, plate_name, self.plate, Plate_id=self.plates.id)
+            phi = PlateHist(db_name=dbName)
+        if isinstance(plate, list):
+            well = next(self.__iterate(plate[0], Ovalue=True)).shape
+        else:
+            well = next(self.__iterate(plate, Ovalue=True)).shape
+        numWell = well[0] * well[1]
+        response = phi.add_hplate(numWell, plate_name, plate)
         if isinstance(response, str):
             return response
         elif isinstance(response, int):
             dict_update = {"plate_name": plate_name,
-                           "plate_array": self.plate}
+                           "plate_array": plate}
             return phi.update_hplate(dict_update, response, key="id")
 
     def table(self, headers="firstrow", *args, **kwargs):

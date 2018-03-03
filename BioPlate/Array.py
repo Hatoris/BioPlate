@@ -20,13 +20,25 @@ class BioPlateArray(np.ndarray):
 
     def bioplatearray(*args, **kwargs):
         try:
-    	    columns, rows = BioPlateArray.get_columns_rows(*args, **kwargs)
-    	    if isinstance(columns, int) and isinstance(rows, int):
-    	        return BioPlateArray.bio_plate_array(columns, rows)
-    	    else:
-    	        raise ValueError
+            if  isinstance(args[0], list):
+                return args[0]
+            elif len(args) == 2 or isinstance(args[0], dict):
+                columns, rows = BioPlateArray.get_columns_rows(*args, **kwargs)
+                if isinstance(columns, int) and isinstance(rows, int):
+                    return BioPlateArray.bio_plate_array(columns, rows)
+                else:
+                    raise ValueError
+            """
+            else:
+                nb_stack, *args = args
+                ID_list = []
+                for nb_stack in range(nb_stack):
+    	            plate = BioPlateArray(*args, **kwargs)
+    	            ID_list.append(id(plate))
+    	        return ID_list
+    	        """
         except ValueError:
-            return args[0]
+            raise ValueError(f"Something wrong with {args}")
     	
     	
     
@@ -141,9 +153,15 @@ class BioPlateArray(np.ndarray):
 
 if __name__ == "__main__":
     t0 = time()
-    print(BioPlateArray.bio_plate_array(12,8))
+    #print(BioPlateArray.bio_plate_array(12,8))
     t1 = time()
-    print(BioPlateArray.bio_plate_array(12,8))
+    #print(BioPlateArray.bio_plate_array(12,8))
     t2 = time()
     print(f"call 1 {t1 - t0}, call 2 {t2 - t1}")
     print(BioPlateArray({"id" : 1}))
+    st = np.arange(192).reshape(2, 12, 8)
+    #sts = [plate for plate in st]
+    #print(BioPlateArray._PLATE_CACHE)
+    #print(BioPlateArray(2, 12, 8))
+    #print(BioPlateArray._PLATE_CACHE)
+    #print(BioPlateArray([123, 456, 789]))

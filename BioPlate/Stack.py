@@ -3,6 +3,7 @@ import numpy as np
 from collections import OrderedDict
 from BioPlate.Manipulation import BioPlateManipulation
 from BioPlate.Array import BioPlateArray
+from BioPlate.ArrayStack import BioPlateArrayStack
 
 
 class BioPlateStack(BioPlateManipulation):
@@ -12,9 +13,16 @@ class BioPlateStack(BioPlateManipulation):
    
    def __init__(self, ID_list):
        self.ID = id(self)
-       BioPlateArray._add_stack_to_cache(self.ID, ID_list)
-       
-       
+       if isinstance(ID_list[0], int):
+           BioPlateArray._add_stack_to_cache(self.ID, ID_list)
+       else:
+           new_ID_list = []
+           for BP in ID_list:
+               ID = id(BP)
+               new_ID_list.append(ID)
+               BioPlateArray._add_plate_in_cache(ID, BP)
+           BioPlateArray._add_stack_to_cache(self.ID, new_ID_list)
+             
    def __repr__(self):
        BioPlates = [self[i] for i in range(len(self))]
        return str(np.array(BioPlates))
@@ -91,3 +99,7 @@ class BioPlateStack(BioPlateManipulation):
    @pass_all_plate
    def count(self, *BioPlates, reverse=False):
        return super()._count(*BioPlates, reverse=reverse)
+
+   def save(self, plate_name, **kwargs):
+        BioPlates = [self[i] for i in range(len(self))]
+        super().save(BioPlates, plate_name, **kwargs)

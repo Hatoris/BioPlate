@@ -1,5 +1,7 @@
 from BioPlate.database.database import Database
+import BioPlate
 from sqlalchemy import Column, Integer, String, Date, PickleType
+from sqlalchemy.ext.hybrid import hybrid_property
 import datetime
 
 class PlateHist(Database) :
@@ -18,6 +20,13 @@ class PlateHist(Database) :
         date = Column(Date, nullable=False)
         plate_name = Column(String(250), unique=True, nullable=False)
         plate_array = Column(PickleType, nullable=False)
+        
+        @hybrid_property
+        def plate(self):
+            if isinstance(self.plate_array, list):
+                return BioPlate.Stack.BioPlateStack(self.plate_array)
+            else:
+                return self.plate_array
 
         def __str__(self):
             if self.plate_name:
