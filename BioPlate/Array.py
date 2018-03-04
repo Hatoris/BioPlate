@@ -12,7 +12,11 @@ class BioPlateArray(np.ndarray):
     _CACHE_BPA = {} # contain plate 
     
     def __new__(cls, *args, **kwargs):
-        BioPlate =   BioPlateArray.bioplatearray(*args, **kwargs).view(cls)
+        if kwargs.get("inserts", False):
+            bp = BioPlateArray.bioplatearray(*args, **kwargs)
+            BioPlate = np.array([bp, bp]).view(cls)
+        else:
+            BioPlate =   BioPlateArray.bioplatearray(*args, **kwargs).view(cls)
         ID = id(BioPlate)
         if ID not in BioPlateArray._PLATE_CACHE:
                BioPlateArray._PLATE_CACHE[ID] = BioPlate
@@ -28,15 +32,6 @@ class BioPlateArray(np.ndarray):
                     return BioPlateArray.bio_plate_array(columns, rows)
                 else:
                     raise ValueError
-            """
-            else:
-                nb_stack, *args = args
-                ID_list = []
-                for nb_stack in range(nb_stack):
-    	            plate = BioPlateArray(*args, **kwargs)
-    	            ID_list.append(id(plate))
-    	        return ID_list
-    	        """
         except ValueError:
             raise ValueError(f"Something wrong with {args}")
     	

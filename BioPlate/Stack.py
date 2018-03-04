@@ -3,7 +3,6 @@ import numpy as np
 from collections import OrderedDict
 from BioPlate.Manipulation import BioPlateManipulation
 from BioPlate.Array import BioPlateArray
-from BioPlate.ArrayStack import BioPlateArrayStack
 
 
 class BioPlateStack(BioPlateManipulation):
@@ -51,8 +50,14 @@ class BioPlateStack(BioPlateManipulation):
    def change_args(func):
        def wrapper(self, *args):
             bioplate = self[args[0]]
-            *args, = args[1:]
-            return func(self, bioplate, *args)
+            if len(bioplate.shape) == 2:
+                *args, = args[1:]
+                return func(self, bioplate, *args)
+            else:
+                position, *args = args[1:]
+                #t =  {"top" : 0, "bot" : 1}
+                bioplate = getattr(bioplate, position)
+                return func(self, bioplate, *args)
        return wrapper
     
    def pass_all_plate(func):
@@ -60,36 +65,35 @@ class BioPlateStack(BioPlateManipulation):
             *BioPlates, = [self[i] for i in range(len(self))]
             return func(self, *BioPlates, **kwargs)
         return wrapper
-    
-    
+        
    @change_args 
    def add_value(self, bioplate, *args):
-       super(type(bioplate), bioplate).add_value(*args)
+       bioplate.add_value(*args)
        return self
        
    @change_args
    def add_value_row(self, bioplate, *args):
-        super(type(bioplate), bioplate).add_value_row(*args)
+        bioplate.add_value_row(*args)
         return self
    
    @change_args     
    def add_value_column(self, bioplate, *args):
-         super(type(bioplate), bioplate).add_value_column(*args)
+         bioplate.add_value_column(*args)
          return self 
          
    @change_args 
    def add_values(self, bioplate, *args):
-       super(type(bioplate), bioplate).add_values(*args)
+       bioplate.add_values(*args)
        return self
          
    @change_args
    def add_multi_value(self, bioplate,*args):
-       super(type(bioplate), bioplate).add_multi_value(*args)
+       bioplate.add_multi_value(*args)
        return self
        
    @change_args
    def evaluate(self, bioplate, *args):
-       super(type(bioplate), bioplate).evaluate(*args)
+       bioplate.evaluate(*args)
        return self
     
    @pass_all_plate    

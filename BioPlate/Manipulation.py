@@ -212,6 +212,13 @@ class BioPlateManipulation:
          
     def __iterate(self, *plates, Ovalue=False):
         for plate in plates:
+            if len(plate.shape) == 2:
+                yield from self.___iterate(plate, Ovalue=Ovalue)
+            else:
+                 for pl in plate:
+                     yield from self.___iterate(pl, Ovalue=Ovalue)
+                     
+    def ___iterate(self, plate, Ovalue=False):
             columns = plate[0,1:]
             rows = plate[1:, 0:1]
             values = plate[1:, 1:]
@@ -245,12 +252,33 @@ class BioPlateManipulation:
         :param plate:
         :return:
         """
-        if len(plates) > 1:
+        nb_plate = len(plates)
+        multi = nb_plate > 1
+        insert =  len(plates[0].shape) > 2
+        if multi or insert:
             results = {}
             n = 0
+            y = 0
             for values in self.__iterate(*plates, Ovalue=True):
-                results[n] = self.__count(values, reverse=reverse)
-                n += 1
+                if insert and multi:
+                    mod = y % 2
+                    y += 1
+                    if mod == 0:
+                        inter = {}
+                        inter["top"] = self.__count(values, reverse=reverse)
+                    else:
+                        inter["bot"] = self.__count(values, reverse=reverse)
+                        results[n] = inter
+                        n += 1
+                elif insert:
+                    if n == 0:
+                        results["top"] = self.__count(values, reverse=reverse)
+                        n += 1
+                    else:
+                         results["bot"] = self.__count(values, reverse=reverse)
+                else:
+                    results[n] = self.__count(values, reverse=reverse)
+                    n += 1
         else:
         	results = self.__count(next(self.__iterate(*plates, Ovalue=True)), reverse=reverse)
         return results

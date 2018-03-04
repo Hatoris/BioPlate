@@ -1,6 +1,7 @@
 from BioPlate.Array import BioPlateArray
 from BioPlate.Manipulation import BioPlateManipulation 
 from BioPlate.Stack import BioPlateStack
+from BioPlate.Inserts import BioPlateInserts
 from collections import OrderedDict
 
 class BioPlate(BioPlateArray, BioPlateManipulation):
@@ -9,7 +10,10 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
     """
     def __new__(cls, *args, **kwargs):
         if len(args) == 2 or isinstance(args[0], dict):
-            return BioPlateArray.__new__(cls, *args, **kwargs)
+            if kwargs.get("inserts", False):
+                return BioPlateInserts(*args, **kwargs)
+            else:
+                return BioPlateArray.__new__(cls, *args, **kwargs)
         elif len(args) == 3:
             ID_list = []
             nb_plates, *nargs= args
