@@ -23,8 +23,8 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
             return BioPlateStack(ID_list)
 
     def  __init__(self, *args, **kwargs):
-        self.ID = id(self)
-       
+        self.ID = id(self)      
+         
     def __add__(self, other):
         if isinstance(other, BioPlateStack):
             newstack = BioPlateArray._get_stack_in_cache(other.ID)
@@ -32,8 +32,8 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
         else:
             newstack = [self.ID, other.ID]
         newstack = list(OrderedDict.fromkeys(newstack))
-        return BioPlateStack(newstack)    
-              
+        return BioPlateStack(newstack)             
+                                  
     def save(self, plate_name, **kwargs):
         return super().save(self, plate_name, **kwargs)
         

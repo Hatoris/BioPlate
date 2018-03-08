@@ -2,11 +2,25 @@ import xlsxwriter
 import numpy as np
 
 from BioPlate.utilitis import dimension, dict_unique
+from BioPlate.Plate import BioPlate
+from BioPlate.Stack import BioPlateStack
+from BioPlate.Inserts import BioPlateInserts
 from io import BytesIO, StringIO
 
 
 class plateToExcel:
-    def __init__(self, file_name, sheets=['plate_representation', 'plate_data'], test=False):
+    
+    """
+    past to excel in different way bioplate object
+    plateToExcel.representation: 
+        past a representation of a BioPlate object in excel file
+    plateToExcel.data:
+        past an iteration of BioPlate object in excel
+    plateToExcel.count:
+        past a count of each value in BioPlate object to excel           
+    """
+    
+    def __init__(self, file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header = True, accumulate = True, order="C",  empty="empty", test=False):
         """
 
         :param file_name:
@@ -14,12 +28,18 @@ class plateToExcel:
         """
         self.fileName = file_name
         self.sheets = sheets
-        self.last_row = 0
+        self.last_row_representation = 0
         self.test = test
         self.output = BytesIO() if test else None
+        self.header = header
+        self.accumulate = accumulate
+        self.order = order
+        self.empty = empty
         try:
             self.workbook = self.open_excel_file
-            self.plate_rep, self.plate_data = self.select_worksheet
+            self.plate_rep, self.plate_data, self.plate_count = self.select_worksheet
+            self.hd_format_representation = self.workbook.add_format({'bold': True, 'align': 'center', 'valign': 'vcenter'})
+            self.hd_format_inserts = self.workbook.add_format({'bold': True, 'font_color': 'red',  'align': 'center', 'valign': 'vcenter'})
         except Error as e:
             print(e)
 
@@ -54,172 +74,139 @@ class plateToExcel:
     	except AttributeError:
     		return None
 
-    def past_values(self, plate_iterate):
-        """
-        past well and values in usefull way
-        params:plate_iterate : list : [['A1', 'val1'], ['A2', 'val2']]
-        wb : an xlswriter.worbook
-        :param plate_iterate:
-        :return:
-        """
-        worksheet = self.plate_data
-        plate = np.array(plate_iterate)
-        shape = plate.shape 
-        self.past_values_header(shape[-1], worksheet)
-        dim = dimension(plate)
-        if dim:
-            self.plate_xD_excel(plate, ws=worksheet, row_multi=1)
-        else:
-            self.plate_2D_excel(plate, ws=worksheet, row_multi=1)
 
-    def past_values_header(self, num_columns, worksheet, hd_column_names=None):
-        """
-
-        :param num_columns:
-        :param worksheet:
-        :param hd_column_names:
-        :return:
-        """
-        if not hd_column_names:
-            hd_column_names = ['well', 'value']
-            if num_columns > 2:
-                [hd_column_names.append("value" + str(hd)) for hd in range(1, num_columns - 1)]
-        elif hd_column_names:
-            if len(hd_column_names) != num_columns:
-                raise ValueError(
-                    f"columns name lenght ({len(hd_column_names)}) different of number of columns ({num_columns})")
-        worksheet.write_row(0, 0, hd_column_names)
-        # return hd_column_names
-
-    def plate_representation(self, plate, header=True, dict_infos=None, acumulate=False):
-        """
-
-        :param plate:
-        :param header:
-        :param dict_infos:
-        :param acumulate:
-        :return:
-        """
-        worksheet = self.plate_rep
-        hd = self.workbook.add_format({'bold': True, 'align': 'center', 'valign': 'vcenter'})
-        val = self.workbook.add_format({'align': 'center', 'valign': 'vcenter'})
-        row = 0
-        dim = dimension(plate)
-        if header:
-            if dim:
-                self.plate_xD_excel(plate, hd_format=hd)
-            else:
-                self.plate_2D_excel(plate, hd_format=hd)
-        else:
-            if dim:
-                self.plate_xD_excel(plate, format=val)
-            else:
-                self.plate_2D_excel(plate[1:, 1:], format=val)
-        if dict_infos:
-            self.plate_information(dict_infos, acumulate=acumulate)
-
-    def plate_information(self, dict_info, ws=None, acumulate=False):
-        """
-
-        :param dict_infos:
-        :param ws:
-        :param acumulate:
-        :return:
-        """
-        worksheet = self.plate_rep
-        multi_row = self.last_row
-        if acumulate:
-        	dict_infos = dict_unique(dict_info)
-        else:
-        	dict_infos = dict_info
-        for key in dict_infos:
-            if isinstance(dict_infos[key], dict):
-                nested = True
-                break
-            else:
-                nested = False
-                break
-        if not nested:
-            heads = ['infos', 'count']
-            worksheet.write_row(multi_row, 1, heads)
-            multi_row += 1
-            self.past_infos(dict_infos, worksheet, multi_row)
-        else:
-            heads = ['plate', 'infos', 'count']
-            worksheet.write_row(multi_row, 1, heads)
-            multi_row += 1
-            for plate_num, plate_infos in dict_infos.items():
-                val = self.past_infos(plate_infos, worksheet, multi_row, num_plate=plate_num)
-                multi_row = val
-
-    def past_infos(self, dicts, worksheet, initial_row, num_plate=None):
-        """
-
-        :param dicts:
-        :param worksheet:
-        :param initial_row:
-        :param num_plate:
-        :return:
-        """
-        x = 0
-        for key in dicts.keys():
-            if num_plate is not None:
-                x = 1
-                worksheet.write(initial_row, x, num_plate)
-            worksheet.write(initial_row, 1 + x, key)
-            worksheet.write(initial_row, 2 + x, dicts[key])
-            initial_row += 1
-        return initial_row
-
-    def plate_2D_excel(self, plate, format=None, hd_format=None, ws=None, row_multi=0):
-        """
-
-        :param plate:
-        :param format:
-        :param hd_format:
-        :param ws:
-        :param row_multi:
-        :return:
-        """
-        worksheet = self.plate_rep if not ws else ws
-        for row, value in enumerate(plate):
-            worksheet.write_row(row + row_multi, 0, value, format)
-        if hd_format:
-            self.header_format(hd_format, 0)
-        self.last_row = row + row_multi + 2
-        return row + row_multi
-
-    def plate_xD_excel(self, plates, format=None, hd_format=None, ws=None, row_multi=0):
-        """
-
-        :param plates:
-        :param format:
-        :param hd_format:
-        :param ws:
-        :param row_multi:
-        :return:
-        """
-        worksheet = self.plate_rep if not ws else ws
-        newline = 1 if not ws else 0
-        for plate in plates:
-            if hd_format:
-                self.header_format(hd_format, row_multi)
-            else:
-                if not hd_format and not ws:
-                    plate = plate[1:, 1:]
-            for row, value in enumerate(plate):
-                row = row + row_multi
-                worksheet.write_row(row, 0, value, format)
-            row_multi += len(plate) + newline
-        self.last_row = row_multi
-        return row_multi
-
-    def header_format(self, format, row):
+    def __header_format_representation(self, format):
         """
 
         :param format:
         :param row:
         :return:
         """
-        self.plate_rep.set_row(row, None, format)
+        self.plate_rep.set_row(self.last_row_representation, None, format)
         self.plate_rep.set_column(0, 0, None, format)
+        
+    def representation(self, BPlate):
+        """
+        get representation of BioPlate in excel file
+        """
+        if isinstance(BPlate, BioPlate):
+            self._representation(BPlate)
+        elif isinstance(BPlate, BioPlateStack):
+            for plate in BPlate:
+                if isinstance(plate, BioPlate):
+                   self._representation(plate)
+                elif isinstance(plate, BioPlateInserts):
+                   self._representation_inserts(plate)
+        elif isinstance(BPlate, BioPlateInserts):
+            self._representation_inserts(BPlate)
+               
+    def _representation(self, plate):
+        """
+        protected func, write in specified workbook
+        """
+        self.__header_format_representation( self.hd_format_representation)
+        plate = self.plate_split(plate)
+        for row, value in enumerate(plate, self.last_row_representation):
+            self.plate_rep.write_row(row, 0, value)
+        self.last_row_representation += len(plate) + 1
+        
+    def _representation_inserts(self, BPlate):
+        position = ["TOP", "BOT"]
+        for pos, plate_part in zip(position, BPlate):
+            rm = self.last_row_representation
+            self._representation(plate_part)
+            self.plate_rep.write( rm, 0, pos, self.hd_format_inserts)
+            
+    
+    def plate_split(self, plate):
+        """
+        Remove row and column
+        """
+        if self.header:
+            return plate
+        else:
+            return plate[1:,1:]
+
+    def data(self, BPlate, accumulate=True, order="C", header=None):
+        """
+        add to worksheet plate data, well and their value in column, ordered by column or row. If accumulated, well will be writen once.
+        header should be a list of column name
+        """
+        if isinstance(BPlate, BioPlateInserts) or isinstance(BPlate[0], BioPlateInserts):
+            self._data(BPlate, accumulate=accumulate, order=order, inserts=True, header=header)
+        else:
+            self._data(BPlate, accumulate=accumulate, order=order, header=header)
+             
+                                                              
+    def _data(self, BPlate, accumulate=True, order="C",  header=None, inserts=False):
+        for row, value in enumerate(BPlate.iterate(accumulate=accumulate, order=order), 1):
+            self.plate_data.write_row(row, 0, value)
+        len_column = len(value) - 1
+        if not inserts:
+            hd = self.__header_data_BP(len_column, accumulate=accumulate)
+        else:
+            hd = self.__header_data_Inserts( len_column, accumulate=accumulate)
+        head = hd if header is None else header
+        self.plate_data.write_row(0, 0, head)
+       
+    def __header_data_BP(self, len_column, accumulate=True):
+        hd = ["well",]
+        Add = lambda n : "value" + str(n) if accumulate else "value"
+        header = list(map(Add, range(len_column)))
+        hd = hd + header
+        return hd
+  
+    def __header_data_Inserts(self, len_column, accumulate=True):
+        len_column = len_column // 2
+        hd = ["well",]
+        if accumulate:
+            header = []
+            for n in range(len_column):
+                header += ["top" + str(n), "bot" + str(n)]
+        else:
+            header = ["top", "bot"]
+        hd = hd + header
+        return hd      
+                 
+    def count(self, BPlate):
+        self._count(BPlate)
+
+    def _count(self, BPlate):
+        for row, V in self.__count(BPlate):
+            self.plate_count.write_row(row, 0, V)
+        self._header_count(len(V), Inserts= isinstance(BPlate, BioPlateInserts))
+                                                               
+    def __count(self, BPlate):
+        row = 0
+        for keys, values in BPlate.count().items():
+            if not isinstance(values, dict):
+                keys = keys if keys != '' else self.empty
+                V = [keys, values]
+                row += 1
+                yield row, V
+            else:
+                for key, value in values.items():
+                    if not isinstance(value, dict):
+                        key = key if key != '' else self.empty
+                        V = [keys, key, value]
+                        row += 1
+                        yield row, V
+                    else:                    
+                        for k, v in value.items():
+                            k = k if k != '' else self.empty
+                            V = [keys, key, k, v]
+                            row += 1
+                            yield row, V        
+           
+    def _header_count(self, len_header, Inserts=False):
+        if len_header == 2:
+             hd = ["infos", "count"]
+        elif len_header == 3:
+            if not Inserts:
+                hd = ["plate", "infos", "count"]
+            else:
+                hd = ["position", "infos", "count"]
+        elif len_header == 4:
+            hd = ["plate", "position", "infos", "count"]  
+        self.plate_count.write_row(0, 0, hd)
+         

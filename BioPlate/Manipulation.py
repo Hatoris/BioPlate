@@ -31,9 +31,7 @@ eg: self._eval_well_value("A[2-8]", "test") is slower than row, col1, col2 = Bio
 
 class BioPlateManipulation:
     """A row is symbolise by it's letter, a column by a number"""    
-    
-
-     
+                
     def _args_analyse(self, *args):
         #add_value, add_row_value, add_column_value
         dict_in = any(isinstance(arg, dict) for arg in args)
@@ -126,7 +124,6 @@ class BioPlateManipulation:
 
     def evaluate(self, *args):
         well, value, *trash = self._args_analyse(*args)
-        print(well)
         if isinstance(well, dict):
             self.add_values(*args)
             return self
@@ -152,6 +149,33 @@ class BioPlateManipulation:
                     self.__eval_well_value(w, v)
         else:
             self.__eval_well_value(well, value)
+
+    def get_value(self, well):
+        row, column = BioPlateMatrix(well)
+        return self[row, column]
+
+    def get_value_row(self, well):
+        dimension, row, col_start, col_end = BioPlateMatrix(well)
+        return self[row, col_start:col_end]
+        
+    def get_value_column(self, well):
+        dimension, row_start, row_end, column = BioPlateMatrix(well)
+        return self[row_start:row_end, column]
+
+    def get_values(self, *well):
+        test = lambda x : list(x) if not isinstance(x, str) else x
+        return list(map(test, list(map(self.__eval_get_well, map(BioPlateMatrix, well)))))
+
+    def __eval_get_well(self, well):
+        """
+        eval well and add value to self, try to see if we can get generator 
+        """
+        if well[0] == "R":
+            return self[well[1]:well[2], well[3]]
+        elif well[0] == "C":
+            return self[well[1], well[2]:well[3]]
+        else:
+             return self[well[0], well[1]]
 
     def save(self, plate, plate_name, **kwargs):
         dbName = kwargs.get("db_hist_name")
@@ -260,31 +284,27 @@ class BioPlateManipulation:
             n = 0
             y = 0
             for values in self.__iterate(*plates, Ovalue=True):
-                if insert and multi:
+                Count = self.__count(values, reverse=reverse)
+                if insert and multi: # a stack of Insert plate
                     mod = y % 2
                     y += 1
                     if mod == 0:
                         inter = {}
-                        inter["top"] = self.__count(values, reverse=reverse)
+                        inter["top"] = Count
                     else:
-                        inter["bot"] = self.__count(values, reverse=reverse)
+                        inter["bot"] = Count
                         results[n] = inter
                         n += 1
-                elif insert:
+                elif insert: # insert plate only
                     if n == 0:
-                        results["top"] = self.__count(values, reverse=reverse)
+                        results["top"] = Count
                         n += 1
                     else:
-                         results["bot"] = self.__count(values, reverse=reverse)
-                else:
-                    results[n] = self.__count(values, reverse=reverse)
+                         results["bot"] = Count
+                else: # Stack of simple plate
+                    results[n] = Count
                     n += 1
-        else:
+        else: # a single plate
         	results = self.__count(next(self.__iterate(*plates, Ovalue=True)), reverse=reverse)
         return results
 
-
-if __name__ == "__main__":
-    bpm = BioPlateManipulation()
-    #print(bpm.split_multi_row_column("1-8[A,C"))
-   # print(bpm.split_multi_row_column("A-G[1,8]"))
