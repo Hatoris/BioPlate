@@ -8,7 +8,7 @@ from BioPlate.Inserts import BioPlateInserts
 from io import BytesIO, StringIO
 
 
-class plateToExcel:
+class BioPlateToExcel:
     
     """
     past to excel in different way bioplate object
