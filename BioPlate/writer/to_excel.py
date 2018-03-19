@@ -115,7 +115,8 @@ class BioPlateToExcel:
         for pos, plate_part in zip(position, BPlate):
             rm = self.last_row_representation
             self._representation(plate_part)
-            self.plate_rep.write( rm, 0, pos, self.hd_format_inserts)
+            if self.header:
+                self.plate_rep.write( rm, 0, pos, self.hd_format_inserts)
             
     
     def plate_split(self, plate):

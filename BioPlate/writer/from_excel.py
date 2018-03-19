@@ -21,7 +21,7 @@ class BioPlateFromExcel:
    3. Header are present ? If no, provide plate_infotmation
    
    """
-   def __init__(self, file_name, sheets=None, header = True, plate_infos=None):
+   def __init__(self, file_name, sheets=None, header = True, Inserts = False, plate_infos=None):
        """
        header : plate represented in excel have header
        sheets : list of sheet name to select from excel file if None all sheet will be transform
@@ -34,6 +34,7 @@ class BioPlateFromExcel:
        self.sheets = sheets
        self.header = header
        self.plate_infos = plate_infos
+       self.Inserts = Inserts
        try:
            self.loaded_file = pex.get_data(self.file_name)
        except FileNotFoundError:
@@ -86,8 +87,13 @@ class BioPlateFromExcel:
    def _get_BioPlate(self):
        for sheet_name, value in self.working_clean_npArray.items():
            self.BioPlate_representation[sheet_name] = []
-           for npArray in value:
-               self.BioPlate_representation[sheet_name].append(self._get_BioPlate_representation(npArray))
+           if self.Inserts:
+               nIterValue = iter(value)
+               for npTopArray in nIterValue:
+                   self.BioPlate_representation[ sheet_name].append( self._get_Inserts_representation(npTopArray, next(nIterValue)))
+           else:
+               for npArray in value:
+                   self.BioPlate_representation[ sheet_name].append( self._get_BioPlate_representation(npArray))
                self._get_BioPlate_representation(npArray)
 
    def _remove_empty_sheet(self, dict_to_clean):
@@ -158,7 +164,16 @@ class BioPlateFromExcel:
         column, row = self._column_row(valueArray)
         plate = BioPlate(column, row)
         plate[1:,1:] = valueArray.astype("U100")
-        return plate  
+        return plate
+        
+   def _get_Inserts_representation(self, npTopArray, npBotArray):
+        valueTopArray = self._get_plate_representation_value(npTopArray)
+        valueBotArray = self._get_plate_representation_value(npBotArray)
+        column, row = self._column_row(valueTopArray)
+        plate = BioPlate(column, row, inserts=True)
+        plate[0, 1:,1:] = valueTopArray.astype("U100")
+        plate[1, 1:,1:] = valueBotArray.astype("U100")
+        return plate
    
    def __split_representation(self, multiArray):
        rm = lambda x : True if getattr(x, "size") > 0 and x[0] != list([]) else False
