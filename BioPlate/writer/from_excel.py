@@ -176,22 +176,24 @@ class BioPlateFromExcel:
         return plate
    
    def __split_representation(self, multiArray):
-       rm = lambda x : True if getattr(x, "size") > 0 and x[0] != list([]) else False
+       #rm = lambda x : True if getattr(x, "size") > 0 and x[0] != list([]) else False
+       rm = lambda x : True if getattr(x, "size") > 1 else False
        if self.header:
            isempty = np.vectorize(any)
            mask = isempty(multiArray)
            index = np.argwhere(mask == False).flatten()
            index = list(ialone for tupi in map(lambda i: (i, i+1), index) for ialone in tupi)
            results = np.array_split(multiArray, index)
-           #rm = lambda x : True if getattr(x, "size") > 0 and x[0] != list([]) else False
            results = list(filter(rm, results))
        else:
            row = self.plate_infos.get("row")
            len_mu = len(multiArray)
            index = [(x, x+1) for x in range(row, len_mu, row)]
            index = list(ialone for tupi in index for ialone in tupi)
-           results = np.array_split(multiArray, index)           
+           results = np.array_split(multiArray, index)
+           #print("RESULT ", results)    
            results = list(filter(rm, results))
+           #print("RESULT1 ", results)
        return results 
        
    def _column_row(self, plate):
