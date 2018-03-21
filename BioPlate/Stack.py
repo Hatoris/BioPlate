@@ -97,7 +97,7 @@ class BioPlateStack(BioPlateManipulation):
        return self
     
    @pass_all_plate    
-   def iterate(self, *BioPlates, order="C", accumulate=True):
+   def iterate(self, *BioPlates, order="C", accumulate=False):
         yield from super()._iterate(*BioPlates, order=order, accumulate=accumulate)
       
    @pass_all_plate

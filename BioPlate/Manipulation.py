@@ -119,6 +119,8 @@ class BioPlateManipulation:
         """
         multi_wells, values = self._args_analyse(*args)
         wells = BioPlateMatrix(multi_wells)
+        if len(wells) != len(values):
+            raise ValueError(f"missmatch between wells ({len(wells)}) and values ({len(values)})")
         self._eval_well_value(multi_wells, values)
         return self
 
