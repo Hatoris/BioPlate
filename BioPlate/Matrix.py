@@ -45,7 +45,7 @@ class BioPlateMatrix:
             row, column =  list(reversed(sorted(filter(None, re.split('(\d+)', well)))))
         except ValueError:
             try: #D[1-6]
-                row, column =  list(sorted(filter(None, re.split('([A-Z])', well))))
+                row, column =  list(sorted(filter(None, re.split('([A-Za-z])', well))))
             except ValueError: #1-5[D-F]
                 comp = re.compile('(\w+[\-|\,]\w+)')
                 row, column = re.findall(comp, well) 
@@ -91,7 +91,7 @@ class BioPlateMatrix:
             row1, row2 = list(map( BioPlateMatrix._well_letter_index, selector))
             iterator = sorted(map(int, iterator))
             for column in range(iterator[0], iterator[1] + 1):
-                yield "R", int(row1), int(row2), column
+                yield "R", int(row1), int(row2) + 1, column
         except ValueError:
                 row1, row2 = list(map( BioPlateMatrix._well_letter_index, iterator))
                 column1, column2 = sorted(map(int, [selector[0], selector[1]]))

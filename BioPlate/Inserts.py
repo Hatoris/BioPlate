@@ -76,6 +76,10 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
        
     def save(self, plate_name, **kwargs):
         return super().save(self, plate_name, **kwargs)
+        
+    @force_position
+    def get_value(self, *args):
+       return super().get_value(*args)
        
 if __name__ == "__main__":
     mul = BioPlateInserts(6, 4, inserts=True)

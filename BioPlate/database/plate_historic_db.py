@@ -42,6 +42,7 @@ class PlateHist(Database) :
 
 
     def __init__(self, db_name = 'plate_historic.db'):
+        self.db_name = db_name
         super().__init__(self.PlateHistoric, db_name)
 
     def add_hplate(self, numWell, plate_name, plate_array, Plate_id=None):
@@ -72,7 +73,9 @@ class PlateHist(Database) :
             self.session.add(new_entry)
             self.session.commit()
             self.session.close()
-            return f"plate {plate_name} with {numWell}  added to database plate historic"
+            Type = type(plate_array).__name__
+            Type = "BioPlateStack" if Type == "list" else Type
+            return f"{Type} {plate_name} with {numWell} wells was successfully added to database {self.db_name}"
         else:
             return f"plate already exist : {already_exist[0].id}"
 

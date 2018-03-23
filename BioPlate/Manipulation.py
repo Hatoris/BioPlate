@@ -147,7 +147,7 @@ class BioPlateManipulation:
         well = BioPlateMatrix(well)
         if isinstance(well, list):
             if len(well) == len(value):
-                for w, v in zip(well, value):
+                for w, v in zip(well, value):             
                     self.__eval_well_value(w, v)
         else:
             self.__eval_well_value(well, value)
