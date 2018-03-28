@@ -20,7 +20,7 @@ class BioPlateMatrix:
     _WELL_CACHE = {}
     
     def __new__(cls, well):
-        well = well.replace(" ", "")
+        well = str(well).replace(" ", "")
         BioPlateMatrix._test_for_0(well)
         if well not in BioPlateMatrix._WELL_CACHE:
             result = BioPlateMatrix._index_from_well(well)
@@ -29,12 +29,15 @@ class BioPlateMatrix:
     
     @staticmethod
     def _index_from_well(well):
-         row, column = BioPlateMatrix._base_row_column(well)
-         index = BioPlateMatrix._index_row_column(row, column)
+        if BioPlateMatrix._test_row_or_column(well):
+            index = BioPlateMatrix._all_row_column(well)
+        else:
+             column, row= BioPlateMatrix._base_row_column(well)
+             index = BioPlateMatrix._index_row_column(row, column)
          #comment to return generator
-         if isinstance(index, types.GeneratorType):
-             index = list(index)
-         return index
+             if isinstance(index, types.GeneratorType):
+                 index = list(index)
+        return index
 
     @staticmethod
     def _base_row_column(well):
@@ -49,7 +52,7 @@ class BioPlateMatrix:
             except ValueError: #1-5[D-F]
                 comp = re.compile('(\w+[\-|\,]\w+)')
                 row, column = re.findall(comp, well) 
-        return row, column
+        return column, row
      
     @staticmethod
     def _multi_row_column(multi):
@@ -117,41 +120,28 @@ class BioPlateMatrix:
         else:
              raise ValueError(f"well = {well} is not allowed, column 0 is forbiden")
        
-
-if __name__ == "__main__":
-    #row, column = BioPlateMatrix._base_row_column("A8")
-    #print(row, column)
-    t0 = time.time()
-    for well in ["A8", "G7", "8E", "5D", "2[A-C]", "G[2-8]", "3-11[A-D]", "F-J[2-18]", "10-8[A-E]"]:
-        #BioPlateMatrix._test_for_0(well)
-        row, column, *trash = BioPlateMatrix(well)
-        print(well, BioPlateMatrix(well))
-    t1 = time.time()
-    for well in ["A8", "G7", "8E", "5D", "2[A-C]", "G[2-8]", "1-3[A-D]", "F-J[2-8]"]:
-        print(well, BioPlateMatrix(well))
-    t2 = time.time()
-    print("r1", t1 - t0, "r2", t2 - t1)
-    
-    
-        
-        #print(BioPlateMatrix._index_from_well( well))
-        #print(well)
-       #row, column = BioPlateMatrix._base_row_column(well)
-       #print(row, column)
-       #a, b, *c = BioPlateMatrix._index_row_column(row, column)
-       #print(well, a, b, *c)
-   #for well in ["1-3[A-D]", "F-J[2-8]"]:
-        
-    """
-       row, column =  BioPlateMatrix._base_row_column(well)
-       print(well, row, column)
-       print(well, len(row), len(column))
-       if len(row) > 1:
-           comp = re.compile("\w")
-           row1, row2 =  list(sorted(filter(comp.search, re.split('(\W)', row))))
-           print(well, row1, row2, column)
-       elif len(column) > 1:
-           comp = re.compile("\w")
-           column1, column2 =  list(sorted(filter(comp.search, re.split('(\W)', column))))
-           print(well, row, column1, column2)
-  """
+    @staticmethod
+    def _all_row_column(well):
+        try:
+            index = int(well)
+            char = "C"
+        except ValueError:
+            index = BioPlateMatrix._well_letter_index(well)
+            char = "R"
+        finally:
+            return 'All', char, index
+     
+    @staticmethod    
+    def _test_row_or_column(well):
+        if isinstance(well, int): #int return true
+            return True
+        elif isinstance(well, str): #str to int return true
+            try:
+                int(well)
+                return True
+            except ValueError: #here it's string that can't be convwrt
+                if len(well) == 1:
+                    return True
+                else:
+                    False
+                

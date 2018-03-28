@@ -165,6 +165,7 @@ class TestPlate(unittest.TestCase):
                                                dtype='U40'))
         np.testing.assert_array_equal(self.stack.add_value_column(0, "1[B-G]", "Stack")[0], self.plt)
         np.testing.assert_array_equal(self.Inserts.top.add_value_column( "2[A,C]", "inserts"), self.Inserts.top)
+        #np.testing.assert_array_equal(self.Inserts.top.add_value_column( "B", "inserts2"), self.Inserts.top)
 
     def test_add_values(self):
         V = {"A1": "Test", "B3": "Test"}
@@ -172,18 +173,6 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.stack.add_values(0, V)[0], self.plt)
         np.testing.assert_array_equal(self.Inserts.top.add_values(V), self.Inserts.top)
 
-    """
-    BIOPlateMatrix
-
-    def test_split_multi_row_column(self):
-        self.assertEqual(self.plt.split_multi_row_column('A-E[1,5]'),
-                         ['A[1,5]', 'B[1,5]', 'C[1,5]', 'D[1,5]', 'E[1,5]'])
-        self.assertEqual(self.plt.split_multi_row_column('1-5[A,E]'),
-                         ['1[A,E]', '2[A,E]', '3[A,E]', '4[A,E]', '5[A,E]'])
-        self.assertEqual(self.plt.split_multi_row_column('E-A[1,5]'),
-                         ['A[1,5]', 'B[1,5]', 'C[1,5]', 'D[1,5]', 'E[1,5]'])
-        with self.assertRaises(SyntaxError):
-            self.plt.split_multi_row_column('E:A[1,5]')
     """
     def test_add_multi_value(self):
         with self.assertRaises(ValueError):
@@ -207,11 +196,8 @@ class TestPlate(unittest.TestCase):
                                                
         np.testing.assert_array_equal(self.stack.add_multi_value(1,  'F-H[1-3]', ["Test1", "Test2", "Test3"])[1], self.plt1)
         np.testing.assert_array_equal(self.Inserts.top.add_multi_value(  'A-C[1-3]', ["Test1", "Test2", "Test3"] ), self.Inserts.top)
-
+    """
     def test_evaluate(self):
-        #matrix
-        #with self.assertRaises(SyntaxError):
-            #self.plt.evaluate('A:C[1-5]', ["Test1", "Test2", "Test3"])
         np.testing.assert_array_equal(self.plt.evaluate("2[B,E]", "Test"), self.plt)
         np.testing.assert_array_equal(self.plt.evaluate("A[1,5]", "Test"), self.plt)
         np.testing.assert_array_equal(self.plt.evaluate("1C", "Test"), self.plt)
@@ -221,18 +207,6 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.Inserts.top.evaluate(  'A-C[1-3]', ["Test1", "Test2", "Test3"] ), self.Inserts.top)
         
         
-
-    #def test_well_letter_index(self):
-       #self.assertEqual(self.plt.well_letter_index("D"), 4)
-      #self.assertEqual(self.plt.well_letter_index("H"), 8)
-
-    #def test_letter_index(self):
-        #self.assertEqual(self.plt.letter_index("D"), 3)
-        #self.assertEqual(self.plt.letter_index("H"), 7)
-
-    #def test_index_letter(self):
-        #self.assertEqual(self.plt.index_letter(3), "D")
-        #self.assertEqual(self.plt.index_letter(7), "H")
 
     def test_all_in_one(self):
         v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'],
@@ -258,7 +232,6 @@ class TestPlate(unittest.TestCase):
         
 
     def test_iteration(self):
-        #Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
         ValIn = {"A1" : "Control", "C[2,4]" : "Test1"}
         self.plt.add_values(self.Value)
         self.Inserts.top.evaluate(ValIn)
@@ -292,19 +265,27 @@ class TestPlate(unittest.TestCase):
     def test_get_value(self):
         self.plt.evaluate(self.Value)
         self.Inserts.top.add_value("C2", "Test1")
-        np.testing.assert_array_equal(self.plt.get_value( "C2"), 'Test1')
-        np.testing.assert_array_equal(self.stack.get_value(0, "C2"), 'Test1')
-        np.testing.assert_array_equal(self.Inserts.top.get_value("C2"), 'Test1')
+        np.testing.assert_array_equal(self.plt.get( "C2"), 'Test1')
+        np.testing.assert_array_equal(self.stack.get(0, "C2"), 'Test1')
+        np.testing.assert_array_equal(self.Inserts.top.get("C2"), 'Test1')
 
     def test_get_value_row(self):
          self.plt.evaluate(self.Value)
-         np.testing.assert_array_equal(self.plt.get_value_row("C[1,6]"), ['', "Test1", "Test1", "Test1", "Test1", "Test1" ])
+         np.testing.assert_array_equal(self.plt.get("C[1,6]"), ['', "Test1", "Test1", "Test1", "Test1", "Test1" ])
         
-    def test_get_value_column(self):
-        pass
-        
+
+    def test_eval_well(self):
+        self.plt.add_values(self.Value)
+        np.testing.assert_array_equal(self.plt._eval_well(("All", "C", 2)), np.array([ '', '', 'Test1', '', '', '', '', '',], dtype="U40"))
+        np.testing.assert_array_equal(self.plt._eval_well(("All", "R", 1)), np.array([ '', '', '', '', '', '', '', '', '', '', 'Test2', ''], dtype="U40"))        
+        np.testing.assert_array_equal(self.plt._eval_well(("R", 2, 4, 8)), np.array([ '', 'Test1'], dtype="U40"))      
+        np.testing.assert_array_equal(self.plt._eval_well(("C", 3, 4, 8)), np.array([ 'Test1', 'Test1', 'Test1', 'Test1'], dtype="U40"))  
+
     def test_get_values(self):
-        pass
+        self.plt.add_values(self.Value)
+        self.assertEqual(self.plt.get('A1', 'B[1-6]'), ['Control', ['', '', '', '', '', '']])
+        self.assertEqual(self.plt.get('A1'), 'Control')
 
 if __name__ == "__main__":
     unittest.main()
+ 

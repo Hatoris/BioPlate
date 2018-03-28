@@ -6,7 +6,7 @@ from pathlib import Path, PurePath
 from pyexcel_xlsx import get_data
 from BioPlate.utilitis import remove_empty_iterate, dict_unique
 from BioPlate.plate import Plate
-from BioPlate.plate_to_excel import plateToExcel
+from BioPlate.writer.to_excel import BioPlateToExcel
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
 from string import ascii_uppercase
@@ -20,14 +20,7 @@ class TestPlateToExcel(unittest.TestCase):
         This function is run one time at the beginning of tests
         :return:
         """
-        cls.pdb = PlateDB(db_name='test_plate.db')
-        cls.pdb.add_plate(numWell=96,
-                          numColumns=12,
-                          numRows=8,
-                          surfWell=0.29,
-                          maxVolWell=200,
-                          workVolWell=200,
-                          refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+        pass
 
     @classmethod
     def tearDownClass(cls):

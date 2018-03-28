@@ -109,6 +109,6 @@ class BioPlateStack(BioPlateManipulation):
         return super().save(BioPlates, plate_name, **kwargs)
        
    @change_args
-   def get_value(self, bioplate, *args):
-       return bioplate.get_value(*args)
+   def get(self, bioplate, *args):
+       return bioplate.get(*args)
        #return self

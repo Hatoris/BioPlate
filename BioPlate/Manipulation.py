@@ -59,8 +59,9 @@ class BioPlateManipulation:
                            [B, 0, 0, 0]])
         """
         well, value = self._args_analyse(*args)
-        row, column = BioPlateMatrix(well)
-        self[row, column] = value
+        self._eval_well(BioPlateMatrix(well), value)
+        #row, column = BioPlateMatrix(well)
+        #self[row, column] = value
         return self
 
     def add_value_row(self, *args):
@@ -74,8 +75,9 @@ class BioPlateManipulation:
                            [B, 0, 0, 0]])
         """
         well, value = self._args_analyse(*args)
-        dimension, row, col_start, col_end = BioPlateMatrix(well)
-        self[row, col_start:col_end] =value
+        #dimension, row, col_start, col_end = BioPlateMatrix(well)
+        #self[row, col_start:col_end] =value
+        self._eval_well(BioPlateMatrix(well), value)
         return self
 
     def add_value_column(self, *args):
@@ -89,8 +91,9 @@ class BioPlateManipulation:
                            [B, 0, 'test 3', 0]])
         """
         well, value = self._args_analyse(*args)
-        dimension, row_start, row_end, column = BioPlateMatrix(well)
-        self[row_start:row_end, column] = value
+        #dimension, row_start, row_end, column = BioPlateMatrix(well)
+        #self[row_start:row_end, column] = value
+        self._eval_well(BioPlateMatrix(well), value)
         return self
 
     def add_values(self, *args):
@@ -109,22 +112,26 @@ class BioPlateManipulation:
         except AttributeError:
             return f"{type(well_dict)} is a wrong format, dictionary should be used"
 
+    """
     def add_multi_value(self, *args):
-        """
+        
         parse an add_value_row or column in a compact manner and pass it to evaluate(eg : 'A-C[1-5]', ['val1' , 'val2', 'val3'])
         
         :param multi_wells: 'A-C[1-5]' => On row A, B and C add value from column 1 to 5 included
         :param values: ['val1' , 'val2', 'val3'] => On row A add value 'val1', on row B add value 'val2' from column 1 to 5
         :return: plate
-        """
+        
         multi_wells, values = self._args_analyse(*args)
         wells = BioPlateMatrix(multi_wells)
         if len(wells) != len(values):
             raise ValueError(f"missmatch between wells ({len(wells)}) and values ({len(values)})")
         self._eval_well_value(multi_wells, values)
         return self
-
+    """
     def evaluate(self, *args):
+        """
+        set a value 
+        """
         well, value, *trash = self._args_analyse(*args)
         if isinstance(well, dict):
             self.add_values(*args)
@@ -132,52 +139,55 @@ class BioPlateManipulation:
         self._eval_well_value(well, value)
         return self
 
-    def __eval_well_value(self, well, value):
+    def _eval_well(self, well, value=None):
         """
-        eval well and add value to self, try to see if we can get generator 
+        well = ("All", "R", 2) => self[:,well[2]]
+        well = ("All", "C", 2) => self[well[2]]
+        well = ("R", 2, 6, 4) => self[well[1]:well[2], well[3]]
+        well = ("C", 2, 6, 8) => self[well[1],well[2]: well[3]]
         """
         if well[0] == "R":
-            self[well[1]:well[2], well[3]] = value
+            if value is not None:
+                self[well[1]:well[2], well[3]] = value
+            else:
+                return self[well[1]:well[2], well[3]]
         elif well[0] == "C":
-            self[well[1], well[2]:well[3]] = value
+            if value is not None:
+                self[well[1], well[2]:well[3]] = value
+            else:
+                return self[well[1], well[2]:well[3]]
+        elif well[0] == "All":
+             if well[1] == "R":
+                 if value is not None:
+                     self[1:,1:][well[2]] = value
+                 else:
+                     return self[1:,1:][well[2]]
+             elif well[1] == "C":
+                 if value is not None:
+                     self[1:,1:][:,well[2]] = value
+                 else:
+                     return self[1:,1:][:,well[2]]
         else:
-             self[well[0], well[1]] = value
+            if value is not None:
+                self[well[0], well[1]] = value
+            else:
+                 return self[well[0], well[1]]
 
     def _eval_well_value(self, well, value):
         well = BioPlateMatrix(well)
         if isinstance(well, list):
             if len(well) == len(value):
                 for w, v in zip(well, value):             
-                    self.__eval_well_value(w, v)
+                    self._eval_well(w,v)
+        else:           
+            self._eval_well(well, value)
+
+    def get(self, *well):
+        if len(well) > 1:
+            test = lambda x : list(x) if not isinstance(x, str) else x
+            return list(map(test, list(map(self._eval_well, map(BioPlateMatrix, well)))))
         else:
-            self.__eval_well_value(well, value)
-
-    def get_value(self, well):
-        row, column = BioPlateMatrix(well)
-        return self[row, column]
-
-    def get_value_row(self, well):
-        dimension, row, col_start, col_end = BioPlateMatrix(well)
-        return self[row, col_start:col_end]
-        
-    def get_value_column(self, well):
-        dimension, row_start, row_end, column = BioPlateMatrix(well)
-        return self[row_start:row_end, column]
-
-    def get_values(self, *well):
-        test = lambda x : list(x) if not isinstance(x, str) else x
-        return list(map(test, list(map(self.__eval_get_well, map(BioPlateMatrix, well)))))
-
-    def __eval_get_well(self, well):
-        """
-        eval well and add value to self, try to see if we can get generator 
-        """
-        if well[0] == "R":
-            return self[well[1]:well[2], well[3]]
-        elif well[0] == "C":
-            return self[well[1], well[2]:well[3]]
-        else:
-             return self[well[0], well[1]]
+            return self._eval_well(BioPlateMatrix(well[0]))
 
     def save(self, plate, plate_name, **kwargs):
         dbName = kwargs.get("db_hist_name")
