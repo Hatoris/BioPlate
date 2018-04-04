@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BigIntro &mdash; BioPlate 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BioPlate 0.1.0 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> BioPlate
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../nintro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nintro.html#table-of-content">Table of content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nintro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nintro.html#basic-use">Basic use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nintro.html#advanced-usage">Advanced usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nintro.html#futur-version">Futur version</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nintro.html#version-logs">Version logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+    <a href="genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BioPlate</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>BigIntro</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/not_use/intro.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bigintro">
+<span id="bigintro"></span><h1>BigIntro<a class="headerlink" href="#bigintro" title="Permalink to this headline">¶</a></h1>
+<p>A simple application to generate annotated plates used in biological experiments.</p>
+</div>
+<div class="section" id="table-of-content">
+<span id="table-of-content"></span><h1>Table of content<a class="headerlink" href="#table-of-content" title="Permalink to this headline">¶</a></h1>
+<ol class="simple">
+<li><a class="reference external" href="#installation">Installation</a></li>
+<li><a class="reference external" href="#basic-use">Basic use</a></li>
+<li><a class="reference external" href="#advanced-usage">Advanced usage</a></li>
+</ol>
+<blockquote>
+<div><ol class="simple">
+<li><a class="reference external" href="#database">Database</a></li>
+</ol>
+<blockquote>
+<div><ol class="simple">
+<li><a class="reference external" href="#commun-database-method">Commun database method</a></li>
+</ol>
+<blockquote>
+<div><ol class="simple">
+<li><a class="reference external" href="#get_one">Get one</a></li>
+<li><a class="reference external" href="#get">Get</a></li>
+<li><a class="reference external" href="#get_all">Get all</a></li>
+<li><a class="reference external" href="#update">Update</a></li>
+<li><a class="reference external" href="#delete">Delete</a></li>
+</ol>
+</div></blockquote>
+<ol class="simple">
+<li><a class="reference external" href="#plate-database">Plate database</a></li>
+</ol>
+<blockquote>
+<div><ol class="simple">
+<li><a class="reference external" href="#add_plate">Add plate</a></li>
+</ol>
+</div></blockquote>
+<ol class="simple">
+<li><a class="reference external" href="#historic-database">Historic database</a></li>
+</ol>
+<blockquote>
+<div><ol class="simple">
+<li><a class="reference external" href="#add_hplate">Add historic</a></li>
+</ol>
+</div></blockquote>
+</div></blockquote>
+<ol class="simple">
+<li><a class="reference external" href="#plate">Plate</a></li>
+</ol>
+<blockquote>
+<div><blockquote>
+<div><ol class="simple">
+<li><a class="reference external" href="#create-plate-object">Create plate object</a></li>
+<li><a class="reference external" href="#add-value-in-one-well">Add value in one well</a></li>
+<li><a class="reference external" href="#add-value-on-a-row">Add value on a row</a></li>
+<li><a class="reference external" href="#add-value-on-a-column">Add value on a column</a></li>
+<li><a class="reference external" href="#add-multiple-values-in-once">Add multiple values in once</a></li>
+<li><a class="reference external" href="#evaluate-expression">Evaluate</a></li>
+<li><a class="reference external" href="#show-table-representation">Show table representation</a></li>
+<li><a class="reference external" href="#save-plate">Save plate</a></li>
+</ol>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<ol class="simple">
+<li><a class="reference external" href="#futur-version">Futur version</a></li>
+<li><a class="reference external" href="#version-logs">Version logs</a></li>
+</ol>
+</div>
+<div class="section" id="installation">
+<span id="installation"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>with pipy :</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install BioPlate 
+</pre></div>
+</div>
+<p>Or go on github.com :</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-use">
+<span id="basic-use"></span><h1>Basic use<a class="headerlink" href="#basic-use" title="Permalink to this headline">¶</a></h1>
+<p>First add your plate to database :</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">BioPlate.database.plate_db</span> <span class="k">import</span> <span class="n">PlateDB</span>
+
+<span class="n">pdb</span> <span class="o">=</span> <span class="n">PlateDB</span><span class="p">()</span>
+<span class="n">pdb</span><span class="o">.</span><span class="n">add_plate</span><span class="p">(</span>
+    <span class="n">numWell</span> <span class="o">=</span><span class="mi">96</span><span class="p">,</span>
+    <span class="n">numColumns</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="n">numRows</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="n">surfWell</span> <span class="o">=</span> <span class="mf">0.29</span><span class="p">,</span>
+    <span class="n">maxVolWell</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">workVolWell</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">refURL</span> <span class="o">=</span> <span class="s1">&#39;useful.url.reference.com&#39;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>numWell <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+<dd>number of well in plate created</dd>
+<dt>numColumns :</dt>
+<dd>number of column in plate created</dd>
+<dt>numRows :</dt>
+<dd>number of row in plate created</dd>
+<dt>surfWell <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+<dd>surface of one well (eg : in <span class="math">\(cm^2\)</span>)</dd>
+<dt>maxVolWell :</dt>
+<dd>maximum volume avaliable (eg : in <span class="math">\(\mu{L}\)</span>)</dd>
+<dt>workVolWell :</dt>
+<dd>volume use in each well (eg: in <span class="math">\(\mu{L}\)</span>)</dd>
+</dl>
+</div>
+<p>Then create your first plate object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BioPlate.plate</span> <span class="kn">import</span> <span class="n">Plate</span>
+
+<span class="n">plt</span> <span class="o">=</span> <span class="n">Plate</span><span class="p">(</span><span class="mi">96</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>
+<span class="n">plt</span> <span class="o">=</span> <span class="n">Plate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;numColumns&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add values to your plate:</p>
+<p>In one well:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">add_value</span><span class="p">(</span><span class="s2">&quot;A1&quot;</span><span class="p">,</span> <span class="s2">&quot;Control&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or in multiple wells on a row:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">add_value_row</span><span class="p">(</span><span class="s2">&quot;C[2,10]&quot;</span><span class="p">,</span> <span class="s2">&quot;Test1&quot;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>Or in multiple wells on a column:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">add_value_column</span><span class="p">(</span><span class="s2">&quot;11[B,G]&quot;</span><span class="p">,</span> <span class="s2">&quot;Test2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or all in one</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>
+<span class="n">Value</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;A1&quot;</span> <span class="p">:</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span> <span class="s2">&quot;C[2,10]&quot;</span> <span class="p">:</span> <span class="s2">&quot;Test1&quot;</span><span class="p">,</span> <span class="s2">&quot;11[B,G]&quot;</span> <span class="p">:</span> <span class="s2">&quot;Test2&quot;</span><span class="p">}</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">add_values</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>Then you can render your plate by using :</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">plate</span><span class="p">,</span> <span class="n">stralign</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;rst&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Giving the following result in reStructeredText:</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Table method use <a class="reference external" href="https://pypi.python.org/pypi/tabulate">tabulate</a> package. You can uses all its key arguments to format and render plate table !</p>
+</div>
+</div>
+<div class="section" id="advanced-usage">
+<span id="advanced-usage"></span><h1>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="database">
+<span id="database"></span><h2>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h2>
+<p>BioPlate use <a class="reference external" href="http://www.sqlalchemy.org">sqlalchemy</a> in order to manipulate sqlite3 database.  Each database file are stock in the script under <code class="docutils literal"><span class="pre">database/DBfiles</span></code>.</p>
+<div class="section" id="commun-database-method">
+<span id="commun-database-method"></span><h3>Commun database method<a class="headerlink" href="#commun-database-method" title="Permalink to this headline">¶</a></h3>
+<p>Plate database and plate historic database bot inherit of database parent class.
+Each function in commun should be call on an instance and by adding one of this suffix :</p>
+<p>PlateDB : <code class="docutils literal"><span class="pre">_plate</span></code>
+PlateHist : <code class="docutils literal"><span class="pre">_hplate</span></code></p>
+<p>Eg: For get method you will call it like that :</p>
+<p>For PlateDB :</p>
+<p><code class="docutils literal"><span class="pre">self.get_plate()</span></code></p>
+<p>For PlateHist:</p>
+<p><code class="docutils literal"><span class="pre">self.get_hplate()</span></code></p>
+<div class="section" id="get-one">
+<span id="get-one"></span><h4>get_one<a class="headerlink" href="#get-one" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">get(self,</span> <span class="pre">args,</span> <span class="pre">key=&quot;numWell&quot;)</span></code></p>
+</div>
+<div class="section" id="get">
+<span id="get"></span><h4>get<a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">get(self,</span> <span class="pre">**kwargs,&quot;)</span></code></p>
+<p>where <code class="docutils literal"><span class="pre">**kwargs</span></code> are pair of key, value you are looking for :</p>
+<p>eg : <code class="docutils literal"><span class="pre">&quot;</span> <span class="pre">numWell&quot;</span> <span class="pre">=</span> <span class="pre">96,</span> <span class="pre">&quot;surfWell&quot;</span> <span class="pre">=</span> <span class="pre">0.29</span></code></p>
+<p>This function return a list of object containing all element matching the query.</p>
+<p><code class="docutils literal"><span class="pre">PlateDB.get_plate(96)</span></code><br>
+<code class="docutils literal"><span class="pre">[&lt;plate</span> <span class="pre">N°1</span> <span class="pre">:</span> <span class="pre">96-12-8&gt;,</span> <span class="pre">&lt;plate</span> <span class="pre">N°26</span> <span class="pre">:</span> <span class="pre">cool</span> <span class="pre">name,</span> <span class="pre">96-12-8&gt;]</span></code></p>
+<p>If no result, retun an empty list</p>
+</div>
+<div class="section" id="get-all">
+<span id="get-all"></span><h4>get_all<a class="headerlink" href="#get-all" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">get_all(self)</span></code></p>
+<p>This function return all elements stock in the database object.</p>
+<p><code class="docutils literal"><span class="pre">[&lt;plate</span> <span class="pre">N°1</span> <span class="pre">:</span> <span class="pre">96-12-8&gt;,</span> <span class="pre">&lt;plate</span> <span class="pre">N°2</span> <span class="pre">:</span> <span class="pre">cool</span> <span class="pre">24</span> <span class="pre">plate,</span> <span class="pre">24-6-4&gt;,</span> <span class="pre">&lt;</span> <span class="pre">...</span> <span class="pre">&gt;,</span> <span class="pre">&lt;plate</span> <span class="pre">N°26</span> <span class="pre">:</span> <span class="pre">cool</span> <span class="pre">name,</span> <span class="pre">96-12-8&gt;]</span></code></p>
+<p>If database is empty, return an empty list</p>
+</div>
+<div class="section" id="update">
+<span id="update"></span><h4>update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">update(self,</span> <span class="pre">dict_update,</span> <span class="pre">args,</span> <span class="pre">key=&quot;numWell&quot;)</span></code></p>
+<p>where <code class="docutils literal"><span class="pre">dict_update</span></code> is a dictionary of key and value to update :</p>
+<p><code class="docutils literal"><span class="pre">{&quot;key</span> <span class="pre">to</span> <span class="pre">update&quot;</span> <span class="pre">:</span> <span class="pre">&quot;New</span> <span class="pre">value&quot;}</span></code></p>
+<p>eg : <code class="docutils literal"><span class="pre">{&quot;name&quot;</span> <span class="pre">:</span> <span class="pre">&quot;plate_for_MTT_test&quot;,</span> <span class="pre">&quot;surfWell&quot;</span> <span class="pre">:</span> <span class="pre">0.3}</span></code></p>
+<p>where <code class="docutils literal"><span class="pre">args</span></code> is value you are looking for :</p>
+<p>eg : 96 for number of well</p>
+<p>Where <code class="docutils literal"><span class="pre">key</span></code> is column name of data you looking for , by default <code class="docutils literal"><span class="pre">key</span></code> is numWell in both database.</p>
+<p><strong>Be carefull <code class="docutils literal"><span class="pre">args</span></code> and <code class="docutils literal"><span class="pre">key</span></code> should be enought specific to return a unique match, is recomended to use <code class="docutils literal"><span class="pre">id</span></code> as <code class="docutils literal"><span class="pre">key</span></code>.</strong></p>
+<p>This function return <code class="docutils literal"><span class="pre">f&quot;plate</span> <span class="pre">with</span> <span class="pre">{args}</span> <span class="pre">{key}</span> <span class="pre">updated&quot;</span></code>
+OR
+return <code class="docutils literal"><span class="pre">&quot;Use</span> <span class="pre">a</span> <span class="pre">more</span> <span class="pre">specific</span> <span class="pre">key</span> <span class="pre">to</span> <span class="pre">update</span> <span class="pre">the</span> <span class="pre">object&quot;</span></code></p>
+<p>eg :</p>
+<p><code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">plt</span> <span class="pre">=</span> <span class="pre">PlateDB()</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">plate_96</span> <span class="pre">=</span> <span class="pre">plt.get_plate(96)</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">plate_96</span></code><br>
+<code class="docutils literal"><span class="pre">[&lt;plate</span> <span class="pre">N°1</span> <span class="pre">:</span> <span class="pre">96-12-8&gt;]</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">print(plate_96[0].name)</span></code><br>
+<code class="docutils literal"><span class="pre">None</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">print(plate_96[0].surfWell)</span></code><br>
+<code class="docutils literal"><span class="pre">0.29</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">update</span> <span class="pre">=</span> <span class="pre">{&quot;name&quot;</span> <span class="pre">:</span> <span class="pre">&quot;plate_for_MTT_test&quot;,</span> <span class="pre">&quot;surfWell&quot;</span> <span class="pre">:</span> <span class="pre">0.3}</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">plt.update_plate(update,</span> <span class="pre">96)</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">plate_96_update</span> <span class="pre">=</span> <span class="pre">plt.get_plate(96)</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">plate_96_update.name</span></code><br>
+<code class="docutils literal"><span class="pre">plate_for_MTT_test</span></code><br>
+<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">plate_96_update.surfWell</span></code><br>
+<code class="docutils literal"><span class="pre">0.3</span></code><br></p>
+</div>
+<div class="section" id="delete">
+<span id="delete"></span><h4>delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">delete(self,</span> <span class="pre">args,</span> <span class="pre">key=&quot;numWell&quot;)</span></code></p>
+<p>where <code class="docutils literal"><span class="pre">args</span></code> is value you are looking for :</p>
+<p>eg : 96 for number of well</p>
+<p>Where <code class="docutils literal"><span class="pre">key</span></code> is column name of data you looking for , by default <code class="docutils literal"><span class="pre">key</span></code> is numWell in both database.</p>
+<p><strong>Be carefull <code class="docutils literal"><span class="pre">args</span></code> and <code class="docutils literal"><span class="pre">key</span></code> should be enought specific to return a unique match, is recomended to use <code class="docutils literal"><span class="pre">id</span></code> as <code class="docutils literal"><span class="pre">key</span></code>.</strong></p>
+<p>This function return <code class="docutils literal"><span class="pre">f&quot;plate</span> <span class="pre">with</span> <span class="pre">{args}</span> <span class="pre">{key}</span> <span class="pre">deleted&quot;</span></code>
+OR
+return <code class="docutils literal"><span class="pre">&quot;Use</span> <span class="pre">a</span> <span class="pre">more</span> <span class="pre">specific</span> <span class="pre">key</span> <span class="pre">to</span> <span class="pre">delete</span> <span class="pre">the</span> <span class="pre">object&quot;</span></code></p>
+</div>
+</div>
+<div class="section" id="plate-database">
+<span id="plate-database"></span><h3>Plate database<a class="headerlink" href="#plate-database" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="add-plate">
+<span id="add-plate"></span><h4>add_plate<a class="headerlink" href="#add-plate" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="historic-database">
+<span id="historic-database"></span><h3>Historic database<a class="headerlink" href="#historic-database" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="add-hplate">
+<span id="add-hplate"></span><h4>add_hplate<a class="headerlink" href="#add-hplate" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+</div>
+<div class="section" id="plate">
+<span id="plate"></span><h2>Plate<a class="headerlink" href="#plate" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-plate-object">
+<span id="create-plate-object"></span><h3>Create plate object<a class="headerlink" href="#create-plate-object" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="add-value-in-one-well">
+<span id="add-value-in-one-well"></span><h3>Add value in one well<a class="headerlink" href="#add-value-in-one-well" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="add-value-on-a-row">
+<span id="add-value-on-a-row"></span><h3>Add value on a row<a class="headerlink" href="#add-value-on-a-row" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="add-value-on-a-column">
+<span id="add-value-on-a-column"></span><h3>Add value on a column<a class="headerlink" href="#add-value-on-a-column" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="add-multiple-values-in-once">
+<span id="add-multiple-values-in-once"></span><h3>Add multiple values in once<a class="headerlink" href="#add-multiple-values-in-once" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="show-table-representation">
+<span id="show-table-representation"></span><h3>Show table representation<a class="headerlink" href="#show-table-representation" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="save-plate">
+<span id="save-plate"></span><h3>Save plate<a class="headerlink" href="#save-plate" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="section" id="futur-version">
+<span id="futur-version"></span><h1>Futur version<a class="headerlink" href="#futur-version" title="Permalink to this headline">¶</a></h1>
+<ol class="simple">
+<li>Implementation of  a comand line interface</li>
+<li>Get volume and surface of each conditions</li>
+<li>Implementation of <a class="reference external" href="https://pint.readthedocs.io/en/latest/">pint</a> to work directly with unit</li>
+<li>Get an excel file with plate representation</li>
+<li>Get in excel volume and surface informations for each conditions</li>
+<li>Add Q-PCR protocol</li>
+</ol>
+</div>
+<div class="section" id="version-logs">
+<span id="version-logs"></span><h1>Version logs<a class="headerlink" href="#version-logs" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Florian Bernard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

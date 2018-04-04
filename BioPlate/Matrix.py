@@ -123,10 +123,10 @@ class BioPlateMatrix:
     @staticmethod
     def _all_row_column(well):
         try:
-            index = int(well)
+            index = int(well) - 1
             char = "C"
         except ValueError:
-            index = BioPlateMatrix._well_letter_index(well)
+            index = BioPlateMatrix._well_letter_index(well) - 1
             char = "R"
         finally:
             return 'All', char, index

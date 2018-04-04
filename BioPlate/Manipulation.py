@@ -10,6 +10,7 @@ from tabulate import tabulate
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.Matrix import BioPlateMatrix
+from BioPlate.Iterate import BioPlateIterate
 
 
 """
@@ -31,6 +32,10 @@ eg: self._eval_well_value("A[2-8]", "test") is slower than row, col1, col2 = Bio
 
 class BioPlateManipulation:
     """A row is symbolise by it's letter, a column by a number"""    
+             
+    @property
+    def name(self):
+        return type(self).__name__         
                 
     def _args_analyse(self, *args):
         #add_value, add_row_value, add_column_value
@@ -48,7 +53,7 @@ class BioPlateManipulation:
         return well, value                             
            
 
-    def add_value(self, *args):
+    #def add_value(self, *args):
         """
         add a value to one given well position (eg : 'A1', 'test 1')
         
@@ -58,13 +63,8 @@ class BioPlateManipulation:
                            [A, 'test 1', 0, 0],
                            [B, 0, 0, 0]])
         """
-        well, value = self._args_analyse(*args)
-        self._eval_well(BioPlateMatrix(well), value)
-        #row, column = BioPlateMatrix(well)
-        #self[row, column] = value
-        return self
 
-    def add_value_row(self, *args):
+    #def add_value_row(self, *args):
         """
         add value to a given row on a list of column (eg : 'A[2,3]', 'test 2')
         
@@ -74,13 +74,8 @@ class BioPlateManipulation:
                            [A, 0, 'test 2', 'test 2'],
                            [B, 0, 0, 0]])
         """
-        well, value = self._args_analyse(*args)
-        #dimension, row, col_start, col_end = BioPlateMatrix(well)
-        #self[row, col_start:col_end] =value
-        self._eval_well(BioPlateMatrix(well), value)
-        return self
 
-    def add_value_column(self, *args):
+    #def add_value_column(self, *args):
         """
         addvalue to a given column on a list of row (eg : '2[A-B]', 'test 3')
         
@@ -90,11 +85,6 @@ class BioPlateManipulation:
                            [A, 0, 'test 3', 0],
                            [B, 0, 'test 3', 0]])
         """
-        well, value = self._args_analyse(*args)
-        #dimension, row_start, row_end, column = BioPlateMatrix(well)
-        #self[row_start:row_end, column] = value
-        self._eval_well(BioPlateMatrix(well), value)
-        return self
 
     def add_values(self, *args):
         """
@@ -113,22 +103,14 @@ class BioPlateManipulation:
             return f"{type(well_dict)} is a wrong format, dictionary should be used"
 
     """
-    def add_multi_value(self, *args):
-        
         parse an add_value_row or column in a compact manner and pass it to evaluate(eg : 'A-C[1-5]', ['val1' , 'val2', 'val3'])
         
         :param multi_wells: 'A-C[1-5]' => On row A, B and C add value from column 1 to 5 included
         :param values: ['val1' , 'val2', 'val3'] => On row A add value 'val1', on row B add value 'val2' from column 1 to 5
         :return: plate
-        
-        multi_wells, values = self._args_analyse(*args)
-        wells = BioPlateMatrix(multi_wells)
-        if len(wells) != len(values):
-            raise ValueError(f"missmatch between wells ({len(wells)}) and values ({len(values)})")
-        self._eval_well_value(multi_wells, values)
-        return self
+       
     """
-    def evaluate(self, *args):
+    def set(self, *args):
         """
         set a value 
         """
@@ -147,7 +129,7 @@ class BioPlateManipulation:
         well = ("C", 2, 6, 8) => self[well[1],well[2]: well[3]]
         """
         if well[0] == "R":
-            if value is not None:
+            if value is not None: 
                 self[well[1]:well[2], well[3]] = value
             else:
                 return self[well[1]:well[2], well[3]]
@@ -179,6 +161,8 @@ class BioPlateManipulation:
             if len(well) == len(value):
                 for w, v in zip(well, value):             
                     self._eval_well(w,v)
+            elif len(well) != len(value):
+                raise ValueError(f"missmatch between wells ({len(well)}) and values ({len(value)})")
         else:           
             self._eval_well(well, value)
 
@@ -195,10 +179,7 @@ class BioPlateManipulation:
             phi = PlateHist()
         else:
             phi = PlateHist(db_name=dbName)
-        if isinstance(plate, list):
-            well = next(self.__iterate(plate[0], Ovalue=True)).shape
-        else:
-            well = next(self.__iterate(plate, Ovalue=True)).shape
+            well = next(BioPlateIterate(plate, OnlyValue=True)).shape
         numWell = well[0] * well[1]
         response = phi.add_hplate(numWell, plate_name, plate)
         if isinstance(response, str):
@@ -220,53 +201,8 @@ class BioPlateManipulation:
             return tabulate(self, headers=headers, **kwargs)
         
     def iterate(self, order="C", accumulate=True):
-        yield from self._iterate(self, order=order, accumulate=accumulate)
+        yield from BioPlateIterate(self, order=order, accumulate=accumulate)
     
-    
-    def _iterate(self, *plates, order="C", accumulate=True):
-        """
-        generator return [well, value]
-        
-        :param plate: numpy.array of plate object
-        :param order: iterate by column C or by row R
-        """
-        Order = {"C" : "F", "R" : "C"}
-        if accumulate:
-            row, column, values = self._acumul_iterate(*plates)
-            for r, c, *v in np.nditer((row, column) + values, order=Order[order]):
-                yield (self._merge_R_C_(r, c),) + tuple(map(str, v))
-        else:
-            for row, column, value  in self.__iterate(*plates):
-                for r, c, v in np.nditer((row, column, value), order=Order[order]):
-                    yield (self._merge_R_C_(r, c), str(v))
-        
-    def _acumul_iterate(self, *plates):
-        values = []
-        for row, column, value  in self.__iterate(*plates):
-             values.append(value)
-        return row, column, tuple(values)
-         
-    def __iterate(self, *plates, Ovalue=False):
-        for plate in plates:
-            if len(plate.shape) == 2:
-                yield from self.___iterate(plate, Ovalue=Ovalue)
-            else:
-                 for pl in plate:
-                     yield from self.___iterate(pl, Ovalue=Ovalue)
-                     
-    def ___iterate(self, plate, Ovalue=False):
-            columns = plate[0,1:]
-            rows = plate[1:, 0:1]
-            values = plate[1:, 1:]
-            if Ovalue:
-                yield values
-            else:
-                yield rows, columns, values
-            
-    def _merge_R_C_(self, row, column):
-      RC =   "".join(map(str, [row, column]))
-      return RC    
-
     def count(self, reverse=False):
         return self._count(self, reverse=reverse)
 
@@ -315,7 +251,7 @@ class BioPlateManipulation:
                          results["bot"] = Count
                 else: # Stack of simple plate
                     results[n] = Count
-                    n += 1
+                    n+= 1
         else: # a single plate
         	results = self.__count(next(self.__iterate(*plates, Ovalue=True)), reverse=reverse)
         return results

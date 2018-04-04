@@ -3,6 +3,7 @@ import numpy as np
 from collections import OrderedDict
 from BioPlate.Manipulation import BioPlateManipulation
 from BioPlate.Array import BioPlateArray
+from BioPlate.Iterate import BioPlateIterate
 
 
 class BioPlateStack(BioPlateManipulation):
@@ -65,40 +66,16 @@ class BioPlateStack(BioPlateManipulation):
             *BioPlates, = [self[i] for i in range(len(self))]
             return func(self, *BioPlates, **kwargs)
         return wrapper
-        
-   @change_args 
-   def add_value(self, bioplate, *args):
-       bioplate.add_value(*args)
-       return self
-       
+               
    @change_args
-   def add_value_row(self, bioplate, *args):
-        bioplate.add_value_row(*args)
-        return self
-   
-   @change_args     
-   def add_value_column(self, bioplate, *args):
-         bioplate.add_value_column(*args)
-         return self 
-         
-   @change_args 
-   def add_values(self, bioplate, *args):
-       bioplate.add_values(*args)
-       return self
-         
-   @change_args
-   def add_multi_value(self, bioplate,*args):
-       bioplate.add_multi_value(*args)
-       return self
-       
-   @change_args
-   def evaluate(self, bioplate, *args):
-       bioplate.evaluate(*args)
+   def set(self, bioplate, *args):
+       bioplate.set(*args)
        return self
     
    @pass_all_plate    
    def iterate(self, *BioPlates, order="C", accumulate=False):
-        yield from super()._iterate(*BioPlates, order=order, accumulate=accumulate)
+       yield from BioPlateIterate(self, order=order, accumulate=accumulate)
+       
       
    @pass_all_plate
    def count(self, *BioPlates, reverse=False):
@@ -111,4 +88,3 @@ class BioPlateStack(BioPlateManipulation):
    @change_args
    def get(self, bioplate, *args):
        return bioplate.get(*args)
-       #return self
