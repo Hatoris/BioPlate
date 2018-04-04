@@ -24,6 +24,8 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+!BioPlate/database/DBFiles/.kepp
+BioPlate/database/DBFiles/*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -62,7 +64,6 @@ instance/
 .scrapy
 
 # Sphinx documentation
-docs/_build/
 
 # PyBuilder
 target/
