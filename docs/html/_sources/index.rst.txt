@@ -18,7 +18,8 @@ Contents
     glossary
     
     
-
+.. automodule:: BioPlate
+    :imported-members:
    	
 .. automodule:: BioPlate.Plate
 

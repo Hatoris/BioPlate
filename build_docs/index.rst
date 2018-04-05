@@ -16,10 +16,7 @@ Contents
     
     nintro
     glossary
-    
-    
-
-   	
+      	
 .. automodule:: BioPlate.Plate
 
 .. autoclass:: BioPlate
