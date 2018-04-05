@@ -3,23 +3,6 @@ Introduction
 
 A simple application to generate annotated plates used in biological experiments.
 
-# Table of content 
-
-1. [Installation](#installation)
-2. [Basic use](#basic-use)
-3. [Advanced usage](#advanced-usage)
-> 1. [Database](#database)
-> > 1. [Commun database method](#commun-database-method)
->>> 1. [Get one](#get_one)
->>> 2. [Get](#get)
->>> 3. [Get all](#get_all)
->>> 4. [Update](#update)
->>> 5. [Delete](#delete) 
-4. [Futur version](#futur-version)
-5. [Version logs](#version-logs) 
-
-
-
 # Installation 
 
 with pipy :
