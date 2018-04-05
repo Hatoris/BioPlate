@@ -20,16 +20,37 @@ Contents
     
 
    	
-.. automodule:: BioPlate.plate
+.. automodule:: BioPlate.Plate
 
-.. autoclass:: Plate
+.. autoclass:: BioPlate
     :members: 
     
     .. automethod:: __init__
-		
-.. automodule:: BioPlate.plate_to_excel
 
-.. autoclass:: plateToExcel
+.. automodule:: BioPlate.Inserts
+
+.. autoclass:: BioPlateInserts
+    :members: 
+    
+    .. automethod:: __init__
+
+.. automodule:: BioPlate.Stack
+
+.. autoclass:: BioPlateStack
+    :members: 
+    
+    .. automethod:: __init__
+																
+.. automodule:: BioPlate.writer.to_excel
+
+.. autoclass:: BioPlateToExcel
+    :members:
+    	
+    .. automethod:: __init__
+
+.. automodule:: BioPlate.writer.from_excel
+
+.. autoclass:: BioPlateFromExcel
     :members:
     	
     .. automethod:: __init__

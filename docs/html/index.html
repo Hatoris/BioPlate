@@ -188,7 +188,130 @@
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 </div>
-<span class="target" id="module-BioPlate.plate"></span><span class="target" id="module-BioPlate.database.plate_db"></span><dl class="class">
+<span class="target" id="module-BioPlate.Plate"></span><dl class="class">
+<dt id="BioPlate.Plate.BioPlate">
+<em class="property">class </em><code class="descclassname">BioPlate.Plate.</code><code class="descname">BioPlate</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Plate.BioPlate" title="Permalink to this definition">¶</a></dt>
+<dd><p>you can add on it all function of plate</p>
+<dl class="method">
+<dt id="BioPlate.Plate.BioPlate.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Plate.BioPlate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-BioPlate.Inserts"></span><dl class="class">
+<dt id="BioPlate.Inserts.BioPlateInserts">
+<em class="property">class </em><code class="descclassname">BioPlate.Inserts.</code><code class="descname">BioPlateInserts</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Inserts.BioPlateInserts" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="BioPlate.Inserts.BioPlateInserts.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Inserts.BioPlateInserts.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-BioPlate.Stack"></span><dl class="class">
+<dt id="BioPlate.Stack.BioPlateStack">
+<em class="property">class </em><code class="descclassname">BioPlate.Stack.</code><code class="descname">BioPlateStack</code><span class="sig-paren">(</span><em>ID_list</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Stack.BioPlateStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>{id_stack : [id_plate1, id_plate2]}</p>
+<dl class="method">
+<dt id="BioPlate.Stack.BioPlateStack.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>ID_list</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Stack.BioPlateStack.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-BioPlate.writer.to_excel"></span><dl class="class">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel">
+<em class="property">class </em><code class="descclassname">BioPlate.writer.to_excel.</code><code class="descname">BioPlateToExcel</code><span class="sig-paren">(</span><em>file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header=True, accumulate=True, order='C', empty='empty', test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel" title="Permalink to this definition">¶</a></dt>
+<dd><p>past to excel in different way bioplate object
+plateToExcel.representation:</p>
+<blockquote>
+<div>past a representation of a BioPlate object in excel file</div></blockquote>
+<dl class="docutils">
+<dt>plateToExcel.data:</dt>
+<dd>past an iteration of BioPlate object in excel</dd>
+<dt>plateToExcel.count:</dt>
+<dd>past a count of each value in BioPlate object to excel</dd>
+</dl>
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header=True, accumulate=True, order='C', empty='empty', test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_name</strong> – </li>
+<li><strong>sheets</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.data">
+<code class="descname">data</code><span class="sig-paren">(</span><em>BPlate</em>, <em>accumulate=True</em>, <em>order='C'</em>, <em>header=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>add to worksheet plate data, well and their value in column, ordered by column or row. If accumulated, well will be writen once.
+header should be a list of column name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.open_excel_file">
+<code class="descname">open_excel_file</code><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.open_excel_file" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>return</em></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.plate_split">
+<code class="descname">plate_split</code><span class="sig-paren">(</span><em>plate</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.plate_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove row and column</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.representation">
+<code class="descname">representation</code><span class="sig-paren">(</span><em>BPlate</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.representation" title="Permalink to this definition">¶</a></dt>
+<dd><p>get representation of BioPlate in excel file</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.select_worksheet">
+<code class="descname">select_worksheet</code><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.select_worksheet" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>return</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-BioPlate.writer.from_excel"></span><dl class="class">
+<dt id="BioPlate.writer.from_excel.BioPlateFromExcel">
+<em class="property">class </em><code class="descclassname">BioPlate.writer.from_excel.</code><code class="descname">BioPlateFromExcel</code><span class="sig-paren">(</span><em>file_name</em>, <em>sheets=None</em>, <em>header=True</em>, <em>Inserts=False</em>, <em>plate_infos=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel.BioPlateFromExcel" title="Permalink to this definition">¶</a></dt>
+<dd><p>thia class is for load plate representation and data fron excel file
+one sheet =&gt; one plate
+one sheet =&gt; multi plate
+multi sheet =&gt; one plate per sheet
+1. Open excel file
+2. Sheets are specifed ? If no, use all sheets
+3. Header are present ? If no, provide plate_infotmation</p>
+<dl class="method">
+<dt id="BioPlate.writer.from_excel.BioPlateFromExcel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>file_name</em>, <em>sheets=None</em>, <em>header=True</em>, <em>Inserts=False</em>, <em>plate_infos=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel.BioPlateFromExcel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>header : plate represented in excel have header
+sheets : list of sheet name to select from excel file if None all sheet will be transform
+plate_infos : dict : {“sheet_name” : NAME,  “row” : 9, “column” : 12}
+if header is false, plate_infos should be provide. If sheets is None all sheets will be processes,</p>
+<p>give excel book name, if no sheets list( shoukd be always in list) do on all sheets, return dict of sheet_name : list of bioplate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel.BioPlateFromExcel.numpy_reshape">
+<code class="descname">numpy_reshape</code><span class="sig-paren">(</span><em>npArray</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel.BioPlateFromExcel.numpy_reshape" title="Permalink to this definition">¶</a></dt>
+<dd><p>fill blanck to get a great repreaentation</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-BioPlate.database.plate_db"></span><dl class="class">
 <dt id="BioPlate.database.plate_db.PlateDB">
 <em class="property">class </em><code class="descclassname">BioPlate.database.plate_db.</code><code class="descname">PlateDB</code><span class="sig-paren">(</span><em>db_name='plate.db'</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.database.plate_db.PlateDB" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
