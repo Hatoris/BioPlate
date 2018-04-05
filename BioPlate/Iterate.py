@@ -43,20 +43,24 @@ class BioPlateIterate:
 
     @classmethod                  
     def _iterate(cls):
-        bps =  cls.plate.name == "BioPlateStack"
-        bpi = cls.plate.name == "BioPlateInserts"
         bp = cls.plate.name == "BioPlate"
+        bpi = cls.plate.name == "BioPlateInserts"
+        bps = cls.plate.name == "BioPlateStack"
         if bp:
             yield from cls.__iterate(cls.plate)
         else:
-            for pl in cls.plate:
-                yield from cls.__iterate(pl)
+            for plat in cls.plate:
+                if bps and plat.name == "BioPlateInserts":
+                    for pl in plat:
+                        yield from cls.__iterate(pl)
+                else:
+                    yield from cls.__iterate(plat)
 
     @classmethod                                          
     def __iterate(cls, plate):
             columns = plate[0,1:]
             rows = plate[1:, 0:1]
-            values = plate[1:, 1:]
+            values = plate[1:, 1:]        
             if cls.OnlyValue:
                 yield values
             else:
