@@ -34,6 +34,4 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
         newstack = list(OrderedDict.fromkeys(newstack))
         return BioPlateStack(newstack)             
                                   
-    def save(self, plate_name, **kwargs):
-        return super().save(self, plate_name, **kwargs)
         

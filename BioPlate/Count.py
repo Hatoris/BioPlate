@@ -22,15 +22,15 @@ class BioPlateCount:
         """      
         unique, count = np.unique(plate, return_counts=True)
         count_in_dict = dict(zip(unique, count))
-        count_in_dict = dict(sorted(count_in_dict.items(), key=lambda x:x[1], reverse=cls.reverse))
-        return count_in_dict
+        count_ordered = dict(sorted(count_in_dict.items(), key=lambda x:x[1], reverse=cls.reverse))
+        return count_ordered
 
     @classmethod
     def count(cls):
         if cls.plate.name == "BioPlate":
-            return cls.count_BioPlate(cls.plate)
+            return cls.count_BioPlate()
         elif cls.plate.name == "BioPlateInserts":
-            return cls.count_BioPlateInserts(cls.plate)
+            return cls.count_BioPlateInserts()
         elif cls.plate.name == "BioPlateStack":
             return cls.count_BioPlateStack()
     

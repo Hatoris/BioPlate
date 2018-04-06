@@ -11,7 +11,7 @@ from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.Matrix import BioPlateMatrix
 from BioPlate.Iterate import BioPlateIterate
-
+from BioPlate.Count import BioPlateCount
 
 """
 add value : add value to one wells (eg : 'B5)
@@ -173,20 +173,20 @@ class BioPlateManipulation:
         else:
             return self._eval_well(BioPlateMatrix(well[0]))
 
-    def save(self, plate, plate_name, **kwargs):
+    def save(self, plate_name, **kwargs):
         dbName = kwargs.get("db_hist_name")
         if not dbName :
             phi = PlateHist()
         else:
             phi = PlateHist(db_name=dbName)
-            well = next(BioPlateIterate(plate, OnlyValue=True)).shape
+            well = next(BioPlateIterate(self, OnlyValue=True)).shape
         numWell = well[0] * well[1]
-        response = phi.add_hplate(numWell, plate_name, plate)
+        response = phi.add_hplate(numWell, plate_name, self)
         if isinstance(response, str):
             return response
         elif isinstance(response, int):
             dict_update = {"plate_name": plate_name,
-                           "plate_array": plate}
+                           "plate_array": self}
             return phi.update_hplate(dict_update, response, key="id")
 
     def table(self, headers="firstrow", *args, **kwargs):
@@ -204,55 +204,5 @@ class BioPlateManipulation:
         yield from BioPlateIterate(self, order=order, accumulate=accumulate)
     
     def count(self, reverse=False):
-        return self._count(self, reverse=reverse)
-
-    def __count(self, plate, reverse=False):
-        """
-
-        :param plate:
-        :return:
-        """
-        #for values in self.__iterate(*plates, Ovalue=True):
-        unique, count = np.unique(plate, return_counts=True)
-        count_in_dict = dict(zip(unique, count))
-        count_in_dict = dict(sorted(count_in_dict.items(), key=lambda x:x[1], reverse=reverse))
-        return count_in_dict
-
-    def _count(self, *plates, reverse=False):
-        """
-
-        :param plate:
-        :return:
-        """
-        nb_plate = len(plates)
-        multi = nb_plate > 1
-        insert =  len(plates[0].shape) > 2
-        if multi or insert:
-            results = {}
-            n = 0
-            y = 0
-            for values in self.__iterate(*plates, Ovalue=True):
-                Count = self.__count(values, reverse=reverse)
-                if insert and multi: # a stack of Insert plate
-                    mod = y % 2
-                    y += 1
-                    if mod == 0:
-                        inter = {}
-                        inter["top"] = Count
-                    else:
-                        inter["bot"] = Count
-                        results[n] = inter
-                        n += 1
-                elif insert: # insert plate only
-                    if n == 0:
-                        results["top"] = Count
-                        n += 1
-                    else:
-                         results["bot"] = Count
-                else: # Stack of simple plate
-                    results[n] = Count
-                    n+= 1
-        else: # a single plate
-        	results = self.__count(next(self.__iterate(*plates, Ovalue=True)), reverse=reverse)
-        return results
+        return BioPlateCount(self, reverse=reverse)
 
