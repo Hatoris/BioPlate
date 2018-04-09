@@ -50,7 +50,7 @@ class TestPlateDB(unittest.TestCase):
 
     def test_get_plate(self):
         self.assertIsInstance(self.plate_list, list, "plate_db.get_plate don't return a list")
-        self.assertEquals('<plate N°1 : 96-12-8>', str(self.plate),
+        self.assertEqual('<plate N°1 : 96-12-8>', str(self.plate),
                           "plate_db.get_plate don't return the appropriate format")
         self.assertTrue(str(type(self.plate)) == "<class 'BioPlate.database.plate_db.PlateDB.PlateDatabase'>",
                         f"plate_db.get_plate don't return the right class : {str(type(self.plate))}")
@@ -84,7 +84,7 @@ class TestPlateDB(unittest.TestCase):
                       refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
         self.assertEqual(add_plate_2, None)
         self.assertEqual('<plate N°2 : 6-3-2>', str(self.pdb.get_plate(numWell=6)[0]))
-        self.assertEquals(6, self.pdb.get_plate(numWell=6)[0].numWell)
+        self.assertEqual(6, self.pdb.get_plate(numWell=6)[0].numWell)
 
     def test_delete_plate(self):
         self.pdb.add_plate(numWell=24,

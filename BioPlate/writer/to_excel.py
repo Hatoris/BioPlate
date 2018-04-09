@@ -23,8 +23,13 @@ class BioPlateToExcel:
     def __init__(self, file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header = True, accumulate = True, order="C",  empty="empty", test=False):
         """
 
-        :param file_name:
-        :param sheets:
+        :param file_name: name of excel file
+        :param sheets: list of sheetname
+        :param header: if header should be put
+        :param accumulate: if plate data should be accumulat for same well or listed
+        :param order: if iteration should be done by column or row
+        :param empty:
+        :param test:
         """
         self.fileName = file_name
         self.sheets = sheets
@@ -128,11 +133,13 @@ class BioPlateToExcel:
         else:
             return plate[1:,1:]
 
-    def data(self, BPlate, accumulate=True, order="C", header=None):
+    def data(self, BPlate, accumulate=None, order=None, header=None):
         """
         add to worksheet plate data, well and their value in column, ordered by column or row. If accumulated, well will be writen once.
         header should be a list of column name
         """
+        order = self.order if order is None else order
+        accumulate = self.accumulate if accumulate is None else accumulate
         if isinstance(BPlate, BioPlateInserts) or isinstance(BPlate[0], BioPlateInserts):
             self._data(BPlate, accumulate=accumulate, order=order, inserts=True, header=header)
         else:
