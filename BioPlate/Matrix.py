@@ -15,6 +15,8 @@ class BioPlateMatrix:
         - 4[C,G]
         - 1-8[A,C]
         - A-G[1,8]
+        - A
+        - 3
     """
    
     _WELL_CACHE = {}

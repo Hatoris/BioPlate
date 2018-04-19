@@ -21,7 +21,7 @@ class BioPlateFromExcel:
    3. Header are present ? If no, provide plate_infotmation
    
    """
-   def __init__(self, file_name, sheets=None, header = True, Inserts = False, plate_infos=None):
+   def __init__(self, file_name, sheets=None, header = True, Inserts = False, plate_infos=None, stack = True):
        """
        header : plate represented in excel have header
        sheets : list of sheet name to select from excel file if None all sheet will be transform
@@ -35,6 +35,7 @@ class BioPlateFromExcel:
        self.header = header
        self.plate_infos = plate_infos
        self.Inserts = Inserts
+       self.stack = stack
        try:
            self.loaded_file = pex.get_data(self.file_name)
        except FileNotFoundError:
@@ -191,9 +192,7 @@ class BioPlateFromExcel:
            index = [(x, x+1) for x in range(row, len_mu, row)]
            index = list(ialone for tupi in index for ialone in tupi)
            results = np.array_split(multiArray, index)
-           #print("RESULT ", results)    
            results = list(filter(rm, results))
-           #print("RESULT1 ", results)
        return results 
        
    def _column_row(self, plate):

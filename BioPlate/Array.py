@@ -76,7 +76,7 @@ class BioPlateArray(np.ndarray):
             
             :return: np.array([[0, 1, 2, 3], [A, 0, 0, 0], [B, 0, 0, 0]])
             """
-            BParray = np.zeros([rows + 1, columns + 1], dtype='U40')
+            BParray = np.zeros([rows + 1, columns + 1], dtype='U100')
             BParray[0] = np.arange( columns+1)
             BParray[1:rows+1, 0] = bpu._LETTER[0:rows]
             BParray[0,0] = ' '

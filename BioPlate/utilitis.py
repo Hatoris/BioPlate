@@ -91,7 +91,18 @@ def remove_tail(liste):
             return remove_tail(liste)
         else:
              return liste   	
-    	
+
+def remove_np_tail(liste):
+    lis = liste[::-1]
+    isempty = np.vectorize(any)
+    for i, val in enumerate(lis):
+        if val.any():
+            del lis[i]
+            liste = lis[::-1]
+            return remove_np_tail(liste)
+        else:
+             return liste   	
+    	    	    	
 def like_read_excel(plate, header=True, lst=None):
     rm_empty = [] if lst is None else lst
     if plate.name == "BioPlate":

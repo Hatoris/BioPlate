@@ -141,12 +141,18 @@ class BioPlateManipulation:
         elif well[0] == "All":
              if well[1] == "R":
                  if value is not None:
-                     self[1:,1:][well[2]] = value
+                     if isinstance(value, list):
+                         self[1:,1:][well[2]][0:len(value)] = value
+                     else:
+                         self[1:,1:][well[2]] = value
                  else:
                      return self[1:,1:][well[2]]
              elif well[1] == "C":
                  if value is not None:
-                     self[1:,1:][:,well[2]] = value
+                     if isinstance(value, list):
+                         self[1:,1:][:,well[2]][0:len(value)] = value
+                     else:
+                         self[1:,1:][:,well[2]] = value
                  else:
                      return self[1:,1:][:,well[2]]
         else:
