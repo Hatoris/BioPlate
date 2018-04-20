@@ -4,8 +4,9 @@ import numpy as np
 
 from pathlib import Path, PurePath
 from pyexcel_xlsx import get_data, save_data
-from BioPlate.utilitis import like_read_excel, as_read_excel, like_read_excel_stack, remove_tail, like_read_data, like_read_data_stack, like_read_count
+from BioPlate.utilitis import like_read_excel, as_read_excel, like_read_excel_stack, remove_tail, like_read_data, like_read_data_stack, like_read_count, remove_np_tail
 from BioPlate.Plate import BioPlate
+from BioPlate.Inserts import BioPlateInserts
 from BioPlate.Stack import BioPlateStack
 from BioPlate.writer.to_excel import BioPlateToExcel
 from BioPlate.writer.from_excel_V2 import BioPlateFromExcel
@@ -53,19 +54,50 @@ class TestPlateFromExcel(unittest.TestCase):
         self.Inserts1.bot.set(v1)
         self.Inserts1.top.set(v2)
         self.stacki = self.Inserts + self.Inserts1
+        
         self.PTE_BP_header = BioPlateToExcel("bp_header.xlsx")
         self.PTE_BP_header.representation(self.plt)
         self.PTE_BP_header.close()
-        self.PTE_BPI_no_header = BioPlateToExcel("bpi_no_header.xlsx", header=False)
-        self.PTE_BPI_no_header.representation(self.Inserts)
-        self.PTE_BPI_no_header.close()
-        self.PTE_BPS_no_header = BioPlateToExcel("bps_no_header.xlsx", header=False)
+        
+        self.PTE_BPI_header = BioPlateToExcel("bpi_header.xlsx", header=True)
+        self.PTE_BPI_header.representation( self.Inserts)        
+        self.PTE_BPI_header.close()
+                   
+        self.PTE_BPS_no_header = BioPlateToExcel("bps_header.xlsx", header=True)
         self.PTE_BPS_no_header.representation( self.stack)
         self.PTE_BPS_no_header.close()
-        self.PTE_BP_header.representation(self.stack)
-        #self.PTE_BPI_multisheet = BioPlateToExcel("bpi_multisheets")
-        
 
+        self.PTE_BPIS_header = BioPlateToExcel("bpis_header.xlsx", header=True)
+        self.PTE_BPIS_header.representation( self.stacki)
+        self.PTE_BPIS_header.close()
+                                                                                        
+        self.PTE_BP_no_header = BioPlateToExcel("bp_no_header.xlsx", header=False)
+        self.PTE_BP_no_header.representation( self.plt)        
+        self.PTE_BP_no_header.close()                        
+        
+        self.PTE_BPI_no_header = BioPlateToExcel("bpi_no_header.xlsx", header=False)
+        self.PTE_BPI_no_header.representation( self.Inserts)        
+        self.PTE_BPI_no_header.close()
+        
+        self.PTE_BPS_no_header = BioPlateToExcel("bps_no_header.xlsx", header=False)
+        self.PTE_BPS_no_header.representation( self.stack)        
+        self.PTE_BPS_no_header.close()               
+
+        self.PTE_BPIS_no_header = BioPlateToExcel("bpis_no_header.xlsx", header=False)
+        self.PTE_BPIS_no_header.representation( self.stacki)        
+        self.PTE_BPIS_no_header.close()
+      
+        self.sn = "plate_representation"
+        
+        self.bp_infos = {"plate_representation" : {"row" : 8, "column" : 12, "stack" : False, "type" : "BioPlate"}}
+        
+        self.bpi_infos = {"plate_representation" : {"row" : 8, "column" : 12, "stack" : False, "type" : "BioPlateInserts"}}
+
+        self.bps_infos = {"plate_representation" : {"row" : 8, "column" : 12, "stack" : True, "type" : "BioPlate"}}
+
+        self.bpis_infos = {"plate_representation" : {"row" : 8, "column" : 12, "stack" : True, "type" : "BioPlateInserts"}}  
+        
+        
     def tearDown(self):
         """
         This function is run every time at the end of each test
@@ -73,8 +105,13 @@ class TestPlateFromExcel(unittest.TestCase):
         """
         with contextlib.suppress(FileNotFoundError):
             Path(PurePath("bp_header.xlsx")).unlink()
-            Path(PurePath("bps_no_header.xlsx")).unlink()
+            Path(PurePath("bpi_header.xlsx")).unlink()
+            Path(PurePath("bps_header.xlsx")).unlink()
+            Path(PurePath("bpis_header.xlsx")).unlink()
+            Path(PurePath("bp_no_header.xlsx")).unlink()
             Path(PurePath("bpi_no_header.xlsx")).unlink()
+            Path(PurePath("bps_no_header.xlsx")).unlink()
+            Path(PurePath("bpis_no_header.xlsx")).unlink()
 
 
     def test_get__no_empty_sheets(self):
@@ -83,16 +120,111 @@ class TestPlateFromExcel(unittest.TestCase):
         as_read = OrderedDict([("plate_representation", list(map(remove_tail, map(list, self.plt))))])
         self.assertEqual(read, as_read)
 
-#    def test_BP_hd(self):
-#        read = BioPlateFromExcel("bp_header.xlsx").BioPlate_representation["plate_representation"][0]
-#        np.testing.assert_array_equal(self.plt, read)
+    def test_guess_type(self):
+        bp = BioPlateFromExcel("bp_header.xlsx")
+        tbp = bp._guess_type(bp.no_empty_sheets["plate_representation"])
+        bpi = BioPlateFromExcel("bpi_header.xlsx")
+        tbpi = bpi._guess_type(bpi.no_empty_sheets["plate_representation"])
+        bps = BioPlateFromExcel("bps_header.xlsx")
+        tbps = bps._guess_type(bps.no_empty_sheets["plate_representation"])
+        bpis = BioPlateFromExcel("bpis_header.xlsx")
+        tbpis = bpis._guess_type(bpis.no_empty_sheets["plate_representation"])
+        self.assertEqual(tbp, BioPlate)
+        self.assertEqual(tbpi, BioPlateInserts)
+        self.assertEqual(tbps, BioPlate)
+        self.assertEqual(tbpis, BioPlateInserts)
 
-#    def test_BPI_no_hd(self):
-#        read = BioPlateFromExcel("bpi_no_header.xlsx",  plate_infos={"sheet_name" : "plate_representation",  "row" : 8, "column" : 12}, header=False, Inserts= True ).BioPlate_representation["plate_representation"][0]
-#        print(read)
-#        #print(self.Inserts[np.where(read != self.Inserts)])
-#        #self.assertEqual(self.Inserts.all(), read.all())
-#        np.testing.assert_equal(self.Inserts, read)
+    def test_guess_column_row(self):
+        bp = BioPlateFromExcel("bp_header.xlsx")
+        tbp = bp._guess_column_row(bp.no_empty_sheets["plate_representation"])
+        bpi = BioPlateFromExcel("bpi_header.xlsx")
+        tbpi = bpi._guess_column_row(bpi.no_empty_sheets["plate_representation"])
+        bps = BioPlateFromExcel("bps_header.xlsx")
+        tbps = bps._guess_column_row(bps.no_empty_sheets["plate_representation"])
+        bpis = BioPlateFromExcel("bpis_header.xlsx")
+        tbpis = bpis._guess_column_row(bpis.no_empty_sheets["plate_representation"])
+        self.assertEqual(tbp, (12, 8))
+        self.assertEqual(tbpi, (12, 8))
+        self.assertEqual(tbps, (12, 8))
+        self.assertEqual(tbpis, (12, 8))
+
+    def test_get_stack(self):
+            bp = BioPlateFromExcel("bp_header.xlsx")
+            tbp = bp._get_stack(bp.no_empty_sheets["plate_representation"])
+            bpi = BioPlateFromExcel("bpi_header.xlsx")
+            tbpi = bpi._get_stack(bpi.no_empty_sheets["plate_representation"])
+            bps = BioPlateFromExcel("bps_header.xlsx")
+            tbps = bps._get_stack(bps.no_empty_sheets["plate_representation"])
+            bpis = BioPlateFromExcel("bpis_header.xlsx")
+            tbpis = bpis._get_stack(bpis.no_empty_sheets["plate_representation"])
+            self.assertEqual(tbp, False)
+            self.assertEqual(tbpi, False)
+            self.assertEqual(tbps, True)
+            self.assertEqual(tbpis, True)
+
+    def test_get_plate_informations(self):
+        sn = "plate_representation"
+        bp = BioPlateFromExcel("bp_header.xlsx")
+        tbp = bp._get_plate_informations(bp.no_empty_sheets["plate_representation"], sn)
+        bpi = BioPlateFromExcel("bpi_header.xlsx")
+        tbpi = bpi._get_plate_informations(bpi.no_empty_sheets["plate_representation"], sn)
+        bps = BioPlateFromExcel("bps_header.xlsx")
+        tbps = bps._get_plate_informations(bps.no_empty_sheets["plate_representation"], sn)
+        bpis = BioPlateFromExcel("bpis_header.xlsx")
+        tbpis = bpis._get_plate_informations(bpis.no_empty_sheets["plate_representation"], sn)
+        self.assertEqual(tbp, (BioPlate, False, 12, 8))
+        self.assertEqual(tbpi, (BioPlateInserts, False, 12, 8))
+        self.assertEqual(tbps, (BioPlate, True, 12, 8))
+        self.assertEqual(tbpis, (BioPlateInserts, True, 12, 8))
+
+    def test_get_BioPlate_object(self):
+        bp = BioPlateFromExcel("bp_header.xlsx")
+        tbp = bp._get_BioPlate_object()["plate_representation"]
+        bpi = BioPlateFromExcel("bpi_header.xlsx")
+        tbpi = bpi._get_BioPlate_object()["plate_representation"]
+        bps = BioPlateFromExcel("bps_header.xlsx")
+        tbps = bps._get_BioPlate_object()["plate_representation"]
+        bpis = BioPlateFromExcel("bpis_header.xlsx")
+        tbpis = bpis._get_BioPlate_object()["plate_representation"] 
+        np.testing.assert_array_equal(tbp, self.plt)
+        np.testing.assert_array_equal(tbpi, self.Inserts)
+        np.testing.assert_array_equal(tbps, self.stack)
+        np.testing.assert_array_equal(tbpis, self.stacki)
+
+    def test_get_plate_informations_no_HD(self):
+        
+        bp = BioPlateFromExcel("bp_no_header.xlsx", plate_infos=self.bp_infos)
+        tbp = bp._get_plate_informations(bp.no_empty_sheets["plate_representation"], self.sn)
+        
+        bpi = BioPlateFromExcel("bpi_no_header.xlsx", plate_infos=self.bpi_infos)
+        tbpi = bpi._get_plate_informations(bpi.no_empty_sheets["plate_representation"], self.sn)
+        
+        bps = BioPlateFromExcel("bps_no_header.xlsx", plate_infos=self.bps_infos)
+        tbps = bps._get_plate_informations(bps.no_empty_sheets["plate_representation"], self.sn)
+
+        bpis = BioPlateFromExcel("bpis_no_header.xlsx", plate_infos=self.bpis_infos)
+        tbpis = bpis._get_plate_informations(bpis.no_empty_sheets["plate_representation"], self.sn)
+
+        self.assertEqual(tbp, (BioPlate, False, 12, 8))
+        self.assertEqual(tbpi, (BioPlateInserts, False, 12, 8))
+        self.assertEqual(tbps, (BioPlate, True, 12, 8))
+        self.assertEqual(tbpis, (BioPlateInserts, True, 12, 8))
+
+    def test_get_BioPlate_object_no_HD(self):
+        bp = BioPlateFromExcel("bp_no_header.xlsx", plate_infos=self.bp_infos)
+        tbp = bp._get_BioPlate_object()["plate_representation"]
+        
+        bpi = BioPlateFromExcel("bpi_no_header.xlsx", plate_infos=self.bpi_infos)
+        tbpi = bpi._get_BioPlate_object()["plate_representation"]
+        
+        bps = BioPlateFromExcel("bps_no_header.xlsx", plate_infos=self.bps_infos)
+        tbps = bps._get_BioPlate_object()["plate_representation"]
+        bpis = BioPlateFromExcel("bpis_no_header.xlsx", plate_infos=self.bpis_infos)
+        tbpis = bpis._get_BioPlate_object()["plate_representation"] 
+        np.testing.assert_array_equal(tbp, self.plt)
+        np.testing.assert_array_equal(tbpi, self.Inserts)
+        np.testing.assert_array_equal(tbps, self.stack)
+        np.testing.assert_array_equal(tbpis, self.stacki)
 
 
 if __name__ == "__main__":
