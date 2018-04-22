@@ -52,7 +52,12 @@ class TestPlate(unittest.TestCase):
         This function is run every time at the end of each test
         :return:
         """
-        pass
+        try:
+            Path( PurePath('test_plate_to_excel.xlsx')).unlink()
+            Path( PurePath('test_ins_to_excel.xlsx')).unlink()
+            Path( PurePath('test_stack_to_excel.xlsx')).unlink()
+        except FileNotFoundError:
+            pass
 
     def test_Plate_init(self):
         np.testing.assert_array_equal(self.plt,
@@ -294,6 +299,18 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(self.plt.name, "BioPlate")
         self.assertEqual(self.Inserts.name, "BioPlateInserts")
         self.assertEqual(self.stack.name, "BioPlateStack")
+
+    def test_to_excel(self):
+        self.plt.to_excel('test_plate_to_excel.xlsx')
+        exist_plate = Path("test_plate_to_excel.xlsx" ).exists()
+        self.Inserts.to_excel('test_ins_to_excel.xlsx')
+        exist_ins = Path("test_ins_to_excel.xlsx" ).exists()
+        self.stack.to_excel('test_stack_to_excel.xlsx')
+        exist_stack = Path("test_stack_to_excel.xlsx" ).exists()
+            
+        self.assertTrue(exist_plate)
+        self.assertTrue(exist_ins)
+        self.assertTrue(exist_stack)
 
 if __name__ == "__main__":
     unittest.main()

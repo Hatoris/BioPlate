@@ -212,3 +212,10 @@ class BioPlateManipulation:
     def count(self, reverse=False):
         return BioPlateCount(self, reverse=reverse)
 
+    def to_excel(self, file_name,  sheets=['plate_representation', 'plate_data', 'plate_count'], header = True, accumulate = True, order="C",  empty="empty"):
+        from BioPlate.writer.to_excel import BioPlateToExcel
+        xls_file = BioPlateToExcel(file_name, sheets=sheets, header=header, accumulate=accumulate, order=order, empty=empty)
+        xls_file.representation(self)
+        xls_file.data(self)
+        xls_file.count(self)
+        xls_file.close()
