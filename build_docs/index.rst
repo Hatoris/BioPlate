@@ -17,6 +17,8 @@ Contents
     intro
     instalation
     basic_usage
+    functions
+        set_to_plate
     glossary    
 
    	
