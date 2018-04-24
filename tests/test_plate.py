@@ -203,6 +203,7 @@ class TestPlate(unittest.TestCase):
                                                
         np.testing.assert_array_equal(self.stack.set(1,  'F-H[1-3]', ["Test1", "Test2", "Test3"])[1], self.plt1)
         np.testing.assert_array_equal(self.Inserts.top.set(  'A-C[1-3]', ["Test1", "Test2", "Test3"] ), self.Inserts.top)
+        #np.testing.assert_array_equal(self.plt.set('1-3[F-H]', ["Test1", "Test2", "Test3"]))
         
     def test_set(self):
         np.testing.assert_array_equal(self.plt.set("2[B,E]", "Test"), self.plt)

@@ -1,11 +1,13 @@
 import numpy as np
+import BioPlate.utilitis as bpu
+
 from BioPlate.database.plate_db import PlateDB
-import BioPlate.utilitis as bpu #import _LETTER, dimension
-from time import time, sleep
+
 
 
 class BioPlateArray(np.ndarray):
-    """A row is symbolise by it's letter, a column by a number"""    
+    """ BioPlateArray is core based application, this class is the only one to inerit from np.ndarray. This class return a np.array format properly for BioPlate or BioPlateInserts. A row is symbolise by it's letter, a column by a number.
+    """    
     
     _PLATE_CACHE = {} # contain id as key and np.array plate as value 
     _STACK_CACHE = {} # contain id of stak plate as key and list of unique plate bioplatestack cache
@@ -39,12 +41,25 @@ class BioPlateArray(np.ndarray):
     
     def get_columns_rows(*args, **kwargs):
         """
-        use to get columns and rows
+        use to get columns and rows from database call or directly from args.
         
-        :param int args1: number of columns
-        :param int args2: number of rows
-        :param dict args3: key value in PlateDB
-        :return: columns, rows
+        
+        Parameters
+        -------------------      
+         *args int: 
+             number of columns AND number of row
+          *args dict:
+               dict with key, value for database research
+         
+         Returns
+         -------------
+        int, int
+            columns, rows of the given args
+        
+        Raises
+        -----------
+        AttributeError
+            if args and kwargs pass can be used to return columns and rows value
         
         """
         dict_in = isinstance(args[0], dict)
@@ -72,9 +87,27 @@ class BioPlateArray(np.ndarray):
     
     def bio_plate_array(columns, rows):
             """
-            get a numpy.array representation of a plate in dtype='U40' (eg : 6 wells plate)
+            Create a representation of biological plate from a given number of columns and rows value.
             
-            :return: np.array([[0, 1, 2, 3], [A, 0, 0, 0], [B, 0, 0, 0]])
+            Parameters
+            --------------------          
+            columns int:
+                number of columns in the plate representation
+             rows int:
+                 number of rows in the plate representation 
+            
+            Returns
+            -------------
+            np.ndarray
+                the np.array have a shape of rows+1, columns+1 to feat the header in it.        Datatype inside the returned np.array is U100 in order to get mixed value of str and int.
+            
+            Exemples
+            ----------------
+            >>>print(BioPlateArray.bio_plate_array(3, 2))
+            [ [', '1', '2', '3']
+              ['A', '', '', '']
+              ['B', '', '', '']
+              ['C', '', '', ''] ]
             """
             BParray = np.zeros([rows + 1, columns + 1], dtype='U100')
             BParray[0] = np.arange( columns+1)
@@ -83,24 +116,28 @@ class BioPlateArray(np.ndarray):
             return BParray
     
     def _bio_plate_array(columns, rows):
+        """
+         Looking cache for np.ndarray with columns, rows as key
+            
+            Parameters
+            --------------------          
+            columns int:
+                number of columns in the plate representation
+             rows int:
+                 number of rows in the plate representation 
+            
+            Returns
+            -------------
+            np.ndarray
+               np.ndarray from cache
+        
+        """
         key = (columns, rows)
         if key not in BioPlateArray._CACHE_BPA:
             BParray = BioPlateArray._bio_plate_array(columns, rows)
             BioPlateArray._CACHE_BPA[key] = BParray
         return  BioPlateArray._CACHE_BPA[key]
-            
-    
-    def BioPlate_parameters(BioPlate):
-        BioPlate_dimension = bpu.dimension(BioPlate)
-        BioPlate_shape = BioPlate.shape
-        if BioPlate_dimension:
-            stack, rows, columns = BioPlate_shape
-        else:
-            stack = 0
-            columns, rows = BioPlate_shape
-        return BioPlate_dimension, stack, rows - 1, columns - 1
-
-
+           
     def _get_plate_in_cache(ID):
        """
        return a plate for a given ID 
@@ -126,16 +163,14 @@ class BioPlateArray(np.ndarray):
     def _merge_stack(stack1_ID, stack2_ID):
          newstack = BioPlateArray._STACK_CACHE[stack1_ID] + BioPlateArray._STACK_CACHE[stack2_ID]
          return newstack
-          
-          
+             
     def _add_stack_to_cache(stack_ID, ID_list):
         BioPlateArray._STACK_CACHE[stack_ID] = ID_list
         
     def _add_plate_in_cache(ID, BioPlate):
          if ID not in BioPlateArray._PLATE_CACHE:
                BioPlateArray._PLATE_CACHE[ID] = BioPlate
-        
-   
+           
     def _get_list_id_of_stack(plate_object):
         if bpu.dimension(plate_object):
                 ID_list = []
@@ -146,17 +181,3 @@ class BioPlateArray(np.ndarray):
         else:
             raise ValueError("plate_object is not a stack")
 
-if __name__ == "__main__":
-    t0 = time()
-    #print(BioPlateArray.bio_plate_array(12,8))
-    t1 = time()
-    #print(BioPlateArray.bio_plate_array(12,8))
-    t2 = time()
-    print(f"call 1 {t1 - t0}, call 2 {t2 - t1}")
-    print(BioPlateArray({"id" : 1}))
-    st = np.arange(192).reshape(2, 12, 8)
-    #sts = [plate for plate in st]
-    #print(BioPlateArray._PLATE_CACHE)
-    #print(BioPlateArray(2, 12, 8))
-    #print(BioPlateArray._PLATE_CACHE)
-    #print(BioPlateArray([123, 456, 789]))

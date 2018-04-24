@@ -43,11 +43,9 @@ class BioPlateManipulation:
         list_in = any(isinstance(arg, list) for arg in args)
         if len(args) == 2 and not dict_in :
             well, value, *trash = args
-        #add_values
         if len(args) == 1 and dict_in:
             well, *trash = args
             value = None
-       #multi_value
         if len(args) == 2 and list_in:
             well, value, *trash = args
         return well, value                             
