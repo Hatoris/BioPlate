@@ -15,10 +15,10 @@ Contents
     :caption: Contents:
     
     intro
-    instalation
+    installation
     basic_usage
-    functions
-        set_to_plate
+    fn_set
+    fn_get
     glossary    
 
    	

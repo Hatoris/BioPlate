@@ -1,6 +1,7 @@
-=============
+============
 Installation
-==============
+============
+
 
 Library can be installed by :
 
@@ -8,8 +9,7 @@ Library can be installed by :
 
 or you can clone the repository
 
-```bash
+.. code:: bash
 
     git clone
 
-```

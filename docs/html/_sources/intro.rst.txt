@@ -1,6 +1,6 @@
-==========
+============
 Introduction
-==========
+============
 
 A simple application to generate annotated plates_ used in biological experiments.
 
@@ -8,13 +8,13 @@ A simple application to generate annotated plates_ used in biological experiment
 
 The main use cases of the library are:
 
-* call representation of a multi well plate
+* Working with a multi wells plate representation
 
-* set values or infos rapidly for each well 
+* Set values or infos rapidly for each well on a plate
 
-* get a representation of a plate in multiple table format (markdow, html, rst ...)
+* Get a plate representation for other format such as markdow, html, rst ...
 
-* pass data to a spreadsheat, iterate value by row or column, iterate multiple value in same table
+* Send data on a spreadsheet, iterate values by row or column, compilate multiple values from multiple plates in a unique table
 
-* use database to keep info on a given plate type, store plate in database
+* Use database to keep infos on a given plate type (volume and surface on each well, compagny url) and store plate in database
 

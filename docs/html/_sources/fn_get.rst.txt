@@ -1,0 +1,45 @@
+================
+Get value on plate
+================
+
+>>> from BioPlate import BioPlate
+
+On simple plate
+--------------------------
+
+
+>>> simple_plate = BioPlate(12, 8)
+>>> simple_plate.set("A1", "test1")
+
+
+On inserts plate
+----------------------------
+
+>>> inserts_plate = BioPlate(6, 4, inserts=True)
+>>> inserts_plate.top.set("A1", "test1 on top")
+
+
+On stack of plate
+----------------------------
+
+>>> plate1 = BioPlate(12, 8)
+>>> plate2 = BioPlate(12, 8)
+>>> stack = plate1 + plate2
+>>> stack.set(0, "A1", "test3 on plate1")
+>>> print(plate1)
+
+
+Set one value at time
+-----------------------------------
+
+Set value on column
+----------------------------------
+
+Set value on row
+---------------------------
+
+Set multiple value at once
+----------------------------------------------
+
+.. note::
+    For all plate object (`BioPlate`, `BioPlateInserts` and `BioPlateStack`) numpy array indexing work also.

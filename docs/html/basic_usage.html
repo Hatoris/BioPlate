@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="BioPlate 0.1.0 documentation" href="index.html"/>
-        <link rel="next" title="Glossary" href="glossary.html"/>
-        <link rel="prev" title="Installation" href="instalation.html"/> 
+        <link rel="next" title="Set value on plate" href="fn_set.html"/>
+        <link rel="prev" title="Installation" href="installation.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -94,8 +94,9 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="instalation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Library usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fn_set.html">Set value on plate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 
@@ -168,7 +169,7 @@
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;print(my_plate)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">my_plate</span><span class="p">)</span>
 <span class="go">[[&#39; &#39; &#39;1&#39; &#39;2&#39; &#39;3&#39; &#39;4&#39; &#39;5&#39; &#39;6&#39; &#39;7&#39; &#39;8&#39; &#39;9&#39; &#39;10&#39; &#39;11&#39; &#39;12&#39;]</span>
 <span class="go"> [&#39;A&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]</span>
 <span class="go"> [&#39;B&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]</span>
@@ -178,9 +179,11 @@
 <span class="go"> [&#39;F&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]</span>
 <span class="go"> [&#39;G&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]</span>
 <span class="go"> [&#39;H&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">value_of_wells</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;non_treated&quot;</span><span class="p">,</span>  <span class="s2">&quot;control solvant&quot;</span><span class="p">,</span> <span class="s2">&quot;conc1&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc2&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc3&quot;</span><span class="p">,</span> <span class="s2">&quot;conc4&quot;</span><span class="p">,</span> <span class="s2">&quot;conc5&quot;</span><span class="p">,</span> <span class="s2">&quot;conc6&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc7&quot;</span><span class="p">,</span> <span class="s2">&quot;media only&quot;</span><span class="p">]</span>
-<span class="go">&gt;&gt;&gt;my_plate.set(&quot;2-11[B-G]&quot;, value_of_wells)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">my_plate</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add values to well, here from column 2 to column 11 on row B to G. For more possibilities on how to set value go there.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">value_of_wells</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;non_treated&quot;</span><span class="p">,</span>  <span class="s2">&quot;control solvant&quot;</span><span class="p">,</span> <span class="s2">&quot;conc1&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc2&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc3&quot;</span><span class="p">,</span> <span class="s2">&quot;conc4&quot;</span><span class="p">,</span> <span class="s2">&quot;conc5&quot;</span><span class="p">,</span> <span class="s2">&quot;conc6&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc7&quot;</span><span class="p">,</span> <span class="s2">&quot;media only&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-11[B-G]&quot;</span><span class="p">,</span> <span class="n">value_of_wells</span><span class="p">)</span>
 <span class="go">[[&#39; &#39; &#39;1&#39; &#39;2&#39; &#39;3&#39; &#39;4&#39; &#39;5&#39; &#39;6&#39; &#39;7&#39; &#39;8&#39; &#39;9&#39; &#39;10&#39; &#39;11&#39; &#39;12&#39;]</span>
 <span class="go"> [&#39;A&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]</span>
 <span class="go"> [&#39;B&#39; &#39;&#39; &#39;non_treated&#39; &#39;control solvant&#39; &#39;conc1&#39; &#39;conc2&#39; &#39;conc3&#39; &#39;conc4&#39; &#39;conc5&#39; &#39;conc6&#39; &#39;conc7&#39; &#39;media only&#39; &#39;&#39;]</span>
@@ -190,6 +193,44 @@
 <span class="go"> [&#39;F&#39; &#39;&#39; &#39;non_treated&#39; &#39;control solvant&#39; &#39;conc1&#39; &#39;conc2&#39; &#39;conc3&#39; &#39;conc4&#39; &#39;conc5&#39; &#39;conc6&#39; &#39;conc7&#39; &#39;media only&#39; &#39;&#39;]</span>
 <span class="go"> [&#39;G&#39; &#39;&#39; &#39;non_treated&#39; &#39;control solvant&#39; &#39;conc1&#39; &#39;conc2&#39; &#39;conc3&#39; &#39;conc4&#39; &#39;conc5&#39; &#39;conc6&#39; &#39;conc7&#39; &#39;media only&#39; &#39;&#39;]</span>
 <span class="go"> [&#39;H&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]]</span>
+</pre></div>
+</div>
+<p>You can get a nice representation of your plate by calling <cite>table</cite> on it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">my_plate</span><span class="o">.</span><span class="n">table</span><span class="p">())</span>
+<span class="go">     1    2            3                4      5      6      7      8      9      10     11          12</span>
+<span class="go">---  ---  -----------  ---------------  -----  -----  -----  -----  -----  -----  -----  ----------  ----</span>
+<span class="go">A</span>
+<span class="go">B         non_treated  control solvant  conc1  conc2  conc3  conc4  conc5  conc6  conc7  media only</span>
+<span class="go">C         non_treated  control solvant  conc1  conc2  conc3  conc4  conc5  conc6  conc7  media only</span>
+<span class="go">D         non_treated  control solvant  conc1  conc2  conc3  conc4  conc5  conc6  conc7  media only</span>
+<span class="go">E         non_treated  control solvant  conc1  conc2  conc3  conc4  conc5  conc6  conc7  media only</span>
+<span class="go">F         non_treated  control solvant  conc1  conc2  conc3  conc4  conc5  conc6  conc7  media only</span>
+<span class="go">G         non_treated  control solvant  conc1  conc2  conc3  conc4  conc5  conc6  conc7  media only</span>
+<span class="go">H</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">my_plate</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">))</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">|     | 1   | 2           | 3               | 4     | 5     | 6     | 7     | 8     | 9     | 10    | 11         | 12   |</span>
+<span class="go">+=====+=====+=============+=================+=======+=======+=======+=======+=======+=======+=======+============+======+</span>
+<span class="go">| A   |     |             |                 |       |       |       |       |       |       |       |            |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">| B   |     | non_treated | control solvant | conc1 | conc2 | conc3 | conc4 | conc5 | conc6 | conc7 | media only |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">| C   |     | non_treated | control solvant | conc1 | conc2 | conc3 | conc4 | conc5 | conc6 | conc7 | media only |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">| D   |     | non_treated | control solvant | conc1 | conc2 | conc3 | conc4 | conc5 | conc6 | conc7 | media only |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">| E   |     | non_treated | control solvant | conc1 | conc2 | conc3 | conc4 | conc5 | conc6 | conc7 | media only |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">| F   |     | non_treated | control solvant | conc1 | conc2 | conc3 | conc4 | conc5 | conc6 | conc7 | media only |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">| G   |     | non_treated | control solvant | conc1 | conc2 | conc3 | conc4 | conc5 | conc6 | conc7 | media only |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+<span class="go">| H   |     |             |                 |       |       |       |       |       |       |       |            |      |</span>
+<span class="go">+-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+</span>
+</pre></div>
+</div>
+<p>We can also send a representation of plate in excel file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_plate</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\Users\Florian\Desktop\my_plate.xlsx&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -204,10 +245,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="fn_set.html" class="btn btn-neutral float-right" title="Set value on plate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="instalation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

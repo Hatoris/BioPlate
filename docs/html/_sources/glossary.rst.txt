@@ -2,7 +2,7 @@ Glossary
 =========
 
 .. glossary::
-          
+
     Array
         Refere to numpy array
         
@@ -18,5 +18,5 @@ Glossary
     stack
         A BioPlate with multiple plate on it
        
-   inserts
-       A BioPlate with tow compartement a top and a bottom one
+    inserts
+        A BioPlate with tow compartement a top and a bottom one

@@ -157,7 +157,11 @@ class BioPlateManipulation:
             if value is not None:
                 self[well[0], well[1]] = value
             else:
-                 return self[well[0], well[1]]
+                print(well)
+                if isinstance(well, tuple):
+                    return self[well[0], well[1]]
+                elif well[0][0] == "R":
+                    return self[well[0][1]:well[0][2],well[0][3]:well[-1][3]]
 
     def _eval_well_value(self, well, value):
         well = BioPlateMatrix(well)

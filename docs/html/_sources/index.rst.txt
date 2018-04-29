@@ -15,8 +15,10 @@ Contents
     :caption: Contents:
     
     intro
-    instalation
+    installation
     basic_usage
+    fn_set
+    fn_get
     glossary    
 
    	
