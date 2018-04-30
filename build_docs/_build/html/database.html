@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Common database method &mdash; BioPlate 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Get values on plate" href="fn_get.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BioPlate
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Library usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fn_set.html">Set values on plate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#on-simple-plate">On simple plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#on-inserts-plate">On inserts plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#on-stack-of-plate">On stack of plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-one-value-at-time">Set one value at time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-value-on-column">Set value on column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-value-on-row">Set value on row</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-multiple-value-at-once">Set multiple value at once</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#important">Important</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fn_get.html">Get values on plate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#on-simple-plate">On simple plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#on-inserts-plate">On inserts plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#on-stack-of-plate">On stack of plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#set-one-value-at-time">Set one value at time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#set-value-on-column">Set value on column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#set-value-on-row">Set value on row</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#set-multiple-value-at-once">Set multiple value at once</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_get.html#important">Important</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Common database method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#get-one-plate-object">Get one plate object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#get-plate-object-matching-given-elements">Get plate object matching given elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#get-all-elements-in-given-database">Get all elements in given database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#update-plate-object-in-database">Update plate object in database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#delete-plate-object-in-database">Delete plate object in database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+    <a href="genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BioPlate</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Common database method</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/database.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>BioPlate use <a class="reference external" href="http://www.sqlalchemy.org">sqlalchemy</a>  in order to manipulate sqlite3 database.  Each database file are stock in the script under <cite>BioPlate/database/DBfiles</cite>.</p>
+<div class="section" id="common-database-method">
+<h1>Common database method<a class="headerlink" href="#common-database-method" title="Permalink to this headline">¶</a></h1>
+<p>Plate database and plate historic database bot inherit of database parent class.
+Each function in commun should be call on an instance and by adding one of this suffix :</p>
+<p>PlateDB : <cite>_plate</cite>
+PlateHist : <cite>_hplate</cite></p>
+<p>Eg: For get method you will call it like that :</p>
+<p>For PlateDB :</p>
+<p><cite>self.get_plate()</cite></p>
+<p>For PlateHist:</p>
+<p><cite>self.get_hplate()</cite></p>
+<p>eg :</p>
+<p><a href="#id1"><span class="problematic" id="id2">`</span></a>&gt;&gt;&gt; plt = PlateDB()`&lt;br&gt;
+<a href="#id3"><span class="problematic" id="id4">`</span></a>&gt;&gt;&gt; plate_96 = plt.get_plate(96)`&lt;br&gt;
+<a href="#id5"><span class="problematic" id="id6">`</span></a>&gt;&gt;&gt; plate_96`&lt;br&gt;
+<a href="#id7"><span class="problematic" id="id8">`</span></a>[&lt;plate N°1 : 96-12-8&gt;]`&lt;br&gt;
+<a href="#id9"><span class="problematic" id="id10">`</span></a>&gt;&gt;&gt; print(plate_96[0].name)`&lt;br&gt;
+<a href="#id11"><span class="problematic" id="id12">`</span></a>None`&lt;br&gt;
+<a href="#id13"><span class="problematic" id="id14">`</span></a>&gt;&gt;&gt; print(plate_96[0].surfWell)`&lt;br&gt;
+<a href="#id15"><span class="problematic" id="id16">`</span></a>0.29`&lt;br&gt;
+<a href="#id17"><span class="problematic" id="id18">`</span></a>&gt;&gt;&gt; update = {“name” : “plate_for_MTT_test”, “surfWell” : 0.3}`&lt;br&gt;
+<a href="#id19"><span class="problematic" id="id20">`</span></a>&gt;&gt;&gt; plt.update_plate(update, 96)`&lt;br&gt;
+<a href="#id21"><span class="problematic" id="id22">`</span></a>&gt;&gt;&gt; plate_96_update = plt.get_plate(96)`&lt;br&gt;
+<a href="#id23"><span class="problematic" id="id24">`</span></a>&gt;&gt;&gt; plate_96_update.name`&lt;br&gt;
+<a href="#id25"><span class="problematic" id="id26">`</span></a>plate_for_MTT_test`&lt;br&gt;
+<a href="#id27"><span class="problematic" id="id28">`</span></a>&gt;&gt;&gt; plate_96_update.surfWell`&lt;br&gt;
+<a href="#id29"><span class="problematic" id="id30">`</span></a>0.3`&lt;br&gt;</p>
+</div>
+<div class="section" id="get-one-plate-object">
+<h1>Get one plate object<a class="headerlink" href="#get-one-plate-object" title="Permalink to this headline">¶</a></h1>
+<p><cite>get(self, args, key=”numWell”)</cite></p>
+</div>
+<div class="section" id="get-plate-object-matching-given-elements">
+<h1>Get plate object matching given elements<a class="headerlink" href="#get-plate-object-matching-given-elements" title="Permalink to this headline">¶</a></h1>
+<p><cite>get(self, **kwargs,”)</cite></p>
+<p>where <cite>**kwargs</cite> are pair of key, value you are looking for :</p>
+<p>eg : <a href="#id31"><span class="problematic" id="id32">`</span></a>” numWell” = 96,  “surfWell”  = 0.29 `</p>
+<p>This function return a list of object containing all element matching the query.</p>
+<p><cite>PlateDB.get_plate(96)`&lt;br&gt;
+`[&lt;plate N°1 : 96-12-8&gt;, &lt;plate N°26 : cool name,  96-12-8&gt;]</cite></p>
+<p>If no result, retun an empty list</p>
+</div>
+<div class="section" id="get-all-elements-in-given-database">
+<h1>Get all elements in given database<a class="headerlink" href="#get-all-elements-in-given-database" title="Permalink to this headline">¶</a></h1>
+<p><cite>get_all(self)</cite></p>
+<p>This function return all elements stock in the database object.</p>
+<p><a href="#id33"><span class="problematic" id="id34">`</span></a>[&lt;plate N°1 : 96-12-8&gt;,  &lt;plate N°2 : cool 24 plate, 24-6-4&gt;, &lt; … &gt;, &lt;plate N°26 : cool name,  96-12-8&gt;] `</p>
+<p>If database is empty, return an empty list</p>
+</div>
+<div class="section" id="update-plate-object-in-database">
+<h1>Update plate object in database<a class="headerlink" href="#update-plate-object-in-database" title="Permalink to this headline">¶</a></h1>
+<p><cite>update(self, dict_update, args, key=”numWell”)</cite></p>
+<p>where <cite>dict_update</cite> is a dictionary of key and value to update :</p>
+<p><a href="#id35"><span class="problematic" id="id36">`</span></a>{“key to update” : “New value”} `</p>
+<p>eg : <cite>{“name” : “plate_for_MTT_test”, “surfWell” : 0.3}</cite></p>
+<p>where <cite>args</cite> is value you are looking for :</p>
+<p>eg : 96 for number of well</p>
+<p>Where <cite>key</cite> is column name of data you looking for , by default <cite>key</cite> is numWell in both database.</p>
+<p><strong>Be carefull `args` and `key` should be enought specific to return a unique match, is recomended to use `id` as `key`.</strong></p>
+<p>This function return <cite>f”plate with {args} {key} updated”</cite>
+OR
+return <cite>“Use a more specific key to update the object”</cite></p>
+</div>
+<div class="section" id="delete-plate-object-in-database">
+<h1>Delete plate object in database<a class="headerlink" href="#delete-plate-object-in-database" title="Permalink to this headline">¶</a></h1>
+<p><cite>delete(self, args, key=”numWell”)</cite></p>
+<p>where <cite>args</cite> is value you are looking for :</p>
+<p>eg : 96 for number of well</p>
+<p>Where <cite>key</cite> is column name of data you looking for , by default <cite>key</cite> is numWell in both database.</p>
+<p><strong>Be carefull `args` and `key` should be enought specific to return a unique match, is recomended to use `id` as `key`.</strong></p>
+<p>This function return <cite>f”plate with {args} {key} deleted”</cite>
+OR
+return <cite>“Use a more specific key to delete the object”</cite></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="fn_get.html" class="btn btn-neutral" title="Get values on plate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Florian Bernard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

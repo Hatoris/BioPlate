@@ -1,27 +1,40 @@
 ===================
-Set values on plate
+Get values on plate
 ===================
 
 .. code:: python
-
+    
     from BioPlate import BioPlate
+    plate = BioPlate(12, 8)
+    inserts = BioPlate(12, 8, inserts=True)
+    plate1 = BioPlate(12, 8)
+    stack = plate + plate1
+    value = {"A1" : "wellA1", "3[A-C]" : "column3", "E[4-7]" : "row E", "6-8[E-G]" : ["column6", "column7", "column8"], "2[B-G]" : "column2", "B-D[8-12]" : ["rowB", "rowC", "rowD"]}
+    plate.set(value)
+    inserts.top.set(value)
+    inserts.bot.set("6[D-E]", "bottom")
+    stack.set(0, "6[D-E]", "plate1")
+    
 
 On simple plate
 --------------------------
 
 .. code:: python
 
-     simple_plate = BioPlate(12, 8)
-     simple_plate.set("A1", "test1")
-
+   A1 = plate.get("A1")
+   column = plate.get("3[A-C]")
+   row = plate.get("B-D[8-12]")
+   print(A1)
+   print(column)
+   print(row)
+   
 
 On inserts plate
 ----------------------------
 
 .. code:: python
 
-     inserts_plate = BioPlate(6, 4, inserts=True)
-     inserts_plate.top.set("A1", "test1 on top")
+    inserts_plate.top.set("A1", "test1 on top")
 
 .. note::
     
@@ -32,10 +45,11 @@ On stack of plate
 
 .. code:: python
 
-     plate1 = BioPlate(12, 8)
-     plate2 = BioPlate(12, 8)
-     stack = plate1 + plate2
-     stack.set(0, "A1", "test3 on plate1")
+    plate1 = BioPlate(12, 8)
+    plate2 = BioPlate(12, 8)
+    stack = plate1 + plate2
+    stack.set(0, "A1", "test3 on plate1")
+    print(plate1)
 
 .. note::
     
@@ -82,7 +96,7 @@ Assign multiple value with same patern:
 
     plate = BioPlate(12, 8)
     plate.set("2-4[A-G]", ["column2", "column3", "column4"]) # assign value in column
-    plate.set("A-G[5-8]", ["rowA", "rowB", "rowC", "rowD", "rowE", "rowF", "rowG"]) #asign value in row
+    plate.set("A-G[5-8]", ["rowA", "rowB", "rowC", "rowD", "rowE", "rowF", "rowG" ) #asign value in row
 
 Assign multiple value with dict:
 
