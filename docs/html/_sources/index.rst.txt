@@ -6,19 +6,20 @@
 Welcome to BioPlate's documentation!
 ====================================
 
+A simple application to generate annotated plates used in biological experiments.
 
 Contents
 ---------------
 
 .. toctree::
-    :maxdepth: 2
-    :caption: Contents:
-    
+    :maxdepth: 3
+
     intro
     installation
     basic_usage
     fn_set
     fn_get
+    database
     glossary    
 
    	

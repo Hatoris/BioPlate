@@ -2,21 +2,40 @@
 Get values on plate
 ===================
 
+Get's function is used to easily retrieve values from a plate.
+
+.. hint::
+    
+    Get return a unique value if call for one well or it will return a `numpy.ndarray`_ for multiple well, to get list you can use `.tolist()`_ .
+    
+.. _`numpy.ndarray`: https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.ndarray.html
+
+.. _`.tolist()`: https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.ndarray.tolist.html
+
+For demonstration purposes we will used following instances of plate objects.
+
 .. code:: python
     
     from BioPlate import BioPlate
     plate = BioPlate(12, 8)
-    inserts = BioPlate(12, 8, inserts=True)
     plate1 = BioPlate(12, 8)
-    stack = plate + plate1
-    value = {"A1" : "wellA1", "3[A-C]" : "column3", "E[4-7]" : "row E", "6-8[E-G]" : ["column6", "column7", "column8"], "2[B-G]" : "column2", "B-D[8-12]" : ["rowB", "rowC", "rowD"]}
+    inserts = BioPlate(12, 8, inserts=True)
+    stack = plate + plate1   
+    value = {
+       "A1" : "wellA1",
+       "3[A-C]" : "column3", 
+       "E[4-7]" : "row E", 
+       "6-8[E-G]" : ["column6", "column7", "column8"], 
+       "2[B-G]" : "column2", 
+       "B-D[8-12]" : ["rowB", "rowC", "rowD"]
+    }
     plate.set(value)
     inserts.top.set(value)
     inserts.bot.set("6[D-E]", "bottom")
-    stack.set(0, "6[D-E]", "plate1")
+    stack.set(1, "6[D-E]", "plate1")
     
 
-On simple plate
+Get on simple plate
 --------------------------
 
 .. code:: python
@@ -24,90 +43,80 @@ On simple plate
    A1 = plate.get("A1")
    column = plate.get("3[A-C]")
    row = plate.get("B-D[8-12]")
-   print(A1)
-   print(column)
-   print(row)
    
 
-On inserts plate
-----------------------------
+Get on inserts plate
+----------------------------------
 
 .. code:: python
 
-    inserts_plate.top.set("A1", "test1 on top")
+   A1_top_inserts = inserts.top.get("A1")
+   column_bot_inserts = inserts.bot.get("6[D-E]")
+   row_top_inserts = inserts.top.get("B-D[8-12]")
 
 .. note::
     
     Inserts plate are made of two parts, a *top* and a *bottom*. In order to assign value on an Inserts plate you should first select a part with `top` or `bot`.
-
-On stack of plate
-----------------------------
+        
+Get on stack of plate
+-----------------------------------
 
 .. code:: python
 
-    plate1 = BioPlate(12, 8)
-    plate2 = BioPlate(12, 8)
-    stack = plate1 + plate2
-    stack.set(0, "A1", "test3 on plate1")
-    print(plate1)
+    A1_plate_stack = stack.get(0, "A1")
+    column_bot_inserts = inserts.bot.get("6[D-E]")
+    row_top_inserts = inserts.top.get("B-D[8-12]")
 
 .. note::
     
     A stack is made of multiple plate, in order to select which plate you want to assign values, you should provide the plate index in stack as first arguments.
 
 
-Set one value at time
+Get one value at time
 -----------------------------------
 
 .. code:: python
 
-    plate = BioPlate(12, 8)
-    plate.set("B1", "well B1")
-    plate[1,2] = "well B2" #assign a well value with numpy indexing
+    A1 = plate.get("A1")
+    A1_np = plate[1,1]
+    any(A1 == A1_np) # True
 
-Set value on column
+Get value on column
 ----------------------------------
 
 .. code:: python
 
-    plate = BioPlate(12, 8)
-    plate.set("3", "column 3")
-    plate[1:,4] = "column 4" #assign a well value with numpy indexing
-    plate.set("5[A-C]", "column 5")
-    plate[1:4,6] = "column 6"
+    Column3 = plate.get("3")
+    Column3_np = plate[1:,3]
+    any(Column3 == Column3_np)  # True
+    
+    Column5 = plate.get("5[A-C]")
+    Column5_np = plate[1:4,5]
+    any(Column5 == Column5_np) # True
 
-Set value on row
+Get value on row
 ---------------------------
 
 .. code:: python
 
-    plate = BioPlate(12, 8)
-    plate.set("B", "row B")
-    plate[3,1:] = "row C" #assign a well value with numpy indexing
-    plate.set("D[2-5]", "row D")
-    plate[5,2:6] = "row E"
+    RowB = plate.get("B")
+    RowB_np = plate[2,1:] 
+    any(RowB == RowB_np) # True
+    
+    RowD = plate.get("D[2-5]")
+    RowD_np = plate[4,2:6]
+    any(RowD == RowD_np) # True
 
-Set multiple value at once
-----------------------------------------------
-
-Assign multiple value with same patern:
+Get multiple value at once
+---------------------------------------------
 
 .. code:: python    
 
-    plate = BioPlate(12, 8)
-    plate.set("2-4[A-G]", ["column2", "column3", "column4"]) # assign value in column
-    plate.set("A-G[5-8]", ["rowA", "rowB", "rowC", "rowD", "rowE", "rowF", "rowG" ) #asign value in row
+    multiC = plate.get("2-4[A-G]")
+    multiC_np = plate[1:8,2:5]
+    (multiC == multiC_np).any() # True
+    
+    multiR = plate.get("A-G[5-8]")
+    multiR_np = plate[1:8,5:9]
+    (multiR == multiR_np).any() # True
 
-Assign multiple value with dict:
-
-.. code:: python   
-
-    plate = BioPlate(12, 8)
-    plate.set({"A1" : "wellA1", "3[A-C]" : "column3", "E[4-7]" : "rowE", "6-8[E-G]" : ["column6", "column7", "column8"]})
-
-Important
--------------------
-
-.. warning::
-     - If you use numpy indexing to assign be carrefull to not overide your header. Value are in position plate[1:,1:] where column header are on plate[0] and row header are on plate[0, 1:].
-     - set method override, only the last assignation a well will be kept.

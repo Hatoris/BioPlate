@@ -125,6 +125,8 @@ class BioPlateManipulation:
         well = ("All", "C", 2) => self[well[2]]
         well = ("R", 2, 6, 4) => self[well[1]:well[2], well[3]]
         well = ("C", 2, 6, 8) => self[well[1],well[2]: well[3]]
+        well = [("C", 2, 8, 13), ("C", 3, 8, 13), ("C", 4, 8, 13)] => self[well[0][1]:well[-1][1] + 1, well[0][2] :well[0][3]]
+        well =  [("R", 5, 8, 6), ("R", 5, 8, 7), ("C", 5, 8, 8)] => self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
         """
         if well[0] == "R":
             if value is not None: 
@@ -157,11 +159,12 @@ class BioPlateManipulation:
             if value is not None:
                 self[well[0], well[1]] = value
             else:
-                print(well)
                 if isinstance(well, tuple):
                     return self[well[0], well[1]]
                 elif well[0][0] == "R":
-                    return self[well[0][1]:well[0][2],well[0][3]:well[-1][3]]
+                    return self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
+                elif well[0][0] == "C":
+                    return self[well[0][1]:well[-1][1] + 1,well[0][2]:well[0][3]]
 
     def _eval_well_value(self, well, value):
         well = BioPlateMatrix(well)

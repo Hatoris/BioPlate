@@ -20,3 +20,9 @@ Glossary
        
     inserts
         A BioPlate with tow compartement a top and a bottom one
+
+    PlateDB
+        A database for plate types and their informations (number of well, working volume, surface area ...)
+
+    PlateHist
+        A database to save user plate
