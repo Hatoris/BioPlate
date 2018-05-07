@@ -19,6 +19,7 @@ Contents
     basic_usage
     fn_set
     fn_get
+    fn_to_excel
     database
     glossary    
 

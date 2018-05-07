@@ -22,6 +22,7 @@ import recommonmark
 from recommonmark.transform import AutoStructify
 from recommonmark.parser import CommonMarkParser
 import sphinx_bootstrap_theme
+import sphinx_rtd_theme
 
 sys.path.insert(0, os.path.abspath('../'))
 #os.path.abspath('/storage/emulated/0/programming/BioPlate'))
@@ -50,11 +51,11 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 ### read markdown too
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-source_suffix = ['.rst', '.md']
-#source_suffix = '.rst'
+#source_parsers = {
+#    '.md': CommonMarkParser,
+#}
+#source_suffix = ['.rst', '.md']
+source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
@@ -101,16 +102,21 @@ todo_include_todos = False
 #html_theme = 'bootstrap'
 #html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_theme = "sphinx_rtd_theme"
-html_theme_options = {
-    # Toc options
-    'collapse_navigation': False,
-}
+
+
+#style
+
+pygments_style = 'default'
+
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+   # Toc options
+   'collapse_navigation': False,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -129,7 +135,8 @@ html_sidebars = {
         'localtoc.html',
         'sourcelink.html',
         'my_custom_sidebar.html',
-    ]
+    ],
+    "show_related" : True,
 }
 
 
