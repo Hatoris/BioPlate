@@ -13,7 +13,15 @@ from BioPlate.utilitis import _LETTER
 from collections import OrderedDict
 from typing import List, Tuple, Dict, Any, Callable
 
+
 class BioPlateFromExcel:
+    
+    def __new__(cls, *args, **kwargs):
+        BPFE = _BioPlateFromExcel(*args, **kwargs)
+        return BPFE._get_BioPlate_object()
+
+
+class _BioPlateFromExcel:
    """
    thia class is for load plate representation and data fron excel file
    one sheet => one plate
@@ -42,14 +50,19 @@ class BioPlateFromExcel:
            print(f"{self.file_name} not found !")
            sys.exit(1)
        self.no_empty_sheets = self._get_no_empty_sheets()
-                      
+      
+                                                                                        
    def _get_no_empty_sheets(self) -> Dict[str, List]:
        """return a dict without empty sheet"""
        no_empty_sheet = dict()
        for sheetname, value in self.loaded_file.items():
             if not value:
                 continue
-            no_empty_sheet[sheetname] = value   
+            elif self.sheets:
+                if sheetname in self.sheets:
+                    no_empty_sheet[sheetname] = value
+            else: 
+                  no_empty_sheet[sheetname] = value
        return no_empty_sheet
 
    def _get_plate_informations(self, value:List[List], sheetname:str) -> Tuple[Callable, bool, int, int]:
