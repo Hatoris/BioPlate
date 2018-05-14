@@ -15,7 +15,7 @@ setup(
     license = "MIT",
     keywords = "science, biological plate, tabulate, ELN, electronic lab notebook",
     url = "http://PUBLIC ADRESS GITHUB",
-    packages=['BioPlate', 'tests', 'CLI'],
+    packages=['BioPlate',],
     install_requires=[
         'sqlalchemy',
         'tabulate',

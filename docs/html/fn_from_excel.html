@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>To excel &mdash; BioPlate 0.1.0 documentation</title>
+  <title>From excel &mdash; BioPlate 0.1.0 documentation</title>
   
 
   
@@ -28,9 +28,7 @@
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Database options" href="database.html" />
-    <link rel="prev" title="Get values on plate" href="fn_get.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,7 +82,7 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Library usage</a></li>
@@ -109,12 +107,12 @@
 <li class="toctree-l2"><a class="reference internal" href="fn_get.html#get-multiple-value-at-once">Get multiple value at once</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">To excel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#common-use-case">Common use case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#an-exemple">An exemple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#to-excel-plate-representation">To excel plate representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#to-excel-plate-data">To excel plate data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#to-excel-count">To excel count</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fn_to_excel.html">To excel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fn_to_excel.html#common-use-case">Common use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_to_excel.html#an-exemple">An exemple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_to_excel.html#to-excel-plate-representation">To excel plate representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_to_excel.html#to-excel-plate-data">To excel plate data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_to_excel.html#to-excel-count">To excel count</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database options</a><ul>
@@ -180,13 +178,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>To excel</li>
+      <li>From excel</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/fn_to_excel.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/fn_from_excel.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -199,85 +197,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="to-excel">
-<h1>To excel<a class="headerlink" href="#to-excel" title="Permalink to this headline">¶</a></h1>
-<p>This function or class use <a class="reference external" href="http://http://xlsxwriter.readthedocs.io">xlsxwriter</a> in order to past informations on excel files.</p>
+  <div class="section" id="from-excel">
+<h1>From excel<a class="headerlink" href="#from-excel" title="Permalink to this headline">¶</a></h1>
+<p>This class use <a class="reference external" href="http://pyexcel.readthedocs.io/en/latest/">pyexcel_xlsx</a> in order to read from spreasheet plate informations.</p>
 <div class="section" id="common-use-case">
 <h2>Common use case<a class="headerlink" href="#common-use-case" title="Permalink to this headline">¶</a></h2>
-<p>This function or class have for only purpose to offer possibility to share results in format that many people used, spread sheet.</p>
+<p>This class is a simple way to transform a plate representation in a spreadsheet to a BioPlate instance.</p>
 </div>
 <div class="section" id="an-exemple">
 <h2>An exemple<a class="headerlink" href="#an-exemple" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">BioPlate</span> <span class="k">import</span> <span class="n">BioPlate</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-11[B-G]&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
-<span class="go">                                            &quot;t3&quot;, &quot;t4&quot;, &quot;t5&quot;, &quot;t6&quot;,</span>
-<span class="go">                                            &quot;t7&quot;, &quot;t9&quot;])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">BioPlate.writer.from_excel</span> <span class="k">import</span> <span class="n">BioPlateFromExcel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inserts</span> <span class="o">=</span> <span class="n">BioPlateFromExcel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\Users\Florian\Desktop\my_inserts.xlsx&quot;</span><span class="p">,</span> <span class="n">sheets</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;plate_representation&quot;</span><span class="p">,])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inserts</span><span class="p">[</span><span class="s2">&quot;plate_representation&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>The simple way is to call <cite>to_excel</cite> from plate object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\Users\Florian\Desktop\my_plate.xlsx&quot;</span><span class="p">)</span>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">By default BioPlateFromExcel will transform each plate representation in sheet to BioPlate object. If a sheet don’t contain a plate this will
+stop the programm.</p>
+</div>
+</div>
+<div class="section" id="plate-infos">
+<h2>Plate infos<a class="headerlink" href="#plate-infos" title="Permalink to this headline">¶</a></h2>
+<p>Information of plate in a spreadsheet without plate header should be pass like this :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;sheetname&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;row&quot;</span> <span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                 <span class="s2">&quot;column&quot;</span> <span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                 <span class="s2">&quot;stack&quot;</span> <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                 <span class="s2">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;BioPlate&quot;</span><span class="p">}}</span>
 </pre></div>
-</div>
-<p>If you want more control over informations past to excel you should use this module instead</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">BioPlate.writer.to_excel</span> <span class="k">import</span> <span class="n">BioPlateToExcel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span> <span class="o">=</span> <span class="n">BioPlateToExcel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\Users\Florian\Desktop\my_plate.xlsx&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">representation</span><span class="p">(</span><span class="n">plate</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">plate</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">plate</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="to-excel-plate-representation">
-<h2>To excel plate representation<a class="headerlink" href="#to-excel-plate-representation" title="Permalink to this headline">¶</a></h2>
-<p>A plate representation is put on excel, by default sheetname on book is “plate_representation”.</p>
-<p>A representation can have an header or not, each plate representation are separated by one empty row.</p>
-<div class="figure" id="id1">
-<a class="reference internal image-reference" href="_images/simple_plate.png"><img alt="representation of simple plate" src="_images/simple_plate.png" style="width: 580.0px; height: 257.25px;" /></a>
-<p class="caption"><span class="caption-text">This is a simple plate put in excel</span></p>
-</div>
-<p>In order to differentiate two plates versus one inserts a “TOP” or “BOT” is apply on position 0, 0.</p>
-<div class="figure" id="id2">
-<a class="reference internal image-reference" href="_images/inserts.png"><img alt="representation of inserts plate" src="_images/inserts.png" style="width: 508.5px; height: 263.75px;" /></a>
-<p class="caption"><span class="caption-text">This is a inserts plate put in excel</span></p>
-</div>
-</div>
-<div class="section" id="to-excel-plate-data">
-<h2>To excel plate data<a class="headerlink" href="#to-excel-plate-data" title="Permalink to this headline">¶</a></h2>
-<p>Data are an iteration of plate values, each value will be listed on a spreadsheet column with well position as index (A1, B1…).</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<dl class="docutils">
-<dt>accumulate (True or False)</dt>
-<dd>all value will refer to a single index</dd>
-<dt>order (R or C)</dt>
-<dd>iterate value by row or column</dd>
-</dl>
-<p>This option is only avaliable when <cite>data</cite> is call from BioPlateToExcel module</p>
-<dl class="last docutils">
-<dt>header</dt>
-<dd>list of header name</dd>
-</dl>
-</div>
-<div class="figure" id="id3">
-<a class="reference internal image-reference" href="_images/inserts_data.png"><img alt="representation of inserts data" src="_images/inserts_data.png" style="width: 356.25px; height: 481.0px;" /></a>
-<p class="caption"><span class="caption-text">This is what look like a inserts plate data put in excel</span></p>
-</div>
-</div>
-<div class="section" id="to-excel-count">
-<h2>To excel count<a class="headerlink" href="#to-excel-count" title="Permalink to this headline">¶</a></h2>
-<p>Count give number of occurance in a plate. This is pretty usefull when you have informations on plate.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<dl class="last docutils">
-<dt>empty</dt>
-<dd>name given to empty value</dd>
-</dl>
-</div>
-<div class="figure" id="id4">
-<a class="reference internal image-reference" href="_images/inserts_count.png"><img alt="representation of inserts counts" src="_images/inserts_count.png" style="width: 342.75px; height: 481.25px;" /></a>
-<p class="caption"><span class="caption-text">This is what look like a inserts plate counts put in excel</span></p>
 </div>
 </div>
 </div>
@@ -287,15 +234,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="database.html" class="btn btn-neutral float-right" title="Database options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="fn_get.html" class="btn btn-neutral" title="Get values on plate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

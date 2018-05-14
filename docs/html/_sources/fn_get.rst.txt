@@ -6,7 +6,7 @@ Get's function is used to easily retrieve values from a plate.
 
 .. hint::
     
-    Get return a unique value if call for one well or it will return a `numpy.ndarray`_ for multiple well, to get list you can use `.tolist()`_ .
+    Get return a unique value if call for one well or it will return a `numpy.ndarray`_ for multiple well, to get a list you can use `.tolist()`_ .
     
 .. _`numpy.ndarray`: https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.ndarray.html
 
@@ -56,7 +56,7 @@ Get on inserts plate
 
 .. note::
     
-    Inserts plate are made of two parts, a *top* and a *bottom*. In order to assign value on an Inserts plate you should first select a part with `top` or `bot`.
+    Inserts plate are made of two parts, a *top* and a *bottom*. In order to assign value on an Inserts plate you should first select a part with attribute `top` or `bot`.
         
 Get on stack of plate
 -----------------------------------

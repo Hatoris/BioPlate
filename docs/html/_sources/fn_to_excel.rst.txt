@@ -2,24 +2,23 @@
 To excel
 ============
 
-This function use `xlsxwriter`_ in order to past informations on excel files.
+This function or class use `xlsxwriter`_ in order to past informations on excel files.
 
 .. _`xlsxwriter` : http://http://xlsxwriter.readthedocs.io
 
 Common use case
 ----------------------------------
 
-This function  have for only purpose to offer possibility to share results in format that many people used, spread sheet.
+This function or class have for only purpose to offer possibility to share results in format that many people used, spread sheet.
 
 An exemple
 ----------------------
 
 >>> from BioPlate import BioPlate
 >>> plate = BioPlate(12, 8)
->>> plate.set("2-11[B-G]",
-                    ["control", "t1", "t2", 
-                       "t3", "t4", "t5", "t6", 
-                       "t7", "t9"])
+>>> plate.set("2-11[B-G]", ["control", "t1", "t2", 
+                                            "t3", "t4", "t5", "t6", 
+                                            "t7", "t9"])
 
 The simple way is to call `to_excel` from plate object:
 
