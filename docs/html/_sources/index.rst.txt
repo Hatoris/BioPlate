@@ -22,7 +22,9 @@ Contents
     fn_to_excel
     fn_from_excel
     database
-    glossary    
+    glossary
+    contribute
+    versions   
 
    	
 
