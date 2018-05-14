@@ -7,15 +7,17 @@ def read(fname):
 
 setup(
     name = "BioPlate",
-    version = "0.1.0",
+    version = "0.1.1",
     author = "Florian Bernard",
     author_email = "florianxbernard@gmail.com",
     description = ("An application to quickly generate plate schemes used in life science, "
                    "save it in database and export in nice format on electronic lab notebook"),
     license = "MIT",
     keywords = "science, biological plate, tabulate, ELN, electronic lab notebook",
-    url = "http://PUBLIC ADRESS GITHUB",
-    packages=['BioPlate',],
+    url = "https://github.com/Hatoris/BioPlate",
+    project_urls={ 'Documentation': 'https://hatoris.github.io/BioPlate/html/index.html',
+                   'Source': 'https://github.com/Hatoris/BioPlate'},
+    packages=['BioPlate', 'BioPlate/database', 'BioPlate/writer'],
     install_requires=[
         'sqlalchemy',
         'tabulate',
@@ -26,7 +28,8 @@ setup(
         'pyexcel_xlsx',
         'pyexcel_xls',
     ],
-    long_description=read('docs\README.md'),
+    long_description=read('README.md'),
+    python_requires='>=3.6',
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "Environment :: Console",

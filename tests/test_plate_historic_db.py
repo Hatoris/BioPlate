@@ -1,7 +1,7 @@
 import unittest
 from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.database.plate_db import PlateDB
-from BioPlate.plate import Plate
+from BioPlate import BioPlate
 from pathlib import Path, PurePath
 import contextlib
 import numpy as np
