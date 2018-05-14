@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Database options" href="database.html" />
+    <link rel="next" title="From excel" href="fn_from_excel.html" />
     <link rel="prev" title="Get values on plate" href="fn_get.html" /> 
 
   
@@ -115,6 +115,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#to-excel-plate-representation">To excel plate representation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#to-excel-plate-data">To excel plate data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#to-excel-count">To excel count</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fn_from_excel.html">From excel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fn_from_excel.html#common-use-case">Common use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_from_excel.html#an-exemple">An exemple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_from_excel.html#plate-infos">Plate infos</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database options</a><ul>
@@ -210,9 +216,17 @@
 <h2>An exemple<a class="headerlink" href="#an-exemple" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">BioPlate</span> <span class="k">import</span> <span class="n">BioPlate</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-11[B-G]&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
-<span class="go">                                            &quot;t3&quot;, &quot;t4&quot;, &quot;t5&quot;, &quot;t6&quot;,</span>
-<span class="go">                                            &quot;t7&quot;, &quot;t9&quot;])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-11[B-G]&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span> <span class="s2">&quot;t3&quot;</span><span class="p">,</span> <span class="s2">&quot;t4&quot;</span><span class="p">,</span> <span class="s2">&quot;t5&quot;</span><span class="p">,</span> <span class="s2">&quot;t6&quot;</span><span class="p">,</span> <span class="s2">&quot;t7&quot;</span><span class="p">,</span> <span class="s2">&quot;t9&quot;</span><span class="p">,</span> <span class="s2">&quot;t10&quot;</span><span class="p">])</span>
+<span class="go">BioPlate([[&#39; &#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;, &#39;10&#39;, &#39;11&#39;, &#39;12&#39;],</span>
+<span class="go">          [&#39;A&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;],</span>
+<span class="go">          [&#39;B&#39;, &#39;&#39;, &#39;control&#39;, &#39;t1&#39;, &#39;t2&#39;, &#39;t3&#39;, &#39;t4&#39;, &#39;t5&#39;, &#39;t6&#39;, &#39;t7&#39;, &#39;t9&#39;, &#39;t10&#39;, &#39;&#39;],</span>
+<span class="go">          [&#39;C&#39;, &#39;&#39;, &#39;control&#39;, &#39;t1&#39;, &#39;t2&#39;, &#39;t3&#39;, &#39;t4&#39;, &#39;t5&#39;, &#39;t6&#39;, &#39;t7&#39;, &#39;t9&#39;, &#39;t10&#39;, &#39;&#39;],</span>
+<span class="go">          [&#39;D&#39;, &#39;&#39;, &#39;control&#39;, &#39;t1&#39;, &#39;t2&#39;, &#39;t3&#39;, &#39;t4&#39;, &#39;t5&#39;, &#39;t6&#39;, &#39;t7&#39;, &#39;t9&#39;, &#39;t10&#39;, &#39;&#39;],</span>
+<span class="go">          [&#39;E&#39;, &#39;&#39;, &#39;control&#39;, &#39;t1&#39;, &#39;t2&#39;, &#39;t3&#39;, &#39;t4&#39;, &#39;t5&#39;, &#39;t6&#39;, &#39;t7&#39;, &#39;t9&#39;, &#39;t10&#39;, &#39;&#39;],</span>
+<span class="go">          [&#39;F&#39;, &#39;&#39;, &#39;control&#39;, &#39;t1&#39;, &#39;t2&#39;, &#39;t3&#39;, &#39;t4&#39;, &#39;t5&#39;, &#39;t6&#39;, &#39;t7&#39;, &#39;t9&#39;, &#39;t10&#39;, &#39;&#39;],</span>
+<span class="go">          [&#39;G&#39;, &#39;&#39;, &#39;control&#39;, &#39;t1&#39;, &#39;t2&#39;, &#39;t3&#39;, &#39;t4&#39;, &#39;t5&#39;, &#39;t6&#39;, &#39;t7&#39;, &#39;t9&#39;, &#39;t10&#39;, &#39;&#39;],</span>
+<span class="go">          [&#39;H&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]],</span>
+<span class="go">         dtype=&#39;&lt;U100&#39;)</span>
 </pre></div>
 </div>
 <p>The simple way is to call <cite>to_excel</cite> from plate object:</p>
@@ -290,7 +304,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="database.html" class="btn btn-neutral float-right" title="Database options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="fn_from_excel.html" class="btn btn-neutral float-right" title="From excel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="fn_get.html" class="btn btn-neutral" title="Get values on plate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

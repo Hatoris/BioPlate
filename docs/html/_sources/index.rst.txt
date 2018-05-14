@@ -20,6 +20,7 @@ Contents
     fn_set
     fn_get
     fn_to_excel
+    fn_from_excel
     database
     glossary    
 
