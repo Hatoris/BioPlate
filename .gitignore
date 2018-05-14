@@ -33,6 +33,11 @@ BioPlate/database/DBFiles/*
 *.manifest
 *.spec
 
+#docs
+#docs/html/_templates
+#docs/html/_static
+#docs/html/_build
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
