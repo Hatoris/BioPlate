@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>To excel &mdash; BioPlate 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BioPlate
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">To excel</a><ul>
+<li><a class="reference internal" href="#common-use-case">Common use case</a></li>
+<li><a class="reference internal" href="#an-exemple">An exemple</a></li>
+<li><a class="reference internal" href="#to-excel-plate-representation">To excel plate representation</a></li>
+<li><a class="reference internal" href="#to-excel-plate-data">To excel plate data</a></li>
+<li><a class="reference internal" href="#to-excel-count">To excel count</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+    <a href="genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BioPlate</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>To excel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/fn_to_excel.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="to-excel">
+<h1>To excel<a class="headerlink" href="#to-excel" title="Permalink to this headline">¶</a></h1>
+<p>This function or class use <a class="reference external" href="http://http://xlsxwriter.readthedocs.io">xlsxwriter</a> in order to past informations on excel files.</p>
+<div class="section" id="common-use-case">
+<h2>Common use case<a class="headerlink" href="#common-use-case" title="Permalink to this headline">¶</a></h2>
+<p>This function or class have for only purpose to offer possibility to share results in format that many people used, spread sheet.</p>
+</div>
+<div class="section" id="an-exemple">
+<h2>An exemple<a class="headerlink" href="#an-exemple" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">BioPlate</span> <span class="k">import</span> <span class="n">BioPlate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-11[B-G]&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
+<span class="go">                                            &quot;t3&quot;, &quot;t4&quot;, &quot;t5&quot;, &quot;t6&quot;,</span>
+<span class="go">                                            &quot;t7&quot;, &quot;t9&quot;])</span>
+</pre></div>
+</div>
+<p>The simple way is to call <cite>to_excel</cite> from plate object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\Users\Florian\Desktop\my_plate.xlsx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want more control over informations past to excel you should use this module instead</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">BioPlate.writer.to_excel</span> <span class="k">import</span> <span class="n">BioPlateToExcel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span> <span class="o">=</span> <span class="n">BioPlateToExcel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\Users\Florian\Desktop\my_plate.xlsx&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">representation</span><span class="p">(</span><span class="n">plate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">plate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">plate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bpte</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-excel-plate-representation">
+<h2>To excel plate representation<a class="headerlink" href="#to-excel-plate-representation" title="Permalink to this headline">¶</a></h2>
+<p>A plate representation is put on excel, by default sheetname on book is “plate_representation”.</p>
+<p>A representation can have an header or not, each plate representation are separated by one empty row.</p>
+<div class="figure" id="id1">
+<a class="reference internal image-reference" href="_images/simple_plate.png"><img alt="representation of simple plate" src="_images/simple_plate.png" style="width: 580.0px; height: 257.25px;" /></a>
+<p class="caption"><span class="caption-text">This is a simple plate put in excel</span></p>
+</div>
+<p>In order to differentiate two plates versus one inserts a “TOP” or “BOT” is apply on position 0, 0.</p>
+<div class="figure" id="id2">
+<a class="reference internal image-reference" href="_images/inserts.png"><img alt="representation of inserts plate" src="_images/inserts.png" style="width: 508.5px; height: 263.75px;" /></a>
+<p class="caption"><span class="caption-text">This is a inserts plate put in excel</span></p>
+</div>
+</div>
+<div class="section" id="to-excel-plate-data">
+<h2>To excel plate data<a class="headerlink" href="#to-excel-plate-data" title="Permalink to this headline">¶</a></h2>
+<p>Data are an iteration of plate values, each value will be listed on a spreadsheet column with well position as index (A1, B1…).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="docutils">
+<dt>accumulate (True or False)</dt>
+<dd>all value will refer to a single index</dd>
+<dt>order (R or C)</dt>
+<dd>iterate value by row or column</dd>
+</dl>
+<p>This option is only avaliable when <cite>data</cite> is call from BioPlateToExcel module</p>
+<dl class="last docutils">
+<dt>header</dt>
+<dd>list of header name</dd>
+</dl>
+</div>
+<div class="figure" id="id3">
+<a class="reference internal image-reference" href="_images/inserts_data.png"><img alt="representation of inserts data" src="_images/inserts_data.png" style="width: 356.25px; height: 481.0px;" /></a>
+<p class="caption"><span class="caption-text">This is what look like a inserts plate data put in excel</span></p>
+</div>
+</div>
+<div class="section" id="to-excel-count">
+<h2>To excel count<a class="headerlink" href="#to-excel-count" title="Permalink to this headline">¶</a></h2>
+<p>Count give number of occurance in a plate. This is pretty usefull when you have informations on plate.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>empty</dt>
+<dd>name given to empty value</dd>
+</dl>
+</div>
+<div class="figure" id="id4">
+<a class="reference internal image-reference" href="_images/inserts_count.png"><img alt="representation of inserts counts" src="_images/inserts_count.png" style="width: 342.75px; height: 481.25px;" /></a>
+<p class="caption"><span class="caption-text">This is what look like a inserts plate counts put in excel</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Florian Bernard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

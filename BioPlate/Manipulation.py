@@ -1,6 +1,5 @@
 import ast
 import re
-import time
 import operator
 import inspect
 import numpy as np
@@ -11,7 +10,7 @@ from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.Matrix import BioPlateMatrix
 from BioPlate.Iterate import BioPlateIterate
-
+from BioPlate.Count import BioPlateCount
 
 """
 add value : add value to one wells (eg : 'B5)
@@ -43,11 +42,9 @@ class BioPlateManipulation:
         list_in = any(isinstance(arg, list) for arg in args)
         if len(args) == 2 and not dict_in :
             well, value, *trash = args
-        #add_values
         if len(args) == 1 and dict_in:
             well, *trash = args
             value = None
-       #multi_value
         if len(args) == 2 and list_in:
             well, value, *trash = args
         return well, value                             
@@ -127,6 +124,8 @@ class BioPlateManipulation:
         well = ("All", "C", 2) => self[well[2]]
         well = ("R", 2, 6, 4) => self[well[1]:well[2], well[3]]
         well = ("C", 2, 6, 8) => self[well[1],well[2]: well[3]]
+        well = [("C", 2, 8, 13), ("C", 3, 8, 13), ("C", 4, 8, 13)] => self[well[0][1]:well[-1][1] + 1, well[0][2] :well[0][3]]
+        well =  [("R", 5, 8, 6), ("R", 5, 8, 7), ("C", 5, 8, 8)] => self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
         """
         if well[0] == "R":
             if value is not None: 
@@ -141,19 +140,30 @@ class BioPlateManipulation:
         elif well[0] == "All":
              if well[1] == "R":
                  if value is not None:
-                     self[1:,1:][well[2]] = value
+                     if isinstance(value, list):
+                         self[1:,1:][well[2]][0:len(value)] = value
+                     else:
+                         self[1:,1:][well[2]] = value
                  else:
                      return self[1:,1:][well[2]]
              elif well[1] == "C":
                  if value is not None:
-                     self[1:,1:][:,well[2]] = value
+                     if isinstance(value, list):
+                         self[1:,1:][:,well[2]][0:len(value)] = value
+                     else:
+                         self[1:,1:][:,well[2]] = value
                  else:
                      return self[1:,1:][:,well[2]]
         else:
             if value is not None:
                 self[well[0], well[1]] = value
             else:
-                 return self[well[0], well[1]]
+                if isinstance(well, tuple):
+                    return self[well[0], well[1]]
+                elif well[0][0] == "R":
+                    return self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
+                elif well[0][0] == "C":
+                    return self[well[0][1]:well[-1][1] + 1,well[0][2]:well[0][3]]
 
     def _eval_well_value(self, well, value):
         well = BioPlateMatrix(well)
@@ -173,20 +183,20 @@ class BioPlateManipulation:
         else:
             return self._eval_well(BioPlateMatrix(well[0]))
 
-    def save(self, plate, plate_name, **kwargs):
+    def save(self, plate_name, **kwargs):
         dbName = kwargs.get("db_hist_name")
         if not dbName :
             phi = PlateHist()
         else:
             phi = PlateHist(db_name=dbName)
-            well = next(BioPlateIterate(plate, OnlyValue=True)).shape
+            well = next(BioPlateIterate(self, OnlyValue=True)).shape
         numWell = well[0] * well[1]
-        response = phi.add_hplate(numWell, plate_name, plate)
+        response = phi.add_hplate(numWell, plate_name, self)
         if isinstance(response, str):
             return response
         elif isinstance(response, int):
             dict_update = {"plate_name": plate_name,
-                           "plate_array": plate}
+                           "plate_array": self}
             return phi.update_hplate(dict_update, response, key="id")
 
     def table(self, headers="firstrow", *args, **kwargs):
@@ -204,55 +214,12 @@ class BioPlateManipulation:
         yield from BioPlateIterate(self, order=order, accumulate=accumulate)
     
     def count(self, reverse=False):
-        return self._count(self, reverse=reverse)
+        return BioPlateCount(self, reverse=reverse)
 
-    def __count(self, plate, reverse=False):
-        """
-
-        :param plate:
-        :return:
-        """
-        #for values in self.__iterate(*plates, Ovalue=True):
-        unique, count = np.unique(plate, return_counts=True)
-        count_in_dict = dict(zip(unique, count))
-        count_in_dict = dict(sorted(count_in_dict.items(), key=lambda x:x[1], reverse=reverse))
-        return count_in_dict
-
-    def _count(self, *plates, reverse=False):
-        """
-
-        :param plate:
-        :return:
-        """
-        nb_plate = len(plates)
-        multi = nb_plate > 1
-        insert =  len(plates[0].shape) > 2
-        if multi or insert:
-            results = {}
-            n = 0
-            y = 0
-            for values in self.__iterate(*plates, Ovalue=True):
-                Count = self.__count(values, reverse=reverse)
-                if insert and multi: # a stack of Insert plate
-                    mod = y % 2
-                    y += 1
-                    if mod == 0:
-                        inter = {}
-                        inter["top"] = Count
-                    else:
-                        inter["bot"] = Count
-                        results[n] = inter
-                        n += 1
-                elif insert: # insert plate only
-                    if n == 0:
-                        results["top"] = Count
-                        n += 1
-                    else:
-                         results["bot"] = Count
-                else: # Stack of simple plate
-                    results[n] = Count
-                    n+= 1
-        else: # a single plate
-        	results = self.__count(next(self.__iterate(*plates, Ovalue=True)), reverse=reverse)
-        return results
-
+    def to_excel(self, file_name,  sheets=['plate_representation', 'plate_data', 'plate_count'], header = True, accumulate = True, order="C",  empty="empty"):
+        from BioPlate.writer.to_excel import BioPlateToExcel
+        xls_file = BioPlateToExcel(file_name, sheets=sheets, header=header, accumulate=accumulate, order=order, empty=empty)
+        xls_file.representation(self)
+        xls_file.data(self)
+        xls_file.count(self)
+        xls_file.close()

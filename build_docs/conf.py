@@ -22,6 +22,7 @@ import recommonmark
 from recommonmark.transform import AutoStructify
 from recommonmark.parser import CommonMarkParser
 import sphinx_bootstrap_theme
+import sphinx_rtd_theme
 
 sys.path.insert(0, os.path.abspath('../'))
 #os.path.abspath('/storage/emulated/0/programming/BioPlate'))
@@ -50,11 +51,11 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 ### read markdown too
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-source_suffix = ['.rst', '.md']
-#source_suffix = '.rst'
+#source_parsers = {
+#    '.md': CommonMarkParser,
+#}
+#source_suffix = ['.rst', '.md']
+source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
@@ -83,7 +84,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'not_use']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -102,16 +103,25 @@ todo_include_todos = False
 #html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_theme = "sphinx_rtd_theme"
 
+
+#style
+
+pygments_style = 'default'
+
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+   # Toc options
+   'collapse_navigation': False,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["../docs/html/_static"] #['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -125,7 +135,8 @@ html_sidebars = {
         'localtoc.html',
         'sourcelink.html',
         'my_custom_sidebar.html',
-    ]
+    ],
+    "show_related" : True,
 }
 
 
@@ -184,6 +195,7 @@ texinfo_documents = [
      author, 'BioPlate', 'One line description of project.',
      'Miscellaneous'),
 ]
+
 def setup(app):
     app.add_config_value('recommonmark_config', {
             'url_resolver': lambda url: github_doc_root + url,

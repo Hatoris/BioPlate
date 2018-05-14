@@ -3,7 +3,7 @@ import contextlib
 import numpy as np
 
 from pathlib import Path, PurePath
-from BioPlate.Plate import BioPlate
+from BioPlate import BioPlate
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
 from string import ascii_uppercase
@@ -52,7 +52,12 @@ class TestPlate(unittest.TestCase):
         This function is run every time at the end of each test
         :return:
         """
-        pass
+        try:
+            Path( PurePath('test_plate_to_excel.xlsx')).unlink()
+            Path( PurePath('test_ins_to_excel.xlsx')).unlink()
+            Path( PurePath('test_stack_to_excel.xlsx')).unlink()
+        except FileNotFoundError:
+            pass
 
     def test_Plate_init(self):
         np.testing.assert_array_equal(self.plt,
@@ -198,6 +203,7 @@ class TestPlate(unittest.TestCase):
                                                
         np.testing.assert_array_equal(self.stack.set(1,  'F-H[1-3]', ["Test1", "Test2", "Test3"])[1], self.plt1)
         np.testing.assert_array_equal(self.Inserts.top.set(  'A-C[1-3]', ["Test1", "Test2", "Test3"] ), self.Inserts.top)
+        #np.testing.assert_array_equal(self.plt.set('1-3[F-H]', ["Test1", "Test2", "Test3"]))
         
     def test_set(self):
         np.testing.assert_array_equal(self.plt.set("2[B,E]", "Test"), self.plt)
@@ -245,7 +251,7 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(list(multi.iterate(accumulate=True)),
                          [('A1', 'Control', 'Control'), ('B1', '', ''), ('C1', '', ''), ('D1', '', ''), ('E1', '', ''), ('F1', '', ''), ('G1', '', ''), ('H1', '', ''), ('A2', '', ''), ('B2', '', ''), ('C2', 'Test1', 'Test1'), ('D2', '', ''), ('E2', '', ''), ('F2', '', ''), ('G2', '', ''), ('H2', '', ''), ('A3', '', ''), ('B3', '', ''), ('C3', 'Test1', 'Test1'), ('D3', '', ''), ('E3', '', ''), ('F3', '', ''), ('G3', '', ''), ('H3', '', ''), ('A4', '', ''), ('B4', '', ''), ('C4', 'Test1', 'Test1'), ('D4', '', ''), ('E4', '', ''), ('F4', '', ''), ('G4', '', ''), ('H4', '', ''), ('A5', '', ''), ('B5', '', ''), ('C5', 'Test1', 'Test1'), ('D5', '', ''), ('E5', '', ''), ('F5', '', ''), ('G5', '', ''), ('H5', '', ''), ('A6', '', ''), ('B6', '', ''), ('C6', 'Test1', 'Test1'), ('D6', '', ''), ('E6', '', ''), ('F6', '', ''), ('G6', '', ''), ('H6', '', ''), ('A7', '', ''), ('B7', '', ''), ('C7', 'Test1', 'Test1'), ('D7', '', ''), ('E7', '', ''), ('F7', '', ''), ('G7', '', ''), ('H7', '', ''), ('A8', '', ''), ('B8', '', ''), ('C8', 'Test1', 'Test1'), ('D8', '', ''), ('E8', '', ''), ('F8', '', ''), ('G8', '', ''), ('H8', '', ''), ('A9', '', ''), ('B9', '', ''), ('C9', 'Test1', 'Test1'), ('D9', '', ''), ('E9', '', ''), ('F9', '', ''), ('G9', '', ''), ('H9', '', ''), ('A10', '', ''), ('B10', '', ''), ('C10', 'Test1', 'Test1'), ('D10', '', ''), ('E10', '', ''), ('F10', '', ''), ('G10', '', ''), ('H10', '', ''), ('A11', '', ''), ('B11', 'Test2', 'Test2'), ('C11', 'Test2', 'Test2'), ('D11', 'Test2', 'Test2'), ('E11', 'Test2', 'Test2'), ('F11', 'Test2', 'Test2'), ('G11', 'Test2', 'Test2'), ('H11', '', ''), ('A12', '', ''), ('B12', '', ''), ('C12', '', ''), ('D12', '', ''), ('E12', '', ''), ('F12', '', ''), ('G12', '', ''), ('H12', '', '')])
         
-        self.assertEqual(list(multi.iterate()), 
+        self.assertEqual(list(multi.iterate(accumulate=False)), 
             [('A1', 'Control'), ('B1', ''), ('C1', ''), ('D1', ''), ('E1', ''), ('F1', ''), ('G1', ''), ('H1', ''), ('A2', ''), ('B2', ''), ('C2', 'Test1'), ('D2', ''), ('E2', ''), ('F2', ''), ('G2', ''), ('H2', ''), ('A3', ''), ('B3', ''), ('C3', 'Test1'), ('D3', ''), ('E3', ''), ('F3', ''), ('G3', ''), ('H3', ''), ('A4', ''), ('B4', ''), ('C4', 'Test1'), ('D4', ''), ('E4', ''), ('F4', ''), ('G4', ''), ('H4', ''), ('A5', ''), ('B5', ''), ('C5', 'Test1'), ('D5', ''), ('E5', ''), ('F5', ''), ('G5', ''), ('H5', ''), ('A6', ''), ('B6', ''), ('C6', 'Test1'), ('D6', ''), ('E6', ''), ('F6', ''), ('G6', ''), ('H6', ''), ('A7', ''), ('B7', ''), ('C7', 'Test1'), ('D7', ''), ('E7', ''), ('F7', ''), ('G7', ''), ('H7', ''), ('A8', ''), ('B8', ''), ('C8', 'Test1'), ('D8', ''), ('E8', ''), ('F8', ''), ('G8', ''), ('H8', ''), ('A9', ''), ('B9', ''), ('C9', 'Test1'), ('D9', ''), ('E9', ''), ('F9', ''), ('G9', ''), ('H9', ''), ('A10', ''), ('B10', ''), ('C10', 'Test1'), ('D10', ''), ('E10', ''), ('F10', ''), ('G10', ''), ('H10', ''), ('A11', ''), ('B11', 'Test2'), ('C11', 'Test2'), ('D11', 'Test2'), ('E11', 'Test2'), ('F11', 'Test2'), ('G11', 'Test2'), ('H11', ''), ('A12', ''), ('B12', ''), ('C12', ''), ('D12', ''), ('E12', ''), ('F12', ''), ('G12', ''), ('H12', ''), ('A1', 'Control'), ('B1', ''), ('C1', ''), ('D1', ''), ('E1', ''), ('F1', ''), ('G1', ''), ('H1', ''), ('A2', ''), ('B2', ''), ('C2', 'Test1'), ('D2', ''), ('E2', ''), ('F2', ''), ('G2', ''), ('H2', ''), ('A3', ''), ('B3', ''), ('C3', 'Test1'), ('D3', ''), ('E3', ''), ('F3', ''), ('G3', ''), ('H3', ''), ('A4', ''), ('B4', ''), ('C4', 'Test1'), ('D4', ''), ('E4', ''), ('F4', ''), ('G4', ''), ('H4', ''), ('A5', ''), ('B5', ''), ('C5', 'Test1'), ('D5', ''), ('E5', ''), ('F5', ''), ('G5', ''), ('H5', ''), ('A6', ''), ('B6', ''), ('C6', 'Test1'), ('D6', ''), ('E6', ''), ('F6', ''), ('G6', ''), ('H6', ''), ('A7', ''), ('B7', ''), ('C7', 'Test1'), ('D7', ''), ('E7', ''), ('F7', ''), ('G7', ''), ('H7', ''), ('A8', ''), ('B8', ''), ('C8', 'Test1'), ('D8', ''), ('E8', ''), ('F8', ''), ('G8', ''), ('H8', ''), ('A9', ''), ('B9', ''), ('C9', 'Test1'), ('D9', ''), ('E9', ''), ('F9', ''), ('G9', ''), ('H9', ''), ('A10', ''), ('B10', ''), ('C10', 'Test1'), ('D10', ''), ('E10', ''), ('F10', ''), ('G10', ''), ('H10', ''), ('A11', ''), ('B11', 'Test2'), ('C11', 'Test2'), ('D11', 'Test2'), ('E11', 'Test2'), ('F11', 'Test2'), ('G11', 'Test2'), ('H11', ''), ('A12', ''), ('B12', ''), ('C12', ''), ('D12', ''), ('E12', ''), ('F12', ''), ('G12', ''), ('H12', '')])
 
     def test_count(self):
@@ -294,6 +300,18 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(self.plt.name, "BioPlate")
         self.assertEqual(self.Inserts.name, "BioPlateInserts")
         self.assertEqual(self.stack.name, "BioPlateStack")
+
+    def test_to_excel(self):
+        self.plt.to_excel('test_plate_to_excel.xlsx')
+        exist_plate = Path("test_plate_to_excel.xlsx" ).exists()
+        self.Inserts.to_excel('test_ins_to_excel.xlsx')
+        exist_ins = Path("test_ins_to_excel.xlsx" ).exists()
+        self.stack.to_excel('test_stack_to_excel.xlsx')
+        exist_stack = Path("test_stack_to_excel.xlsx" ).exists()
+            
+        self.assertTrue(exist_plate)
+        self.assertTrue(exist_ins)
+        self.assertTrue(exist_stack)
 
 if __name__ == "__main__":
     unittest.main()

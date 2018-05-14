@@ -43,16 +43,7 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
     @force_position
     def set(self, *args):
        super().set(*args)
-       return self
-    
-    def iterate(self, order="C", accumulate=True):
-        yield from BioPlateIterate(self, order=order, accumulate=accumulate)
-      
-    def count(self, reverse=False):
-       return super()._count(self, reverse=reverse)
-       
-    def save(self, plate_name, **kwargs):
-        return super().save(self, plate_name, **kwargs)
+       return self    
         
     @force_position
     def get(self, *args):

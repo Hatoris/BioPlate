@@ -70,20 +70,7 @@ class BioPlateStack(BioPlateManipulation):
    @change_args
    def set(self, bioplate, *args):
        bioplate.set(*args)
-       return self
-    
-   @pass_all_plate    
-   def iterate(self, *BioPlates, order="C", accumulate=False):
-       yield from BioPlateIterate(self, order=order, accumulate=accumulate)
-       
-      
-   @pass_all_plate
-   def count(self, *BioPlates, reverse=False):
-       return super()._count(*BioPlates, reverse=reverse)
-
-   def save(self, plate_name, **kwargs):
-        BioPlates = [self[i] for i in range(len(self))]
-        return super().save(BioPlates, plate_name, **kwargs)
+       return self    
        
    @change_args
    def get(self, bioplate, *args):
