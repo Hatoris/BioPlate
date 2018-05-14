@@ -1,0 +1,6 @@
+=============
+Version history
+=============
+
+- v 0.1.1: Bug fixes.      
+- v 0.1.0 : Initial PyPi release.
