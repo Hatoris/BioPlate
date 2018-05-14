@@ -16,7 +16,7 @@ Library usage
  ['G' '' '' '' '' '' '' '' '' '' '' '' '']
  ['H' '' '' '' '' '' '' '' '' '' '' '' '']]
 
-Add values to well, here from column 2 to column 11 on row B to G. For more possibilities on how to set value go there.
+Add values to well, here from column 2 to column 11 on row B to G. For more possibilities on how to :ref:`Set values on plate`.
 
 >>> value_of_wells = ["non_treated",  "control solvant", "conc1",  "conc2",  "conc3", "conc4", "conc5", "conc6",  "conc7", "media only"]
 >>> my_plate.set("2-11[B-G]", value_of_wells)
@@ -65,6 +65,6 @@ H
 | H   |     |             |                 |       |       |       |       |       |       |       |            |      |
 +-----+-----+-------------+-----------------+-------+-------+-------+-------+-------+-------+-------+------------+------+
 
-We can also send a representation of plate in excel file.
+We can also send a representation of plate in a spreadsheet.
 
 >>> my_plate.to_excel(r"C:\Users\Florian\Desktop\my_plate.xlsx")

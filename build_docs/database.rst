@@ -61,7 +61,7 @@ plate_for_MTT_test
 Use case of PlateDB and PlateHist
 -----------------------------------------------------------
 
-Both if this database can be used to save informations, on general plate informations (PlateDB) or on a users feeled plate (PlateHist).
+Both of this database can be used to save informations, on general plate informations (PlateDB) or on a users defined plate (PlateHist).
 
 PlateDB
 ^^^^^^^^^^

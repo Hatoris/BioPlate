@@ -27,7 +27,7 @@ Seton inserts plate
 
 .. note::
     
-    Inserts plate are made of two parts, a *top* and a *bottom*. In order to assign value on an Inserts plate you should first select a part with `top` or `bot`.
+    Inserts plate are made of two parts, a *top* and a *bottom*. In order to assign value on an Inserts plate you should first select a part with attribute `top` or `bot`.
 
 Set on stack of plate
 ------------------------------------
@@ -104,7 +104,7 @@ Set value on row
 Set multiple value at once
 ----------------------------------------------
 
-Assign multiple value with same patern:
+Assign multiple value with same pattern:
 
 .. code:: python    
 
@@ -120,7 +120,7 @@ Assign multiple value with same patern:
     ["rowA", "rowB", "rowC", 
     "rowD", "rowE", "rowF", "rowG"])
 
-Assign multiple value with different patern:
+Assign multiple value with different pattern:
 
 .. code:: python   
 
@@ -143,7 +143,7 @@ Important
         
         {"5-8[A-C]" : ["col5", "col6", "col7", "col8"]}
     
-    is equivalent to:
+    and it is equivalent to:
     
     .. code::
         
@@ -152,7 +152,7 @@ Important
          "7[A-C]" : "col7", 
          "8[A-C]" : "col8"}
     
-    is equivalent to:
+    which is finally equivalent to:
     
     .. code::
         
@@ -165,4 +165,4 @@ Important
 
 .. warning::
      - If you use numpy indexing to assign be carrefull to not overide your header. Value are in position plate[1:,1:] where column header are on plate[0] and row header are on plate[0, 1:].
-     - set method override, only the last assignation a well will be kept.
+     - Set function keep only the last assignation of a value in a  well.
