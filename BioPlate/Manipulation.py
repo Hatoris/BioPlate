@@ -184,7 +184,7 @@ class BioPlateManipulation:
         well = ("R", 2, 6, 4) => self[well[1]:well[2], well[3]]
         well = ("C", 2, 6, 8) => self[well[1],well[2]: well[3]]
         well = [("C", 2, 8, 13), ("C", 3, 8, 13), ("C", 4, 8, 13)] => self[well[0][1]:well[-1][1] + 1, well[0][2] :well[0][3]]
-        well =  [("R", 5, 8, 6), ("R", 5, 8, 7), ("C", 5, 8, 8)] => self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
+        well =  [("R", 5, 8, 6), ("R", 5, 8, 7), ("R", 5, 8, 8)] => self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
         """
         if well[0] == "R":
             if value is not None: 
@@ -238,11 +238,15 @@ class BioPlateManipulation:
         """
         well = BioPlateMatrix(well)
         if isinstance(well, list):
-            if len(well) == len(value):
-                for w, v in zip(well, value):             
-                    self._eval_well(w,v)
-            elif len(well) != len(value):
-                raise ValueError(f"missmatch between wells ({len(well)}) and values ({len(value)})")
+            if isinstance(value, list):
+                if len(well) == len(value):
+                    for w, v in zip(well, value):             
+                        self._eval_well(w,v)
+                elif len(well) != len(value):
+                    raise ValueError(f"missmatch between wells ({len(well)}) and values ({len(value)})")
+            else:
+                for w in well:
+                    self._eval_well(w, value)
         else:           
             self._eval_well(well, value)
 

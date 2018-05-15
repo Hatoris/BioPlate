@@ -213,8 +213,7 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt.set("F-H[1,3]", ["Test1", "Test2", "Test3"]), self.plt)
         np.testing.assert_array_equal(self.stack.set(1,  'F-H[1-3]', ["Test1", "Test2", "Test3"])[1], self.plt1)
         np.testing.assert_array_equal(self.Inserts.top.set(  'A-C[1-3]', ["Test1", "Test2", "Test3"] ), self.Inserts.top)
-        
-        
+                np.testing.assert_array_equal(self.plt.set("A-D[1,3]", "Test4"), self.plt)        
 
     def test_all_in_one(self):
         v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'],
