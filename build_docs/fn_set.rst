@@ -119,6 +119,9 @@ Assign multiple value with same pattern:
     plate.set("A-G[5-8]",
     ["rowA", "rowB", "rowC", 
     "rowD", "rowE", "rowF", "rowG"])
+    
+    #assign one value
+    plate.set("2-3[B-C]", "ref")
 
 Assign multiple value with different pattern:
 
