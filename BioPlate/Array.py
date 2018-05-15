@@ -14,6 +14,17 @@ class BioPlateArray(np.ndarray):
     _CACHE_BPA = {} # contain plate 
     
     def __new__(cls, *args, **kwargs):
+        """
+
+        Parameters
+        ----------
+        args
+        kwargs
+
+        Returns
+        -------
+
+        """
         if kwargs.get("inserts", False):
             bp = BioPlateArray.bioplatearray(*args, **kwargs)
             BioPlate = np.array([bp, bp]).view(cls)
@@ -25,6 +36,17 @@ class BioPlateArray(np.ndarray):
         return BioPlateArray._PLATE_CACHE[ID]
 
     def bioplatearray(*args, **kwargs):
+        """
+
+        Parameters
+        ----------
+        args
+        kwargs
+
+        Returns
+        -------
+
+        """
         try:
             if  isinstance(args[0], list):
                 return args[0]

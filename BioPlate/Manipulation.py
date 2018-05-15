@@ -1,42 +1,34 @@
-import ast
-import re
-import operator
-import inspect
-import numpy as np
-import BioPlate.utilitis as bpu
-
 from tabulate import tabulate
-from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.Matrix import BioPlateMatrix
 from BioPlate.Iterate import BioPlateIterate
 from BioPlate.Count import BioPlateCount
 
-"""
-add value : add value to one wells (eg : 'B5)
-add_value_row : add the same values on multiple row (eg: 'C[3,12]', 'test')
-add_value_column : add the same values on multiple column (eg: '3[A,H]', 'test4')
- '1-3[B,E]' == '1[B,E]', '2[B,E]', '3[B,E]' == 'B1', 'C1', 'D1', 'E1', 'B2', 'C2' ... == '1B', '1C' ... 
-    ---------     ----------------------------    --------------------------------------------------------
-    condensed             medium                                       small                              : form assignation
-
-self._eval_well_value is slower than directly call BioPlateMatrix and assign properly to each part of plate. Avoid self._eval except if you can't know in advance return positiln of BioPlateMatrix'.
-
-eg: self._eval_well_value("A[2-8]", "test") is slower than row, col1, col2 = BioPlateMatrix("A[2-8]"), Plate[row, col1:col2] = value
-
-
-
-"""
-
 
 class BioPlateManipulation:
-    """A row is symbolise by it's letter, a column by a number"""    
+    """This parent class grouped all method that can be applied to BioPlate instance"""
              
     @property
     def name(self):
+        """
+
+        Returns
+        -------
+
+        """
         return type(self).__name__         
                 
     def _args_analyse(self, *args):
+        """
+
+        Parameters
+        ----------
+        args
+
+        Returns
+        -------
+
+        """
         #add_value, add_row_value, add_column_value
         dict_in = any(isinstance(arg, dict) for arg in args)
         list_in = any(isinstance(arg, list) for arg in args)
@@ -85,6 +77,16 @@ class BioPlateManipulation:
 
     def add_values(self, *args):
         """
+
+        Parameters
+        ----------
+        args
+
+        Returns
+        -------
+
+        """
+        """
         parse dictionaries of multiple value to add with keys are wells and values are value
         
         (eg : {'A1' : 'test 4', 'B3' : 'test 5'})
@@ -109,7 +111,14 @@ class BioPlateManipulation:
     """
     def set(self, *args):
         """
-        set a value 
+
+        Parameters
+        ----------
+        args
+
+        Returns
+        -------
+
         """
         well, value, *trash = self._args_analyse(*args)
         if isinstance(well, dict):
@@ -119,6 +128,17 @@ class BioPlateManipulation:
         return self
 
     def _eval_well(self, well, value=None):
+        """
+
+        Parameters
+        ----------
+        well
+        value
+
+        Returns
+        -------
+
+        """
         """
         well = ("All", "R", 2) => self[:,well[2]]
         well = ("All", "C", 2) => self[well[2]]
@@ -166,6 +186,17 @@ class BioPlateManipulation:
                     return self[well[0][1]:well[-1][1] + 1,well[0][2]:well[0][3]]
 
     def _eval_well_value(self, well, value):
+        """
+
+        Parameters
+        ----------
+        well
+        value
+
+        Returns
+        -------
+
+        """
         well = BioPlateMatrix(well)
         if isinstance(well, list):
             if len(well) == len(value):
@@ -177,6 +208,16 @@ class BioPlateManipulation:
             self._eval_well(well, value)
 
     def get(self, *well):
+        """
+
+        Parameters
+        ----------
+        well
+
+        Returns
+        -------
+
+        """
         if len(well) > 1:
             test = lambda x : list(x) if not isinstance(x, str) else x
             return list(map(test, list(map(self._eval_well, map(BioPlateMatrix, well)))))
@@ -184,6 +225,17 @@ class BioPlateManipulation:
             return self._eval_well(BioPlateMatrix(well[0]))
 
     def save(self, plate_name, **kwargs):
+        """
+
+        Parameters
+        ----------
+        plate_name
+        kwargs
+
+        Returns
+        -------
+
+        """
         dbName = kwargs.get("db_hist_name")
         if not dbName :
             phi = PlateHist()
@@ -201,6 +253,18 @@ class BioPlateManipulation:
 
     def table(self, headers="firstrow", *args, **kwargs):
         """
+
+        Parameters
+        ----------
+        headers
+        args
+        kwargs
+
+        Returns
+        -------
+
+        """
+        """
         return a tabulate object of plate.array
         
         :param plate: numpy.array of a plate object
@@ -211,12 +275,48 @@ class BioPlateManipulation:
             return tabulate(self, headers=headers, **kwargs)
         
     def iterate(self, order="C", accumulate=True):
+        """
+
+        Parameters
+        ----------
+        order
+        accumulate
+
+        Returns
+        -------
+
+        """
         yield from BioPlateIterate(self, order=order, accumulate=accumulate)
     
     def count(self, reverse=False):
+        """
+
+        Parameters
+        ----------
+        reverse
+
+        Returns
+        -------
+
+        """
         return BioPlateCount(self, reverse=reverse)
 
     def to_excel(self, file_name,  sheets=['plate_representation', 'plate_data', 'plate_count'], header = True, accumulate = True, order="C",  empty="empty"):
+        """
+
+        Parameters
+        ----------
+        file_name
+        sheets
+        header
+        accumulate
+        order
+        empty
+
+        Returns
+        -------
+
+        """
         from BioPlate.writer.to_excel import BioPlateToExcel
         xls_file = BioPlateToExcel(file_name, sheets=sheets, header=header, accumulate=accumulate, order=order, empty=empty)
         xls_file.representation(self)
