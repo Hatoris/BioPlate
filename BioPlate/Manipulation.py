@@ -11,9 +11,18 @@ class BioPlateManipulation:
     @property
     def name(self):
         """
-
+        
         Returns
         -------
+         name : str
+                      name of instance (BioPlate, BioPlateInserts, BioPlateArray)
+        
+        Exemples:
+        ---------
+        
+        >>> plate = BioPlate(12, 8)
+        >>> plate.name
+        BioPlate
 
         """
         return type(self).__name__         
@@ -23,13 +32,27 @@ class BioPlateManipulation:
 
         Parameters
         ----------
-        args
+        well : dict or str
+                   stand alone args with value for each well
+         value : list or str or int or float
+                      list of value or value alone
 
         Returns
         -------
+        well : dict or str
+                    well position
+         value : list or str or int or float or None
+                     value for given well, None if dict was pass as argument
+                
+        Exemples
+        ----------
+        
+        >>> BioPlateManipulation._args_analyse({"A1" : "test"})
+        ({"A1" : "test"}, None)
+        >>> BioPlateManipulation._args_analyse("A[1-2]",  ["test", "test1"])
+        ("A[1-2]",  ["test", "test1"])
 
         """
-        #add_value, add_row_value, add_column_value
         dict_in = any(isinstance(arg, dict) for arg in args)
         list_in = any(isinstance(arg, list) for arg in args)
         if len(args) == 2 and not dict_in :
@@ -77,21 +100,27 @@ class BioPlateManipulation:
 
     def add_values(self, *args):
         """
-
+        Add values is use to seperate well, value of dict and assign it to each well.
+        
         Parameters
         ----------
-        args
+        
+        well : dict
+                  dictionary of well, value to assign     
 
         Returns
         -------
-
-        """
-        """
-        parse dictionaries of multiple value to add with keys are wells and values are value
-        
-        (eg : {'A1' : 'test 4', 'B3' : 'test 5'})
-        :param values: {'A1' : 'test 4', 'B3' : 'test 5'}
-        :eturn: plate
+            
+        BioPlate : BioPlate
+                        return instance of plate
+         
+         Raises
+         ---------
+         
+         AttributeError
+             If args is not a dict
+         
+            
         """
         well_dict, *trash = self._args_analyse(*args)
         try:
@@ -111,19 +140,29 @@ class BioPlateManipulation:
     """
     def set(self, *args):
         """
+        Main entry point to assign value on plate
 
         Parameters
         ----------
-        args
+          well : dict or str
+                   stand alone args with value for each well
+         value : list or str or int or float
+                      list of value or value alone
 
         Returns
         -------
-
+         BioPlate : BioPlate
+                        return instance of plate
+         
+         Exemples
+         -----------
+         
+         
+        
         """
         well, value, *trash = self._args_analyse(*args)
         if isinstance(well, dict):
-            self.add_values(*args)
-            return self
+            return self.add_values(*args)
         self._eval_well_value(well, value)
         return self
 
