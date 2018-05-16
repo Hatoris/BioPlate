@@ -145,9 +145,11 @@ class BioPlateManipulation:
         Parameters
         ----------
           well : dict or str
-                   stand alone args with value for each well
+                   - if dict, well must contain well identifier as key and value to assign as value.eg : {"A2" : "value", "A[3-6]" : 42}
+                   - if string, well is only a well identifier eg : "G5"
          value : list or str or int or float
-                      list of value or value alone
+                      - if list, value should be presented with multiple well identifer
+                      "B-D[2-5]", ["value1", "value2", "value3"]
 
         Returns
         -------
@@ -157,7 +159,7 @@ class BioPlateManipulation:
          Exemples
          -----------
          
-         
+         see :ref:`fn_set`
         
         """
         well, value, *trash = self._args_analyse(*args)
@@ -168,15 +170,23 @@ class BioPlateManipulation:
 
     def _eval_well(self, well, value=None):
         """
-
+        This function assign a value, if `value` is not None, else this funvtion return selected well.
+        
         Parameters
         ----------
-        well
-        value
-
+        well : tuple or list
+                well position rendered by BioPlateMatrix
+        value : str or int or float or None
+                value to assign to a given well
+        
         Returns
         -------
-
+        
+        None : None
+            If value is given, function assign to well value and return None
+        selected_well : str or int or float or np.array
+            If value is None, return the selected well
+        
         """
         """
         well = ("All", "R", 2) => self[:,well[2]]
@@ -226,15 +236,25 @@ class BioPlateManipulation:
 
     def _eval_well_value(self, well, value):
         """
-
+        Pre process well and value for _eval_well. Transform well str and dict to tuple or list of integer posution for numpy indexing.
+        
         Parameters
         ----------
-        well
-        value
+       well : dict or str
+            - if dict, well must contain well identifier as key and value to assign as value. eg : {"A2" : "value", "A[3-6]" : 42}
+           - if string, well is only a well identifier eg : "G5"
+        value : str or int or float or None
+                value to assign to a given well
 
         Returns
         -------
-
+        None : None
+            Only pre process well value
+            
+         Raises
+         ---------
+         ValueError
+             If number of column or row is not equal to value when value are in list
         """
         well = BioPlateMatrix(well)
         if isinstance(well, list):

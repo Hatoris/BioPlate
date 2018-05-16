@@ -110,6 +110,8 @@ Get value on row
 Get multiple value at once
 ---------------------------------------------
 
+This will return a numpy array.
+
 .. code:: python    
 
     multiC = plate.get("2-4[A-G]")
@@ -120,3 +122,8 @@ Get multiple value at once
     multiR_np = plate[1:8,5:9]
     (multiR == multiR_np).any() # True
 
+This will return a list
+
+.. code:: python
+
+    multiAll = plate.get("A2", "B[2-6]", "H12")

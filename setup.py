@@ -7,7 +7,7 @@ def read(fname):
 
 setup(
     name = "BioPlate",
-    version = "0.1.1",
+    version = "0.1.2",
     author = "Florian Bernard",
     author_email = "florianxbernard@gmail.com",
     description = ("An application to quickly generate plate schemes used in life science, "
@@ -19,20 +19,19 @@ setup(
                    'Source': 'https://github.com/Hatoris/BioPlate'},
     packages=['BioPlate', 'BioPlate/database', 'BioPlate/writer'],
     install_requires=[
-        'sqlalchemy',
-        'tabulate',
-        'numpy',
-        'pathlib',
-        'xlsxwriter',
-        'pyexcel',
-        'pyexcel_xlsx',
-        'pyexcel_xls',
+        'sqlalchemy>=1.2',
+        'tabulate>=0.8',
+        'numpy>=1.14',
+        'pathlib>=1.0',
+        'xlsxwriter>=1.0',
+        'pyexcel>=0.5',
+        'pyexcel_xlsx>=0.5',
+        'pyexcel_xls>=0.5',
     ],
     long_description=read('README.md'),
     python_requires='>=3.6',
     classifiers=[
         "Programming Language :: Python :: 3.6",
-        "Environment :: Console",
         "Development Status :: 3 - Alpha",
         "Natural Language :: English",
         "Topic :: Scientific/Engineering",
