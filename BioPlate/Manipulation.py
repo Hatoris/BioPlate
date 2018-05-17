@@ -275,11 +275,19 @@ class BioPlateManipulation:
 
         Parameters
         ----------
-        well
+        well : str
+            well is only a well identifier eg : "G5", "2[B-G]"
+         
 
         Returns
         -------
-
+            One_well : str
+                get back value in one well eg : "G5"
+             multiple_well : np.array
+                 get back all value eg : "2[B-G]"
+              multiple_well_multiple_identifier : list
+                  return a list of eqch given arguments
+                 
         """
         if len(well) > 1:
             test = lambda x : list(x) if not isinstance(x, str) else x
@@ -289,22 +297,28 @@ class BioPlateManipulation:
 
     def save(self, plate_name, **kwargs):
         """
-
+        Save BioPlate objwct to plate history database 
+        
         Parameters
         ----------
-        plate_name
-        kwargs
+        plate_name : str
+            name of plate to save it in database eg : "expetiment 1"
+        kwargs : dict
+            To know kwargs see :func:`~BioPlate.database.plate_historic_db.PlateHist.add_hplate`
 
         Returns
         -------
-
+        response : str
+            database response for adding or updating plate historic database 
+        
+        
         """
         dbName = kwargs.get("db_hist_name")
         if not dbName :
             phi = PlateHist()
         else:
             phi = PlateHist(db_name=dbName)
-            well = next(BioPlateIterate(self, OnlyValue=True)).shape
+        well = next(BioPlateIterate(self, OnlyValue=True)).shape
         numWell = well[0] * well[1]
         response = phi.add_hplate(numWell, plate_name, self)
         if isinstance(response, str):
@@ -314,71 +328,85 @@ class BioPlateManipulation:
                            "plate_array": self}
             return phi.update_hplate(dict_update, response, key="id")
 
-    def table(self, headers="firstrow", *args, **kwargs):
+    def table(self, headers="firstrow", **kwargs):
         """
-
+        Transform BioPlate object to table
+        
         Parameters
         ----------
-        headers
-        args
-        kwargs
+        headers : str (by default "firstrow")
+        kwargs : dict
+            To know kwargs see `Tabulate`_
+            
+        _`Tabulate`: https://pypi.org/project/tabulate/#description
 
         Returns
         -------
+            table : str
+                outputs a nicely formatted plain-text table
 
         """
-        """
-        return a tabulate object of plate.array
-        
-        :param plate: numpy.array of a plate object
-        :param kwargs: keys arguments use by tabulate function
-        :return:
-        """
-        if not args:
-            return tabulate(self, headers=headers, **kwargs)
+        return tabulate(self, headers=headers, **kwargs)
         
     def iterate(self, order="C", accumulate=True):
         """
-
+        Generaror to Iterate a BioPlate instance by column or row, with ability to group value of same well
+        
         Parameters
         ----------
-        order
-        accumulate
+        order : { "C" , "R"}
+            Iterate by column (C) or by row (R)
+        accumulate : bool (by default True)
+            Group data of same well together
 
-        Returns
+        Yields
         -------
+        well : tuple
+            each iteration contain well identifier and value(s) eg : ("B2", "value")
+        
 
         """
         yield from BioPlateIterate(self, order=order, accumulate=accumulate)
     
     def count(self, reverse=False):
         """
-
+        count number of occurance in BioPlate instance
+        
         Parameters
         ----------
-        reverse
+        reverse : bool (by default false)
 
         Returns
         -------
-
+        
+        result : dict
+            return a dict of occurance name : number of occurance
         """
         return BioPlateCount(self, reverse=reverse)
 
     def to_excel(self, file_name,  sheets=['plate_representation', 'plate_data', 'plate_count'], header = True, accumulate = True, order="C",  empty="empty"):
         """
-
+        Send BioPlate instance to spreadsheet
+        
         Parameters
         ----------
-        file_name
-        sheets
-        header
-        accumulate
-        order
-        empty
+        file_name : str
+            name of new created spreadsheet
+        sheets : list[str]
+            name of sheets
+        header : bool (default is True)
+            if header should be present in plate representation
+        accumulate : bool (default is True)
+            If data in BioPlate object should be accumulate or not see :func:`~BioPlate.Manipulation.BioPlateManipulation.iterate`
+        order : {"C", "R"}
+            Iterate value by column or row
+        empty : str
+            value assign to empty well 
 
         Returns
         -------
-
+        spreadsheet : None
+            create a spreasheet at given filename (should contain path also)
         """
         from BioPlate.writer.to_excel import BioPlateToExcel
         xls_file = BioPlateToExcel(file_name, sheets=sheets, header=header, accumulate=accumulate, order=order, empty=empty)
