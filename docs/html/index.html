@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to BioPlate’s documentation! &mdash; BioPlate 0.1.0 documentation</title>
+  <title>Welcome to BioPlate’s documentation! &mdash; BioPlate 0.1.2 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.1
               </div>
             
           
@@ -281,6 +281,115 @@
 <li class="toctree-l1"><a class="reference internal" href="versions.html">Version history</a></li>
 </ul>
 </div>
+<span class="target" id="module-BioPlate.Manipulation"></span><dl class="class">
+<dt id="BioPlate.Manipulation.BioPlateManipulation">
+<em class="property">class </em><code class="descclassname">BioPlate.Manipulation.</code><code class="descname">BioPlateManipulation</code><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This parent class grouped all method that can be applied to BioPlate instance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></dt>
+<dd><p class="first last">Returns</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_values</span></code>(*args)</td>
+<td>Add values is use to seperate well, value of dict and assign it to each well.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">count</span></code>([reverse])</td>
+<td>count number of occurance in BioPlate instance</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(*well)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param well:</th><td class="field-body">well is only a well identifier eg : “G5”, “2[B-G]” :type well: str</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#BioPlate.Manipulation.BioPlateManipulation.iterate" title="BioPlate.Manipulation.BioPlateManipulation.iterate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterate</span></code></a>([order,&nbsp;accumulate])</td>
+<td>Generaror to Iterate a BioPlate instance by column or row, with ability to group value of same well</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code>(plate_name,&nbsp;**kwargs)</td>
+<td>Save BioPlate objwct to plate history database</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(*args)</td>
+<td>Main entry point to assign value on plate</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">table</span></code>([headers])</td>
+<td>Transform BioPlate object to table</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#BioPlate.Manipulation.BioPlateManipulation.to_excel" title="BioPlate.Manipulation.BioPlateManipulation.to_excel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_excel</span></code></a>(file_name[,&nbsp;sheets,&nbsp;header,&nbsp;…])</td>
+<td>Send BioPlate instance to spreadsheet</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.iterate">
+<code class="descname">iterate</code><span class="sig-paren">(</span><em>order='C'</em>, <em>accumulate=True</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.iterate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generaror to Iterate a BioPlate instance by column or row, with ability to group value of same well</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>order</strong> (<em>{ &quot;C&quot;</em><em> , </em><em>&quot;R&quot;}</em>) – Iterate by column (C) or by row (R)</li>
+<li><strong>accumulate</strong> (<em>bool</em><em> (</em><em>by default True</em><em>)</em>) – Group data of same well together</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last"><strong>well</strong> (<em>tuple</em>) – each iteration contain well identifier and value(s) eg : (“B2”, “value”)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.to_excel">
+<code class="descname">to_excel</code><span class="sig-paren">(</span><em>file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header=True, accumulate=True, order='C', empty='empty'</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.to_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send BioPlate instance to spreadsheet</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>file_name</strong> (<em>str</em>) – name of new created spreadsheet</li>
+<li><strong>sheets</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – name of sheets</li>
+<li><strong>header</strong> (<em>bool</em><em> (</em><em>default is True</em><em>)</em>) – if header should be present in plate representation</li>
+<li><strong>accumulate</strong> (<em>bool</em><em> (</em><em>default is True</em><em>)</em>) – If data in BioPlate object should be accumulate or not see <a class="reference internal" href="#BioPlate.Manipulation.BioPlateManipulation.iterate" title="BioPlate.Manipulation.BioPlateManipulation.iterate"><code class="xref py py-func docutils literal notranslate"><span class="pre">iterate()</span></code></a></li>
+<li><strong>order</strong> (<em>{&quot;C&quot;</em><em>, </em><em>&quot;R&quot;}</em>) – Iterate value by column or row</li>
+<li><strong>empty</strong> (<em>str</em>) – value assign to empty well</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>spreadsheet</strong> – create a spreasheet at given filename (should contain path also)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -332,7 +441,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.0',
+            VERSION:'0.1.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

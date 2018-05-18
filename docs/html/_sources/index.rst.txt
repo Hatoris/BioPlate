@@ -24,8 +24,12 @@ Contents
     database
     glossary
     contribute
-    versions   
+    versions
+    .. autosummary:: to_excel
 
+.. module:: BioPlate.Manipulation
+.. autoclass:: BioPlateManipulation
+    :members: to_excel, iterate
    	
 
 Indices and tables

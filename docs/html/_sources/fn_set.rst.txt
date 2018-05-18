@@ -2,6 +2,8 @@
 Set values on plate
 ===================
 
+.. _fn_set:
+
 Set's function is used to quickly assign values to a plate.
 
 Set on simple plate

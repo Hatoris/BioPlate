@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Get values on plate &mdash; BioPlate 0.1.0 documentation</title>
+  <title>Get values on plate &mdash; BioPlate 0.1.2 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.1
               </div>
             
           
@@ -305,6 +305,7 @@
 </div>
 <div class="section" id="get-multiple-value-at-once">
 <h2>Get multiple value at once<a class="headerlink" href="#get-multiple-value-at-once" title="Permalink to this headline">¶</a></h2>
+<p>This will return a numpy array.</p>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">multiC</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">)</span>
 <span class="n">multiC_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 <span class="p">(</span><span class="n">multiC</span> <span class="o">==</span> <span class="n">multiC_np</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="c1"># True</span>
@@ -312,6 +313,10 @@
 <span class="n">multiR</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;A-G[5-8]&quot;</span><span class="p">)</span>
 <span class="n">multiR_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
 <span class="p">(</span><span class="n">multiR</span> <span class="o">==</span> <span class="n">multiR_np</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="c1"># True</span>
+</pre></div>
+</div>
+<p>This will return a list</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">multiAll</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;A2&quot;</span><span class="p">,</span> <span class="s2">&quot;B[2-6]&quot;</span><span class="p">,</span> <span class="s2">&quot;H12&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -359,7 +364,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.0',
+            VERSION:'0.1.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
