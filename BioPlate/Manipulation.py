@@ -11,15 +11,15 @@ class BioPlateManipulation:
     @property
     def name(self):
         """
+        Get object name (BioPlate, BioPlateInserts, BioPlateArray)
         
         Returns
         -------
-         name : str
-                      name of instance (BioPlate, BioPlateInserts, BioPlateArray)
+        name : str
+            name of instance 
         
         Exemples:
-        ---------
-        
+        ---------        
         >>> plate = BioPlate(12, 8)
         >>> plate.name
         BioPlate
@@ -62,43 +62,9 @@ class BioPlateManipulation:
             value = None
         if len(args) == 2 and list_in:
             well, value, *trash = args
-        return well, value                             
-           
+        return well, value                                        
 
-    #def add_value(self, *args):
-        """
-        add a value to one given well position (eg : 'A1', 'test 1')
-        
-        :param str well: 'A1' => On row A in column 1 add a value
-        :param str value: 'test 1' => value to add on selected well
-        :return: np.array([[0, 1, 2, 3],
-                           [A, 'test 1', 0, 0],
-                           [B, 0, 0, 0]])
-        """
-
-    #def add_value_row(self, *args):
-        """
-        add value to a given row on a list of column (eg : 'A[2,3]', 'test 2')
-        
-        :param wells: 'A[2,3]' => On row A add value from column 2 to 3 included
-        :param value: 'test 2' => Value to add on selected wells
-        :return: np.array([[0, 1, 2, 3],
-                           [A, 0, 'test 2', 'test 2'],
-                           [B, 0, 0, 0]])
-        """
-
-    #def add_value_column(self, *args):
-        """
-        addvalue to a given column on a list of row (eg : '2[A-B]', 'test 3')
-        
-        :param wells: '2[A-B]' => On column 2 add value from row A to B included
-        :param value: 'test 3' => Value to add on selected wells
-        :return: np.array([[0, 1, 2, 3],
-                           [A, 0, 'test 3', 0],
-                           [B, 0, 'test 3', 0]])
-        """
-
-    def add_values(self, *args):
+    def _add_values(self, *args):
         """
         Add values is use to seperate well, value of dict and assign it to each well.
         
@@ -164,7 +130,7 @@ class BioPlateManipulation:
         """
         well, value, *trash = self._args_analyse(*args)
         if isinstance(well, dict):
-            return self.add_values(*args)
+            return self._add_values(*args)
         self._eval_well_value(well, value)
         return self
 
@@ -272,7 +238,8 @@ class BioPlateManipulation:
 
     def get(self, *well):
         """
-
+        Use to retrive informations from BioPlate instance 
+        
         Parameters
         ----------
         well : str
@@ -354,7 +321,7 @@ class BioPlateManipulation:
         
         Parameters
         ----------
-        order : { "C" , "R"}
+        order : { 'C', 'R'}
             Iterate by column (C) or by row (R)
         accumulate : bool (by default True)
             Group data of same well together
@@ -370,7 +337,7 @@ class BioPlateManipulation:
     
     def count(self, reverse=False):
         """
-        count number of occurance in BioPlate instance
+        Count number of occurance in BioPlate instance
         
         Parameters
         ----------

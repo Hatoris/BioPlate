@@ -22,14 +22,11 @@ Contents
     fn_to_excel
     fn_from_excel
     database
+    class_manipulation
     glossary
     contribute
     versions
-    .. autosummary:: to_excel
-
-.. module:: BioPlate.Manipulation
-.. autoclass:: BioPlateManipulation
-    :members: to_excel, iterate
+    
    	
 
 Indices and tables

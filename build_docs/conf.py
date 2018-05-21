@@ -42,12 +42,11 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.githubpages',
     'sphinx.ext.mathjax',
-    'sphinx.ext.napoleon',
     'numpydoc']
 
-napoleon_numpy_docstring = True
+#    'sphinx.ext.napoleon'
 
-# Add any paths that contain templates here, relative to this directory.
+# Add any paths that containtemplates here, relative to this directory.
 templates_path = ['_templates']
 
 
