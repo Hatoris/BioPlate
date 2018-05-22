@@ -6,26 +6,27 @@ from BioPlate.Count import BioPlateCount
 
 
 class BioPlateManipulation:
-    """This parent class grouped all method that can be applied to BioPlate instance"""
+    r"""This parent class grouped all method that can be applied to BioPlate instance."""
              
     @property
     def name(self):
         """
         Get object name (BioPlate, BioPlateInserts, BioPlateArray)
-        
+
         Returns
         -------
         name : str
-            name of instance 
-        
-        Exemples:
-        ---------        
+            name of instance
+
+        Examples
+        ---------
+
         >>> plate = BioPlate(12, 8)
         >>> plate.name
         BioPlate
 
         """
-        return type(self).__name__         
+        return type(self).__name__
                 
     def _args_analyse(self, *args):
         """
@@ -44,7 +45,7 @@ class BioPlateManipulation:
          value : list or str or int or float or None
                      value for given well, None if dict was pass as argument
                 
-        Exemples
+        Examples
         ----------
         
         >>> BioPlateManipulation._args_analyse({"A1" : "test"})
@@ -122,10 +123,10 @@ class BioPlateManipulation:
          BioPlate : BioPlate
                         return instance of plate
          
-         Exemples
+         Examples
          -----------
          
-         see :ref:`fn_set`
+         see :ref:`Set-values-on-plate`
         
         """
         well, value, *trash = self._args_analyse(*args)
@@ -250,10 +251,10 @@ class BioPlateManipulation:
         -------
             One_well : str
                 get back value in one well eg : "G5"
-             multiple_well : np.array
-                 get back all value eg : "2[B-G]"
-              multiple_well_multiple_identifier : list
-                  return a list of eqch given arguments
+            multiple_well : np.array
+                get back all value eg : "2[B-G]"
+            multiple_well_multiple_identifier : list
+                return a list of eqch given arguments
                  
         """
         if len(well) > 1:
@@ -303,9 +304,7 @@ class BioPlateManipulation:
         ----------
         headers : str (by default "firstrow")
         kwargs : dict
-            To know kwargs see `Tabulate`_
-            
-        _`Tabulate`: https://pypi.org/project/tabulate/#description
+            To know kwargs see `Tabulate <https://pypi.org/project/tabulate/#description>`_
 
         Returns
         -------

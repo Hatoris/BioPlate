@@ -2,7 +2,7 @@
 Database options
 ================
 
-BioPlate use `sqlalchemy`_  in order to manipulate sqlite3 database.  Each database file are stock in the script under `BioPlate/database/DBfiles`.
+BioPlate use `sqlalchemy`_  in order to manipulate sqlite3 database.  Each database file are stock in the script under ``BioPlate/database/DBfiles``.
 
 .. _`sqlalchemy`: http://www.sqlalchemy.org
 
@@ -134,7 +134,7 @@ Get plate object matching given elements
 
 where `**kwargs` are pair of key, value you are looking for :
 
-eg : `" numWell" = 96,  "surfWell"  = 0.29 `
+eg : `" numWell" = 96,  "surfWell"  = 0.29` .
 
 This function return a list of object containing all element matching the query.
 

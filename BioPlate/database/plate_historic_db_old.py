@@ -1,6 +1,6 @@
 import BioPlate.database.database_function_import as dfi
 from sqlalchemy import Column, Integer, String, Date, PickleType
-from BioPlate.plate import Plate
+from BioPlate.Plate import Plate
 import datetime
 
 class PlateHist:

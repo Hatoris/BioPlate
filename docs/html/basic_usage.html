@@ -78,7 +78,6 @@
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-    
             
             
               
@@ -138,9 +137,7 @@
 <li class="toctree-l2"><a class="reference internal" href="database.html#delete-plate-object-in-database">Delete plate object in database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">Manipulation</a><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">Manipulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">How to contribute</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contribute.html#general-informations">General informations</a></li>
@@ -153,8 +150,6 @@
 
             
           
-    <a href="genindex.html">Index</a>
-  
         </div>
       </div>
     </nav>
@@ -233,7 +228,7 @@
 <span class="go"> [&#39;H&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39; &#39;&#39;]]</span>
 </pre></div>
 </div>
-<p>Add values to well, here from column 2 to column 11 on row B to G. For more possibilities on how to <span class="xref std std-ref">Set values on plate</span>.</p>
+<p>Add values to well, here from column 2 to column 11 on row B to G. For more possibilities on how to <a class="reference internal" href="fn_set.html#set-values-on-plate"><span class="std std-ref">Set values on plate</span></a>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">value_of_wells</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;non_treated&quot;</span><span class="p">,</span>  <span class="s2">&quot;control solvant&quot;</span><span class="p">,</span> <span class="s2">&quot;conc1&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc2&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc3&quot;</span><span class="p">,</span> <span class="s2">&quot;conc4&quot;</span><span class="p">,</span> <span class="s2">&quot;conc5&quot;</span><span class="p">,</span> <span class="s2">&quot;conc6&quot;</span><span class="p">,</span>  <span class="s2">&quot;conc7&quot;</span><span class="p">,</span> <span class="s2">&quot;media only&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-11[B-G]&quot;</span><span class="p">,</span> <span class="n">value_of_wells</span><span class="p">)</span>
 <span class="go">[[&#39; &#39; &#39;1&#39; &#39;2&#39; &#39;3&#39; &#39;4&#39; &#39;5&#39; &#39;6&#39; &#39;7&#39; &#39;8&#39; &#39;9&#39; &#39;10&#39; &#39;11&#39; &#39;12&#39;]</span>

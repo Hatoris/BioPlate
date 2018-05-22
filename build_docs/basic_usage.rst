@@ -16,7 +16,7 @@ Library usage
  ['G' '' '' '' '' '' '' '' '' '' '' '' '']
  ['H' '' '' '' '' '' '' '' '' '' '' '' '']]
 
-Add values to well, here from column 2 to column 11 on row B to G. For more possibilities on how to :ref:`Set values on plate`.
+Add values to well, here from column 2 to column 11 on row B to G. For more possibilities on how to :ref:`Set-values-on-plate`.
 
 >>> value_of_wells = ["non_treated",  "control solvant", "conc1",  "conc2",  "conc3", "conc4", "conc5", "conc6",  "conc7", "media only"]
 >>> my_plate.set("2-11[B-G]", value_of_wells)

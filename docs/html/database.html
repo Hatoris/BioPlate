@@ -78,7 +78,6 @@
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-    
             
             
               
@@ -138,9 +137,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#delete-plate-object-in-database">Delete plate object in database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">Manipulation</a><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">Manipulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">How to contribute</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contribute.html#general-informations">General informations</a></li>
@@ -153,8 +150,6 @@
 
             
           
-    <a href="genindex.html">Index</a>
-  
         </div>
       </div>
     </nav>
@@ -217,7 +212,7 @@
             
   <div class="section" id="database-options">
 <h1>Database options<a class="headerlink" href="#database-options" title="Permalink to this headline">¶</a></h1>
-<p>BioPlate use <a class="reference external" href="http://www.sqlalchemy.org">sqlalchemy</a>  in order to manipulate sqlite3 database.  Each database file are stock in the script under <cite>BioPlate/database/DBfiles</cite>.</p>
+<p>BioPlate use <a class="reference external" href="http://www.sqlalchemy.org">sqlalchemy</a>  in order to manipulate sqlite3 database.  Each database file are stock in the script under <code class="docutils literal notranslate"><span class="pre">BioPlate/database/DBfiles</span></code>.</p>
 <div class="section" id="common-database-method">
 <h2>Common database method<a class="headerlink" href="#common-database-method" title="Permalink to this headline">¶</a></h2>
 <p>Plate database and plate historic database bot inherit of database parent class.
@@ -332,7 +327,7 @@ Each function in commun should be call on an instance and by adding one of this 
 </pre></div>
 </div>
 <p>where <cite>**kwargs</cite> are pair of key, value you are looking for :</p>
-<p>eg : <a href="#id1"><span class="problematic" id="id2">`</span></a>” numWell” = 96,  “surfWell”  = 0.29 `</p>
+<p>eg : <cite>” numWell” = 96,  “surfWell”  = 0.29</cite> .</p>
 <p>This function return a list of object containing all element matching the query.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; pdb.get_plate(96)
 &gt;&gt;&gt; [&lt;plate N°1 : 96-12-8&gt;, &lt;plate N°26 : cool name,  96-12-8&gt;]
