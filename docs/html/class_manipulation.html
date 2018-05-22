@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
     <link rel="prev" title="Database options" href="database.html" /> 
 
   
@@ -77,7 +78,6 @@
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-    
             
             
               
@@ -137,9 +137,7 @@
 <li class="toctree-l2"><a class="reference internal" href="database.html#delete-plate-object-in-database">Delete plate object in database</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Manipulation</a><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Manipulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">How to contribute</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contribute.html#general-informations">General informations</a></li>
@@ -152,8 +150,6 @@
 
             
           
-    <a href="genindex.html">Index</a>
-  
         </div>
       </div>
     </nav>
@@ -219,50 +215,261 @@
 <dl class="class">
 <dt id="BioPlate.Manipulation.BioPlateManipulation">
 <em class="property">class </em><code class="descclassname">BioPlate.Manipulation.</code><code class="descname">BioPlateManipulation</code><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>This parent class grouped all method that can be applied to BioPlate instance</p>
+<dd><p>This parent class grouped all method that can be applied to BioPlate instance.</p>
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.count">
+<code class="descname">count</code><span class="sig-paren">(</span><em>reverse=False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count number of occurance in BioPlate instance</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></dt>
-<dd><p class="first last">Get object name (BioPlate, BioPlateInserts, BioPlateArray)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>reverse</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (by default false)</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>result</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">return a dict of occurance name : number of occurance</p>
 </dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>*well</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use to retrive informations from BioPlate instance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">count</span></code>([reverse])</td>
-<td>Count number of occurance in BioPlate instance</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">well is only a well identifier eg : “G5”, “2[B-G]”</p>
+</dd>
+</dl>
+</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(*well)</td>
-<td>Use to retrive informations from BioPlate instance</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterate</span></code>([order,&nbsp;accumulate])</td>
-<td>Generaror to Iterate a BioPlate instance by column or row, with ability to group value of same well</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code>(plate_name,&nbsp;**kwargs)</td>
-<td>Save BioPlate objwct to plate history database</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(*args)</td>
-<td>Main entry point to assign value on plate</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">table</span></code>([headers])</td>
-<td>Transform BioPlate object to table</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_excel</span></code>(file_name[,&nbsp;sheets,&nbsp;header,&nbsp;…])</td>
-<td>Send BioPlate instance to spreadsheet</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>One_well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><blockquote class="first">
+<div><p>get back value in one well eg : “G5”</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>multiple_well <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
+<dd><p class="first last">get back all value eg : “2[B-G]”</p>
+</dd>
+<dt>multiple_well_multiple_identifier <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">return a list of eqch given arguments</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.iterate">
+<code class="descname">iterate</code><span class="sig-paren">(</span><em>order='C'</em>, <em>accumulate=True</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.iterate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generaror to Iterate a BioPlate instance by column or row, with ability to group value of same well</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{ ‘C’, ‘R’}</span></dt>
+<dd><p class="first last">Iterate by column (C) or by row (R)</p>
+</dd>
+<dt><strong>accumulate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (by default True)</span></dt>
+<dd><p class="first last">Group data of same well together</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd><p class="first last">each iteration contain well identifier and value(s) eg : (“B2”, “value”)</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.name">
+<code class="descname">name</code><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get object name (BioPlate, BioPlateInserts, BioPlateArray)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">name of instance</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plate</span><span class="o">.</span><span class="n">name</span>
+<span class="go">BioPlate</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>plate_name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save BioPlate objwct to plate history database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>plate_name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">name of plate to save it in database eg : “expetiment 1”</p>
+</dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">To know kwargs see <code class="xref py py-func docutils literal notranslate"><span class="pre">add_hplate()</span></code></p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>response</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">database response for adding or updating plate historic database</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main entry point to assign value on plate</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict or str</span></dt>
+<dd><blockquote class="first">
+<div><ul class="simple">
+<li>if dict, well must contain well identifier as key and value to assign as value.eg : {“A2” : “value”, “A[3-6]” : 42}</li>
+<li>if string, well is only a well identifier eg : “G5”</li>
+</ul>
+</div></blockquote>
+<dl class="last docutils">
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">list or str or int or float</span></dt>
+<dd><ul class="first simple">
+<li>if list, value should be presented with multiple well identifer</li>
+</ul>
+<p class="last">“B-D[2-5]”, [“value1”, “value2”, “value3”]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>BioPlate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">BioPlate</span></dt>
+<dd><p class="first last">return instance of plate</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>see <a class="reference internal" href="fn_set.html#set-values-on-plate"><span class="std std-ref">Set values on plate</span></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.table">
+<code class="descname">table</code><span class="sig-paren">(</span><em>headers='firstrow'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform BioPlate object to table</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>headers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (by default “firstrow”)</span></dt>
+<dd></dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">To know kwargs see <a class="reference external" href="https://pypi.org/project/tabulate/#description">Tabulate</a></p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>table</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">outputs a nicely formatted plain-text table</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.Manipulation.BioPlateManipulation.to_excel">
+<code class="descname">to_excel</code><span class="sig-paren">(</span><em>file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header=True, accumulate=True, order='C', empty='empty'</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.to_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send BioPlate instance to spreadsheet</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>file_name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">name of new created spreadsheet</p>
+</dd>
+<dt><strong>sheets</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list[str]</span></dt>
+<dd><p class="first last">name of sheets</p>
+</dd>
+<dt><strong>header</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (default is True)</span></dt>
+<dd><p class="first last">if header should be present in plate representation</p>
+</dd>
+<dt><strong>accumulate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (default is True)</span></dt>
+<dd><p class="first last">If data in BioPlate object should be accumulate or not see <a class="reference internal" href="#BioPlate.Manipulation.BioPlateManipulation.iterate" title="BioPlate.Manipulation.BioPlateManipulation.iterate"><code class="xref py py-func docutils literal notranslate"><span class="pre">iterate()</span></code></a></p>
+</dd>
+<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{“C”, “R”}</span></dt>
+<dd><p class="first last">Iterate value by column or row</p>
+</dd>
+<dt><strong>empty</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">value assign to empty well</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>spreadsheet</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
+<dd><p class="first last">create a spreasheet at given filename (should contain path also)</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -274,6 +481,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="database.html" class="btn btn-neutral" title="Database options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
