@@ -125,10 +125,10 @@ class BioPlateMatrix:
     @staticmethod
     def _all_row_column(well):
         try:
-            index = int(well) - 1
+            index = int(well)
             char = "C"
         except ValueError:
-            index = BioPlateMatrix._well_letter_index(well) - 1
+            index = BioPlateMatrix._well_letter_index(well)
             char = "R"
         finally:
             return 'All', char, index
@@ -141,7 +141,7 @@ class BioPlateMatrix:
             try:
                 int(well)
                 return True
-            except ValueError: #here it's string that can't be convwrt
+            except ValueError: #here it's string that can't be convert
                 if len(well) == 1:
                     return True
                 else:

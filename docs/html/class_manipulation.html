@@ -218,7 +218,7 @@
 <dd><p>This parent class grouped all method that can be applied to BioPlate instance.</p>
 <dl class="method">
 <dt id="BioPlate.Manipulation.BioPlateManipulation.count">
-<code class="descname">count</code><span class="sig-paren">(</span><em>reverse=False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.count" title="Permalink to this definition">¶</a></dt>
+<code class="descname">count</code><span class="sig-paren">(</span><em>reverse: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count number of occurance in BioPlate instance</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -243,7 +243,7 @@
 
 <dl class="method">
 <dt id="BioPlate.Manipulation.BioPlateManipulation.get">
-<code class="descname">get</code><span class="sig-paren">(</span><em>*well</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.get" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get</code><span class="sig-paren">(</span><em>*well</em><span class="sig-paren">)</span> &#x2192; Union[_ForwardRef('BioPlateManipulation'), NoneType, typing.List[typing.Sequence[typing.Any]]]<a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use to retrive informations from BioPlate instance</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -279,7 +279,7 @@
 
 <dl class="method">
 <dt id="BioPlate.Manipulation.BioPlateManipulation.iterate">
-<code class="descname">iterate</code><span class="sig-paren">(</span><em>order='C'</em>, <em>accumulate=True</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.iterate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">iterate</code><span class="sig-paren">(</span><em>order: str = 'C'</em>, <em>accumulate: bool = True</em><span class="sig-paren">)</span> &#x2192; Generator<a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.iterate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generaror to Iterate a BioPlate instance by column or row, with ability to group value of same well</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -333,7 +333,7 @@
 
 <dl class="method">
 <dt id="BioPlate.Manipulation.BioPlateManipulation.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>plate_name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>plate_name: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Union[str, NoneType]<a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save BioPlate objwct to plate history database</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -362,7 +362,7 @@
 
 <dl class="method">
 <dt id="BioPlate.Manipulation.BioPlateManipulation.set">
-<code class="descname">set</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.set" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set</code><span class="sig-paren">(</span><em>*args</em>, <em>merge=False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main entry point to assign value on plate</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -385,6 +385,9 @@
 </dd>
 </dl>
 </dd>
+<dt><strong>merge</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (by default False)</span></dt>
+<dd><p class="first last">Value on well are not overide but added</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -403,7 +406,7 @@
 
 <dl class="method">
 <dt id="BioPlate.Manipulation.BioPlateManipulation.table">
-<code class="descname">table</code><span class="sig-paren">(</span><em>headers='firstrow'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">table</code><span class="sig-paren">(</span><em>headers: str = 'firstrow'</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; &lt;function tabulate at 0xea932f60&gt;<a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform BioPlate object to table</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -431,7 +434,7 @@
 
 <dl class="method">
 <dt id="BioPlate.Manipulation.BioPlateManipulation.to_excel">
-<code class="descname">to_excel</code><span class="sig-paren">(</span><em>file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header=True, accumulate=True, order='C', empty='empty'</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.to_excel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_excel</code><span class="sig-paren">(</span><em>file_name: str, sheets: List[str] = ['plate_representation', 'plate_data', 'plate_count'], header: bool = True, accumulate: bool = True, order: str = 'C', empty: str = 'empty'</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.Manipulation.BioPlateManipulation.to_excel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send BioPlate instance to spreadsheet</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

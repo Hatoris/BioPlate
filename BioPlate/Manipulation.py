@@ -3,13 +3,14 @@ from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.Matrix import BioPlateMatrix
 from BioPlate.Iterate import BioPlateIterate
 from BioPlate.Count import BioPlateCount
+from typing import Dict, List, Tuple, Optional, Union, Any, overload, Mapping, Sequence, Generator
 
 
 class BioPlateManipulation:
     r"""This parent class grouped all method that can be applied to BioPlate instance."""
              
     @property
-    def name(self):
+    def name(self:'BioPlateManipulation') -> str:
         """
         Get object name (BioPlate, BioPlateInserts, BioPlateArray)
 
@@ -27,7 +28,19 @@ class BioPlateManipulation:
 
         """
         return type(self).__name__
-                
+        
+    @overload
+    def _args_analyse(self :  'BioPlateManipulation', well : Dict[str, Any], value : None ) -> Tuple[Dict[str, Any], None]:
+        pass
+
+    @overload
+    def _args_analyse(self :  'BioPlateManipulation', well : Dict[str, Any]) -> Tuple[Dict[str, Any], None]:
+        pass
+
+    @overload
+    def _args_analyse(self :  'BioPlateManipulation', well : str, value : Union[str, int, float, List[Any], None ]) -> Tuple[str, Union[str, int, float, List[Any], None]]:
+        pass                                                                
+                                                                
     def _args_analyse(self, *args):
         """
 
@@ -65,7 +78,7 @@ class BioPlateManipulation:
             well, value, *trash = args
         return well, value                                        
 
-    def _add_values(self, *args):
+    def _add_values(self : 'BioPlateManipulation', *args : Dict[str, Any])  -> Union["BioPlateManipulation", str]:
         """
         Add values is use to seperate well, value of dict and assign it to each well.
         
@@ -89,7 +102,7 @@ class BioPlateManipulation:
          
             
         """
-        well_dict, *trash = self._args_analyse(*args)
+        well_dict, value = self._args_analyse(*args)
         try:
             Eval = lambda W_V : self._eval_well_value(W_V[0], W_V[1])
             list(map(Eval, well_dict.items()))
@@ -97,15 +110,19 @@ class BioPlateManipulation:
         except AttributeError:
             return f"{type(well_dict)} is a wrong format, dictionary should be used"
 
-    """
-        parse an add_value_row or column in a compact manner and pass it to evaluate(eg : 'A-C[1-5]', ['val1' , 'val2', 'val3'])
-        
-        :param multi_wells: 'A-C[1-5]' => On row A, B and C add value from column 1 to 5 included
-        :param values: ['val1' , 'val2', 'val3'] => On row A add value 'val1', on row B add value 'val2' from column 1 to 5
-        :return: plate
-       
-    """
-    def set(self, *args):
+    @overload
+    def set(self :  'BioPlateManipulation', well : Dict[str, Any], value : None ) -> Union['BioPlateManipulation', str]:
+        pass
+
+    @overload
+    def set(self :  'BioPlateManipulation', well : Dict[str, Any]) -> Union['BioPlateManipulation', str]:
+        pass
+
+    @overload
+    def set(self :  'BioPlateManipulation', well : str, value : Union[str, int, float, List[Any], None ]) -> Union['BioPlateManipulation', str]:
+        pass
+
+    def set(self, *args, merge = False):
         """
         Main entry point to assign value on plate
 
@@ -117,6 +134,8 @@ class BioPlateManipulation:
          value : list or str or int or float
                       - if list, value should be presented with multiple well identifer
                       "B-D[2-5]", ["value1", "value2", "value3"]
+        merge : bool (by default False)
+            Value on well are not overide but added
 
         Returns
         -------
@@ -129,15 +148,15 @@ class BioPlateManipulation:
          see :ref:`Set-values-on-plate`
         
         """
-        well, value, *trash = self._args_analyse(*args)
+        well, value = self._args_analyse(*args)
         if isinstance(well, dict):
             return self._add_values(*args)
         self._eval_well_value(well, value)
         return self
 
-    def _eval_well(self, well, value=None):
+    def _eval_well(self:Any, well:Union[Tuple, List], value=None) -> Optional["BioPlateManipulation"]:
         """
-        This function assign a value, if `value` is not None, else this funvtion return selected well.
+        This function assign a value, if `value` is not None, else this function return selected well.
         
         Parameters
         ----------
@@ -177,19 +196,19 @@ class BioPlateManipulation:
              if well[1] == "R":
                  if value is not None:
                      if isinstance(value, list):
-                         self[1:,1:][well[2]][0:len(value)] = value
+                         self[well[2], 1:len(value) + 1] = value
                      else:
-                         self[1:,1:][well[2]] = value
+                         self[well[2], 1:]= value
                  else:
-                     return self[1:,1:][well[2]]
+                     return self[well[2], 1:]
              elif well[1] == "C":
                  if value is not None:
                      if isinstance(value, list):
-                         self[1:,1:][:,well[2]][0:len(value)] = value
+                         self[1:len(value) + 1,well[2]] = value
                      else:
-                         self[1:,1:][:,well[2]] = value
+                         self[1:,well[2]] = value
                  else:
-                     return self[1:,1:][:,well[2]]
+                     return self[1:,well[2]]
         else:
             if value is not None:
                 self[well[0], well[1]] = value
@@ -200,7 +219,30 @@ class BioPlateManipulation:
                     return self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
                 elif well[0][0] == "C":
                     return self[well[0][1]:well[-1][1] + 1,well[0][2]:well[0][3]]
+        return None
 
+    def _new_eval_well(self:Any, well:Tuple) -> "BioPlateManipulation":
+        if isinstance(well, tuple):
+            position, *index = well
+            if position == "R":
+                return self[index[0]:index[1], index[2]]
+            elif position == "C":
+                 return self[index[0], index[1]:index[2]]
+            elif position == "All":
+                pos, i = index
+        if isinstance(well, list):
+            pass
+        
+           
+            
+#    @overload
+#    def _eval_well(self :  'BioPlateManipulation', well : Dict[str, Any], value : None ) -> Union[ "BioPlateManipulation", str, None]:
+#        pass
+
+#    @overload
+#    def _eval_well(self :  'BioPlateManipulation', well : str, value : Union[str, int, float, List[Any], None ]) -> Union["BioPlateManipulation", str, None]:
+#        pass
+        
     def _eval_well_value(self, well, value):
         """
         Pre process well and value for _eval_well. Transform well str and dict to tuple or list of integer posution for numpy indexing.
@@ -237,7 +279,7 @@ class BioPlateManipulation:
         else:           
             self._eval_well(well, value)
 
-    def get(self, *well):
+    def get(self : "BioPlateManipulation", *well : str) -> Union[Optional["BioPlateManipulation"], List[Sequence[Any]]]:
         """
         Use to retrive informations from BioPlate instance 
         
@@ -259,11 +301,12 @@ class BioPlateManipulation:
         """
         if len(well) > 1:
             test = lambda x : list(x) if not isinstance(x, str) else x
-            return list(map(test, list(map(self._eval_well, map(BioPlateMatrix, well)))))
+            querry = list(map(test, list(map(self._eval_well, map(BioPlateMatrix, well)))))
+            return querry
         else:
             return self._eval_well(BioPlateMatrix(well[0]))
 
-    def save(self, plate_name, **kwargs):
+    def save(self : "BioPlateManipulation", plate_name : str, **kwargs) -> Optional[str]:
         """
         Save BioPlate objwct to plate history database 
         
@@ -292,11 +335,11 @@ class BioPlateManipulation:
         if isinstance(response, str):
             return response
         elif isinstance(response, int):
-            dict_update = {"plate_name": plate_name,
-                           "plate_array": self}
+            dict_update = {"plate_name": plate_name, "plate_array": self}
             return phi.update_hplate(dict_update, response, key="id")
+        return None
 
-    def table(self, headers="firstrow", **kwargs):
+    def table(self : "BioPlateManipulation", headers : str ="firstrow", **kwargs) -> tabulate:
         """
         Transform BioPlate object to table
         
@@ -314,7 +357,7 @@ class BioPlateManipulation:
         """
         return tabulate(self, headers=headers, **kwargs)
         
-    def iterate(self, order="C", accumulate=True):
+    def iterate(self : "BioPlateManipulation", order : str ="C", accumulate : bool =True) -> Generator:
         """
         Generaror to Iterate a BioPlate instance by column or row, with ability to group value of same well
         
@@ -334,7 +377,7 @@ class BioPlateManipulation:
         """
         yield from BioPlateIterate(self, order=order, accumulate=accumulate)
     
-    def count(self, reverse=False):
+    def count(self : "BioPlateManipulation", reverse : bool =False):
         """
         Count number of occurance in BioPlate instance
         
@@ -350,7 +393,7 @@ class BioPlateManipulation:
         """
         return BioPlateCount(self, reverse=reverse)
 
-    def to_excel(self, file_name,  sheets=['plate_representation', 'plate_data', 'plate_count'], header = True, accumulate = True, order="C",  empty="empty"):
+    def to_excel(self : "BioPlateManipulation", file_name : str,  sheets : List[str]=['plate_representation', 'plate_data', 'plate_count'], header : bool = True, accumulate : bool = True, order : str ="C",  empty : str="empty"):
         """
         Send BioPlate instance to spreadsheet
         
