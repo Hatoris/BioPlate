@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from pathlib import Path, PurePath
 
 
-
 class Database:
 
     Base = declarative_base()
@@ -48,7 +47,9 @@ class Database:
     
     @property
     def create_sqlalchemypath(self):
-        return r'sqlite:///' + str(PurePath(Path(__file__).parent, 'DBFiles', self.db_name))
+        folder = Path(__file__).parent.absolute() / "DBFiles"
+        folder.mkdir(parents=True, exist_ok=True)
+        return r'sqlite:///' + str(PurePath(folder, self.db_name))
         
     
     def get_one(self, args, key=None):

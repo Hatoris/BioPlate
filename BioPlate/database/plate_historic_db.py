@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, Date, PickleType
 from sqlalchemy.ext.hybrid import hybrid_property
 import datetime
 
+
 class PlateHist(Database) :
 
     class PlateHistoric(Database.Base):

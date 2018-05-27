@@ -1,6 +1,6 @@
 from BioPlate.database.database import Database
 from sqlalchemy import Column, Integer, String, Float, exc
-
+from pathlib import Path
 
 class PlateDB(Database):
 
