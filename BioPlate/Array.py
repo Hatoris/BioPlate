@@ -137,28 +137,28 @@ class BioPlateArray(np.ndarray):
             BParray[0,0] = ' '
             return BParray
     
-    def _bio_plate_array(columns, rows):
-        """
-         Looking cache for np.ndarray with columns, rows as key
-            
-            Parameters
-            --------------------          
-            columns int:
-                number of columns in the plate representation
-             rows int:
-                 number of rows in the plate representation 
-            
-            Returns
-            -------------
-            np.ndarray
-               np.ndarray from cache
-        
-        """
-        key = (columns, rows)
-        if key not in BioPlateArray._CACHE_BPA:
-            BParray = BioPlateArray._bio_plate_array(columns, rows)
-            BioPlateArray._CACHE_BPA[key] = BParray
-        return  BioPlateArray._CACHE_BPA[key]
+    # def _bio_plate_array(columns, rows):
+    #     """
+    #      Looking cache for np.ndarray with columns, rows as key
+    #
+    #         Parameters
+    #         --------------------
+    #         columns int:
+    #             number of columns in the plate representation
+    #          rows int:
+    #              number of rows in the plate representation
+    #
+    #         Returns
+    #         -------------
+    #         np.ndarray
+    #            np.ndarray from cache
+    #
+    #     """
+    #     key = (columns, rows)
+    #     if key not in BioPlateArray._CACHE_BPA:
+    #         BParray = BioPlateArray._bio_plate_array(columns, rows)
+    #         BioPlateArray._CACHE_BPA[key] = BParray
+    #     return  BioPlateArray._CACHE_BPA[key]
            
     def _get_plate_in_cache(ID):
        """

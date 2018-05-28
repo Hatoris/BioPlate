@@ -1,9 +1,5 @@
 import unittest
-import contextlib
-import numpy as np
 
-from pathlib import Path, PurePath
-from BioPlate.utilitis import remove_empty_iterate, dict_unique
 from BioPlate.Manipulation import BioPlateManipulation
 
 

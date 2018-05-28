@@ -15,12 +15,8 @@ def dimension(plate):
    plate : np.array
     return True if plate is a stack of 2D plate (=3D), false if plate object is only one plate and raise error if dimiaion is above 3.
     """
-    shape = plate.shape
-    if len(shape) == 3:
-        if shape[0] >= 2:
-            return True
-        else:
-            raise ValueError(f"plate object have a dimision of {shape[0]} > 3")
+    if plate.name == "BioPlateStack":
+        return True
     else:
         return False
 
