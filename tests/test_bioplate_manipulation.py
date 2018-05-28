@@ -37,9 +37,7 @@ class TestBioPlateManipulation(unittest.TestCase):
         """
         pass
         
-    def test_matrix_well(self):
-        self.assertEqual( self.BPM.matrix_well("A1"), (1, 1))
-        self.assertEqual( self.BPM.matrix_well("E12"), (5, 12))
+    
         
         
         

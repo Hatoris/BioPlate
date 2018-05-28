@@ -52,9 +52,9 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(BioPlateMatrix("A-G[1-8]"), [('C', 1, 1, 9), ('C', 2, 1, 9), ('C', 3, 1, 9), ('C', 4, 1, 9), ('C', 5, 1, 9), ('C', 6, 1, 9), ('C', 7, 1, 9)])
         self.assertEqual(BioPlateMatrix("A,G[1-8]"), [('C', 1, 1, 9), ('C', 2, 1, 9), ('C', 3, 1, 9), ('C', 4, 1, 9), ('C', 5, 1, 9), ('C', 6, 1, 9), ('C', 7, 1, 9)])
         self.assertEqual(BioPlateMatrix("1-8[A-G]"), [('R', 1, 8, 1), ('R', 1, 8, 2), ('R', 1, 8, 3), ('R', 1, 8, 4), ('R', 1, 8, 5), ('R', 1, 8, 6), ('R', 1, 8, 7), ('R', 1, 8, 8)])
-        self.assertEqual(BioPlateMatrix('C'), ('All', 'R', 2))
-        self.assertEqual(BioPlateMatrix('12'), ('All', 'C', 11))
-        self.assertEqual(BioPlateMatrix(11), ('All', 'C', 10))
+        self.assertEqual(BioPlateMatrix('C'), ('All', 'R', 3))
+        self.assertEqual(BioPlateMatrix('12'), ('All', 'C', 12))
+        self.assertEqual(BioPlateMatrix(11), ('All', 'C', 11))
   
     def test_base_row_column(self):
          self.assertEqual(BioPlateMatrix._base_row_column("A1"), ('1', 'A'))
@@ -80,9 +80,9 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(BioPlateMatrix._well_letter_index('G'), 7)           
         
     def test_all_row_column(self):
-        self.assertEqual(BioPlateMatrix._all_row_column('A'), ('All', 'R', 0))
-        self.assertEqual(BioPlateMatrix._all_row_column(3), ('All', 'C', 2))
-        self.assertEqual(BioPlateMatrix._all_row_column(12), ('All', 'C', 11))
+        self.assertEqual(BioPlateMatrix._all_row_column('A'), ('All', 'R', 1))
+        self.assertEqual(BioPlateMatrix._all_row_column(3), ('All', 'C', 3))
+        self.assertEqual(BioPlateMatrix._all_row_column(12), ('All', 'C', 12))
         
     def test__test_row_or_column(self):
         self.assertTrue(BioPlateMatrix._test_row_or_column('A'))

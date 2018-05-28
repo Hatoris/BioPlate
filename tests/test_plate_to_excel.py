@@ -36,8 +36,8 @@ class TestPlateToExcel(unittest.TestCase):
         :return:
         """
         with contextlib.suppress(FileNotFoundError):
-            Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate.db')).unlink()
-            Path(PurePath(Path(__file__).parent.parent, 'BioPlate/database/DBFiles', 'test_plate_historic.db')).unlink()
+            Path(PurePath(Path(__file__).parent.parent / 'BioPlate/database/DBFiles' / 'test_plate.db')).unlink()
+            Path(PurePath(Path(__file__).parent.parent / 'BioPlate/database/DBFiles' / 'test_plate_historic.db')).unlink()
 
     def setUp(self):
         """
