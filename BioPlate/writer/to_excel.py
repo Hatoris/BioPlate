@@ -45,7 +45,7 @@ class BioPlateToExcel:
             self.plate_rep, self.plate_data, self.plate_count = self.select_worksheet
             self.hd_format_representation = self.workbook.add_format({'bold': True, 'align': 'center', 'valign': 'vcenter'})
             self.hd_format_inserts = self.workbook.add_format({'bold': True, 'font_color': 'red',  'align': 'center', 'valign': 'vcenter'})
-        except Error as e:
+        except Exception as e:
             print(e)
 
     @property

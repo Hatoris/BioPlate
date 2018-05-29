@@ -12,7 +12,7 @@ from BioPlate.Stack import BioPlateStack
 from BioPlate.utilitis import _LETTER
 from collections import OrderedDict
 from typing import List, Tuple, Dict, Any, Callable
-
+from io import BytesIO
 
 class BioPlateFromExcel:
     
@@ -46,9 +46,11 @@ class _BioPlateFromExcel:
        self.plate_infos = plate_infos
        try:
            self.loaded_file = pex.get_data(self.file_name)
+#           with open(self.file_name, "rb") as f:
+#               file = BytesIO(f.read())
+#           self.loaded_file = pex.get_data(self.file_name, read_only=True)             
        except FileNotFoundError:
-           print(f"{self.file_name} not found !")
-           sys.exit(1)
+           sys.exit(f"{self.file_name} not found !")
        self.no_empty_sheets = self._get_no_empty_sheets()
       
                                                                                         
@@ -84,10 +86,7 @@ class _BioPlateFromExcel:
        return type, stack, column, row
        
    def is_insert(self, value):
-       try:
-           val = value[0][0]
-       except IndexError:
-           val = None         
+       val = value[0][0]         
        if  val in ["TOP", "BOT"]:
             return True
        return False
@@ -115,7 +114,7 @@ class _BioPlateFromExcel:
            else:
                return False # a BioPlate alone
        else:
-            return self.plate_infos[sheetname].get("stack", "False")
+           return self.plate_infos[sheetname].get("stack", False)
             
                   
    def _guess_column_row(self, value:List[List]) -> Tuple[int, int]:

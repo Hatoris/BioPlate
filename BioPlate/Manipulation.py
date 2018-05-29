@@ -393,7 +393,7 @@ class BioPlateManipulation:
         """
         return BioPlateCount(self, reverse=reverse)
 
-    def to_excel(self : "BioPlateManipulation", file_name : str,  sheets : List[str]=['plate_representation', 'plate_data', 'plate_count'], header : bool = True, accumulate : bool = True, order : str ="C",  empty : str="empty"):
+    def to_excel(self : "BioPlateManipulation", file_name : str,  sheets : List[str] = ['plate_representation', 'plate_data', 'plate_count'], header : bool = True, accumulate : bool = True, order : str ="C",  empty : str="empty"):
         """
         Send BioPlate instance to spreadsheet
         
@@ -418,7 +418,7 @@ class BioPlateManipulation:
             create a spreasheet at given filename (should contain path also)
         """
         from BioPlate.writer.to_excel import BioPlateToExcel
-        xls_file = BioPlateToExcel(file_name, sheets=sheets, header=header, accumulate=accumulate, order=order, empty=empty)
+        xls_file = BioPlateToExcel(file_name, sheets=sheets, header=header, accumulate=accumulate, order=order, empty=empty, test=False)
         xls_file.representation(self)
         xls_file.data(self)
         xls_file.count(self)
