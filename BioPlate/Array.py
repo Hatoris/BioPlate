@@ -1,7 +1,7 @@
 import numpy as np
-import BioPlate.utilitis as bpu
 
 from BioPlate.database.plate_db import PlateDB
+from string import ascii_uppercase
 
 
 
@@ -133,7 +133,7 @@ class BioPlateArray(np.ndarray):
             """
             BParray = np.zeros([rows + 1, columns + 1], dtype='U100')
             BParray[0] = np.arange( columns+1)
-            BParray[1:rows+1, 0] = bpu._LETTER[0:rows]
+            BParray[1:rows+1, 0] = np.array(list(ascii_uppercase))[0:rows]
             BParray[0,0] = ' '
             return BParray
     
@@ -194,7 +194,7 @@ class BioPlateArray(np.ndarray):
                BioPlateArray._PLATE_CACHE[ID] = BioPlate
            
     def _get_list_id_of_stack(plate_object):
-        if bpu.dimension(plate_object):
+        if plate_object.name == "BioPlateStack":
                 ID_list = []
                 for plate in plate_object:
                     iD= id(plate)

@@ -5,7 +5,6 @@ import openpyxl
 
 from pathlib import Path, PurePath
 from pyexcel_xlsx import get_data
-from BioPlate.utilitis import like_read_excel, as_read_excel, like_read_excel_stack, remove_tail, like_read_data, like_read_data_stack, like_read_count
 from BioPlate.Plate import BioPlate
 from BioPlate.writer.from_excel import BioPlateFromExcel, _BioPlateFromExcel
 from typing import Union, List

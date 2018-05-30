@@ -60,12 +60,6 @@ class BioPlateStack(BioPlateManipulation):
                 bioplate = getattr(bioplate, position)
                 return func(self, bioplate, *args)
        return wrapper
-    
-   def pass_all_plate(func):
-        def wrapper(self, *args, **kwargs):
-            *BioPlates, = [self[i] for i in range(len(self))]
-            return func(self, *BioPlates, **kwargs)
-        return wrapper
                
    @change_args
    def set(self, bioplate, *args):

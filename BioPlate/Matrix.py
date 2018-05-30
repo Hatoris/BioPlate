@@ -2,7 +2,6 @@ import re
 import numpy as np
 import BioPlate.utilitis as bpu
 import types
-import time 
 
 
 

@@ -60,8 +60,7 @@ class PlateHist(Database) :
                 Plate_id = Plate_id,
                 numWell = numWell,
                 date=self.date_now,
-                plate_name=plate_name,
-                plate_array=plate_array)
+                plate_name=plate_name)
 
         if not already_exist.count():
             new_entry = self.database_class(
@@ -78,7 +77,7 @@ class PlateHist(Database) :
             Type = "BioPlateStack" if Type == "list" else Type
             return f"{Type} {plate_name} with {numWell} wells was successfully added to database {self.db_name}"
         else:
-            return f"plate already exist : {already_exist[0].id}"
+            return already_exist[0].id
 
     def update_hplate(self, dict_update, args, key="numWell"):
         return super().update(dict_update, args, key=key)

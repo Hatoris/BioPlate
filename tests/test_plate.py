@@ -226,6 +226,10 @@ class TestPlate(unittest.TestCase):
         self.stack.set(1, "B6", "test1")
         self.assertEqual(self.plt.save("test save", db_hist_name='test_plate_historic.db'),
                          "BioPlate test save with 96 wells was successfully added to database test_plate_historic.db")
+        self.plt.set('H5', "lol")
+        self.assertEqual(self.plt.save("test save", db_hist_name='test_plate_historic.db'),
+                         "plate with 1 id updated")
+           
         self.assertEqual(self.stack.save("test save2", db_hist_name='test_plate_historic.db'),
                          "BioPlateStack test save2 with 96 wells was successfully added to database test_plate_historic.db")
         self.assertEqual(self.Inserts.save("test save3", db_hist_name='test_plate_historic.db'),
@@ -311,6 +315,28 @@ class TestPlate(unittest.TestCase):
         self.assertTrue(exist_plate)
         self.assertTrue(exist_ins)
         self.assertTrue(exist_stack)
+
+    def test_create_stack(self):
+        Nstack = BioPlate(2, 12, 8)
+        self.assertEqual(Nstack.name, "BioPlateStack")
+
+    def test_add__(self):
+        Nstack = BioPlate(12, 8) + BioPlate(12, 8)
+        Bstack = BioPlate(12, 8) + Nstack
+        self.assertEqual(Bstack.name, "BioPlateStack")
+        
+    def test_all_C(self):
+        pl = BioPlate(6, 4)
+        pl.set(2, [3, 4])
+        np.testing.assert_array_equal( pl.get(2).tolist(), ['3', '4', '', ''] )
+
+    def test_multi_get(self):
+        self.plt.set("A[2-3]", [4, 5])
+        self.plt.set("4[D-F]", [6, 7, 8])
+        R1 = self.plt.get("A[2-3]", "4[D-F]")
+        self.assertEqual(R1, [['4', '5'], ['6', '7', '8']])
+
+    
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,7 +1,6 @@
 import xlsxwriter
 import numpy as np
 
-from BioPlate.utilitis import dimension, dict_unique
 from BioPlate.Plate import BioPlate
 from BioPlate.Stack import BioPlateStack
 from BioPlate.Inserts import BioPlateInserts

@@ -38,7 +38,8 @@ class TestBioPlateManipulation(unittest.TestCase):
         pass
         
 
-        
+    def test_add_values(self):
+        self.assertEqual(self.BPM._add_values({"A": {3 : 5}}), "{'A': {3: 5}} have a wrong format")
         
         
         

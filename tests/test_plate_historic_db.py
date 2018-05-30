@@ -51,7 +51,6 @@ class TestPlateDB(unittest.TestCase):
         """
         self.plate_list = self.phi.get_hplate(numWell=96)
         self.plate = self.plate_list[0]
-        print(self.plate)
 
     def tearDown(self):
         """
@@ -79,7 +78,7 @@ class TestPlateDB(unittest.TestCase):
     	add_hplate_1 = self.phi.add_hplate(Plate_id=2, numWell=6, plate_name="second plate", plate_array=Plate6)
     	add_hplate_2 = self.phi.add_hplate(Plate_id=2, numWell=6, plate_name="second plate", plate_array=Plate6)
     	self.assertEqual(add_hplate_1, "BioPlate second plate with 6 wells was successfully added to database test_plate_historic.db")
-    	self.assertEqual(add_hplate_2, "plate already exist : 2")
+    	self.assertEqual(add_hplate_2, 2)
     	self.assertEqual(f'<plate N°2: second plate, 6 wells, {self.phi.date_now}>', str(self.phi.get_one_hplate(6)))
     	self.assertEqual(6, self.phi.get_hplate(numWell=6)[0].numWell)
 

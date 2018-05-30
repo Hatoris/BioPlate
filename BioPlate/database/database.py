@@ -85,9 +85,9 @@ class Database:
         """
         try:
             return self.session.query(self.database_class).filter_by(**kwargs).all()
-        except exc.SQLAlchemyError as e:
+        except Exception as e:
             self.session.rollback()
-            return e
+            raise e
         finally:
             self.session.close()
         
@@ -100,7 +100,7 @@ class Database:
         """
         try:
             return self.session.query(self.database_class).all()
-        except exc.SQLAlchemyError as e:
+        except Exception as e:
             self.session.rollback()
             return e
         finally:
@@ -131,7 +131,7 @@ class Database:
         """   dict_update = {"key to update" : new_value} """
         try:
             if not key:
-                raise ValueError("Delete should have à default key! ")
+                raise ValueError("Update should have à default key! ")
             obj = self.session.query(self.database_class).filter(getattr(self.database_class, key) == args).one()
             for keys, value in dict_update.items():
                 setattr(obj, keys, value)

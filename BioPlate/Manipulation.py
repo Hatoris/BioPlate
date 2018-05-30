@@ -107,8 +107,8 @@ class BioPlateManipulation:
             Eval = lambda W_V : self._eval_well_value(W_V[0], W_V[1])
             list(map(Eval, well_dict.items()))
             return self
-        except AttributeError:
-            return f"{type(well_dict)} is a wrong format, dictionary should be used"
+        except (AttributeError, TypeError):
+            return f"{well_dict} have a wrong format"
 
     @overload
     def set(self :  'BioPlateManipulation', well : Dict[str, Any], value : None ) -> Union['BioPlateManipulation', str]:
