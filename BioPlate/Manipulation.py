@@ -222,15 +222,7 @@ class BioPlateManipulation:
         return None
 
     def _new_eval_well(self:Any, well:Tuple) -> "BioPlateManipulation":
-        if isinstance(well, tuple):
-            position, *index = well
-            if position == "R":
-                return self[index[0]:index[1], index[2]]
-            elif position == "C":
-                 return self[index[0], index[1]:index[2]]
-            elif position == "All":
-                pos, i = index
-        if isinstance(well, list):
+        if isinstance(well[0], str):
             pass
         
            

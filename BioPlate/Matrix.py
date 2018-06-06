@@ -7,6 +7,7 @@ import types
 
 class BioPlateMatrix:
     """
+    Evaluate user call and return usefull information to interact with plate. Calls are cache in dict.
     format of well :
         - B5
         - 6A
