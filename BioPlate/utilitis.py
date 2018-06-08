@@ -5,6 +5,8 @@ from collections import namedtuple
 
 
 _LETTER = np.array(list(ascii_uppercase))
-Row =  namedtuple("R", ["start", "stop", "step", "C"])
-Column = namedtuple("C", ["start", "stop", "step", "C"])
-All = namedtuple("A", ["pos", "index"]) #pos = position
+#el for element
+EL=  namedtuple("coordinate", ["pos", "row", "column"])
+#Column = namedtuple("C", ["start", "stop", "step", "R"])
+#All = namedtuple("A", ["pos", "index"]) #pos = position
+#Puit = namedtuple("P", ["R", "C"])
