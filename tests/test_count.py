@@ -3,8 +3,8 @@ import contextlib
 import numpy as np
 
 from pathlib import Path, PurePath
-from BioPlate.Plate import BioPlate
-from BioPlate.Count import BioPlateCount
+from BioPlate.plate import BioPlate
+from BioPlate.count import BioPlateCount
 
 
 class TestPlate(unittest.TestCase):

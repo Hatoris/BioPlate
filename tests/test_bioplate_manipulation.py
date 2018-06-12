@@ -1,6 +1,6 @@
 import unittest
 
-from BioPlate.Manipulation import BioPlateManipulation
+from BioPlate.manipulation import BioPlateManipulation
 
 
 

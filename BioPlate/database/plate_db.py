@@ -1,16 +1,16 @@
+from sqlalchemy import Column, Integer, String, Float
+
 from BioPlate.database.database import Database
-from sqlalchemy import Column, Integer, String, Float, exc
-from pathlib import Path
+
 
 class PlateDB(Database):
-
     class PlateDatabase(Database.Base):
         """
         Database for plate
         """
 
         __tablename__ = "plate"
-        __table_args__ = {'useexisting': True}
+        __table_args__ = {"useexisting": True}
 
         id = Column(Integer, primary_key=True)
         numWell = Column(Integer, nullable=False)
@@ -34,12 +34,20 @@ class PlateDB(Database):
             else:
                 return f"<plate N°{self.id} : {self.numWell}-{self.numColumns}-{self.numRows}>"
 
-
-    def __init__(self, db_name = 'plate.db'):
+    def __init__(self, db_name="plate.db"):
         super().__init__(self.PlateDatabase, db_name)
 
-    def add_plate(self, numWell, numColumns, numRows, name=None, surfWell=None, maxVolWell=None, workVolWell=None,
-                  refURL=None):
+    def add_plate(
+        self,
+        numWell,
+        numColumns,
+        numRows,
+        name=None,
+        surfWell=None,
+        maxVolWell=None,
+        workVolWell=None,
+        refURL=None,
+    ):
         """
         add plate in the database
         
@@ -54,26 +62,32 @@ class PlateDB(Database):
         :param refURL:
         :return: Nothing
         """
-        already_exist = self.session.query(self.database_class).filter_by(
-                numWell = numWell,
-                numColumns = numColumns,
+        already_exist = (
+            self.session.query(self.database_class)
+            .filter_by(
+                numWell=numWell,
+                numColumns=numColumns,
                 numRows=numRows,
                 name=name,
                 surfWell=surfWell,
                 maxVolWell=maxVolWell,
                 workVolWell=workVolWell,
-                refURL=refURL).count()
+                refURL=refURL,
+            )
+            .count()
+        )
 
         if not already_exist:
             new_entry = self.database_class(
-                    numWell=numWell,
-                    numColumns=numColumns,
-                    numRows=numRows,
-                    name=name,
-                    surfWell=surfWell,
-                    maxVolWell=maxVolWell,
-                    workVolWell=workVolWell,
-                    refURL=refURL)
+                numWell=numWell,
+                numColumns=numColumns,
+                numRows=numRows,
+                name=name,
+                surfWell=surfWell,
+                maxVolWell=maxVolWell,
+                workVolWell=workVolWell,
+                refURL=refURL,
+            )
 
             self.session.add(new_entry)
             self.session.commit()
@@ -87,17 +101,12 @@ class PlateDB(Database):
 
     def delete_plate(self, args, key="numWell"):
         return super().delete(args, key=key)
-       
+
     def get_one_plate(self, args, key="numWell"):
         return super().get_one(args, key=key)
-    
+
     def get_plate(self, **kwargs):
         return super().get(**kwargs)
-          
+
     def get_all_plate(self):
         return super().get_all()
-
-
-
-
-

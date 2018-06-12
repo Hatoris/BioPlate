@@ -5,7 +5,7 @@ import openpyxl
 
 from pathlib import Path, PurePath
 from pyexcel_xlsx import get_data
-from BioPlate.Plate import BioPlate
+from BioPlate.plate import BioPlate
 from BioPlate.writer.from_excel import BioPlateFromExcel, _BioPlateFromExcel
 from typing import Union, List
 from io import BytesIO

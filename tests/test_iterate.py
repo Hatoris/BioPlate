@@ -3,8 +3,8 @@ import contextlib
 import numpy as np
 
 from pathlib import Path, PurePath
-from BioPlate.Plate import BioPlate
-from BioPlate.Iterate import BioPlateIterate
+from BioPlate.plate import BioPlate
+from BioPlate.iterate import BioPlateIterate
 from string import ascii_uppercase
 
 

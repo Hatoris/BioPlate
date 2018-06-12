@@ -4,7 +4,7 @@ import numpy as np
 
 from pathlib import Path, PurePath
 from BioPlate import BioPlate
-from BioPlate.Stack import BioPlateStack
+from BioPlate.stack import BioPlateStack
 from string import ascii_uppercase
 from tabulate import tabulate
 

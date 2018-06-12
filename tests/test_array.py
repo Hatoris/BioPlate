@@ -1,7 +1,7 @@
 import unittest
 import numpy
 
-from BioPlate.Array import BioPlateArray
+from BioPlate.array import BioPlateArray
 from BioPlate import BioPlate
 
 class TestBioPlateArray(unittest.TestCase):
