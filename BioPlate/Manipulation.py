@@ -5,6 +5,10 @@ from BioPlate.Iterate import BioPlateIterate
 from BioPlate.Count import BioPlateCount
 from typing import Dict, List, Tuple, Optional, Union, Any, overload, Mapping, Sequence, Generator
 
+import BioPlate.utilitis as bpu
+import numpy as np
+import numpy.core.defchararray as ncd
+
 
 class BioPlateManipulation:
     r"""This parent class grouped all method that can be applied to BioPlate instance."""
@@ -151,82 +155,73 @@ class BioPlateManipulation:
         well, value = self._args_analyse(*args)
         if isinstance(well, dict):
             return self._add_values(*args)
-        self._eval_well_value(well, value)
+        self._eval_well_value(well, value, merge = merge)
         return self
 
-    def _eval_well(self:Any, well:Union[Tuple, List], value=None) -> Optional["BioPlateManipulation"]:
+    def _eval_well(self : Any, well : bpu.EL, value = None, merge = False)-> Optional["BioPlateManipulation"]:
         """
-        This function assign a value, if `value` is not None, else this function return selected well.
+        This function assign a value, if `value` is not None, else this function return selected well. Value can overide value in well (merge = False) or added to it (merge = True)
         
         Parameters
         ----------
-        well : tuple or list
-                well position rendered by BioPlateMatrix
+        well : BioPlate.utilitis.EL
+                named tuple with posiion and slice for row and column
         value : str or int or float or None
                 value to assign to a given well
-        
+        merge : bool (default False)
+             if passing value should be merge with value already in plate or return value to overide well
         Returns
-        -------
-        
+        -------        
         None : None
             If value is given, function assign to well value and return None
         selected_well : str or int or float or np.array
             If value is None, return the selected well
-        
         """
-        """
-        well = ("All", "R", 2) => self[:,well[2]]
-        well = ("All", "C", 2) => self[well[2]]
-        well = ("R", 2, 6, 4) => self[well[1]:well[2], well[3]]
-        well = ("C", 2, 6, 8) => self[well[1],well[2]: well[3]]
-        well = [("C", 2, 8, 13), ("C", 3, 8, 13), ("C", 4, 8, 13)] => self[well[0][1]:well[-1][1] + 1, well[0][2] :well[0][3]]
-        well =  [("R", 5, 8, 6), ("R", 5, 8, 7), ("R", 5, 8, 8)] => self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
-        """
-        if well[0] == "R":
-            if value is not None: 
-                self[well[1]:well[2], well[3]] = value
+        if value is not None:
+            if isinstance(value, list):
+                plate_shape = self[well.row, well.column].shape
+                len_plate_shape = len(plate_shape)
+                if len_plate_shape > 1:
+                    if well.pos == "R":
+                        resh_val = np.reshape(value, (plate_shape[0], 1))
+                    else:
+                       resh_val = np.reshape(value, (1, plate_shape[1]))
+                    self[well.row, well.column] = self._add_or_merge(self[well.row, well.column], resh_val, merge =merge)
+                    return None
+                else:
+                   self[well.row, well.column][:len(value)] = self._add_or_merge(self[well.row, well.column][:len(value)], value, merge = merge)
+                   return None
             else:
-                return self[well[1]:well[2], well[3]]
-        elif well[0] == "C":
-            if value is not None:
-                self[well[1], well[2]:well[3]] = value
-            else:
-                return self[well[1], well[2]:well[3]]
-        elif well[0] == "All":
-             if well[1] == "R":
-                 if value is not None:
-                     if isinstance(value, list):
-                         self[well[2], 1:len(value) + 1] = value
-                     else:
-                         self[well[2], 1:]= value
-                 else:
-                     return self[well[2], 1:]
-             elif well[1] == "C":
-                 if value is not None:
-                     if isinstance(value, list):
-                         self[1:len(value) + 1,well[2]] = value
-                     else:
-                         self[1:,well[2]] = value
-                 else:
-                     return self[1:,well[2]]
+                self[well.row, well.column] = self._add_or_merge(self[well.row, well.column], value, merge = merge)
+                return None
         else:
-            if value is not None:
-                self[well[0], well[1]] = value
-            else:
-                if isinstance(well, tuple):
-                    return self[well[0], well[1]]
-                elif well[0][0] == "R":
-                    return self[well[0][1]:well[0][2],well[0][3]:well[-1][3] +1]
-                elif well[0][0] == "C":
-                    return self[well[0][1]:well[-1][1] + 1,well[0][2]:well[0][3]]
-        return None
-
-    def _new_eval_well(self:Any, well:Tuple) -> "BioPlateManipulation":
-        if isinstance(well[0], str):
-            pass
+            return self[well.row, well.column] 
+    
+    def _add_or_merge(self, wells : np.array, value : Union[str, int, float], merge : bool = False) -> Union[np.array, Union[str, int, float]] :
+        """
+        get array of merge value or value alone
         
-           
-            
+        Parameters
+        ----------
+        wells : np.array
+            Well of plate as array
+         value : int, float, str
+             value to assign at each well
+         merge : bool (default False)
+             if passing value should be merge with value already in plate or return value to overide well
+        
+        Returns
+        -------
+        BioPlateManipulation.array: np.array
+            value are added to each well of a bioplate
+         value : int, float, str
+             value is simply return 
+        """
+        if merge:
+            return ncd.add(wells, value)
+        else:
+            return value
+                    
 #    @overload
 #    def _eval_well(self :  'BioPlateManipulation', well : Dict[str, Any], value : None ) -> Union[ "BioPlateManipulation", str, None]:
 #        pass
@@ -235,7 +230,7 @@ class BioPlateManipulation:
 #    def _eval_well(self :  'BioPlateManipulation', well : str, value : Union[str, int, float, List[Any], None ]) -> Union["BioPlateManipulation", str, None]:
 #        pass
         
-    def _eval_well_value(self, well, value):
+    def _eval_well_value(self, well, value, merge = False):
         """
         Pre process well and value for _eval_well. Transform well str and dict to tuple or list of integer posution for numpy indexing.
         
@@ -258,18 +253,20 @@ class BioPlateManipulation:
              If number of column or row is not equal to value when value are in list
         """
         well = BioPlateMatrix(well)
-        if isinstance(well, list):
-            if isinstance(value, list):
-                if len(well) == len(value):
-                    for w, v in zip(well, value):             
-                        self._eval_well(w,v)
-                elif len(well) != len(value):
-                    raise ValueError(f"missmatch between wells ({len(well)}) and values ({len(value)})")
-            else:
-                for w in well:
-                    self._eval_well(w, value)
-        else:           
-            self._eval_well(well, value)
+        self._eval_well(well, value, merge=merge)
+#        #if isinstance(well, list):
+#        if isinstance(value, list):
+#                if len(well) == len(value):
+#                    try:
+#                        for w, v in zip(well, value):
+#                            self._eval_well(w,v)
+#                    except TypeError:
+#                        raise TypeError(f"missmatch between wells ({len(well)}) and values ({len(value)})")
+#            else:
+#                for w in well:
+#                    self._eval_well(w, value, merge=merge)
+#        else:           
+
 
     def get(self : "BioPlateManipulation", *well : str) -> Union[Optional["BioPlateManipulation"], List[Sequence[Any]]]:
         """

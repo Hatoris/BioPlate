@@ -1,6 +1,7 @@
 import unittest
 import contextlib
 import numpy as np
+import BioPlate.utilitis as bpu
 
 from pathlib import Path, PurePath
 from BioPlate import BioPlate
@@ -287,10 +288,10 @@ class TestPlate(unittest.TestCase):
 
     def test_eval_well(self):
         self.plt.set(self.Value)
-        np.testing.assert_array_equal(self.plt._eval_well(("All", "C", 2)), np.array([ '', '', 'Test1', '', '', '', '', '',], dtype="U40"))
-        np.testing.assert_array_equal(self.plt._eval_well(("All", "R", 2)), np.array([ '', '', '', '', '', '', '', '', '', '', 'Test2', ''], dtype="U40"))
-        np.testing.assert_array_equal(self.plt._eval_well(("R", 2, 4, 8)), np.array([ '', 'Test1'], dtype="U40"))      
-        np.testing.assert_array_equal(self.plt._eval_well(("C", 3, 4, 8)), np.array([ 'Test1', 'Test1', 'Test1', 'Test1'], dtype="U40"))  
+        np.testing.assert_array_equal( self.plt._eval_well(bpu.EL("C", slice(1,None), 2)), np.array([ '', '', 'Test1', '', '', '', '', '',], dtype="U40"))
+        np.testing.assert_array_equal(self.plt._eval_well(bpu.EL("R",  2 , slice(1, None))), np.array([ '', '', '', '', '', '', '', '', '', '', 'Test2', ''], dtype="U40"))
+        np.testing.assert_array_equal(self.plt._eval_well(bpu.EL("R", slice(2, 4,), 8)), np.array([ '', 'Test1'], dtype="U40"))
+        np.testing.assert_array_equal(self.plt._eval_well(bpu.EL("C", 3, slice(4, 8))), np.array([ 'Test1', 'Test1', 'Test1', 'Test1'], dtype="U40"))
 
     def test_get_values(self):
         self.plt.set(self.Value)

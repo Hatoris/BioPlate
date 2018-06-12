@@ -57,8 +57,8 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(BioPlateMatrix("A-G[1-8]"), bpu.EL("R", slice(1, 8, 1), slice(1, 9,1)))
         self.assertEqual(BioPlateMatrix("1-8[A-G]"), bpu.EL("C", slice(1, 8, 1), slice(1, 9,1)))
         
-        self.assertEqual(BioPlateMatrix('C'), bpu.EL("R", slice(4), slice(1, None)))
-        self.assertEqual(BioPlateMatrix('12'), bpu.EL("C", slice(1, None), slice(13)))
+        self.assertEqual(BioPlateMatrix('C'), bpu.EL("R", 3, slice(1, None)))
+        self.assertEqual(BioPlateMatrix('12'), bpu.EL("C", slice(1, None), 12))
   
     def test_base_row_column(self):
          self.assertEqual(BioPlateMatrix._base_row_column("A1"), ('1', 'A'))
@@ -84,8 +84,8 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(BioPlateMatrix._well_letter_index('G'), 7)           
         
     def test_all_row_column(self):
-        self.assertEqual(BioPlateMatrix._all_row_column('A'), bpu.EL("R", slice(2), slice(1, None)))
-        self.assertEqual(BioPlateMatrix._all_row_column(3), bpu.EL("C", slice(1, None), slice(4)))
+        self.assertEqual(BioPlateMatrix._all_row_column('A'), bpu.EL("R", 1, slice(1, None)))
+        self.assertEqual(BioPlateMatrix._all_row_column(3), bpu.EL("C", slice(1, None), 3))
        
         
     def test__test_row_or_column(self):

@@ -126,11 +126,11 @@ class BioPlateMatrix:
     @staticmethod
     def _all_row_column(well : str) -> bpu.EL:
         try:
-            index = int(well) + 1
-            return bpu.EL("C", slice(1,None), slice(index))
+            index = int(well)
+            return bpu.EL("C", slice(1,None), index)
         except ValueError:
-            index = BioPlateMatrix._well_letter_index(well) + 1
-            return bpu.EL("R", slice(index) , slice(1, None))
+            index = BioPlateMatrix._well_letter_index(well)
+            return bpu.EL("R",  index , slice(1, None))
             
      
     @staticmethod    
