@@ -3,7 +3,6 @@ import unittest
 from BioPlate.manipulation import BioPlateManipulation
 
 
-
 class TestBioPlateManipulation(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -13,7 +12,6 @@ class TestBioPlateManipulation(unittest.TestCase):
         """
         pass
 
-
     @classmethod
     def tearDownClass(cls):
         """
@@ -21,7 +19,6 @@ class TestBioPlateManipulation(unittest.TestCase):
         :return:
         """
         pass
-        
 
     def setUp(self):
         """
@@ -29,22 +26,19 @@ class TestBioPlateManipulation(unittest.TestCase):
         :return:
         """
         self.BPM = BioPlateManipulation()
-        
+
     def tearDown(self):
         """
         This function is run every time at the end of each test
         :return:
         """
         pass
-        
 
     def test_add_values(self):
-        self.assertEqual(self.BPM._add_values({"A": {3 : 5}}), "{'A': {3: 5}} have a wrong format")
-        
-        
-        
-        
-        
+        self.assertEqual(
+            self.BPM._add_values({"A": {3: 5}}), "{'A': {3: 5}} have a wrong format"
+        )
+
+
 if __name__ == "__main__":
-     unittest.main()
-       
+    unittest.main()

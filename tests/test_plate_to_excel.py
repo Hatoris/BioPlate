@@ -20,7 +20,8 @@ def remove_tail(liste):
             liste = lis[::-1]
             return remove_tail(liste)
         else:
-             return liste
+            return liste
+
 
 def remove_np_tail(liste):
     lis = liste[::-1]
@@ -31,16 +32,17 @@ def remove_np_tail(liste):
             liste = lis[::-1]
             return remove_np_tail(liste)
         else:
-             return liste   	
-    	    	    	
+            return liste
+
+
 def like_read_excel(plate, header=True, lst=None):
     rm_empty = [] if lst is None else lst
     if plate.name == "BioPlate":
-            return clean_list(rm_empty, plate, header=header)
+        return clean_list(rm_empty, plate, header=header)
     elif plate.name == "BioPlateInserts":
         n = 0
         for parts in plate:
-            parts= parts if header else parts[1:,1:]
+            parts = parts if header else parts[1:, 1:]
             u = len(parts)
             for part in parts:
                 if header:
@@ -49,10 +51,11 @@ def like_read_excel(plate, header=True, lst=None):
                     elif u == n:
                         part[0] = "BOT"
                 if u == n:
-                     rm_empty.append([])                 
+                    rm_empty.append([])
                 clean_list(rm_empty, part, parts=True)
                 n += 1
         return rm_empty
+
 
 def like_read_excel_stack(stack, header=True):
     ll = None
@@ -65,93 +68,102 @@ def like_read_excel_stack(stack, header=True):
     del ll[-1]
     return ll
 
+
 def clean_list(li, plate, parts=False, header=True):
     if not parts:
-        plate = plate if header else plate[1:,1:]
+        plate = plate if header else plate[1:, 1:]
         for x in plate:
             li.append(remove_tail(list(x)))
     else:
         li.append(remove_tail(list(plate)))
     return li
- 
+
+
 def as_read_excel(PTE, action, plate, filename, sheetname, conditions=None):
     if conditions:
         for attr, value in conditions.items():
-            setattr(PTE,  attr, value)
+            setattr(PTE, attr, value)
     getattr(PTE, action)(plate)
-    getattr(PTE, 'close')()
+    getattr(PTE, "close")()
     return get_data(filename)[sheetname]
-  
+
+
 def like_read_data(plate, accumulate=True, order="C", header=None, stack=False):
-    rm_empty = list(map(list, getattr(plate, "iterate")(accumulate=accumulate, order=order)))
+    rm_empty = list(
+        map(list, getattr(plate, "iterate")(accumulate=accumulate, order=order))
+    )
     if header is not None:
         pass
     else:
         val = len(rm_empty[0])
         if plate.name == "BioPlate":
-            header = ['well', 'value0']
+            header = ["well", "value0"]
         elif plate.name == "BioPlateInserts":
             if accumulate:
                 header = ["well", "top0", "bot0"]
             else:
-                header = ["well", "top", "bot"]                            
+                header = ["well", "top", "bot"]
         if val <= 2:
             pass
         else:
             if plate.name == "BioPlateInserts":
                 pass
-#                if val <= 3:
-#                    for i in range(1, val):
-#                        header.append('top' + str(i))
-#                        header.append('bot' + str(i))
+            #                if val <= 3:
+            #                    for i in range(1, val):
+            #                        header.append('top' + str(i))
+            #                        header.append('bot' + str(i))
             elif plate.name == "BioPlate":
                 for i in range(1, val):
-                    header.append('value' + str(i))               
+                    header.append("value" + str(i))
     if not stack:
         rm_empty.insert(0, header)
     return list(map(remove_tail, rm_empty))
-   
-def like_read_data_stack(stack, accumulate=True, order="C",  header=None):
+
+
+def like_read_data_stack(stack, accumulate=True, order="C", header=None):
     if stack[0].name == "BioPlate":
         if accumulate:
-            header = ['well', 'value0']
+            header = ["well", "value0"]
         else:
-            header = ['well', 'value']
+            header = ["well", "value"]
     elif stack[0].name == "BioPlateInserts":
         if accumulate:
             header = ["well", "top0", "bot0"]
         else:
-             header = ["well", "top", "bot"]
+            header = ["well", "top", "bot"]
     if accumulate:
         for i in range(1, len(stack)):
             if stack[0].name == "BioPlateInserts":
-                header.append('top' + str(i))
-                header.append('bot' + str(i))
+                header.append("top" + str(i))
+                header.append("bot" + str(i))
             else:
-                header.append('value' + str(i))
-    rm_empty = list(map(list, getattr(stack, "iterate")(accumulate=accumulate, order=order)))
+                header.append("value" + str(i))
+    rm_empty = list(
+        map(list, getattr(stack, "iterate")(accumulate=accumulate, order=order))
+    )
     rm_empty.insert(0, header)
     return list(map(remove_tail, rm_empty))
-   
+
+
 def like_read_count(plate, empty="empty", Inserts=False):
     val = list(plate.count().items())
     if isinstance(val[0][1], dict):
         nv = []
         for pos, valdict in val:
-           valdict = list(map(list, valdict.items()))
-           addp = lambda x: [pos, ] + x
-           nv += list(map(addp, valdict))
+            valdict = list(map(list, valdict.items()))
+            addp = lambda x: [pos] + x
+            nv += list(map(addp, valdict))
         val = nv
         if isinstance(val[0][2], dict):
             nv = []
             for i in range(len(val)):
                 num, pos, valdict = val[i]
                 valdict = list(map(list, valdict.items()))
-                addp = lambda x: [num, pos ] + x
+                addp = lambda x: [num, pos] + x
                 nv += list(map(addp, valdict))
             val = nv
     val = list(map(list, val))
-    change = lambda x: empty if x == '' else x
+    change = lambda x: empty if x == "" else x
     val = list(map(lambda y: list(map(change, y)), val))
     len_header = len(val[0])
     if len_header == 2:
@@ -162,9 +174,10 @@ def like_read_count(plate, empty="empty", Inserts=False):
         else:
             hd = ["position", "infos", "count"]
     elif len_header == 4:
-            hd = ["plate", "position", "infos", "count"]
+        hd = ["plate", "position", "infos", "count"]
     val.insert(0, hd)
     return val
+
 
 def nested_dict_to_list(dd):
     local_list = []
@@ -174,8 +187,6 @@ def nested_dict_to_list(dd):
     return local_list
 
 
-
-
 class TestPlateToExcel(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -183,14 +194,16 @@ class TestPlateToExcel(unittest.TestCase):
         This function is run one time at the beginning of tests
         :return:
         """
-        cls.pdb = PlateDB(db_name='test_plate.db')
-        cls.pdb.add_plate(numWell=96,
-              numColumns=12,
-              numRows=8,
-              surfWell=0.29,
-              maxVolWell=200,
-              workVolWell=200,
-              refURL='https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf')
+        cls.pdb = PlateDB(db_name="test_plate.db")
+        cls.pdb.add_plate(
+            numWell=96,
+            numColumns=12,
+            numRows=8,
+            surfWell=0.29,
+            maxVolWell=200,
+            workVolWell=200,
+            refURL="https://csmedia2.corning.com/LifeSciences/Media/pdf/cc_surface_areas.pdf",
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -199,8 +212,20 @@ class TestPlateToExcel(unittest.TestCase):
         :return:
         """
         with contextlib.suppress(FileNotFoundError):
-            Path(PurePath(Path(__file__).parent.parent / 'BioPlate/database/DBFiles' / 'test_plate.db')).unlink()
-            Path(PurePath(Path(__file__).parent.parent / 'BioPlate/database/DBFiles' / 'test_plate_historic.db')).unlink()
+            Path(
+                PurePath(
+                    Path(__file__).parent.parent
+                    / "BioPlate/database/DBFiles"
+                    / "test_plate.db"
+                )
+            ).unlink()
+            Path(
+                PurePath(
+                    Path(__file__).parent.parent
+                    / "BioPlate/database/DBFiles"
+                    / "test_plate_historic.db"
+                )
+            ).unlink()
 
     def setUp(self):
         """
@@ -208,15 +233,31 @@ class TestPlateToExcel(unittest.TestCase):
         :return:
         """
         self.PTE = BioPlateToExcel("test.xlsx")
-        v = {'A[2,8]': 'VC', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'],
-             'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
-        v1 = {'A[2,8]': 'VC1', 'H[2,8]': 'MS1', '1-4[B,G]': ['MLR1', 'NT1', '1.3', '1.4'],
-             'E-G[8,10]': ['Val4', 'Val5', 'Val6']}
-        v2 = {'A[2,8]': 'Top', 'H[2,8]': 'MS', '1-4[B,G]': ['MLR', 'NT', '1.1', '1.2'],
-             'E-G[8,10]': ['Val1', 'Val2', 'Val3']}
-        v3 = {'A[2,8]': 'Bot', 'H[2,8]': 'MS1', '1-4[B,G]': ['MLR1', 'NT1', '1.3', '1.4'],
-             'E-G[8,10]': ['Val4', 'Val5', 'Val6']}
-        self.plt = BioPlate({"id" : 1}, db_name='test_plate.db')
+        v = {
+            "A[2,8]": "VC",
+            "H[2,8]": "MS",
+            "1-4[B,G]": ["MLR", "NT", "1.1", "1.2"],
+            "E-G[8,10]": ["Val1", "Val2", "Val3"],
+        }
+        v1 = {
+            "A[2,8]": "VC1",
+            "H[2,8]": "MS1",
+            "1-4[B,G]": ["MLR1", "NT1", "1.3", "1.4"],
+            "E-G[8,10]": ["Val4", "Val5", "Val6"],
+        }
+        v2 = {
+            "A[2,8]": "Top",
+            "H[2,8]": "MS",
+            "1-4[B,G]": ["MLR", "NT", "1.1", "1.2"],
+            "E-G[8,10]": ["Val1", "Val2", "Val3"],
+        }
+        v3 = {
+            "A[2,8]": "Bot",
+            "H[2,8]": "MS1",
+            "1-4[B,G]": ["MLR1", "NT1", "1.3", "1.4"],
+            "E-G[8,10]": ["Val4", "Val5", "Val6"],
+        }
+        self.plt = BioPlate({"id": 1}, db_name="test_plate.db")
         self.plt.set(v)
         self.plt1 = BioPlate(12, 8)
         self.plt1.set(v1)
@@ -228,7 +269,6 @@ class TestPlateToExcel(unittest.TestCase):
         self.Inserts1.bot.set(v1)
         self.Inserts1.top.set(v2)
         self.stacki = self.Inserts + self.Inserts1
-        
 
     def tearDown(self):
         """
@@ -238,165 +278,245 @@ class TestPlateToExcel(unittest.TestCase):
         with contextlib.suppress(FileNotFoundError):
             Path(PurePath("test.xlsx")).unlink()
 
-###TEST DATA SHEET
+    ###TEST DATA SHEET
     def test_representation_BioPlate(self):
-        read_excel = as_read_excel(self.PTE, "representation", self.plt, "test.xlsx", "plate_representation")
+        read_excel = as_read_excel(
+            self.PTE, "representation", self.plt, "test.xlsx", "plate_representation"
+        )
         rm_empty = like_read_excel(self.plt)
         self.assertEqual(read_excel, rm_empty)
-  
+
     def test_representation_BioPlate_hd(self):
-        c = {"header" : False}
-        read_excel = as_read_excel(self.PTE, "representation", self.plt, "test.xlsx", "plate_representation", conditions= c)
+        c = {"header": False}
+        read_excel = as_read_excel(
+            self.PTE,
+            "representation",
+            self.plt,
+            "test.xlsx",
+            "plate_representation",
+            conditions=c,
+        )
         rm_empty = like_read_excel(self.plt, header=False)
         self.assertEqual(read_excel, rm_empty)
-        
+
     def test_representation_BioPlateInserts(self):
-        read_excel = as_read_excel(self.PTE, "representation", self.Inserts, "test.xlsx", "plate_representation")
+        read_excel = as_read_excel(
+            self.PTE,
+            "representation",
+            self.Inserts,
+            "test.xlsx",
+            "plate_representation",
+        )
         rm_empty = like_read_excel(self.Inserts)
-        self.assertEqual(read_excel, rm_empty)        
+        self.assertEqual(read_excel, rm_empty)
 
     def test_representation_BioPlateInserts_hd(self):
-        c = {"header" : False}
-        read_excel = as_read_excel(self.PTE, "representation", self.Inserts, "test.xlsx", "plate_representation", conditions= c)
+        c = {"header": False}
+        read_excel = as_read_excel(
+            self.PTE,
+            "representation",
+            self.Inserts,
+            "test.xlsx",
+            "plate_representation",
+            conditions=c,
+        )
         rm_empty = like_read_excel(self.Inserts, header=False)
-        self.assertEqual(read_excel, rm_empty)      
-        
-    def test_representation_BioPlateStack_bp(self):
-        read_excel = as_read_excel(self.PTE, "representation", self.stack, "test.xlsx", "plate_representation")
-        rm_empty = like_read_excel_stack(self.stack)
-        self.assertEqual(read_excel, rm_empty)  
+        self.assertEqual(read_excel, rm_empty)
 
-    def test_representation_BioPlateStack_bp_hd( self):
-        c = {"header" : False}
-        read_excel = as_read_excel(self.PTE, "representation", self.stack, "test.xlsx", "plate_representation", conditions=c)
+    def test_representation_BioPlateStack_bp(self):
+        read_excel = as_read_excel(
+            self.PTE, "representation", self.stack, "test.xlsx", "plate_representation"
+        )
+        rm_empty = like_read_excel_stack(self.stack)
+        self.assertEqual(read_excel, rm_empty)
+
+    def test_representation_BioPlateStack_bp_hd(self):
+        c = {"header": False}
+        read_excel = as_read_excel(
+            self.PTE,
+            "representation",
+            self.stack,
+            "test.xlsx",
+            "plate_representation",
+            conditions=c,
+        )
         rm_empty = like_read_excel_stack(self.stack, header=False)
         self.assertEqual(read_excel, rm_empty)
 
     def test_representation_BioPlateStack_bpi(self):
-        read_excel = as_read_excel(self.PTE, "representation", self.stacki, "test.xlsx", "plate_representation")
+        read_excel = as_read_excel(
+            self.PTE, "representation", self.stacki, "test.xlsx", "plate_representation"
+        )
         rm_empty = like_read_excel_stack(self.stacki)
-        self.assertEqual(read_excel, rm_empty)  
+        self.assertEqual(read_excel, rm_empty)
 
-    def test_representation_BioPlateStack_bpi_hd( self):
-        c = {"header" : False}
-        read_excel = as_read_excel(self.PTE, "representation", self.stacki, "test.xlsx", "plate_representation", conditions=c)
+    def test_representation_BioPlateStack_bpi_hd(self):
+        c = {"header": False}
+        read_excel = as_read_excel(
+            self.PTE,
+            "representation",
+            self.stacki,
+            "test.xlsx",
+            "plate_representation",
+            conditions=c,
+        )
         rm_empty = like_read_excel_stack(self.stacki, header=False)
         self.assertEqual(read_excel, rm_empty)
-        
-###TEST DATA SHEET        
-    def  test_data_BioPlate(self):
-        c = None
-        read_excel = as_read_excel(self.PTE, "data", self.plt, "test.xlsx", "plate_data", conditions=c)
-        rm_empty = like_read_data(self.plt)
-        self.assertEqual(read_excel, rm_empty) 
 
-    def  test_data_BioPlate_row(self):
-        c = {"order" : "R"}
-        read_excel = as_read_excel(self.PTE, "data", self.plt, "test.xlsx", "plate_data", conditions=c)
+    ###TEST DATA SHEET
+    def test_data_BioPlate(self):
+        c = None
+        read_excel = as_read_excel(
+            self.PTE, "data", self.plt, "test.xlsx", "plate_data", conditions=c
+        )
+        rm_empty = like_read_data(self.plt)
+        self.assertEqual(read_excel, rm_empty)
+
+    def test_data_BioPlate_row(self):
+        c = {"order": "R"}
+        read_excel = as_read_excel(
+            self.PTE, "data", self.plt, "test.xlsx", "plate_data", conditions=c
+        )
         rm_empty = like_read_data(self.plt, order="R")
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_data_BioPlateInserts(self):
-        c = None
-        read_excel = as_read_excel(self.PTE, "data", self.Inserts, "test.xlsx", "plate_data", conditions=c)
-        rm_empty = like_read_data(self.Inserts)
-        self.assertEqual(read_excel, rm_empty) 
 
-    def  test_data_BioPlateInserts_row(self):
-        c = {"order" : "R"}
-        read_excel = as_read_excel(self.PTE, "data", self.Inserts, "test.xlsx", "plate_data", conditions=c)
+    def test_data_BioPlateInserts(self):
+        c = None
+        read_excel = as_read_excel(
+            self.PTE, "data", self.Inserts, "test.xlsx", "plate_data", conditions=c
+        )
+        rm_empty = like_read_data(self.Inserts)
+        self.assertEqual(read_excel, rm_empty)
+
+    def test_data_BioPlateInserts_row(self):
+        c = {"order": "R"}
+        read_excel = as_read_excel(
+            self.PTE, "data", self.Inserts, "test.xlsx", "plate_data", conditions=c
+        )
         rm_empty = like_read_data(self.Inserts, order="R")
         self.assertEqual(read_excel, rm_empty)
 
-    def  test_data_BioPlateInserts_row_acc(self):
-        c = {"order" : "R", "accumulate" : False}
-        read_excel = as_read_excel(self.PTE, "data", self.Inserts, "test.xlsx", "plate_data", conditions=c)
-        rm_empty = like_read_data(self.Inserts, order="R", accumulate= False)
-        self.assertEqual(read_excel, rm_empty)  
+    def test_data_BioPlateInserts_row_acc(self):
+        c = {"order": "R", "accumulate": False}
+        read_excel = as_read_excel(
+            self.PTE, "data", self.Inserts, "test.xlsx", "plate_data", conditions=c
+        )
+        rm_empty = like_read_data(self.Inserts, order="R", accumulate=False)
+        self.assertEqual(read_excel, rm_empty)
 
-    def  test_data_BioPlateStack_bp(self):
+    def test_data_BioPlateStack_bp(self):
         c = None
-        read_excel = as_read_excel(self.PTE, "data", self.stack, "test.xlsx", "plate_data", conditions=c)
+        read_excel = as_read_excel(
+            self.PTE, "data", self.stack, "test.xlsx", "plate_data", conditions=c
+        )
         rm_empty = like_read_data_stack(self.stack)
-        self.assertEqual(read_excel, rm_empty) 
+        self.assertEqual(read_excel, rm_empty)
 
-    def  test_data_BioPlateStack_bp_row(self):
-        c = {"order" : "R"}
-        read_excel = as_read_excel(self.PTE, "data", self.stack, "test.xlsx", "plate_data", conditions=c)
+    def test_data_BioPlateStack_bp_row(self):
+        c = {"order": "R"}
+        read_excel = as_read_excel(
+            self.PTE, "data", self.stack, "test.xlsx", "plate_data", conditions=c
+        )
         rm_empty = like_read_data_stack(self.stack, order="R")
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_data_BioPlateStack_bp_row_acc(self):
-        c = {"order" : "R", "accumulate" : False}
-        read_excel = as_read_excel(self.PTE, "data", self.stack, "test.xlsx", "plate_data", conditions=c)
-        rm_empty = like_read_data_stack(self.stack, order="R", accumulate=False)
-        self.assertEqual(read_excel, rm_empty)          
-        
-    def  test_data_BioPlateStack_bpi(self):
-        c = None
-        read_excel = as_read_excel(self.PTE, "data", self.stacki, "test.xlsx", "plate_data", conditions=c)
-        rm_empty = like_read_data_stack(self.stacki)
-        self.assertEqual(read_excel, rm_empty) 
 
-    def  test_data_BioPlateStack_bpi_row(self):
-        c = {"order" : "R"}
-        read_excel = as_read_excel(self.PTE, "data", self.stacki, "test.xlsx", "plate_data", conditions=c)
+    def test_data_BioPlateStack_bp_row_acc(self):
+        c = {"order": "R", "accumulate": False}
+        read_excel = as_read_excel(
+            self.PTE, "data", self.stack, "test.xlsx", "plate_data", conditions=c
+        )
+        rm_empty = like_read_data_stack(self.stack, order="R", accumulate=False)
+        self.assertEqual(read_excel, rm_empty)
+
+    def test_data_BioPlateStack_bpi(self):
+        c = None
+        read_excel = as_read_excel(
+            self.PTE, "data", self.stacki, "test.xlsx", "plate_data", conditions=c
+        )
+        rm_empty = like_read_data_stack(self.stacki)
+        self.assertEqual(read_excel, rm_empty)
+
+    def test_data_BioPlateStack_bpi_row(self):
+        c = {"order": "R"}
+        read_excel = as_read_excel(
+            self.PTE, "data", self.stacki, "test.xlsx", "plate_data", conditions=c
+        )
         rm_empty = like_read_data_stack(self.stacki, order="R")
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_data_BioPlateStack_bpi_row_acc( self):
-        c = {"order" : "R", "accumulate" : False}
-        read_excel = as_read_excel(self.PTE, "data", self.stacki, "test.xlsx", "plate_data", conditions=c)
+
+    def test_data_BioPlateStack_bpi_row_acc(self):
+        c = {"order": "R", "accumulate": False}
+        read_excel = as_read_excel(
+            self.PTE, "data", self.stacki, "test.xlsx", "plate_data", conditions=c
+        )
         rm_empty = like_read_data_stack(self.stacki, order="R", accumulate=False)
-        self.assertEqual(read_excel, rm_empty)                                         
-###TEST COUNT SHEET                                                                                                           		
-    def  test_count_BioPlate(self):
+        self.assertEqual(read_excel, rm_empty)
+
+    ###TEST COUNT SHEET
+    def test_count_BioPlate(self):
         c = None
-        read_excel = as_read_excel(self.PTE, "count", self.plt, "test.xlsx", "plate_count", conditions=c)
+        read_excel = as_read_excel(
+            self.PTE, "count", self.plt, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.plt)
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_count_BioPlate_emp(self):
-        c = {"empty" : "vide"}
-        read_excel = as_read_excel(self.PTE, "count", self.plt, "test.xlsx", "plate_count", conditions=c)
+
+    def test_count_BioPlate_emp(self):
+        c = {"empty": "vide"}
+        read_excel = as_read_excel(
+            self.PTE, "count", self.plt, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.plt, empty="vide")
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_count_BioPlateInserts(self):
+
+    def test_count_BioPlateInserts(self):
         c = None
-        read_excel = as_read_excel(self.PTE, "count", self.Inserts, "test.xlsx", "plate_count", conditions=c)
+        read_excel = as_read_excel(
+            self.PTE, "count", self.Inserts, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.Inserts, Inserts=True)
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_count_BioPlateInserts(self):
-        c = {"empty" : "vide"}
-        read_excel = as_read_excel(self.PTE, "count", self.Inserts, "test.xlsx", "plate_count", conditions=c)
+
+    def test_count_BioPlateInserts(self):
+        c = {"empty": "vide"}
+        read_excel = as_read_excel(
+            self.PTE, "count", self.Inserts, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.Inserts, empty="vide", Inserts=True)
-        self.assertEqual(read_excel, rm_empty)        
-        
-    def  test_count_BioPlateStack_bp(self):
+        self.assertEqual(read_excel, rm_empty)
+
+    def test_count_BioPlateStack_bp(self):
         c = None
-        read_excel = as_read_excel(self.PTE, "count", self.stack, "test.xlsx", "plate_count", conditions=c)
+        read_excel = as_read_excel(
+            self.PTE, "count", self.stack, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.stack)
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_count_BioPlateStack_bp_em(self):
-        c = {"empty" : "vide"}
-        read_excel = as_read_excel(self.PTE, "count", self.stack, "test.xlsx", "plate_count", conditions=c)
+
+    def test_count_BioPlateStack_bp_em(self):
+        c = {"empty": "vide"}
+        read_excel = as_read_excel(
+            self.PTE, "count", self.stack, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.stack, empty="vide")
         self.assertEqual(read_excel, rm_empty)
 
-    def  test_count_BioPlateStack_bpi(self):
+    def test_count_BioPlateStack_bpi(self):
         c = None
-        read_excel = as_read_excel(self.PTE, "count", self.stacki, "test.xlsx", "plate_count", conditions=c)
+        read_excel = as_read_excel(
+            self.PTE, "count", self.stacki, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.stacki, Inserts=True)
         self.assertEqual(read_excel, rm_empty)
-        
-    def  test_count_BioPlateStack_bpi_em(self):
-        c = {"empty" : "vide"}
-        read_excel = as_read_excel(self.PTE, "count", self.stacki, "test.xlsx", "plate_count", conditions=c)
+
+    def test_count_BioPlateStack_bpi_em(self):
+        c = {"empty": "vide"}
+        read_excel = as_read_excel(
+            self.PTE, "count", self.stacki, "test.xlsx", "plate_count", conditions=c
+        )
         rm_empty = like_read_count(self.stacki, empty="vide", Inserts=True)
         self.assertEqual(read_excel, rm_empty)
+
 
 if __name__ == "__main__":
     unittest.main()
