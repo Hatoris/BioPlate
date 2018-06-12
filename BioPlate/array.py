@@ -6,7 +6,10 @@ from BioPlate.database.plate_db import PlateDB
 
 
 class BioPlateArray(np.ndarray):
-    """ BioPlateArray is core based application, this class is the only one to inerit from np.ndarray. This class return a np.array format properly for BioPlate or BioPlateInserts. A row is symbolise by it's letter, a column by a number.
+    """ 
+    BioPlateArray is core based application, this class is the only one to inerit from np.ndarray. 
+    This class return a np.array format properly for BioPlate or BioPlateInserts. 
+    A row is symbolise by it's letter, a column by a number.
     """
 
     _PLATE_CACHE = {}  # contain id as key and np.array plate as value
@@ -159,49 +162,50 @@ class BioPlateArray(np.ndarray):
     #         BParray = BioPlateArray._bio_plate_array(columns, rows)
     #         BioPlateArray._CACHE_BPA[key] = BParray
     #     return  BioPlateArray._CACHE_BPA[key]
+    
+    @staticmethod
+    def _get_plate_in_cache(plate_id):
+        """
+       return a plate for a given plate_id 
+       """
+        try:
+            return BioPlateArray._PLATE_CACHE[plate_id]
+        except KeyError:
+            raise KeyError(f"plate {plate_id} is not in plate cache")
 
-    def _get_plate_in_cache(ID):
+    def _get_stack_in_cache(plate_id):
         """
        return a plate for a given ID 
        """
         try:
-            return BioPlateArray._PLATE_CACHE[ID]
+            return BioPlateArray._STACK_CACHE[plate_id]
         except KeyError:
-            raise KeyError(f"plate {ID} is not in plate cache")
+            raise KeyError(f"plate {plate_id} is not in stack cache")
 
-    def _get_stack_in_cache(ID):
-        """
-       return a plate for a given ID 
-       """
-        try:
-            return BioPlateArray._STACK_CACHE[ID]
-        except KeyError:
-            raise KeyError(f"plate {ID} is not in stack cache")
+    def _get_plate_in_stack(stack_id, plate_index):
+        plate_id = BioPlateArray._get_stack_in_cache(stack_id)[plate_index]
+        return BioPlateArray._get_plate_in_cache(plate_id)
 
-    def _get_plate_in_stack(stack_ID, plate_index):
-        ID = BioPlateArray._get_stack_in_cache(stack_ID)[plate_index]
-        return BioPlateArray._get_plate_in_cache(ID)
-
-    def _merge_stack(stack1_ID, stack2_ID):
+    def _merge_stack(stack1_id, stack2_id):
         newstack = (
-            BioPlateArray._STACK_CACHE[stack1_ID]
-            + BioPlateArray._STACK_CACHE[stack2_ID]
+            BioPlateArray._STACK_CACHE[stack1_id]
+            + BioPlateArray._STACK_CACHE[stack2_id]
         )
         return newstack
 
-    def _add_stack_to_cache(stack_ID, ID_list):
-        BioPlateArray._STACK_CACHE[stack_ID] = ID_list
+    def _add_stack_to_cache(stack_id, id_list):
+        BioPlateArray._STACK_CACHE[stack_id] = id_list
 
-    def _add_plate_in_cache(ID, BioPlate):
-        if ID not in BioPlateArray._PLATE_CACHE:
-            BioPlateArray._PLATE_CACHE[ID] = BioPlate
+    def _add_plate_in_cache(plate_id, BioPlate):
+        if plate_id not in BioPlateArray._PLATE_CACHE:
+            BioPlateArray._PLATE_CACHE[plate_id] = BioPlate
 
     def _get_list_id_of_stack(plate_object):
         if plate_object.name == "BioPlateStack":
-            ID_list = []
+            id_list = []
             for plate in plate_object:
-                iD = id(plate)
-                ID_list.append(iD)
-            return ID_list
+                plate_id = id(plate)
+                id_list.append(plate_id)
+            return id_list
         else:
             raise ValueError("plate_object is not a stack")
