@@ -41,8 +41,8 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
         return wrapper
 
     @force_position
-    def set(self, *args):
-        super().set(*args)
+    def set(self, *args, **kwargs):
+        super().set(*args, **kwargs)
         return self
 
     @force_position

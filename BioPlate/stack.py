@@ -49,22 +49,22 @@ class BioPlateStack(BioPlateManipulation):
         return BioPlateStack(newstack)
 
     def change_args(func):
-        def wrapper(self, *args):
+        def wrapper(self, *args, **kwargs):
             bioplate = self[args[0]]
             if len(bioplate.shape) == 2:
                 *args, = args[1:]
-                return func(self, bioplate, *args)
+                return func(self, bioplate, *args, **kwargs)
             else:
                 position, *args = args[1:]
                 # t =  {"top" : 0, "bot" : 1}
                 bioplate = getattr(bioplate, position)
-                return func(self, bioplate, *args)
+                return func(self, bioplate, *args, **kwargs)
 
         return wrapper
 
     @change_args
-    def set(self, bioplate, *args):
-        bioplate.set(*args)
+    def set(self, bioplate, *args, **kwargs):
+        bioplate.set(*args, **kwargs)
         return self
 
     @change_args

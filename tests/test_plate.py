@@ -1133,6 +1133,24 @@ class TestPlate(unittest.TestCase):
         R1 = self.plt.get("A[2-3]", "4[D-F]")
         self.assertEqual(R1, [["4", "5"], ["6", "7", "8"]])
 
+    def test_merge(self):
+        self.plt.set("A[2-3]", "Test")
+        self.assertEqual(self.plt.get("A2"), "Test")
+        self.plt.set("A[2-3]", ["_1", "_2"], merge=True)
+        self.assertEqual(self.plt.get("A2"), "Test_1")
+        self.assertEqual(self.plt.get("A3"), "Test_2")
+        ins = BioPlate(12, 8, inserts=True)
+        ins.top.set("2-5[A-C]", ["test", "tes", "te", "t"])
+        self.assertEqual(ins.top.get("A2"), "test")
+        ins.top.set("2-3[A-C]", ["_1", "_2"], merge=True)
+        ins.top.set("A-C[4-5]", ["_3", "_4", "_5"], merge=True)
+        self.assertEqual(ins.top.get("A2"), "test_1")
+        self.assertEqual(ins.top.get("B3"), "tes_2")
+        self.assertEqual(ins.top.get("A4"), "te_3")
+        self.assertEqual(ins.top.get("B5"), "t_4")
+        self.assertEqual(ins.top.get("C5"), "t_5")
+        self.stack.set(0, "A3", "_bob", merge=True)
+        self.assertEqual(self.stack.get(0, "A3"), "Test_2_bob")
 
 if __name__ == "__main__":
     unittest.main()
