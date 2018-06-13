@@ -392,6 +392,9 @@ class TestPlate(unittest.TestCase):
     def test_set_again(self):
         with self.assertRaises(ValueError):
             self.plt.set("A-C[1-5]", ["Test1", "Test2"])
+            self.Inserts.bot.set("A[2-4]", ["test1", "test2", "test3", "test4"])
+            self.plt.set("A2", ["tezt1", "test2"])
+            self.stack.set(1, "A6", "tutu")
 
         np.testing.assert_array_equal(
             self.plt.set("A-C[1-5]", ["Test1", "Test2", "Test3"]), self.plt

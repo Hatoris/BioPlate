@@ -193,7 +193,7 @@ class BioPlateManipulation:
         self: Any, well: bpu.EL, value=None, merge=False
     ) -> Optional["BioPlateManipulation"]:
         """
-        This function assign a value, if `value` is not None, else this function return selected well. Value can overide value in well (merge = False) or added to it (merge = True)
+        This function assign a value, if `value` is not None, else this function return selected well. Value can overide value in well (merge = False) or can be added to it (merge = True)
         
         Parameters
         ----------
@@ -211,28 +211,31 @@ class BioPlateManipulation:
             If value is None, return the selected well
         """
         if value is not None:
-            if isinstance(value, list):
-                plate_shape = self[well.row, well.column].shape
-                len_plate_shape = len(plate_shape)
-                if len_plate_shape > 1:
-                    if well.pos == "R":
-                        resh_val = np.reshape(value, (plate_shape[0], 1))
+            try :
+                if isinstance(value, list):
+                    plate_shape = self[well.row, well.column].shape
+                    len_plate_shape = len(plate_shape)
+                    if len_plate_shape > 1:
+                        if well.pos == "R":
+                            resh_val = np.reshape(value, (plate_shape[0], 1))
+                        else:
+                            resh_val = np.reshape(value, (1, plate_shape[1]))
+                        self[well.row, well.column] = self._add_or_merge(
+                            self[well.row, well.column], resh_val, merge=merge
+                        )
+                        return None
                     else:
-                        resh_val = np.reshape(value, (1, plate_shape[1]))
-                    self[well.row, well.column] = self._add_or_merge(
-                        self[well.row, well.column], resh_val, merge=merge
-                    )
-                    return None
+                        self[well.row, well.column][: len(value)] = self._add_or_merge(
+                            self[well.row, well.column][: len(value)], value, merge=merge
+                        )
+                        return None
                 else:
-                    self[well.row, well.column][: len(value)] = self._add_or_merge(
-                        self[well.row, well.column][: len(value)], value, merge=merge
+                    self[well.row, well.column] = self._add_or_merge(
+                        self[well.row, well.column], value, merge=merge
                     )
                     return None
-            else:
-                self[well.row, well.column] = self._add_or_merge(
-                    self[well.row, well.column], value, merge=merge
-                )
-                return None
+            except (TypeError, ValueError) as e:
+                 raise ValueError(f"Can't assign : selected well(s) {self[well.row, well.column]} with this {value}")
         else:
             return self[well.row, well.column]
 
@@ -266,16 +269,8 @@ class BioPlateManipulation:
         else:
             return value
 
-            #    @overload
-            #    def _eval_well(self :  'BioPlateManipulation', well : Dict[str, Any], value : None ) -> Union[ "BioPlateManipulation", str, None]:
-            #        pass
-
-            #    @overload
-            #    def _eval_well(self :  'BioPlateManipulation', well : str, value : Union[str, int, float, List[Any], None ]) -> Union["BioPlateManipulation", str, None]:
-            #        pass
-
     def _eval_well_value(
-        self,
+        self :  'BioPlateManipulation',
         well: Union[Dict[str, Union[str, int, float]], str],
         value: Union[str, int, float, List[Any], None],
         merge: bool = False,
