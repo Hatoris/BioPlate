@@ -1,2 +1,5 @@
-[REPORTS]
-output-format=json
+[MASTER]
+ load-plugins=pylint_json2html
+
+ [REPORTS] 
+output-format=jsonextended
