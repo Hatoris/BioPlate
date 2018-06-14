@@ -1,28 +1,29 @@
 import numpy as np
 
-from BioPlate.Iterate import BioPlateIterate
-from collections import OrderedDict
+from BioPlate.iterate import BioPlateIterate
 
 
 class BioPlateCount:
-    """A row is symbolise by it's letter, a column by a number"""    
-      
+    """A row is symbolise by it's letter, a column by a number"""
+
     def __new__(cls, plate, reverse=False):
         cls.plate = plate
         cls.reverse = reverse
         cls.plate_iterated = BioPlateIterate(plate, OnlyValue=True)
         return cls.count()
-   
-    @classmethod     
+
+    @classmethod
     def __count(cls, plate):
         """
 
         :param plate:
         :return:
-        """      
+        """
         unique, count = np.unique(plate, return_counts=True)
         count_in_dict = dict(zip(unique, count))
-        count_ordered = dict(sorted(count_in_dict.items(), key=lambda x:x[1], reverse=cls.reverse))
+        count_ordered = dict(
+            sorted(count_in_dict.items(), key=lambda x: x[1], reverse=cls.reverse)
+        )
         return count_ordered
 
     @classmethod
@@ -33,19 +34,19 @@ class BioPlateCount:
             return cls.count_BioPlateInserts()
         elif cls.plate.name == "BioPlateStack":
             return cls.count_BioPlateStack()
-    
+
     @classmethod
     def count_BioPlateInserts(cls):
         result = {}
-        result["top"] = cls.__count(next( cls.plate_iterated))
-        result["bot"] =  cls.__count(next(cls.plate_iterated))
+        result["top"] = cls.__count(next(cls.plate_iterated))
+        result["bot"] = cls.__count(next(cls.plate_iterated))
         return result
 
     @classmethod
     def count_BioPlate(cls):
         return cls.__count(next(cls.plate_iterated))
-       
-    @classmethod    
+
+    @classmethod
     def count_BioPlateStack(cls):
         result = {}
         n = 0
@@ -57,6 +58,5 @@ class BioPlateCount:
                 try:
                     result[index] = cls.count_BioPlateInserts()
                 except StopIteration:
-                    break            
+                    break
         return result
-     

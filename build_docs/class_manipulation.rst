@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 ================
 Manipulation
 ================
 
-.. automodule:: BioPlate.Manipulation
+.. automodule:: BioPlate.manipulation
 .. autoclass:: BioPlateManipulation
     :members:
 =======
@@ -11,7 +10,7 @@ Manipulation
 Manipulation
 ============
 
-.. module:: BioPlate.Manipulation
+.. module:: BioPlate.manipulation
 .. autoclass:: BioPlateManipulation
     :members:
->>>>>>> 38a04da28341e38d834918ae26db097a415ab786
+

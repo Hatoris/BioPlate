@@ -2,7 +2,7 @@
 Manipulation
 ================
 
-.. automodule:: BioPlate.Manipulation
+.. automodule:: BioPlate.manipulation
 .. autoclass:: BioPlateManipulation
     :members:
 =======
@@ -10,6 +10,7 @@ Manipulation
 Manipulation
 ============
 
-.. module:: BioPlate.Manipulation
+.. module:: BioPlate.manipulation
 .. autoclass:: BioPlateManipulation
     :members:
+

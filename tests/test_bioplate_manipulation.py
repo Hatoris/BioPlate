@@ -1,11 +1,6 @@
 import unittest
-import contextlib
-import numpy as np
 
-from pathlib import Path, PurePath
-from BioPlate.utilitis import remove_empty_iterate, dict_unique
-from BioPlate.Manipulation import BioPlateManipulation
-
+from BioPlate.manipulation import BioPlateManipulation
 
 
 class TestBioPlateManipulation(unittest.TestCase):
@@ -17,7 +12,6 @@ class TestBioPlateManipulation(unittest.TestCase):
         """
         pass
 
-
     @classmethod
     def tearDownClass(cls):
         """
@@ -25,7 +19,6 @@ class TestBioPlateManipulation(unittest.TestCase):
         :return:
         """
         pass
-        
 
     def setUp(self):
         """
@@ -33,23 +26,19 @@ class TestBioPlateManipulation(unittest.TestCase):
         :return:
         """
         self.BPM = BioPlateManipulation()
-        
+
     def tearDown(self):
         """
         This function is run every time at the end of each test
         :return:
         """
         pass
-        
-    def test_matrix_well(self):
-        self.assertEqual( self.BPM.matrix_well("A1"), (1, 1))
-        self.assertEqual( self.BPM.matrix_well("E12"), (5, 12))
-        
-        
-        
-        
-        
-        
+
+    def test_add_values(self):
+        self.assertEqual(
+            self.BPM._add_values({"A": {3: 5}}), "{'A': {3: 5}} have a wrong format"
+        )
+
+
 if __name__ == "__main__":
-     unittest.main()
-       
+    unittest.main()
