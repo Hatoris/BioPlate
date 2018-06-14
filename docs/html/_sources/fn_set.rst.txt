@@ -137,6 +137,30 @@ Assign multiple value with different pattern:
         "E[4-7]" : "rowE",         
         "6-8[E-G]" : ["column6", "column7", "column8"]})
 
+Merge value
+-------------------------
+
+Value are concatenate with value already present in well
+
+.. code:: python    
+
+    from BioPlate import BioPlate
+    plate = BioPlate(12, 8)
+    
+    # assign value in column
+    plate.set("2-4[A-G]",
+    ["column", "column", "column"])
+    
+    #merge value already present in column
+    plate.set("2-4[A-G]",
+    ["_2", "_3", "_4"], merge = True)
+
+    #assignation is respected
+    plate.set("A-G[2-4]",
+    ["_A", "_B", "_C", "_D", "_E", "_F", "_G"], merge=True)
+    
+It is now easier to produce complex patern with less code.
+
 Important
 -------------------
 
@@ -170,4 +194,7 @@ Important
 
 .. warning::
      - If you use numpy indexing to assign be carrefull to not overide your header. Value are in position plate[1:,1:] where column header are on plate[0] and row header are on plate[0, 1:].
-     - Set function keep only the last assignation of a value in a  well.
+     
+     .. versionchanged:: 0.1.2
+     
+     - Set function, `without merge = True` keep only the last assignation of a value in a  well.

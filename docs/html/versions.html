@@ -94,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-value-on-column">Set value on column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-value-on-row">Set value on row</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-multiple-value-at-once">Set multiple value at once</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#merge-value">Merge value</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#important">Important</a></li>
 </ul>
 </li>
@@ -136,9 +137,10 @@
 <li class="toctree-l2"><a class="reference internal" href="database.html#delete-plate-object-in-database">Delete plate object in database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html#manipulation">Manipulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html#id1">Manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#id1">Manipulation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">How to contribute</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contribute.html#general-informations">General informations</a></li>
@@ -219,6 +221,9 @@
 <dd><ul class="first last">
 <li>Add missing docstring</li>
 <li>Set can now assign one value to multiple position <cite>set(“2-3[B-C]”, “ref”)</cite>.</li>
+<li>Set can now merge value without overide it`set(“B2”, “_1”, merge=True)` (B2 will be ref_1)</li>
+<li>Code is now coverade at 96 %</li>
+<li>Typing is introduced</li>
 </ul>
 </dd>
 </dl>

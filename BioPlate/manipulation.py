@@ -104,7 +104,8 @@ class BioPlateManipulation:
             return well, value
 
     def _add_values(
-        self: "BioPlateManipulation", *args: Dict[str, Any]
+        self: "BioPlateManipulation", *args: Dict[str, Any],
+        merge : bool = False
     ) -> Union["BioPlateManipulation", str]:
         """
         Add values is use to seperate well, value of dict and assign it to each well.
@@ -131,7 +132,7 @@ class BioPlateManipulation:
         """
         well_dict, value = self._args_analyse(*args)
         try:
-            Eval = lambda W_V: self._eval_well_value(W_V[0], W_V[1])
+            Eval = lambda W_V: self._eval_well_value(W_V[0], W_V[1], merge = merge)
             list(map(Eval, well_dict.items()))
             return self
         except (AttributeError, TypeError):
@@ -185,7 +186,7 @@ class BioPlateManipulation:
         """
         well, value = self._args_analyse(*args)
         if isinstance(well, dict):
-            return self._add_values(*args)
+            return self._add_values(*args, merge=merge)
         self._eval_well_value(well, value, merge=merge)
         return self
 

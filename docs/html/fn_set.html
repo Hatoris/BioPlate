@@ -95,6 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#set-value-on-column">Set value on column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#set-value-on-row">Set value on row</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#set-multiple-value-at-once">Set multiple value at once</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#merge-value">Merge value</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#important">Important</a></li>
 </ul>
 </li>
@@ -137,9 +138,10 @@
 <li class="toctree-l2"><a class="reference internal" href="database.html#delete-plate-object-in-database">Delete plate object in database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html#manipulation">Manipulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html#id1">Manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#id1">Manipulation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">How to contribute</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contribute.html#general-informations">General informations</a></li>
@@ -334,6 +336,27 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="merge-value">
+<h2>Merge value<a class="headerlink" href="#merge-value" title="Permalink to this headline">¶</a></h2>
+<p>Value are concatenate with value already present in well</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BioPlate</span> <span class="k">import</span> <span class="n">BioPlate</span>
+<span class="n">plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="c1"># assign value in column</span>
+<span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">,</span>
+<span class="p">[</span><span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="s2">&quot;column&quot;</span><span class="p">])</span>
+
+<span class="c1">#merge value already present in column</span>
+<span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">,</span>
+<span class="p">[</span><span class="s2">&quot;_2&quot;</span><span class="p">,</span> <span class="s2">&quot;_3&quot;</span><span class="p">,</span> <span class="s2">&quot;_4&quot;</span><span class="p">],</span> <span class="n">merge</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">#assignation is respected</span>
+<span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;A-G[2-4]&quot;</span><span class="p">,</span>
+<span class="p">[</span><span class="s2">&quot;_A&quot;</span><span class="p">,</span> <span class="s2">&quot;_B&quot;</span><span class="p">,</span> <span class="s2">&quot;_C&quot;</span><span class="p">,</span> <span class="s2">&quot;_D&quot;</span><span class="p">,</span> <span class="s2">&quot;_E&quot;</span><span class="p">,</span> <span class="s2">&quot;_F&quot;</span><span class="p">,</span> <span class="s2">&quot;_G&quot;</span><span class="p">],</span> <span class="n">merge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is now easier to produce complex patern with less code.</p>
+</div>
 <div class="section" id="important">
 <h2>Important<a class="headerlink" href="#important" title="Permalink to this headline">¶</a></h2>
 <div class="admonition hint">
@@ -360,9 +383,14 @@
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<ul class="last simple">
+<ul class="simple">
 <li>If you use numpy indexing to assign be carrefull to not overide your header. Value are in position plate[1:,1:] where column header are on plate[0] and row header are on plate[0, 1:].</li>
-<li>Set function keep only the last assignation of a value in a  well.</li>
+</ul>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.1.2.</span></p>
+</div>
+<ul class="last simple">
+<li>Set function, <cite>without merge = True</cite> keep only the last assignation of a value in a  well.</li>
 </ul>
 </div>
 </div>
