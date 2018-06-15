@@ -358,7 +358,7 @@ class BioPlateManipulation:
         response = phi.add_hplate(numWell, plate_name, self)
         if isinstance(response, str):
             return response
-        elif isinstance(response, int):
+        else: 
             dict_update = {"plate_name": plate_name, "plate_array": self}
             return phi.update_hplate(dict_update, response, key="id")
         

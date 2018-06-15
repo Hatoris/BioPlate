@@ -78,6 +78,8 @@ class TestBioPlateArray(unittest.TestCase):
             BioPlateArray._merge_stack(id1, id2),
             [id(self.plate2), id(self.plate3), id(self.plate4), id(self.plate5)],
         )
+        with self.assertRaises(KeyError):
+            BioPlateArray._merge_stack(234345681, 3450834612)
 
     def test_add_plate_in_cache(self):
         BioPlateArray._add_plate_in_cache(12345, self.plate2)
@@ -93,10 +95,17 @@ class TestBioPlateArray(unittest.TestCase):
             [id(self.plate2), id(self.plate3)],
         )
 
-    #@mock.patch("PlateDB")
     def test_attributeError(self):
         with self.assertRaises(AttributeError):
             BioPlateArray({"1" : "a"})
+
+    def test_get_plate_in_stack(self):
+        with self.assertRaises(KeyError):
+            BioPlateArray._get_plate_in_stack(1234567890, 1)
+        with self.assertRaises(IndexError):
+            BioPlateArray._get_plate_in_stack(id(self.stack1), 10)
+            
+            
 
 if __name__ == "__main__":
     unittest.main()
