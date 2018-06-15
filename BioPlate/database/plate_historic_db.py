@@ -26,28 +26,17 @@ class PlateHist(Database):
         @hybrid_property
         def plate(self):
             if isinstance(self.plate_array, list):
-                return BioPlate.Stack.BioPlateStack(self.plate_array)
+                return BioPlate.stack.BioPlateStack(self.plate_array)
             else:
                 return self.plate_array
 
         def __str__(self):
-            if self.plate_name:
-                return (
+            return (
                     "<plate N°"
                     + str(self.id)
                     + ": "
                     + self.plate_name
                     + ", "
-                    + str(self.numWell)
-                    + " wells, "
-                    + str(self.date)
-                    + ">"
-                )
-            else:
-                return (
-                    "<plate N°"
-                    + str(self.id)
-                    + ": "
                     + str(self.numWell)
                     + " wells, "
                     + str(self.date)
@@ -55,23 +44,12 @@ class PlateHist(Database):
                 )
 
         def __repr__(self):
-            if self.plate_name:
-                return (
+            return (
                     "<plate N°"
                     + str(self.id)
                     + ": "
                     + self.plate_name
                     + ", "
-                    + str(self.numWell)
-                    + " wells, "
-                    + str(self.date)
-                    + ">"
-                )
-            else:
-                return (
-                    "<plate N°"
-                    + str(self.id)
-                    + ": "
                     + str(self.numWell)
                     + " wells, "
                     + str(self.date)

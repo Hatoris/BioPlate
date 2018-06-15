@@ -47,13 +47,13 @@ class BioPlateManipulation:
     @overload
     def _args_analyse(
         self: "BioPlateManipulation", well: Dict[str, Any], value: None
-    ) -> Tuple[Dict[str, Any], None]:
+    ) -> Tuple[Dict[str, Any], None]: # pragma: no cover
         pass
 
     @overload
     def _args_analyse(
         self: "BioPlateManipulation", well: Dict[str, Any]
-    ) -> Tuple[Dict[str, Any], None]:
+    ) -> Tuple[Dict[str, Any], None]: # pragma: no cover
         pass
 
     @overload
@@ -61,7 +61,7 @@ class BioPlateManipulation:
         self: "BioPlateManipulation",
         well: str,
         value: Union[str, int, float, List[Any], None],
-    ) -> Tuple[str, Union[str, int, float, List[Any], None]]:
+    ) -> Tuple[str, Union[str, int, float, List[Any], None]]: # pragma: no cover
         pass
 
     def _args_analyse(self, *args):
@@ -99,9 +99,7 @@ class BioPlateManipulation:
             well, *trash = args
             value = None
             return well, value
-        if len(args) == 2 and list_in:
-            well, value, *trash = args
-            return well, value
+
 
     def _add_values(
         self: "BioPlateManipulation", *args: Dict[str, Any],
@@ -141,13 +139,13 @@ class BioPlateManipulation:
     @overload
     def set(
         self: "BioPlateManipulation", well: Dict[str, Any], value: None
-    ) -> Union["BioPlateManipulation", str]:
+    ) -> Union["BioPlateManipulation", str]: # pragma: no cover
         pass
 
     @overload
     def set(
         self: "BioPlateManipulation", well: Dict[str, Any]
-    ) -> Union["BioPlateManipulation", str]:
+    ) -> Union["BioPlateManipulation", str]: # pragma: no cover
         pass
 
     @overload
@@ -155,7 +153,7 @@ class BioPlateManipulation:
         self: "BioPlateManipulation",
         well: str,
         value: Union[str, int, float, List[Any], None],
-    ) -> Union["BioPlateManipulation", str]:
+    ) -> Union["BioPlateManipulation", str]: # pragma: no cover
         pass
 
     def set(self, *args, merge=False):
@@ -363,7 +361,7 @@ class BioPlateManipulation:
         elif isinstance(response, int):
             dict_update = {"plate_name": plate_name, "plate_array": self}
             return phi.update_hplate(dict_update, response, key="id")
-        return None
+        
 
     def table(
         self: "BioPlateManipulation", headers: str = "firstrow", **kwargs

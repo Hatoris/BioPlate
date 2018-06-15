@@ -38,6 +38,13 @@ class TestPlateDB(unittest.TestCase):
                     "test_plate.db",
                 )
             ).unlink()
+            Path(
+                PurePath(
+                    Path(__file__).parent.parent,
+                    "BioPlate/database/DBFiles",
+                    "tt_plate.db",
+                )
+            ).unlink()
 
     def setUp(self):
         """
@@ -197,7 +204,7 @@ class TestPlateDB(unittest.TestCase):
 
         # with self.assertRaises(exc.SQLAlchemyError):
         pdbt.get_all()
-
+        
     def test_delete(self):
         self.pdb.add_plate(
             numWell=6,
@@ -228,6 +235,20 @@ class TestPlateDB(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.pdb.update({"numWell": 15}, 12)
 
+    def test_str_name(self):
+        self.pdb.update({"name" : "TuTu"}, 1, key="id")
+        Pl = self.pdb.get_one(1, key="id")
+        self.assertEqual(str(Pl), "<plate N°1 :  TuTu , 96-12-8>")
+
+    def test_repr(self):
+        Pl = self.pdb.get_one(1, key="id")
+        self.assertEqual(repr(Pl), "<plate N°1 : 96-12-8>")
+        self.pdb.update({"name" : "TuTu"}, 1, key="id")
+        Pl = self.pdb.get_one(1, key="id")
+        self.assertEqual(repr(Pl), "<plate N°1 :  TuTu , 96-12-8>")
+
+    def test_get_all(self):
+        self.assertEqual(str(self.pdb.get_all_plate()), "[<plate N°1 : 96-12-8>, <plate N°2 : 6-3-2>, <plate N°3 : 6-3-6>, <plate N°4 : 6-3-6>]")
 
 if __name__ == "__main__":
     unittest.main()

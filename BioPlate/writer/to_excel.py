@@ -63,7 +63,7 @@ class BioPlateToExcel:
                 }
             )
         except Exception as e:
-            print(e)
+            raise e
 
     @property
     def open_excel_file(self):

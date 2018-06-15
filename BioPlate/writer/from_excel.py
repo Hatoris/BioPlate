@@ -53,13 +53,12 @@ class _BioPlateFromExcel:
         """return a dict without empty sheet"""
         no_empty_sheet = dict()
         for sheetname, value in self.loaded_file.items():
-            if not value:
-                continue
-            elif self.sheets:
-                if sheetname in self.sheets:
+            if value:
+                if self.sheets:
+                    if sheetname in self.sheets:
+                        no_empty_sheet[sheetname] = value
+                else:
                     no_empty_sheet[sheetname] = value
-            else:
-                no_empty_sheet[sheetname] = value
         return no_empty_sheet
 
     def _get_plate_informations(

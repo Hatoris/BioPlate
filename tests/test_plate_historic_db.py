@@ -5,6 +5,7 @@ from BioPlate import BioPlate
 from pathlib import Path, PurePath
 import contextlib
 import numpy as np
+import datetime
 
 
 class TestPlateDB(unittest.TestCase):
@@ -39,6 +40,8 @@ class TestPlateDB(unittest.TestCase):
             plate_name="First plate to test",
             plate_array=cls.plt,
         )
+        dt = datetime.datetime.now()
+        cls.date = datetime.date(dt.year, dt.month, dt.day)
 
     @classmethod
     def tearDownClass(cls):
@@ -134,6 +137,23 @@ class TestPlateDB(unittest.TestCase):
         self.assertEqual(self.phi.delete_hplate(6), "plate with 6 numWell deleted")
         self.assertEqual(self.phi.get_hplate(numWell=6), [])
 
+    def test_repr(self):
+        Pl = self.phi.get_one(1, key="id")
+        self.assertEqual(repr(Pl), f"<plate N°1: First plate to test, 96 wells, {self.date}>")
 
+    def test_get_all(self):
+        self.assertEqual(str(self.phi.get_all_hplate()), f"[<plate N°1: First plate to test, 96 wells, {self.date}>]")
+        
+    def test_stack(self):
+       pl1 = BioPlate(12, 8)
+       pl2 = BioPlate(12, 8)
+       pl1.set("A2", "bob")
+       self.phi.add_hplate(
+            Plate_id=2, numWell=96, plate_name="stack", plate_array=[pl1, pl2]
+        )
+       Pl = self.phi.get_one(2, key="id").plate
+       self.assertEqual(Pl.name, "BioPlateStack")
+       self.assertEqual(Pl.get(0, "A2"), "bob")
+      
 if __name__ == "__main__":
     unittest.main()

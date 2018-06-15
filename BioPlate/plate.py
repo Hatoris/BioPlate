@@ -21,7 +21,10 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
             ID_list = []
             nb_plates, *nargs = args
             for nb_plate in range(nb_plates):
-                plate = BioPlateArray.__new__(cls, *nargs, **kwargs)
+                if kwargs.get("inserts", False):
+                    plate = BioPlateInserts(*nargs, **kwargs)
+                else:
+                    plate = BioPlateArray.__new__(cls, *nargs, **kwargs)
                 ID_list.append(id(plate))
             return BioPlateStack(ID_list)
 

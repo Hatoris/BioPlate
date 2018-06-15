@@ -101,7 +101,7 @@ class BioPlateArray(np.ndarray):
                 columns = plate.numColumns
                 rows = plate.numRows
             except AttributeError:
-                raise AttributeError(plate)
+                raise AttributeError(f"invalid format : {dict}")
         elif len(args) == 1:
             return (0,)
         else:

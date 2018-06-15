@@ -518,5 +518,17 @@ class TestPlateToExcel(unittest.TestCase):
         self.assertEqual(read_excel, rm_empty)
 
 
+    def test_error_init(self):
+        with self.assertRaises(ValueError):
+            BioPlateToExcel("test.xlsx", sheets = ["bob",], test=True)
+        with self.assertRaises(Exception):
+            BioPlateToExcel("test.xlsx", sheets = "bob")
+
+    def test_in_memory(self):
+        t = BioPlateToExcel("test.xlsx", test=True)
+        self.assertEqual(t.get_test(), b'')
+        x = BioPlateToExcel("test.xlsx")
+        self.assertEqual(x.get_test(), None)
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,8 +1,12 @@
 import unittest
+import contextlib
+#import mock
 import numpy
 
+from pathlib import Path, PurePath
 from BioPlate.array import BioPlateArray
 from BioPlate import BioPlate
+from BioPlate.database.plate_db import PlateDB
 
 
 class TestBioPlateArray(unittest.TestCase):
@@ -20,7 +24,14 @@ class TestBioPlateArray(unittest.TestCase):
         This function is run one time at the end of tests
         :return:
         """
-        pass
+        with contextlib.suppress(FileNotFoundError):
+            Path(
+                PurePath(
+                    Path(__file__).parent.parent,
+                    "BioPlate/database/DBFiles",
+                    "plate.db",
+                )
+            ).unlink()
 
     def setUp(self):
         """
@@ -52,10 +63,6 @@ class TestBioPlateArray(unittest.TestCase):
         with self.assertRaises(AttributeError):
             BioPlateArray.get_columns_rows(["test1"], ["test2"], [1, 2, 3])
 
-    # def test__bio_plate_array(self):
-    #     print(BioPlateArray._CACHE_BPA)
-    #     self.assertEqual(self.plate1, BioPlateArray._CACHE_BPA[(12,8)])
-
     def test_get_plate_in_cache(self):
         with self.assertRaises(KeyError):
             BioPlateArray.get_columns_rows(BioPlateArray._get_plate_in_cache(245789))
@@ -86,6 +93,10 @@ class TestBioPlateArray(unittest.TestCase):
             [id(self.plate2), id(self.plate3)],
         )
 
+    #@mock.patch("PlateDB")
+    def test_attributeError(self):
+        with self.assertRaises(AttributeError):
+            BioPlateArray({"1" : "a"})
 
 if __name__ == "__main__":
     unittest.main()

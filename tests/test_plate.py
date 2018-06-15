@@ -50,6 +50,13 @@ class TestPlate(unittest.TestCase):
                     "test_plate_historic.db",
                 )
             ).unlink()
+            Path(
+                PurePath(
+                    Path(__file__).parent.parent,
+                    "BioPlate/database/DBFiles",
+                    "plate_historic.db",
+                )
+            ).unlink()
 
     def setUp(self):
         """
@@ -569,6 +576,10 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(
             self.stack.save("test save2", db_hist_name="test_plate_historic.db"),
             "BioPlateStack test save2 with 96 wells was successfully added to database test_plate_historic.db",
+        )
+        self.assertEqual(
+            self.stack.save("test save2"),
+            "BioPlateStack test save2 with 96 wells was successfully added to database plate_historic.db",
         )
         self.assertEqual(
             self.Inserts.save("test save3", db_hist_name="test_plate_historic.db"),
@@ -1155,5 +1166,24 @@ class TestPlate(unittest.TestCase):
         self.stack.set(0, "A3", "_bob", merge=True)
         self.assertEqual(self.stack.get(0, "A3"), "Test_2_bob")
 
+
+    def test_raise_inserts(self):
+        with self.assertRaises(ValueError):
+            self.Inserts.set("A5", "martin")
+
+    def test_inserts_stack(self):
+        ins = BioPlate(2, 12, 8, inserts=True)
+        ins.set(0, "top", "A1", "gaston")
+        ins1 = BioPlate(2, 12, 8, inserts=True)
+        ins1.set(0, "bot",  "A1", "gulu")
+        ins2 = BioPlate(12, 8, inserts=True)
+        Nins = ins + ins1
+        PNins = ins2 + ins
+        self.assertEqual(Nins.get(0, "top", "A1"), "gaston")
+        self.assertEqual(Nins.get(2, "bot", "A1"), "gulu")
+        self.assertEqual(PNins.get(1, "top", "A1"), "gaston")
+        
+        
+        
 if __name__ == "__main__":
     unittest.main()

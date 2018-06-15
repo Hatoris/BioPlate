@@ -63,7 +63,7 @@ class Database:
         """
         try:
             if not key:
-                raise ValueError("Get should have à défaut key! ")
+                raise ValueError("Get should have à default key! ")
             return (
                 self.session.query(self.database_class)
                 .filter(getattr(self.database_class, key) == args)
