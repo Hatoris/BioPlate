@@ -15,6 +15,7 @@ from string import ascii_uppercase
 import numpy as np
 
 from BioPlate.database.plate_db import PlateDB
+from BioPlate.matrix import BioPlateMatrix
 
 
 class BioPlateArray(np.ndarray):
@@ -26,6 +27,14 @@ class BioPlateArray(np.ndarray):
 
     _PLATE_CACHE : Dict[int, np.ndarray]= {}  # contain id as key and np.array plate as value
     _STACK_CACHE : Dict[int, List[int]] = {}  # contain id of stak plate as key and list of unique plate bioplatestack cache
+    
+    @overload
+    def __new__(cls : np.ndarray, *args : int, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+        pass
+        
+    @overload
+    def __new__(cls : np.ndarray, *args : Dict, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+        pass
 
     def __new__(cls, *args, **kwargs):
         """
@@ -48,6 +57,46 @@ class BioPlateArray(np.ndarray):
         if ID not in BioPlateArray._PLATE_CACHE:
             BioPlateArray._PLATE_CACHE[ID] = BioPlate
         return BioPlateArray._PLATE_CACHE[ID]
+
+   
+    def __getitem__(self, index : Union[str, Tuple[int, slice], int]) -> np.ndarray:
+        if isinstance(index, str):
+            well = BioPlateMatrix(index)
+            return self[well.row, well.column]
+        return super(BioPlateArray, self).__getitem__(index)
+
+    def  __setitem__(self, index :  Union[str, Tuple[int, slice], int], value : Union[List[int], List[str], int, str]) -> None:
+        if isinstance(index, str):
+            well = BioPlateMatrix(index)
+            if isinstance(value, list):
+                plate_shape = self[well.row, well.column].shape
+                len_plate_shape = len(plate_shape)
+                if len_plate_shape > 1:
+                    if well.pos == "R":
+                        resh_val = np.reshape(value, (plate_shape[0], 1))
+                    else:
+                        resh_val = value
+                    self[well.row, well.column] = resh_val
+                    return
+                else:
+                   self[well.row, well.column][: len(value)] = value
+                   return
+            else:
+                self[well.row, well.column] = value
+                return
+        else:
+            super(BioPlateArray, self).__setitem__(index, value)
+            return
+            
+            
+                  
+    @overload
+    def bioplatearray(*args : int, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+        pass
+        
+    @overload
+    def bioplatearray(*args : Dict, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+        pass
 
     def bioplatearray(*args, **kwargs):
         """

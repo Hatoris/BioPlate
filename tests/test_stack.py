@@ -43,6 +43,7 @@ class TestPlate(unittest.TestCase):
         :return:
         """
         self.stack = self.plt + self.plt1
+        self.stacki = self.Ins + self.Ins1
 
     def tearDown(self):
         """
@@ -73,6 +74,17 @@ class TestPlate(unittest.TestCase):
         Nstacki = self.Ins + self.Ins1
         self.assertEqual(Nstacki.get(0, "top", "A1"), "topIns")
 
-
+    def test_getitem(self):
+        self.assertEqual(self.stack[0, "A1"],  "test")
+        self.assertEqual(self.stacki[0, "top", "A1" ],  "topIns")
+        self.assertEqual(self.stack[0,1, 1], "test")
+        
+    def test_setitem(self):
+        self.stack[0, "B2"] = "bob"
+        self.assertEqual(self.stack.get(0, "B2"), "bob")
+        self.stacki[1, "bot", "B[6-9]"] = "marmite"
+        self.assertEqual(self.stacki.get(1, "bot", "B7"), "marmite")
+       
+        
 if __name__ == "__main__":
     unittest.main()

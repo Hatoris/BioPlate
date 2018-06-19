@@ -27,11 +27,29 @@ class BioPlateStack(BioPlateManipulation):
         BioPlates = [self[i] for i in range(len(self))]
         return str(np.array(BioPlates))
 
-    def __getitem__(self, plate_index):
-        return BioPlateArray._get_plate_in_stack(self.ID, plate_index)
+    def __getitem__(self, index):
+        if isinstance(index, int):
+            return BioPlateArray._get_plate_in_stack(self.ID, index)
+        if isinstance(index, tuple):
+             plt = BioPlateArray._get_plate_in_stack(self.ID, index[0])
+             if isinstance(index[1], str):
+                 if plt.name == "BioPlateInserts":
+                     return plt[index[1], index[2]]
+                 return plt[index[1]]
+             else:
+                return plt[index[1:]]
+             
 
     def __setitem__(self, index, value):
-        self[index[0]][index[1:]] = value
+        if isinstance(index[1], str):
+            if self[index[0]].name == "BioPlateInserts":
+                self[index[0]][index[1], index[2]] = value
+                return
+            self[index[0]][index[1]] = value
+            return
+        else:
+            self[index[0]][index[1:]] = value
+            return
 
     def __len__(self):
         return len(BioPlateArray._get_stack_in_cache(self.ID))
@@ -56,10 +74,8 @@ class BioPlateStack(BioPlateManipulation):
                 return func(self, bioplate, *args, **kwargs)
             else:
                 position, *args = args[1:]
-                # t =  {"top" : 0, "bot" : 1}
                 bioplate = getattr(bioplate, position)
                 return func(self, bioplate, *args, **kwargs)
-
         return wrapper
 
     @change_args

@@ -1,8 +1,23 @@
+from typing import (
+    Dict,
+    List,
+    Tuple,
+    Optional,
+    Union,
+    Any,
+    overload,
+    Sequence,
+    Generator,
+)
+
 from collections import OrderedDict
+
+import numpy as np
 
 from BioPlate.array import BioPlateArray
 from BioPlate.manipulation import BioPlateManipulation
 from BioPlate.stack import BioPlateStack
+from BioPlate.matrix import BioPlateMatrix
 
 
 class BioPlateInserts(BioPlateArray, BioPlateManipulation):
@@ -20,6 +35,39 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
             newstack = [self.ID, other.ID]
         newstack = list(OrderedDict.fromkeys(newstack))
         return BioPlateStack(newstack)
+
+    def __getitem__(self, index):
+        if isinstance(index, tuple):
+            if isinstance(index[1], str):
+                ind = {"top" : 0, "bot" : 1, "0" : 0, "1":1, 0 : 0, 1 : 1}
+                plt = self[ind[index[0]]]
+                if isinstance(index[1], str):
+                    well = BioPlateMatrix(index[1])
+                    return plt[well.row, well.column]
+        return super(BioPlateInserts, self).__getitem__(index)
+            
+    def __setitem__(self, index, value):
+        if isinstance(index, tuple):
+            if isinstance(index[1], str):
+                ind = {"top" : 0, "bot" : 1, 0 : 0, 1:1}
+                plt = self[ind[index[0]]]
+                if isinstance(index[1], str):
+                    well = BioPlateMatrix(index[1])
+                    plt[index[1]] = value
+                    if isinstance(value, list):
+                        plate_shape = plt[well.row, well.column].shape
+                        len_plate_shape = len(plate_shape)
+                        if len_plate_shape > 1:
+                            if well.pos == "R":
+                                resh_val = np.reshape(value, (plate_shape[0], 1))
+                            else:
+                                resh_val = value
+                        plt[well.row, well.column] = resh_val
+                        return 
+                    else:
+                        plt[well.row, well.column][: len(value)] = value
+                        return 
+        return super(BioPlateInserts, self).__setitem__(index, value)
 
     @property
     def top(self):
