@@ -1,3 +1,16 @@
+from typing import (
+    Dict,
+    List,
+    Tuple,
+    Optional,
+    Union,
+    Any,
+    overload,
+    Sequence,
+    Generator,
+    Callable
+)
+
 from collections import OrderedDict
 
 import numpy as np
@@ -11,7 +24,7 @@ class BioPlateStack(BioPlateManipulation):
    {id_stack : [id_plate1, id_plate2]}
    """
 
-    def __init__(self, ID_list):
+    def __init__(self : "BioPlateStack", ID_list : List[int]) -> None:
         self.ID = id(self)
         if isinstance(ID_list[0], int):
             BioPlateArray._add_stack_to_cache(self.ID, ID_list)
@@ -23,11 +36,11 @@ class BioPlateStack(BioPlateManipulation):
                 BioPlateArray._add_plate_in_cache(ID, BP)
             BioPlateArray._add_stack_to_cache(self.ID, new_ID_list)
 
-    def __repr__(self):
+    def __repr__(self : "BioPlateStack") -> str:
         BioPlates = [self[i] for i in range(len(self))]
         return str(np.array(BioPlates))
 
-    def __getitem__(self, index):
+    def __getitem__(self : "BioPlateStack", index : Union[slice, int, Tuple[int, str], Tuple[int, str,str]]) -> np.ndarray:
         if isinstance(index, int):
             return BioPlateArray._get_plate_in_stack(self.ID, index)
         if isinstance(index, tuple):
@@ -40,7 +53,7 @@ class BioPlateStack(BioPlateManipulation):
                 return plt[index[1:]]
              
 
-    def __setitem__(self, index, value):
+    def __setitem__(self :"BioPlateStack",index : Union[Tuple[int, str], Tuple[int, str,str]], value : Union[List[int], List[str], int, str]) -> None:
         if isinstance(index[1], str):
             if self[index[0]].name == "BioPlateInserts":
                 self[index[0]][index[1], index[2]] = value
@@ -51,10 +64,10 @@ class BioPlateStack(BioPlateManipulation):
             self[index[0]][index[1:]] = value
             return
 
-    def __len__(self):
+    def __len__(self : "BioPlateStack") -> int:
         return len(BioPlateArray._get_stack_in_cache(self.ID))
 
-    def __add__(self, other):
+    def __add__(self : "BioPlateStack", other : Union["BioPlateStack", BioPlateArray]) -> "BioPlateStack":
         if type(self[0]) == type(other):
             newstack = BioPlateArray._get_stack_in_cache(self.ID)
             if other.ID not in newstack:
@@ -66,7 +79,7 @@ class BioPlateStack(BioPlateManipulation):
         newstack = list(OrderedDict.fromkeys(newstack))
         return BioPlateStack(newstack)
 
-    def change_args(func):
+    def change_args(func : Callable) -> Callable:
         def wrapper(self, *args, **kwargs):
             bioplate = self[args[0]]
             if len(bioplate.shape) == 2:

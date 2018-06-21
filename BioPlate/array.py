@@ -56,9 +56,9 @@ class BioPlateArray(np.ndarray):
         ID = id(BioPlate)
         if ID not in BioPlateArray._PLATE_CACHE:
             BioPlateArray._PLATE_CACHE[ID] = BioPlate
-        return BioPlateArray._PLATE_CACHE[ID]
-
-   
+        return BioPlateArray._PLATE_CACHE[ID]  
+      
+            
     def __getitem__(self, index : Union[str, Tuple[int, slice], int]) -> np.ndarray:
         if isinstance(index, str):
             well = BioPlateMatrix(index)
@@ -127,10 +127,14 @@ class BioPlateArray(np.ndarray):
         pass
         
     @overload
-    def get_columns_rows(*args : Dict, **kwargs : str) -> Tuple[int, int]: # pragma: no cover
+    def get_columns_rows(*args : Union[
+    Dict[str, int], 
+    Dict[str, str], 
+    Dict[str, List[int]], 
+    Dict[str, List[str]]], **kwargs : str) -> Tuple[int, int]: # pragma: no cover
         pass
 
-    def get_columns_rows(*args, **kwargs ):
+    def get_columns_rows(*args,  **kwargs):
         """
         use to get columns and rows from database call or directly from args.
         
