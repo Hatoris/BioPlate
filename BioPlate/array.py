@@ -16,6 +16,7 @@ import numpy as np
 
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.matrix import BioPlateMatrix
+import BioPlate.utilitis as bpu
 
 
 class BioPlateArray(np.ndarray):
@@ -27,6 +28,7 @@ class BioPlateArray(np.ndarray):
 
     _PLATE_CACHE : Dict[int, np.ndarray]= {}  # contain id as key and np.array plate as value
     _STACK_CACHE : Dict[int, List[int]] = {}  # contain id of stak plate as key and list of unique plate bioplatestack cache
+    
     
     @overload
     def __new__(cls : np.ndarray, *args : int, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
@@ -56,16 +58,15 @@ class BioPlateArray(np.ndarray):
         ID = id(BioPlate)
         if ID not in BioPlateArray._PLATE_CACHE:
             BioPlateArray._PLATE_CACHE[ID] = BioPlate
-        return BioPlateArray._PLATE_CACHE[ID]  
-      
+        return BioPlateArray._PLATE_CACHE[ID]       
             
-    def __getitem__(self, index : Union[str, Tuple[int, slice], int]) -> np.ndarray:
+    def __getitem__(self, index : Tuple[Union[int, slice], Union[int, slice]]) -> np.ndarray:
         if isinstance(index, str):
             well = BioPlateMatrix(index)
             return self[well.row, well.column]
         return super(BioPlateArray, self).__getitem__(index)
 
-    def  __setitem__(self, index :  Union[str, Tuple[int, slice], int], value : Union[List[int], List[str], int, str]) -> None:
+    def  __setitem__(self, index :  Tuple[Union[int, slice], Union[int, slice]], value : Union[List[int], List[str], int, str]) -> None:
         if isinstance(index, str):
             well = BioPlateMatrix(index)
             if isinstance(value, list):

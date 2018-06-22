@@ -1,6 +1,6 @@
 import pyexcel_xlsx as pex
 import sys
-from typing import List, Tuple, Dict, Callable
+from typing import List, Tuple, Dict, Callable, Union, Iterable
 
 import pyexcel_xlsx as pex
 
@@ -172,7 +172,7 @@ class _BioPlateFromExcel:
         if rest:
             yield from self._get_one_plate(rest, sheetname)
 
-    def _iterate_bpi_value(self, plates: List[List], row: int) -> Tuple[int, List]:
+    def _iterate_bpi_value(self, plates: List[List], row: int) -> Union[Iterable[Tuple[int, str, List]], Iterable[Tuple[int, str, str]]]:
         position = "top"
         for plate in plates:
             if self.plate_infos is None:

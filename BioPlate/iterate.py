@@ -8,25 +8,24 @@ from typing import (
     overload,
     Sequence,
     Generator,
-    Iterable
+    Iterator
 )
 
 import numpy as np
-
 
 class BioPlateIterate:
     """A row is symbolise by it's letter, a column by a number"""
 
     @overload
-    def __new__(cls, plate : np.ndarray, order : str ="C", accumulate : bool =True, OnlyValue : bool =False) -> Iterable[Tuple[int, int]]: #pragma: no cover
+    def __new__(cls, plate : np.ndarray, order : str ="C", accumulate : bool =True, OnlyValue : bool =False) -> Iterator[Tuple[int, int]]: #pragma: no cover
         pass
 
     @overload
-    def __new__(cls, plate : np.ndarray, order : str ="C", accumulate : bool =True, OnlyValue : bool =False) -> Iterable[Tuple[str, int]]: #pragma: no cover
+    def __new__(cls, plate : np.ndarray, order : str ="C", accumulate : bool =True, OnlyValue : bool =False) -> Iterator[Tuple[str, int]]: #pragma: no cover
         pass
 
 
-    def __new__(cls, plate, order ="C", accumulate =True, OnlyValue = False):
+    def __new__(cls, plate, order ="C", accumulate =True, OnlyValue = False) :
         _ORDER : Dict[str, str] = {"C": "F", "R": "C"}
         cls.order :  str = _ORDER[order]
         cls.plate : np.ndarray = plate
@@ -37,11 +36,11 @@ class BioPlateIterate:
         return cls.iterate()
 
     @overload
-    def iterate(cls) -> Iterable[Tuple[int, int]]: #pragma: no cover
+    def iterate(cls) -> Iterator[Tuple[int, int]]: #pragma: no cover
         pass
 
     @overload
-    def iterate(cls) -> Iterable[Tuple[str, int]]: #pragma: no cover
+    def iterate(cls) -> Iterator[Tuple[str, int]]: #pragma: no cover
         pass
         
     @classmethod
@@ -70,7 +69,7 @@ class BioPlateIterate:
         return row, column, tuple(values)
 
     @classmethod
-    def _iterate(cls) -> Union[Iterable[str], Iterable[Tuple[str, str, str]]]:
+    def _iterate(cls) -> Union[Iterator[str], Iterator[Tuple[str, str, str]]]:
         bp = cls.plate.name == "BioPlate"
         bpi = cls.plate.name == "BioPlateInserts"
         bps = cls.plate.name == "BioPlateStack"
@@ -85,7 +84,7 @@ class BioPlateIterate:
                     yield from cls.__iterate(plat)
 
     @classmethod
-    def __iterate(cls, plate : np.ndarray) -> Union[Iterable[str], Iterable[Tuple[str, str, str]]]:
+    def __iterate(cls, plate : np.ndarray) -> Union[Iterator[str], Iterator[Tuple[str, str, str]]]:
         columns = plate[0, 1:]
         rows = plate[1:, 0:1]
         values = plate[1:, 1:]

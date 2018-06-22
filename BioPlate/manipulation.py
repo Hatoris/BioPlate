@@ -8,6 +8,8 @@ from typing import (
     overload,
     Sequence,
     Generator,
+    Iterable,
+    Mapping
 )
 
 import numpy as np
@@ -22,7 +24,12 @@ from BioPlate.matrix import BioPlateMatrix
 
 
 class BioPlateManipulation:
-    r"""This parent class grouped all method that can be applied to BioPlate instance."""
+    """
+    This parent class grouped all method that can be applied to BioPlate instance.
+    """
+    
+    def __getitem__(self, index):
+         return self[index]   
 
     @property
     def name(self: "BioPlateManipulation") -> str:
@@ -182,7 +189,7 @@ class BioPlateManipulation:
 
     def get(
         self: "BioPlateManipulation", *well: str
-    ) -> Union[Optional["BioPlateManipulation"], List[Sequence[Any]]]:
+    ) -> Union[List[str], Optional["BioPlateManipulation"], List[Sequence[Any]]]:
         """
         Use to retrive informations from BioPlate instance 
         
