@@ -172,7 +172,9 @@ class _BioPlateFromExcel:
         if rest:
             yield from self._get_one_plate(rest, sheetname)
 
-    def _iterate_bpi_value(self, plates: List[List], row: int) -> Union[Iterable[Tuple[int, str, List]], Iterable[Tuple[int, str, str]]]:
+    def _iterate_bpi_value(
+        self, plates: List[List], row: int
+    ) -> Union[Iterable[Tuple[int, str, List]], Iterable[Tuple[int, str, str]]]:
         position = "top"
         for plate in plates:
             if self.plate_infos is None:

@@ -9,7 +9,7 @@ from typing import (
     Sequence,
     Generator,
     Iterable,
-    Mapping
+    Mapping,
 )
 
 import numpy as np
@@ -27,9 +27,9 @@ class BioPlateManipulation:
     """
     This parent class grouped all method that can be applied to BioPlate instance.
     """
-    
+
     def __getitem__(self, index):
-         return self[index]   
+        return self[index]
 
     @property
     def name(self: "BioPlateManipulation") -> str:
@@ -54,13 +54,13 @@ class BioPlateManipulation:
     @overload
     def _args_analyse(
         self: "BioPlateManipulation", well: Dict[str, Any], value: None
-    ) -> Tuple[Dict[str, Any], None]: # pragma: no cover
+    ) -> Tuple[Dict[str, Any], None]:  # pragma: no cover
         pass
 
     @overload
     def _args_analyse(
         self: "BioPlateManipulation", well: Dict[str, Any]
-    ) -> Tuple[Dict[str, Any], None]: # pragma: no cover
+    ) -> Tuple[Dict[str, Any], None]:  # pragma: no cover
         pass
 
     @overload
@@ -68,7 +68,7 @@ class BioPlateManipulation:
         self: "BioPlateManipulation",
         well: str,
         value: Union[str, int, float, List[Any], None],
-    ) -> Tuple[str, Union[str, int, float, List[Any], None]]: # pragma: no cover
+    ) -> Tuple[str, Union[str, int, float, List[Any], None]]:  # pragma: no cover
         pass
 
     def _args_analyse(self, *args):
@@ -110,13 +110,13 @@ class BioPlateManipulation:
     @overload
     def set(
         self: "BioPlateManipulation", well: Dict[str, Any], value: None
-    ) -> Union["BioPlateManipulation", str]: # pragma: no cover
+    ) -> Union["BioPlateManipulation", str]:  # pragma: no cover
         pass
 
     @overload
     def set(
         self: "BioPlateManipulation", well: Dict[str, Any]
-    ) -> Union["BioPlateManipulation", str]: # pragma: no cover
+    ) -> Union["BioPlateManipulation", str]:  # pragma: no cover
         pass
 
     @overload
@@ -124,7 +124,7 @@ class BioPlateManipulation:
         self: "BioPlateManipulation",
         well: str,
         value: Union[str, int, float, List[Any], None],
-    ) -> Union["BioPlateManipulation", str]: # pragma: no cover
+    ) -> Union["BioPlateManipulation", str]:  # pragma: no cover
         pass
 
     def set(self, *args, merge=False):
@@ -171,15 +171,19 @@ class BioPlateManipulation:
                 else:
                     resh_val = value
                 if merge:
-                    self[well.row, well.column] = ncd.add(self[well.row, well.column], resh_val)
+                    self[well.row, well.column] = ncd.add(
+                        self[well.row, well.column], resh_val
+                    )
                     return self
                 self[well.row, well.column] = resh_val
-                return self 
+                return self
             else:
                 if merge:
-                    self[well.row, well.column][: len(value)] = ncd.add(self[well.row, well.column][: len(value)], value)
+                    self[well.row, well.column][: len(value)] = ncd.add(
+                        self[well.row, well.column][: len(value)], value
+                    )
                     return self
-                self[well.row, well.column][: len(value)] = value 
+                self[well.row, well.column][: len(value)] = value
                 return self
         if merge:
             self[well.row, well.column] = ncd.add(self[well.row, well.column], value)
@@ -249,10 +253,9 @@ class BioPlateManipulation:
         response = phi.add_hplate(numWell, plate_name, self)
         if isinstance(response, str):
             return response
-        else: 
+        else:
             dict_update = {"plate_name": plate_name, "plate_array": self}
             return phi.update_hplate(dict_update, response, key="id")
-        
 
     def table(
         self: "BioPlateManipulation", headers: str = "firstrow", **kwargs

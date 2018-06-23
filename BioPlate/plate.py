@@ -8,7 +8,7 @@ from typing import (
     overload,
     Sequence,
     Generator,
-    ClassVar
+    ClassVar,
 )
 
 from collections import OrderedDict
@@ -23,26 +23,52 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
     """
     you can add on it all function of plate
     """
-    
-    @overload
-    def __new__(cls : Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack], args : int, args1 : int, inserts : bool = True) -> BioPlateInserts: # pragma: no cover
-        pass
-        
-    @overload
-    def __new__(cls :Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack], args : int, args1 :int, inserts : bool = False) -> BioPlateArray: # pragma: no cover
-        pass
-        
-    @overload
-    def __new__(cls : Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack], args : int, args1 : int, args2 : int, inserts : bool = False ) -> BioPlateStack: # pragma: no cover
-        pass           
-        
-    @overload
-    def __new__(cls : Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack], args : int, args1 : int, args2 : int, inserts : bool = True) -> BioPlateStack: # pragma: no cover
-        pass         
 
     @overload
-    def __new__(cls : Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack], args : Dict, inserts : bool = False) -> BioPlateStack: # pragma: no cover
-        pass  
+    def __new__(
+        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
+        args: int,
+        args1: int,
+        inserts: bool = True,
+    ) -> BioPlateInserts:  # pragma: no cover
+        pass
+
+    @overload
+    def __new__(
+        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
+        args: int,
+        args1: int,
+        inserts: bool = False,
+    ) -> BioPlateArray:  # pragma: no cover
+        pass
+
+    @overload
+    def __new__(
+        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
+        args: int,
+        args1: int,
+        args2: int,
+        inserts: bool = False,
+    ) -> BioPlateStack:  # pragma: no cover
+        pass
+
+    @overload
+    def __new__(
+        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
+        args: int,
+        args1: int,
+        args2: int,
+        inserts: bool = True,
+    ) -> BioPlateStack:  # pragma: no cover
+        pass
+
+    @overload
+    def __new__(
+        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
+        args: Dict,
+        inserts: bool = False,
+    ) -> BioPlateStack:  # pragma: no cover
+        pass
 
     def __new__(cls, *args, **kwargs):
         if len(args) == 2 or isinstance(args[0], dict):
@@ -61,10 +87,12 @@ class BioPlate(BioPlateArray, BioPlateManipulation):
                 ID_list.append(id(plate))
             return BioPlateStack(ID_list)
 
-    def __init__(self : "BioPlate", *args, **kwargs) -> None:
-        self.ID : int = id(self)
+    def __init__(self: "BioPlate", *args, **kwargs) -> None:
+        self.ID: int = id(self)
 
-    def __add__(self : "BioPlate", other : Union[BioPlateArray, BioPlateStack]) -> BioPlateStack:
+    def __add__(
+        self: "BioPlate", other: Union[BioPlateArray, BioPlateStack]
+    ) -> BioPlateStack:
         if isinstance(other, BioPlateStack):
             newstack = BioPlateArray._get_stack_in_cache(other.ID)
             newstack = [self.ID] + newstack

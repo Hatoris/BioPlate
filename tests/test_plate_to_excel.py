@@ -226,6 +226,13 @@ class TestPlateToExcel(unittest.TestCase):
                     / "test_plate_historic.db"
                 )
             ).unlink()
+            Path(
+                PurePath(
+                    Path(__file__).parent.parent
+                    / "BioPlate/database/DBFiles"
+                    / "test_plate_to_excel.xlsx"
+                )
+            ).unlink()
 
     def setUp(self):
         """

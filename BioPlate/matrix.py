@@ -5,10 +5,12 @@ import numpy as np
 
 import BioPlate.utilitis as bpu
 
-class Matrix(NamedTuple):#pragma: no cover
-    pos : str
-    row : Union[int, slice]
-    column : Union[int, slice]
+
+class Matrix(NamedTuple):  # pragma: no cover
+    pos: str
+    row: Union[int, slice]
+    column: Union[int, slice]
+
 
 class BioPlateMatrix(Matrix):
     """
@@ -48,9 +50,9 @@ class BioPlateMatrix(Matrix):
         """
         split string well to row column
         """
-        row : str
-        column : str
-        try:  # A5, 2[B-H]            
+        row: str
+        column: str
+        try:  # A5, 2[B-H]
             row, column = list(reversed(sorted(filter(None, bpu._CP1.split(well)))))
         except ValueError:
             try:  # D[1-6]
@@ -90,7 +92,7 @@ class BioPlateMatrix(Matrix):
                 )
             )
             return bpu.EL("C", slice(int(row1), int(row2) + 1, 1), int(column))
-        else : #lcolumn > 1 and lrow == 1:
+        else:  # lcolumn > 1 and lrow == 1:
             column1, column2 = sorted(
                 map(int, BioPlateMatrix._multi_row_column(column))
             )

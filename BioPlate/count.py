@@ -9,7 +9,7 @@ from typing import (
     Sequence,
     Generator,
     Callable,
-    MutableMapping
+    MutableMapping,
 )
 
 import numpy as np
@@ -20,31 +20,38 @@ from BioPlate.iterate import BioPlateIterate
 class BioPlateCount:
     """A row is symbolise by it's letter, a column by a number"""
 
-
-    @overload #BioPlate
-    def __new__(cls, plate : np.ndarray, reverse : bool = False) -> MutableMapping[str, int]: # pragma: no cover
+    @overload  # BioPlate
+    def __new__(
+        cls, plate: np.ndarray, reverse: bool = False
+    ) -> MutableMapping[str, int]:  # pragma: no cover
         pass
 
-    @overload #BioPlateInserts
-    def __new__(cls, plate : np.ndarray, reverse : bool = False) -> MutableMapping[str, Dict[str, int]]: # pragma: no cover
+    @overload  # BioPlateInserts
+    def __new__(
+        cls, plate: np.ndarray, reverse: bool = False
+    ) -> MutableMapping[str, Dict[str, int]]:  # pragma: no cover
         pass
 
-    @overload # Stack of BioPlate
-    def __new__(cls, plate : np.ndarray, reverse :bool= False) -> MutableMapping[int, Dict[str, int]]: # pragma: no cover
+    @overload  # Stack of BioPlate
+    def __new__(
+        cls, plate: np.ndarray, reverse: bool = False
+    ) -> MutableMapping[int, Dict[str, int]]:  # pragma: no cover
         pass
 
-    @overload #Stack of BioPlateInserts
-    def __new__(cls, plate : np.ndarray, reverse : bool = False) -> MutableMapping[int, MutableMapping[str, Dict[str, int]]]: # pragma: no cover
+    @overload  # Stack of BioPlateInserts
+    def __new__(
+        cls, plate: np.ndarray, reverse: bool = False
+    ) -> MutableMapping[int, MutableMapping[str, Dict[str, int]]]:  # pragma: no cover
         pass
 
-    def __new__(cls, plate, reverse =False):             
+    def __new__(cls, plate, reverse=False):
         cls.plate = plate
         cls.reverse = reverse
         cls.plate_iterated = BioPlateIterate(plate, OnlyValue=True)
         return cls.count()
 
     @classmethod
-    def __count(cls, plate : np.ndarray) -> Dict[str, int]:
+    def __count(cls, plate: np.ndarray) -> Dict[str, int]:
         """
 
         :param plate:
@@ -57,21 +64,22 @@ class BioPlateCount:
         )
         return count_ordered
 
-
-    @overload #BioPlate
-    def count(cls) -> Dict[str, int]: # pragma: no cover
+    @overload  # BioPlate
+    def count(cls) -> Dict[str, int]:  # pragma: no cover
         pass
 
-    @overload #BioPlateInserts
-    def count(cls) -> MutableMapping[str, Dict[str, int]]: # pragma: no cover
-        pass
-
-    @overload
-    def count(cls) -> MutableMapping[int, Dict[str, int]]: # pragma: no cover
+    @overload  # BioPlateInserts
+    def count(cls) -> MutableMapping[str, Dict[str, int]]:  # pragma: no cover
         pass
 
     @overload
-    def count(cls) -> MutableMapping[int, MutableMapping[str, Dict[str, int]]]: # pragma: no cover
+    def count(cls) -> MutableMapping[int, Dict[str, int]]:  # pragma: no cover
+        pass
+
+    @overload
+    def count(
+        cls
+    ) -> MutableMapping[int, MutableMapping[str, Dict[str, int]]]:  # pragma: no cover
         pass
 
     @classmethod
@@ -80,7 +88,7 @@ class BioPlateCount:
             return cls.count_BioPlate()
         elif cls.plate.name == "BioPlateInserts":
             return cls.count_BioPlateInserts()
-        else :
+        else:
             return cls.count_BioPlateStack()
 
     @classmethod
@@ -95,15 +103,19 @@ class BioPlateCount:
         return cls.__count(next(cls.plate_iterated))
 
     @overload
-    def count_BioPlateStack(cls) -> MutableMapping[int, Dict[str, int]]: # pragma: no cover
+    def count_BioPlateStack(
+        cls
+    ) -> MutableMapping[int, Dict[str, int]]:  # pragma: no cover
         pass
 
     @overload
-    def count_BioPlateStack(cls) -> MutableMapping[int, MutableMapping[str, Dict[str, int]]]: # pragma: no cover
+    def count_BioPlateStack(
+        cls
+    ) -> MutableMapping[int, MutableMapping[str, Dict[str, int]]]:  # pragma: no cover
         pass
 
     @classmethod
-    def count_BioPlateStack(cls) :
+    def count_BioPlateStack(cls):
         result = {}
         index = 0
         for plate in BioPlateIterate(cls.plate, OnlyValue=True):
@@ -114,6 +126,6 @@ class BioPlateCount:
                 try:
                     result[index] = cls.count_BioPlateInserts()
                 except StopIteration:
-                    break                        
+                    break
             index += 1
         return result

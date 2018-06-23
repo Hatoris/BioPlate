@@ -32,29 +32,29 @@ class PlateHist(Database):
 
         def __str__(self):
             return (
-                    "<plate N°"
-                    + str(self.id)
-                    + ": "
-                    + self.plate_name
-                    + ", "
-                    + str(self.numWell)
-                    + " wells, "
-                    + str(self.date)
-                    + ">"
-                )
+                "<plate N°"
+                + str(self.id)
+                + ": "
+                + self.plate_name
+                + ", "
+                + str(self.numWell)
+                + " wells, "
+                + str(self.date)
+                + ">"
+            )
 
         def __repr__(self):
             return (
-                    "<plate N°"
-                    + str(self.id)
-                    + ": "
-                    + self.plate_name
-                    + ", "
-                    + str(self.numWell)
-                    + " wells, "
-                    + str(self.date)
-                    + ">"
-                )
+                "<plate N°"
+                + str(self.id)
+                + ": "
+                + self.plate_name
+                + ", "
+                + str(self.numWell)
+                + " wells, "
+                + str(self.date)
+                + ">"
+            )
 
     def __init__(self, db_name="plate_historic.db"):
         self.db_name = db_name

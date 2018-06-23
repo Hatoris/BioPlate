@@ -26,16 +26,23 @@ class BioPlateArray(np.ndarray):
     A row is symbolise by it's letter, a column by a number.
     """
 
-    _PLATE_CACHE : Dict[int, np.ndarray]= {}  # contain id as key and np.array plate as value
-    _STACK_CACHE : Dict[int, List[int]] = {}  # contain id of stak plate as key and list of unique plate bioplatestack cache
-    
-    
+    _PLATE_CACHE: Dict[
+        int, np.ndarray
+    ] = {}  # contain id as key and np.array plate as value
+    _STACK_CACHE: Dict[
+        int, List[int]
+    ] = {}  # contain id of stak plate as key and list of unique plate bioplatestack cache
+
     @overload
-    def __new__(cls : np.ndarray, *args : int, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+    def __new__(
+        cls: np.ndarray, *args: int, **kwargs: str
+    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
         pass
-        
+
     @overload
-    def __new__(cls : np.ndarray, *args : Dict, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+    def __new__(
+        cls: np.ndarray, *args: Dict, **kwargs: str
+    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
         pass
 
     def __new__(cls, *args, **kwargs):
@@ -58,15 +65,21 @@ class BioPlateArray(np.ndarray):
         ID = id(BioPlate)
         if ID not in BioPlateArray._PLATE_CACHE:
             BioPlateArray._PLATE_CACHE[ID] = BioPlate
-        return BioPlateArray._PLATE_CACHE[ID]       
-            
-    def __getitem__(self, index : Tuple[Union[int, slice], Union[int, slice]]) -> np.ndarray:
+        return BioPlateArray._PLATE_CACHE[ID]
+
+    def __getitem__(
+        self, index: Tuple[Union[int, slice], Union[int, slice]]
+    ) -> np.ndarray:
         if isinstance(index, str):
             well = BioPlateMatrix(index)
             return self[well.row, well.column]
         return super(BioPlateArray, self).__getitem__(index)
 
-    def  __setitem__(self, index :  Tuple[Union[int, slice], Union[int, slice]], value : Union[List[int], List[str], int, str]) -> None:
+    def __setitem__(
+        self,
+        index: Tuple[Union[int, slice], Union[int, slice]],
+        value: Union[List[int], List[str], int, str],
+    ) -> None:
         if isinstance(index, str):
             well = BioPlateMatrix(index)
             if isinstance(value, list):
@@ -80,23 +93,25 @@ class BioPlateArray(np.ndarray):
                     self[well.row, well.column] = resh_val
                     return
                 else:
-                   self[well.row, well.column][: len(value)] = value
-                   return
+                    self[well.row, well.column][: len(value)] = value
+                    return
             else:
                 self[well.row, well.column] = value
                 return
         else:
             super(BioPlateArray, self).__setitem__(index, value)
             return
-            
-            
-                  
+
     @overload
-    def bioplatearray(*args : int, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+    def bioplatearray(
+        *args: int, **kwargs: str
+    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
         pass
-        
+
     @overload
-    def bioplatearray(*args : Dict, **kwargs : str) -> Union[List, Tuple[int, int]]: # pragma: no cover
+    def bioplatearray(
+        *args: Dict, **kwargs: str
+    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
         pass
 
     def bioplatearray(*args, **kwargs):
@@ -124,18 +139,21 @@ class BioPlateArray(np.ndarray):
             raise ValueError(f"Something wrong with {args}")
 
     @overload
-    def get_columns_rows(*args : int, **kwargs : str) -> Tuple[int, int]: # pragma: no cover
-        pass
-        
-    @overload
-    def get_columns_rows(*args : Union[
-    Dict[str, int], 
-    Dict[str, str], 
-    Dict[str, List[int]], 
-    Dict[str, List[str]]], **kwargs : str) -> Tuple[int, int]: # pragma: no cover
+    def get_columns_rows(
+        *args: int, **kwargs: str
+    ) -> Tuple[int, int]:  # pragma: no cover
         pass
 
-    def get_columns_rows(*args,  **kwargs):
+    @overload
+    def get_columns_rows(
+        *args: Union[
+            Dict[str, int], Dict[str, str], Dict[str, List[int]], Dict[str, List[str]]
+        ],
+        **kwargs: str,
+    ) -> Tuple[int, int]:  # pragma: no cover
+        pass
+
+    def get_columns_rows(*args, **kwargs):
         """
         use to get columns and rows from database call or directly from args.
         
@@ -183,7 +201,7 @@ class BioPlateArray(np.ndarray):
             )
         return columns, rows
 
-    def bio_plate_array(columns : int , rows : int) -> np.ndarray:
+    def bio_plate_array(columns: int, rows: int) -> np.ndarray:
         """
             Create a representation of biological plate from a given number of columns and rows value.
             
@@ -212,8 +230,8 @@ class BioPlateArray(np.ndarray):
         BParray[1 : rows + 1, 0] = np.array(list(ascii_uppercase))[0:rows]
         BParray[0, 0] = " "
         return BParray
-    
-    def _get_plate_in_cache(plate_id : int) -> np.ndarray:
+
+    def _get_plate_in_cache(plate_id: int) -> np.ndarray:
         """
        return a plate (np.ndarray) for a given plate_id
        
@@ -240,7 +258,7 @@ class BioPlateArray(np.ndarray):
         except KeyError:
             raise KeyError(f"plate {plate_id} is not in plate cache")
 
-    def _get_stack_in_cache(stack_id : int) -> List[int]:
+    def _get_stack_in_cache(stack_id: int) -> List[int]:
         """
         return a list of plate id for a given stack_id
        
@@ -267,7 +285,7 @@ class BioPlateArray(np.ndarray):
         except KeyError:
             raise KeyError(f"stack {stack_id} is not in stack cache")
 
-    def _get_plate_in_stack(stack_id : int, plate_index : int) -> np.ndarray:
+    def _get_plate_in_stack(stack_id: int, plate_index: int) -> np.ndarray:
         """
         return a plate (np.ndarray) for a given stack_id, and plate_index in stack
        
@@ -297,11 +315,11 @@ class BioPlateArray(np.ndarray):
             plate_id = BioPlateArray._get_stack_in_cache(stack_id)[plate_index]
             return BioPlateArray._get_plate_in_cache(plate_id)
         except KeyError:
-           raise KeyError(f"object {stack_id} is not in cache")
+            raise KeyError(f"object {stack_id} is not in cache")
         except IndexError:
-           raise IndexError(f"index {plate_index} is not in stack {stack_id}")
+            raise IndexError(f"index {plate_index} is not in stack {stack_id}")
 
-    def _merge_stack(stack1_id : int, stack2_id : int) -> List[int]:
+    def _merge_stack(stack1_id: int, stack2_id: int) -> List[int]:
         """
         return a list of merged id from to stack_id
        
@@ -326,16 +344,18 @@ class BioPlateArray(np.ndarray):
        >>> BioPlateArray._merge_stack(id(stack1), id(stack2))
        [4356278905, 4356789241, 3456890234, 2346789120]
        """
-        try :
+        try:
             newstack = (
                 BioPlateArray._STACK_CACHE[stack1_id]
                 + BioPlateArray._STACK_CACHE[stack2_id]
             )
             return newstack
         except KeyError:
-            raise KeyError(f"Either stack1_id {stack1_id} or stack2_id {stack2_id} are not in cache")
+            raise KeyError(
+                f"Either stack1_id {stack1_id} or stack2_id {stack2_id} are not in cache"
+            )
 
-    def _add_stack_to_cache(stack_id : int, id_list : List[int]) -> None:
+    def _add_stack_to_cache(stack_id: int, id_list: List[int]) -> None:
         """
         add list of id to stack cache
        
@@ -363,7 +383,7 @@ class BioPlateArray(np.ndarray):
         BioPlateArray._STACK_CACHE[stack_id] = id_list
         return None
 
-    def _add_plate_in_cache(plate_id : int, plate : np.ndarray) -> None:
+    def _add_plate_in_cache(plate_id: int, plate: np.ndarray) -> None:
         """
         add plate (np.ndarray) in cache
        

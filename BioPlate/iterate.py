@@ -8,41 +8,53 @@ from typing import (
     overload,
     Sequence,
     Generator,
-    Iterator
+    Iterator,
 )
 
 import numpy as np
+
 
 class BioPlateIterate:
     """A row is symbolise by it's letter, a column by a number"""
 
     @overload
-    def __new__(cls, plate : np.ndarray, order : str ="C", accumulate : bool =True, OnlyValue : bool =False) -> Iterator[Tuple[int, int]]: #pragma: no cover
+    def __new__(
+        cls,
+        plate: np.ndarray,
+        order: str = "C",
+        accumulate: bool = True,
+        OnlyValue: bool = False,
+    ) -> Iterator[Tuple[int, int]]:  # pragma: no cover
         pass
 
     @overload
-    def __new__(cls, plate : np.ndarray, order : str ="C", accumulate : bool =True, OnlyValue : bool =False) -> Iterator[Tuple[str, int]]: #pragma: no cover
+    def __new__(
+        cls,
+        plate: np.ndarray,
+        order: str = "C",
+        accumulate: bool = True,
+        OnlyValue: bool = False,
+    ) -> Iterator[Tuple[str, int]]:  # pragma: no cover
         pass
 
-
-    def __new__(cls, plate, order ="C", accumulate =True, OnlyValue = False) :
-        _ORDER : Dict[str, str] = {"C": "F", "R": "C"}
-        cls.order :  str = _ORDER[order]
-        cls.plate : np.ndarray = plate
-        cls.accumulate : bool = accumulate
-        cls.OnlyValue : bool = OnlyValue
+    def __new__(cls, plate, order="C", accumulate=True, OnlyValue=False):
+        _ORDER: Dict[str, str] = {"C": "F", "R": "C"}
+        cls.order: str = _ORDER[order]
+        cls.plate: np.ndarray = plate
+        cls.accumulate: bool = accumulate
+        cls.OnlyValue: bool = OnlyValue
         if cls.OnlyValue:
             return cls._iterate()
         return cls.iterate()
 
     @overload
-    def iterate(cls) -> Iterator[Tuple[int, int]]: #pragma: no cover
+    def iterate(cls) -> Iterator[Tuple[int, int]]:  # pragma: no cover
         pass
 
     @overload
-    def iterate(cls) -> Iterator[Tuple[str, int]]: #pragma: no cover
+    def iterate(cls) -> Iterator[Tuple[str, int]]:  # pragma: no cover
         pass
-        
+
     @classmethod
     def iterate(cls):
         """
@@ -84,7 +96,9 @@ class BioPlateIterate:
                     yield from cls.__iterate(plat)
 
     @classmethod
-    def __iterate(cls, plate : np.ndarray) -> Union[Iterator[str], Iterator[Tuple[str, str, str]]]:
+    def __iterate(
+        cls, plate: np.ndarray
+    ) -> Union[Iterator[str], Iterator[Tuple[str, str, str]]]:
         columns = plate[0, 1:]
         rows = plate[1:, 0:1]
         values = plate[1:, 1:]
@@ -94,6 +108,6 @@ class BioPlateIterate:
             yield rows, columns, values
 
     @classmethod
-    def _merge_R_C_(cls, row : str, column : str) -> str:
+    def _merge_R_C_(cls, row: str, column: str) -> str:
         RC = "".join(map(str, [row, column]))
         return RC
