@@ -79,7 +79,8 @@ class TestPlateFromExcel(unittest.TestCase):
         This function is run one time at the end of tests
         :return:
         """
-        pass
+        with contextlib.suppress(FileNotFoundError):
+            Path("test.xlsx").absolute().unlink()
 
     def setUp(self):
         """
