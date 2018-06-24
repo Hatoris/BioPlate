@@ -14,7 +14,7 @@ from typing import (
 import numpy as np
 
 
-class BioPlateIterate:
+class BioPlateIterate(Generator):
     """A row is symbolise by it's letter, a column by a number"""
 
     @overload

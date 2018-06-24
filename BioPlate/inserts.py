@@ -70,6 +70,12 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
     ) -> Union[np.ndarray, str]:  # pragma: no cover
         pass
 
+    @overload
+    def __getitem__(
+        self: "BioPlateInserts", index: Tuple[Union[int, slice], Union[int, slice], int, str]
+    ) -> Union[np.ndarray, str]:  # pragma: no cover
+        pass
+
     def __getitem__(self, index):
         if isinstance(index, tuple):
             if isinstance(index[1], str):
