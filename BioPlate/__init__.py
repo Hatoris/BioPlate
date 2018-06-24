@@ -1,1 +1,1 @@
-from BioPlate.plate import BioPlate
+from BioPlate.bioplate import BioPlate

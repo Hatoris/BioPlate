@@ -14,78 +14,17 @@ from typing import (
 from collections import OrderedDict
 
 from BioPlate.array import BioPlateArray
-from BioPlate.inserts import BioPlateInserts
 from BioPlate.manipulation import BioPlateManipulation
 from BioPlate.stack import BioPlateStack
 
 
-class BioPlate(BioPlateArray, BioPlateManipulation):
+class BioPlatePlate(BioPlateArray, BioPlateManipulation):
     """
     you can add on it all function of plate
     """
 
-    @overload
-    def __new__(
-        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
-        args: int,
-        args1: int,
-        inserts: bool = True,
-    ) -> BioPlateInserts:  # pragma: no cover
-        pass
-
-    @overload
-    def __new__(
-        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
-        args: int,
-        args1: int,
-        inserts: bool = False,
-    ) -> BioPlateArray:  # pragma: no cover
-        pass
-
-    @overload
-    def __new__(
-        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
-        args: int,
-        args1: int,
-        args2: int,
-        inserts: bool = False,
-    ) -> BioPlateStack:  # pragma: no cover
-        pass
-
-    @overload
-    def __new__(
-        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
-        args: int,
-        args1: int,
-        args2: int,
-        inserts: bool = True,
-    ) -> BioPlateStack:  # pragma: no cover
-        pass
-
-    @overload
-    def __new__(
-        cls: Union["BioPlate", BioPlateArray, BioPlateInserts, BioPlateStack],
-        args: Dict,
-        inserts: bool = False,
-    ) -> BioPlateStack:  # pragma: no cover
-        pass
-
     def __new__(cls, *args, **kwargs):
-        if len(args) == 2 or isinstance(args[0], dict):
-            if kwargs.get("inserts", False):
-                return BioPlateInserts(*args, **kwargs)
-            else:
-                return BioPlateArray.__new__(cls, *args, **kwargs)
-        elif len(args) == 3:
-            ID_list = []
-            nb_plates, *nargs = args
-            for nb_plate in range(nb_plates):
-                if kwargs.get("inserts", False):
-                    plate = BioPlateInserts(*nargs, **kwargs)
-                else:
-                    plate = BioPlateArray.__new__(cls, *nargs, **kwargs)
-                ID_list.append(id(plate))
-            return BioPlateStack(ID_list)
+        return BioPlateArray.__new__(cls, *args, **kwargs)
 
     def __init__(self: "BioPlate", *args, **kwargs) -> None:
         self.ID: int = id(self)

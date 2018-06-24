@@ -68,7 +68,7 @@ class BioPlateArray(np.ndarray):
         return BioPlateArray._PLATE_CACHE[ID]
 
     def __getitem__(
-        self, index: Tuple[Union[int, slice], Union[int, slice]]
+        self, index: Tuple[Union[int, slice], Union[int, slice], int, str]
     ) -> np.ndarray:
         if isinstance(index, str):
             well = BioPlateMatrix(index)

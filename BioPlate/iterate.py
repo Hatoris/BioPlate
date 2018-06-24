@@ -54,7 +54,7 @@ class BioPlateIterate:
     @overload
     def iterate(cls) -> Iterator[Tuple[str, int]]:  # pragma: no cover
         pass
-
+    
     @classmethod
     def iterate(cls):
         """
@@ -82,7 +82,7 @@ class BioPlateIterate:
 
     @classmethod
     def _iterate(cls) -> Union[Iterator[str], Iterator[Tuple[str, str, str]]]:
-        bp = cls.plate.name == "BioPlate"
+        bp = cls.plate.name == "BioPlatePlate"
         bpi = cls.plate.name == "BioPlateInserts"
         bps = cls.plate.name == "BioPlateStack"
         if bp:

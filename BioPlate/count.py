@@ -84,8 +84,8 @@ class BioPlateCount:
 
     @classmethod
     def count(cls):
-        if cls.plate.name == "BioPlate":
-            return cls.count_BioPlate()
+        if cls.plate.name == "BioPlatePlate":
+            return cls.count_BioPlatePlate()
         elif cls.plate.name == "BioPlateInserts":
             return cls.count_BioPlateInserts()
         else:
@@ -99,7 +99,7 @@ class BioPlateCount:
         return result
 
     @classmethod
-    def count_BioPlate(cls) -> Dict[str, int]:
+    def count_BioPlatePlate(cls) -> Dict[str, int]:
         return cls.__count(next(cls.plate_iterated))
 
     @overload
@@ -119,8 +119,8 @@ class BioPlateCount:
         result = {}
         index = 0
         for plate in BioPlateIterate(cls.plate, OnlyValue=True):
-            if plate.name == "BioPlate":
-                result[index] = cls.count_BioPlate()
+            if plate.name == "BioPlatePlate":
+                result[index] = cls.count_BioPlatePlate()
                 pass
             elif plate.name == "BioPlateInserts":
                 try:

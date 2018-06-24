@@ -4,8 +4,9 @@ from typing import List, Tuple, Dict, Callable, Union, Iterable
 
 import pyexcel_xlsx as pex
 
+from BioPlate import BioPlate
 from BioPlate.inserts import BioPlateInserts
-from BioPlate.plate import BioPlate
+from BioPlate.plate import BioPlatePlate
 from BioPlate.stack import BioPlateStack
 from BioPlate.utilitis import _LETTER
 
@@ -42,9 +43,6 @@ class _BioPlateFromExcel:
         self.plate_infos = plate_infos
         try:
             self.loaded_file = pex.get_data(self.file_name)
-        #           with open(self.file_name, "rb") as f:
-        #               file = BytesIO(f.read())
-        #           self.loaded_file = pex.get_data(self.file_name, read_only=True)
         except FileNotFoundError:
             sys.exit(f"{self.file_name} not found !")
         self.no_empty_sheets = self._get_no_empty_sheets()
@@ -67,19 +65,19 @@ class _BioPlateFromExcel:
         """type, plate object in stack with column snd row"""
         if self.plate_infos is None:
             # do stuff with header
-            type = self._guess_type(value)
+            Type = self._guess_type(value)
             stack = self._get_stack(value)
             column, row = self._guess_column_row(value)
         else:
             # do stuff with plate infos
-            TYPE = {"BioPlate": BioPlate, "BioPlateInserts": BioPlateInserts}
+            TYPE = {"BioPlatePlate": BioPlatePlate, "BioPlateInserts": BioPlateInserts}
             infos = self.plate_infos[sheetname]
             header = infos.get("header", False)
             stack = infos.get("stack", False)
-            type = TYPE.get(infos.get("type", "BioPlate"))
+            Type = TYPE.get(infos.get("type", "BioPlatePlate"))
             column = infos.get("column")
             row = infos.get("row")
-        return type, stack, column, row
+        return Type, stack, column, row
 
     def is_insert(self, value):
         val = value[0][0]
@@ -92,7 +90,7 @@ class _BioPlateFromExcel:
         if self.is_insert(value):
             return BioPlateInserts
         else:
-            return BioPlate
+            return BioPlatePlate
 
     def _get_stack(self, value: List[List], sheetname: str = None) -> bool:
         """this function have to guess from list[list] if it is a stack or not """
@@ -106,9 +104,9 @@ class _BioPlateFromExcel:
                 if self.is_insert(value):
                     return stack
                 else:
-                    return True  # two BioPlate
+                    return True  # two BioPlatePlate
             else:
-                return False  # a BioPlate alone
+                return False  # a BioPlatePlate alone
         else:
             return self.plate_infos[sheetname].get("stack", False)
 
@@ -154,13 +152,13 @@ class _BioPlateFromExcel:
             yield [value[:row], value[row + 1 : rowS]]
             yield value[rowS:]
 
-    def _instance_of_plate(self, type, column, row):
-        return type(column, row)
+    def _instance_of_plate(self, Type, column, row):
+        return Type(column, row)
 
     def _get_one_plate(self, values: List[List], sheetname: str) -> Callable:
-        type, stack, column, row = self._get_plate_informations(values, sheetname)
-        plate = self._instance_of_plate(type, column, row)
-        if plate.name == "BioPlate":
+        Type, stack, column, row = self._get_plate_informations(values, sheetname)
+        plate = self._instance_of_plate(Type, column, row)
+        if plate.name == "BioPlatePlate":
             plates, rest = self._pre_bp_iterate(values, row)
             for i, val in self._iterate_bp_value(plates, row):
                 plate.set(_LETTER[i], val)

@@ -565,7 +565,7 @@ class TestPlate(unittest.TestCase):
         self.stack.set(1, "B6", "test1")
         self.assertEqual(
             self.plt.save("test save", db_hist_name="test_plate_historic.db"),
-            "BioPlate test save with 96 wells was successfully added to database test_plate_historic.db",
+            "BioPlatePlate test save with 96 wells was successfully added to database test_plate_historic.db",
         )
         self.plt.set("H5", "lol")
         self.assertEqual(
@@ -1111,7 +1111,7 @@ class TestPlate(unittest.TestCase):
         )
 
     def test_name(self):
-        self.assertEqual(self.plt.name, "BioPlate")
+        self.assertEqual(self.plt.name, "BioPlatePlate")
         self.assertEqual(self.Inserts.name, "BioPlateInserts")
         self.assertEqual(self.stack.name, "BioPlateStack")
 

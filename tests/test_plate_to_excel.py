@@ -4,7 +4,7 @@ import numpy as np
 
 from pathlib import Path, PurePath
 from pyexcel_xlsx import get_data
-from BioPlate.plate import BioPlate
+from BioPlate import BioPlate
 from BioPlate.writer.to_excel import BioPlateToExcel
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
@@ -37,7 +37,7 @@ def remove_np_tail(liste):
 
 def like_read_excel(plate, header=True, lst=None):
     rm_empty = [] if lst is None else lst
-    if plate.name == "BioPlate":
+    if plate.name == "BioPlatePlate":
         return clean_list(rm_empty, plate, header=header)
     elif plate.name == "BioPlateInserts":
         n = 0
@@ -96,7 +96,7 @@ def like_read_data(plate, accumulate=True, order="C", header=None, stack=False):
         pass
     else:
         val = len(rm_empty[0])
-        if plate.name == "BioPlate":
+        if plate.name == "BioPlatePlate":
             header = ["well", "value0"]
         elif plate.name == "BioPlateInserts":
             if accumulate:
@@ -121,7 +121,7 @@ def like_read_data(plate, accumulate=True, order="C", header=None, stack=False):
 
 
 def like_read_data_stack(stack, accumulate=True, order="C", header=None):
-    if stack[0].name == "BioPlate":
+    if stack[0].name == "BioPlatePlate":
         if accumulate:
             header = ["well", "value0"]
         else:

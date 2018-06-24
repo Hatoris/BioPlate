@@ -4,7 +4,7 @@ import numpy as np
 import BioPlate.utilitis as bpu
 
 from pathlib import Path, PurePath
-from BioPlate.plate import BioPlate
+from BioPlate import BioPlate
 from BioPlate.matrix import BioPlateMatrix
 from string import ascii_uppercase
 
