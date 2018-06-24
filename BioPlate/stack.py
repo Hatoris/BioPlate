@@ -87,7 +87,7 @@ class BioPlateStack(BioPlateManipulation):
         newstack = list(OrderedDict.fromkeys(newstack))
         return BioPlateStack(newstack)
 
-    def change_args(func: Callable) -> Callable:
+    def change_args(func: Any):
         def wrapper(self, *args, **kwargs):
             bioplate = self[args[0]]
             if len(bioplate.shape) == 2:

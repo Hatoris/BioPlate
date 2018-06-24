@@ -58,7 +58,7 @@ def BioPlate(
 def BioPlate(
     args: Dict,
     inserts: bool = False,
-) -> BioPlateStack:  # pragma: no cover
+) -> Union[BioPlatePlate, BioPlateInserts, BioPlateStack]:  # pragma: no cover
     pass
 
 def BioPlate(*args, **kwargs):

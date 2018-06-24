@@ -23,8 +23,7 @@ from BioPlate.matrix import BioPlateMatrix
 
 class BioPlateInserts(BioPlateArray, BioPlateManipulation):
     def __new__(
-        cls: Union["BioPlateInserts", BioPlateArray], *args: int, **kwargs
-    ) -> "BioPlateInserts":
+        cls, *args, **kwargs):
         return BioPlateArray.__new__(cls, *args, inserts=True)
 
     def __init__(self: "BioPlateInserts", *args, **kwargs) -> None:
@@ -81,11 +80,23 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
                     return plt[well.row, well.column]
         return super(BioPlateInserts, self).__getitem__(index)
 
+    @overload
+    def __setitem__(
+        self: "BioPlateInserts",
+        index : Tuple[Union[int, slice], Union[int, slice]],
+        value : Union[List[int], List[str], int, str],
+    ) -> None : # pragma: no cover 
+        pass
+
+    @overload
     def __setitem__(
         self: "BioPlateInserts",
         index: Union[str, Tuple[int, slice], int],
         value: Union[List[int], List[str], int, str],
-    ) -> None:
+    ) -> None:#pragma: no cover
+        pass
+
+    def __setitem__(self, index, value):
         if isinstance(index, tuple):
             if isinstance(index[1], str):
                 ind = {"top": 0, "bot": 1, 0: 0, 1: 1}

@@ -1,6 +1,6 @@
 import pyexcel_xlsx as pex
 import sys
-from typing import List, Tuple, Dict, Callable, Union, Iterable
+from typing import List, Tuple, Dict, Callable, Union, Iterable, Any, Iterator, overload
 
 import pyexcel_xlsx as pex
 
@@ -79,13 +79,21 @@ class _BioPlateFromExcel:
             row = infos.get("row")
         return Type, stack, column, row
 
-    def is_insert(self, value):
+    def is_insert(self, value: List[List]) -> bool:
         val = value[0][0]
         if val in ["TOP", "BOT"]:
             return True
         return False
 
-    def _guess_type(self, value: List[List]) -> Tuple[Callable, bool]:
+    @overload
+    def _guess_type(self, value : List[List]) -> BioPlatePlate:#pragma: no cover
+        pass
+
+    @overload
+    def _guess_type(self, value : List[List]) -> BioPlateInserts:#pragma: no cover
+        pass
+
+    def _guess_type(self, value):
         """this function have to guess from list[list] the shape of plate and return plate class to use"""
         if self.is_insert(value):
             return BioPlateInserts
@@ -119,7 +127,7 @@ class _BioPlateFromExcel:
             row = len(value) - 1
         return column, row
 
-    def _get_BioPlate_object(self):
+    def _get_BioPlate_object(self) -> Dict[str, Union[BioPlatePlate, BioPlateInserts, BioPlateStack]]:
         final = dict()
         for sheetname, value in self.no_empty_sheets.items():
             if self._get_stack(value, sheetname):
@@ -130,7 +138,7 @@ class _BioPlateFromExcel:
                 final[sheetname] = next(self._get_one_plate(value, sheetname))
         return final
 
-    def _pre_bp_iterate(self, value, row):
+    def _pre_bp_iterate(self, value : List[List], row : int)-> Iterator:
         if self.plate_infos is None:
             # 1 header + 1 empty
             yield value[: row + 1]
@@ -140,7 +148,7 @@ class _BioPlateFromExcel:
             yield value[:row]
             yield value[row + 1 :]
 
-    def _pre_bpi_iterate(self, value, row):
+    def _pre_bpi_iterate(self, value : List[List], row : int)-> Iterator:
         if self.plate_infos is None:
             # 2 plate + 2 header + 2 empty
             rowS = row + row + 2 + 2
@@ -152,10 +160,18 @@ class _BioPlateFromExcel:
             yield [value[:row], value[row + 1 : rowS]]
             yield value[rowS:]
 
-    def _instance_of_plate(self, Type, column, row):
+    @overload
+    def _instance_of_plate(self, Type : Callable[[int, int], BioPlatePlate], column : int, row : int):#pragma: no cover
+        pass
+
+    @overload
+    def _instance_of_plate(self, Type : Callable[[int, int], BioPlateInserts], column : int, row : int):#pragma: no cover
+        pass
+
+    def _instance_of_plate(self, Type , column , row):
         return Type(column, row)
 
-    def _get_one_plate(self, values: List[List], sheetname: str) -> Callable:
+    def _get_one_plate(self, values: List[List], sheetname: str) -> Iterator:
         Type, stack, column, row = self._get_plate_informations(values, sheetname)
         plate = self._instance_of_plate(Type, column, row)
         if plate.name == "BioPlatePlate":
@@ -172,7 +188,7 @@ class _BioPlateFromExcel:
 
     def _iterate_bpi_value(
         self, plates: List[List], row: int
-    ) -> Union[Iterable[Tuple[int, str, List]], Iterable[Tuple[int, str, str]]]:
+    ) -> Union[Iterator[Tuple[int, str, List]]]:
         position = "top"
         for plate in plates:
             if self.plate_infos is None:
@@ -185,7 +201,7 @@ class _BioPlateFromExcel:
                     yield i, position, val
             position = "top" if position == "bot" else "bot"
 
-    def _iterate_bp_value(self, plate: List[List], row: int) -> Tuple[int, List]:
+    def _iterate_bp_value(self, plate: List[List], row: int) -> Iterator[Tuple[int, List]]:
         if self.plate_infos is None:
             for i, val in enumerate(plate[1:]):
                 i = i % row

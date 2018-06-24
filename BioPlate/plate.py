@@ -26,11 +26,11 @@ class BioPlatePlate(BioPlateArray, BioPlateManipulation):
     def __new__(cls, *args, **kwargs):
         return BioPlateArray.__new__(cls, *args, **kwargs)
 
-    def __init__(self: "BioPlate", *args, **kwargs) -> None:
+    def __init__(self: "BioPlatePlate", *args, **kwargs) -> None:
         self.ID: int = id(self)
 
     def __add__(
-        self: "BioPlate", other: Union[BioPlateArray, BioPlateStack]
+        self: "BioPlatePlate", other: Union[BioPlateArray, BioPlateStack]
     ) -> BioPlateStack:
         if isinstance(other, BioPlateStack):
             newstack = BioPlateArray._get_stack_in_cache(other.ID)
