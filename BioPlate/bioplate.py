@@ -13,28 +13,10 @@ from typing import (
 
 from collections import OrderedDict
 
-from BioPlate.array import BioPlateArray
-from BioPlate.manipulation import BioPlateManipulation
 from BioPlate.plate import BioPlatePlate
 from BioPlate.inserts import BioPlateInserts
 from BioPlate.stack import BioPlateStack
 
-
-@overload
-def BioPlate(
-    column: int,
-    row: int,
-    inserts: bool = True,
-) -> BioPlateInserts:  # pragma: no cover
-    pass
-
-@overload
-def BioPlate(
-    column: int,
-    row: int,
-    inserts: bool = False,
-) -> BioPlatePlate:  # pragma: no cover
-    pass
 
 @overload
 def BioPlate(
@@ -59,6 +41,22 @@ def BioPlate(
     args: Dict,
     inserts: bool = False,
 ) -> Union[BioPlatePlate, BioPlateInserts, BioPlateStack]:  # pragma: no cover
+    pass
+    
+@overload
+def BioPlate(
+    column: int,
+    row: int,
+    inserts: bool = False,
+) -> BioPlatePlate:  # pragma: no cover
+    pass    
+
+@overload
+def BioPlate(
+    column: int,
+    row: int,
+    inserts: bool = True,
+) -> BioPlateInserts:  # pragma: no cover
     pass
 
 def BioPlate(*args, **kwargs):
