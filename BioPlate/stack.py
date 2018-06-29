@@ -105,32 +105,6 @@ class BioPlateStack(BioPlateManipulation):
                 return func(self, bioplate, *args, **kwargs)
         return wrapper
 
-    def items(self, order="C", accumulate = True):
-        _ORDER: Dict[str, str] = {"C": "F", "R": "C"}
-        if accumulate:
-            va = []
-            for i in range(len(self)):
-                va.append(getattr(self[i], "items")(order = order, accumulate = accumulate))
-            for *p, in zip(*va):
-                val = [(a, *b) for (a, *b) in zip(*p)]
-                yield tuple(self._items(val))
-        else:
-            for i, plate in enumerate(self):
-                for value in plate.items(order=order, accumulate = accumulate):
-                    yield tuple([i] +[v for v in value])
-
-    def _items(self, value_list):
-        pull = []
-        n = 0
-        for x, y, *z in zip(*value_list):
-            if n == 0:
-                pull.append(x)
-            n = 1
-            pull.append(y)
-            if z:
-                pull.append(z[0])
-        return pull
-
     @change_args
     def set(self, bioplate, *args, **kwargs):
         bioplate.set(*args, **kwargs)

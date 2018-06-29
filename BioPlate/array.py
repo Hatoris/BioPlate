@@ -102,14 +102,6 @@ class BioPlateArray(np.ndarray):
             super(BioPlateArray, self).__setitem__(index, value)
             return
 
-#    def items(self, order="C", accumulate = True):
-#        _ORDER: Dict[str, str] = {"C": "F", "R": "C"}
-#        columns = self[0, 1:]
-#        rows = self[1:, 0:1]
-#        values = self[1:, 1:]
-#        for row, column, value in np.nditer((rows, columns, values), order = _ORDER[order]):
-#            yield "".join(map(str, [row, column])), str(value)
-
     @overload
     def bioplatearray(
         *args: int, **kwargs: str
