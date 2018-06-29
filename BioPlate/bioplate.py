@@ -22,34 +22,34 @@ from BioPlate.stack import BioPlateStack
 
 @overload
 def BioPlate(
-    args: int,
-    args1: int,
+    column: int,
+    row: int,
     inserts: bool = True,
 ) -> BioPlateInserts:  # pragma: no cover
     pass
 
 @overload
 def BioPlate(
-    args: int,
-    args1: int,
+    column: int,
+    row: int,
     inserts: bool = False,
 ) -> BioPlatePlate:  # pragma: no cover
     pass
 
 @overload
 def BioPlate(
-    args: int,
-    args1: int,
-    args2: int,
+    nb: int,
+    column: int,
+    row: int,
     inserts: bool = False,
 ) -> BioPlateStack:  # pragma: no cover
     pass
 
 @overload
 def BioPlate(
-    args: int,
-    args1: int,
-    args2: int,
+    nb: int,
+    column: int,
+    row: int,
     inserts: bool = True,
 ) -> BioPlateStack:  # pragma: no cover
     pass
@@ -63,7 +63,22 @@ def BioPlate(
 
 def BioPlate(*args, **kwargs):
     """
-    you can add on it all function of plate
+    Entry point to create plate object.
+    Parameters
+    ------------------
+    number_of_plate : int, optional
+        number of plate to create in a stack
+     column: int
+         number of column in one plate
+     row: int
+         number of row in one plate
+      plate_history_id : Dict
+          id of plate
+       inserts : bool, optional
+           if plate objwct is an inserts
+      Return
+      -----------
+      plate object
     """
     if len(args) == 2 or isinstance(args[0], dict):
         if kwargs.get("inserts", False):

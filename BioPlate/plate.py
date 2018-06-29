@@ -10,6 +10,7 @@ from typing import (
     Generator,
     ClassVar,
 )
+import numpy as np 
 
 from collections import OrderedDict
 
@@ -23,7 +24,7 @@ class BioPlatePlate(BioPlateArray, BioPlateManipulation):
     you can add on it all function of plate
     """
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs) -> "BioPlatePlate":
         return BioPlateArray.__new__(cls, *args, **kwargs)
 
     def __init__(self: "BioPlatePlate", *args, **kwargs) -> None:

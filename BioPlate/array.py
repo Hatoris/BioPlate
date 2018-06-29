@@ -42,7 +42,7 @@ class BioPlateArray(np.ndarray):
     @overload
     def __new__(
         cls: np.ndarray, *args: Dict, **kwargs: str
-    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
+    ) -> np.ndarray:  # pragma: no cover
         pass
 
     def __new__(cls, *args, **kwargs):

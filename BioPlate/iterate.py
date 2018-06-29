@@ -17,27 +17,23 @@ import numpy as np
 class BioPlateIterate:
     """A row is symbolise by it's letter, a column by a number"""
 
-    @overload
-    def __new__(
+#    @overload
+#    def __new__(
+#        cls,
+#        plate: np.ndarray,
+#        order: str = "C",
+#        accumulate: bool = True,
+#        OnlyValue: bool = False,
+#    ) -> Iterator:  # pragma: no cover
+#        pass
+
+    def  __new__(
         cls,
         plate: np.ndarray,
         order: str = "C",
         accumulate: bool = True,
         OnlyValue: bool = False,
-    ) -> Iterator[Tuple[int, int]]:  # pragma: no cover
-        pass
-
-    @overload
-    def __new__(
-        cls,
-        plate: np.ndarray,
-        order: str = "C",
-        accumulate: bool = True,
-        OnlyValue: bool = False,
-    ) -> Iterator[Tuple[str, int]]:  # pragma: no cover
-        pass
-
-    def __new__(cls, plate, order="C", accumulate=True, OnlyValue=False):
+    ) -> Iterator:
         _ORDER: Dict[str, str] = {"C": "F", "R": "C"}
         cls.order: str = _ORDER[order]
         cls.plate: np.ndarray = plate
