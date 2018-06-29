@@ -102,6 +102,14 @@ class BioPlateArray(np.ndarray):
             super(BioPlateArray, self).__setitem__(index, value)
             return
 
+#    def items(self, order="C", accumulate = True):
+#        _ORDER: Dict[str, str] = {"C": "F", "R": "C"}
+#        columns = self[0, 1:]
+#        rows = self[1:, 0:1]
+#        values = self[1:, 1:]
+#        for row, column, value in np.nditer((rows, columns, values), order = _ORDER[order]):
+#            yield "".join(map(str, [row, column])), str(value)
+
     @overload
     def bioplatearray(
         *args: int, **kwargs: str
@@ -285,7 +293,7 @@ class BioPlateArray(np.ndarray):
         except KeyError:
             raise KeyError(f"stack {stack_id} is not in stack cache")
 
-    def _get_plate_in_stack(stack_id: int, plate_index: int) -> np.ndarray:
+    def _get_plate_in_stack(stack_id : int, plate_index : int) -> np.ndarray:
         """
         return a plate (np.ndarray) for a given stack_id, and plate_index in stack
        

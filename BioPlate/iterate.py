@@ -44,8 +44,9 @@ class BioPlateIterate:
         cls.accumulate: bool = accumulate
         cls.OnlyValue: bool = OnlyValue
         if cls.OnlyValue:
-            return cls._iterate()
-        return cls.iterate()
+            yield from cls._iterate()
+        else:
+            yield from cls.iterate()
 
     @overload
     def iterate(cls) -> Iterator[Tuple[int, int]]:  # pragma: no cover

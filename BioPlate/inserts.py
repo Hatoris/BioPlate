@@ -40,6 +40,29 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
         newstack = list(OrderedDict.fromkeys(newstack))
         return BioPlateStack(newstack)
 
+    def items(self, order="C", accumulate = True):
+        _ORDER: Dict[str, str] = {"C": "F", "R": "C"}
+        n = 0
+        columns = self[0, 0, 1:]
+        rows = self[0, 1:, 0:1]
+        top_values = self[0, 1:, 1:]
+        bot_values = self[1, 1:, 1:]
+        if accumulate:
+            for row, column, top_value, bot_value in np.nditer((rows, columns, top_values, bot_values), order = _ORDER[order]):
+                yield "".join(map(str, [row, column])), str(top_value), str(bot_value)
+        else:
+            for part in self:
+                columns = part[0, 1:]
+                rows = part[1:, 0:1]
+                values = part[1:, 1:]
+                for row, column, value in np.nditer((rows, columns, values), order = _ORDER[order]):
+                    if n == 0:               
+                        yield "top", "".join(map(str, [row, column])), str(value)
+                    else:
+                        yield "bot", "".join(map(str, [row, column])), str(value)
+                n = 1
+            
+
     @overload
     def __getitem__(
         self: "BioPlateInserts", index: int
