@@ -565,7 +565,7 @@ class TestPlate(unittest.TestCase):
         self.stack.set(1, "B6", "test1")
         self.assertEqual(
             self.plt.save("test save", db_hist_name="test_plate_historic.db"),
-            "BioPlate test save with 96 wells was successfully added to database test_plate_historic.db",
+            "BioPlatePlate test save with 96 wells was successfully added to database test_plate_historic.db",
         )
         self.plt.set("H5", "lol")
         self.assertEqual(
@@ -1062,26 +1062,26 @@ class TestPlate(unittest.TestCase):
             self.plt.get("C[1,6]"), ["", "Test1", "Test1", "Test1", "Test1", "Test1"]
         )
 
-    def test_eval_well(self):
-        self.plt.set(self.Value)
-        np.testing.assert_array_equal(
-            self.plt._eval_well(bpu.EL("C", slice(1, None), 2)),
-            np.array(["", "", "Test1", "", "", "", "", ""], dtype="U40"),
-        )
-        np.testing.assert_array_equal(
-            self.plt._eval_well(bpu.EL("R", 2, slice(1, None))),
-            np.array(
-                ["", "", "", "", "", "", "", "", "", "", "Test2", ""], dtype="U40"
-            ),
-        )
-        np.testing.assert_array_equal(
-            self.plt._eval_well(bpu.EL("R", slice(2, 4), 8)),
-            np.array(["", "Test1"], dtype="U40"),
-        )
-        np.testing.assert_array_equal(
-            self.plt._eval_well(bpu.EL("C", 3, slice(4, 8))),
-            np.array(["Test1", "Test1", "Test1", "Test1"], dtype="U40"),
-        )
+#    def test_eval_well(self):
+#        self.plt.set(self.Value)
+#        np.testing.assert_array_equal(
+#            self.plt._eval_well(bpu.EL("C", slice(1, None), 2)),
+#            np.array(["", "", "Test1", "", "", "", "", ""], dtype="U40"),
+#        )
+#        np.testing.assert_array_equal(
+#            self.plt._eval_well(bpu.EL("R", 2, slice(1, None))),
+#            np.array(
+#                ["", "", "", "", "", "", "", "", "", "", "Test2", ""], dtype="U40"
+#            ),
+#        )
+#        np.testing.assert_array_equal(
+#            self.plt._eval_well(bpu.EL("R", slice(2, 4), 8)),
+#            np.array(["", "Test1"], dtype="U40"),
+#        )
+#        np.testing.assert_array_equal(
+#            self.plt._eval_well(bpu.EL("C", 3, slice(4, 8))),
+#            np.array(["Test1", "Test1", "Test1", "Test1"], dtype="U40"),
+#        )
 
     def test_get_values(self):
         self.plt.set(self.Value)
@@ -1111,7 +1111,7 @@ class TestPlate(unittest.TestCase):
         )
 
     def test_name(self):
-        self.assertEqual(self.plt.name, "BioPlate")
+        self.assertEqual(self.plt.name, "BioPlatePlate")
         self.assertEqual(self.Inserts.name, "BioPlateInserts")
         self.assertEqual(self.stack.name, "BioPlateStack")
 
@@ -1165,7 +1165,9 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(ins.top.get("C5"), "t_5")
         self.stack.set(0, "A3", "_bob", merge=True)
         self.assertEqual(self.stack.get(0, "A3"), "Test_2_bob")
-
+        self.plt.set({"A2" : "_A", "A3" : "_B"}, merge=True)
+        self.assertEqual(self.plt["A2"], "Test_1_A")
+        self.assertEqual(self.plt["A3"], "Test_2_bob_B")
 
     def test_raise_inserts(self):
         with self.assertRaises(ValueError):
@@ -1183,7 +1185,27 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(Nins.get(2, "bot", "A1"), "gulu")
         self.assertEqual(PNins.get(1, "top", "A1"), "gaston")
         
-        
-        
+    def test_set_get_item(self):
+       p = BioPlate(12,8)
+       p["A[4-6]"] = "bob"
+       self.assertEqual(p["A6"], "bob")
+       
+    def test_insert_set_get(self):
+        ii = BioPlate(12, 8, inserts=True)
+        ii["top", "A[3-7]"] = "Bob"
+        ii["bot", "B-D[6-9]"] = ["t1", "t2", "t3"]
+        ii[0, "7-10[F-H]"] = ["t4", "t5", "t6", "t7"]
+        self.assertEqual(ii.top.get("A4" ), "Bob")
+        self.assertEqual(ii.bot.get("C7" ), "t2")
+        self.assertEqual(ii.top.get("G8" ), "t5")
+        self.assertEqual(ii["top", "A5"], "Bob")
+        self.assertEqual(ii["bot", "B6"], "t1")
+        self.assertEqual(ii[0, "H10"], "t7")
+        self.assertEqual(ii[1, 3, 8], "t2")
+
+    def test_partial_value(self):
+        pl = BioPlate(12, 8)
+        pl["A[5-9]"] = ["test", "test2", "test3"]
+                
 if __name__ == "__main__":
     unittest.main()

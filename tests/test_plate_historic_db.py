@@ -124,7 +124,7 @@ class TestPlateDB(unittest.TestCase):
         )
         self.assertEqual(
             add_hplate_1,
-            "BioPlate second plate with 6 wells was successfully added to database test_plate_historic.db",
+            "BioPlatePlate second plate with 6 wells was successfully added to database test_plate_historic.db",
         )
         self.assertEqual(add_hplate_2, 2)
         self.assertEqual(

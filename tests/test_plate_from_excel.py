@@ -5,7 +5,7 @@ import openpyxl
 
 from pathlib import Path, PurePath
 from pyexcel_xlsx import get_data
-from BioPlate.plate import BioPlate
+from BioPlate import BioPlate
 from BioPlate.writer.from_excel import BioPlateFromExcel, _BioPlateFromExcel
 from typing import Union, List
 from io import BytesIO
@@ -79,7 +79,8 @@ class TestPlateFromExcel(unittest.TestCase):
         This function is run one time at the end of tests
         :return:
         """
-        pass
+        with contextlib.suppress(FileNotFoundError):
+            Path("test.xlsx").absolute().unlink()
 
     def setUp(self):
         """
@@ -161,7 +162,7 @@ class TestPlateFromExcel(unittest.TestCase):
                 "row": 8,
                 "column": 12,
                 "stack": False,
-                "type": "BioPlate",
+                "type": "BioPlatePlate",
             }
         }
         From = BioPlateFromExcel(
@@ -193,7 +194,7 @@ class TestPlateFromExcel(unittest.TestCase):
                 "row": 8,
                 "column": 12,
                 "stack": True,
-                "type": "BioPlate",
+                "type": "BioPlatePlate",
             }
         }
         From = BioPlateFromExcel(

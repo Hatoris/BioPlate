@@ -2,10 +2,10 @@ from io import BytesIO
 
 import xlsxwriter
 
+from BioPlate import BioPlate
 from BioPlate.inserts import BioPlateInserts
-from BioPlate.plate import BioPlate
 from BioPlate.stack import BioPlateStack
-
+from BioPlate.plate import BioPlatePlate
 
 class BioPlateToExcel:
 
@@ -110,11 +110,11 @@ class BioPlateToExcel:
         """
         get representation of BioPlate in excel file
         """
-        if isinstance(BPlate, BioPlate):
+        if isinstance(BPlate, BioPlatePlate):
             self._representation(BPlate)
         elif isinstance(BPlate, BioPlateStack):
             for plate in BPlate:
-                if isinstance(plate, BioPlate):
+                if isinstance(plate, BioPlatePlate):
                     self._representation(plate)
                 elif isinstance(plate, BioPlateInserts):
                     self._representation_inserts(plate)

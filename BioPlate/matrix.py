@@ -1,12 +1,18 @@
 import re
-from typing import Tuple, Dict
+from typing import Tuple, Dict, NamedTuple, Optional, Union
 
 import numpy as np
 
 import BioPlate.utilitis as bpu
 
 
-class BioPlateMatrix:
+class Matrix(NamedTuple):  # pragma: no cover
+    pos: str
+    row: Union[int, slice]
+    column: Union[int, slice]
+
+
+class BioPlateMatrix(Matrix):
     """
     Evaluate user call and return usefull information to interact with plate. Calls are cache in dict.
     format of well :
@@ -44,14 +50,15 @@ class BioPlateMatrix:
         """
         split string well to row column
         """
+        row: str
+        column: str
         try:  # A5, 2[B-H]
-            row, column = list(reversed(sorted(filter(None, re.split("(\d+)", well)))))
+            row, column = list(reversed(sorted(filter(None, bpu._CP1.split(well)))))
         except ValueError:
             try:  # D[1-6]
-                row, column = list(sorted(filter(None, re.split("([A-Za-z])", well))))
+                row, column = sorted(filter(None, bpu._CP2.split(well)))
             except ValueError:  # 1-5[D-F]
-                comp = re.compile("(\w+[\-|\,]\w+)")
-                row, column = re.findall(comp, well)
+                row, column = bpu._CP3.findall(well)
         return column, row
 
     @staticmethod
@@ -77,7 +84,6 @@ class BioPlateMatrix:
         elif lrow == 1 and lcolumn == 1:
             ro = BioPlateMatrix._well_letter_index(row)
             return bpu.EL("W", int(ro), int(column))
-
         elif lrow > 1 and lcolumn == 1:
             row1, row2 = list(
                 map(
@@ -86,8 +92,7 @@ class BioPlateMatrix:
                 )
             )
             return bpu.EL("C", slice(int(row1), int(row2) + 1, 1), int(column))
-
-        elif lcolumn > 1 and lrow == 1:
+        else:  # lcolumn > 1 and lrow == 1:
             column1, column2 = sorted(
                 map(int, BioPlateMatrix._multi_row_column(column))
             )
@@ -125,11 +130,11 @@ class BioPlateMatrix:
         return np.searchsorted(bpu._LETTER, row_letter) + 1
 
     @staticmethod
-    def _test_for_0(well: str) -> None:
+    def _test_for_0(well: str) -> Optional[str]:
         zero = re.compile("(^\D*0\D*$)")
         test = list(filter(zero.search, re.split("(\d+)", well)))
         if not test:
-            pass
+            return None
         else:
             raise ValueError(f"well = {well} is not allowed, column 0 is forbiden")
 

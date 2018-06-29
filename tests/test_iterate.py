@@ -3,7 +3,7 @@ import contextlib
 import numpy as np
 
 from pathlib import Path, PurePath
-from BioPlate.plate import BioPlate
+from BioPlate import BioPlate
 from BioPlate.iterate import BioPlateIterate
 from string import ascii_uppercase
 
@@ -1547,6 +1547,8 @@ class TestIterate(unittest.TestCase):
             ],
         )
 
+    def test_plt_onlyvalue(self):
+        np.array_equal([self.plt[1:, 1:]], list(BioPlateIterate(self.plt, OnlyValue=True)))
 
 if __name__ == "__main__":
     unittest.main()
