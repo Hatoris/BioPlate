@@ -25,10 +25,10 @@ class BioPlateManipulation:
     This parent class grouped all method that can be applied to BioPlate instance.
     """
 
-    def __getitem__(self, index):
+    def __getitem__(self, index): #pragma: no cover
         return self[index]
 
-    def __setitem__(self, index, value):
+    def __setitem__(self, index, value):#pragma: no cover
         self[index] = value
 
     @property

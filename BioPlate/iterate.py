@@ -44,10 +44,10 @@ class BioPlateIterate:
         else:
             yield from cls.iterate()
 
-    def __iter__(self):
+    def __iter__(self): #pragma: no cover
         return self
 
-    def __next__(self):
+    def __next__(self):#pragma: no cover
         pass
 
     @classmethod
