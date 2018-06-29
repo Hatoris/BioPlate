@@ -44,16 +44,14 @@ class BioPlateIterate:
         else:
             yield from cls.iterate()
 
-    @overload
-    def iterate(cls) -> Iterator[Tuple[int, int]]:  # pragma: no cover
+    def __iter__(self):
+        return self
+
+    def __next__(self):
         pass
 
-    @overload
-    def iterate(cls) -> Iterator[Tuple[str, int]]:  # pragma: no cover
-        pass
-    
     @classmethod
-    def iterate(cls):
+    def iterate(cls) -> Iterator:
         """
         generator return [well, value]
         
@@ -78,7 +76,7 @@ class BioPlateIterate:
         return row, column, tuple(values)
 
     @classmethod
-    def _iterate(cls) -> Union[Iterator[str], Iterator[Tuple[str, str, str]]]:
+    def _iterate(cls) -> Iterator:
         bp = cls.plate.name == "BioPlatePlate"
         bpi = cls.plate.name == "BioPlateInserts"
         bps = cls.plate.name == "BioPlateStack"
@@ -95,7 +93,7 @@ class BioPlateIterate:
     @classmethod
     def __iterate(
         cls, plate: np.ndarray
-    ) -> Union[Iterator[str], Iterator[Tuple[str, str, str]]]:
+    ) -> Iterator:
         columns = plate[0, 1:]
         rows = plate[1:, 0:1]
         values = plate[1:, 1:]

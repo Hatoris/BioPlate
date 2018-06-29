@@ -8,15 +8,12 @@ from typing import (
     overload,
     Sequence,
     Generator,
-    Iterable,
-    Mapping,
 )
 
 import numpy as np
 import numpy.core.defchararray as ncd
 from tabulate import tabulate
 
-import BioPlate.utilitis as bpu
 from BioPlate.count import BioPlateCount
 from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.iterate import BioPlateIterate
@@ -30,6 +27,9 @@ class BioPlateManipulation:
 
     def __getitem__(self, index):
         return self[index]
+
+    def __setitem__(self, index, value):
+        self[index] = value
 
     @property
     def name(self: "BioPlateManipulation") -> str:
@@ -62,6 +62,15 @@ class BioPlateManipulation:
         self: "BioPlateManipulation", well: Dict[str, Any]
     ) -> Tuple[Dict[str, Any], None]:  # pragma: no cover
         pass
+
+    @overload
+    def _args_analyse(
+        self: "BioPlateManipulation",
+        well: str,
+        value: List[Any],
+    ) -> Tuple[str, Union[str, int, float, List[Any], None]]:  # pragma: no cover
+        pass
+
 
     @overload
     def _args_analyse(
@@ -348,7 +357,6 @@ class BioPlateManipulation:
             create a spreasheet at given filename (should contain path also)
         """
         from BioPlate.writer.to_excel import BioPlateToExcel
-
         xls_file = BioPlateToExcel(
             file_name,
             sheets=sheets,

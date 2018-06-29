@@ -33,19 +33,7 @@ class BioPlateArray(np.ndarray):
         int, List[int]
     ] = {}  # contain id of stak plate as key and list of unique plate bioplatestack cache
 
-    @overload
-    def __new__(
-        cls: np.ndarray, *args: int, **kwargs: str
-    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
-        pass
-
-    @overload
-    def __new__(
-        cls: np.ndarray, *args: Dict, **kwargs: str
-    ) -> np.ndarray:  # pragma: no cover
-        pass
-
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs) -> np.ndarray:
         """
 
         Parameters
@@ -105,13 +93,13 @@ class BioPlateArray(np.ndarray):
     @overload
     def bioplatearray(
         *args: int, **kwargs: str
-    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
+    ) -> np.ndarray:  # pragma: no cover
         pass
 
     @overload
     def bioplatearray(
         *args: Dict, **kwargs: str
-    ) -> Union[List, Tuple[int, int]]:  # pragma: no cover
+    ) -> np.ndarray:  # pragma: no cover
         pass
 
     def bioplatearray(*args, **kwargs):
