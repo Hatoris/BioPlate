@@ -217,11 +217,16 @@
   <div class="section" id="set-values-on-plate">
 <span id="id1"></span><h1>Set values on plate<a class="headerlink" href="#set-values-on-plate" title="Permalink to this headline">¶</a></h1>
 <p>Set’s function is used to quickly assign values to a plate.</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.1.2: </span>Set is not the only way to assign value, indexation can be performed too.
+Set can now <cite>Merge value</cite> instead of overide</p>
+</div>
 <div class="section" id="set-on-simple-plate">
 <h2>Set on simple plate<a class="headerlink" href="#set-on-simple-plate" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BioPlate</span> <span class="k">import</span> <span class="n">BioPlate</span>
 <span class="n">simple_plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 <span class="n">simple_plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;A1&quot;</span><span class="p">,</span> <span class="s2">&quot;test1&quot;</span><span class="p">)</span>
+<span class="n">simple_plate</span><span class="p">[</span><span class="s2">&quot;A1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;test1&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -232,6 +237,8 @@
 
 <span class="c1">#assign value on top of inserts plate</span>
 <span class="n">inserts_plate</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;A1&quot;</span><span class="p">,</span> <span class="s2">&quot;test1 on top&quot;</span><span class="p">)</span>
+<span class="n">inserts_plate</span><span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;A1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;test1 on top&quot;</span>
+<span class="n">inserts_plate</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;A1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;test1 on top&quot;</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -247,9 +254,11 @@
 
 <span class="c1">#create a stack of plate</span>
 <span class="n">stack</span> <span class="o">=</span> <span class="n">plate1</span> <span class="o">+</span> <span class="n">plate2</span>
+<span class="n">stack</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 
 <span class="c1">#assign value to plate1</span>
 <span class="n">stack</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;A1&quot;</span><span class="p">,</span> <span class="s2">&quot;test3 on plate1&quot;</span><span class="p">)</span>
+<span class="n">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;A1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;test3 on plate1&quot;</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -269,6 +278,9 @@
 
 <span class="c1">#with numpy indexing</span>
 <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;well B2&quot;</span>
+
+<span class="c1">#with BioPlate indexing</span>
+<span class="n">plate</span><span class="p">[</span><span class="s2">&quot;B3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;well B3&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -286,6 +298,10 @@
 <span class="c1">#with numpy indexing</span>
 <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;column 4&quot;</span>
 <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;column 6&quot;</span>
+
+ <span class="c1">#with BioPlate indexing</span>
+ <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;7&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;column 7&quot;</span>
+ <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;8&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;column 8&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -303,6 +319,10 @@
 <span class="c1">#with numpy indexing</span>
 <span class="n">plate</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="s2">&quot;row C&quot;</span>
 <span class="n">plate</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;row E&quot;</span>
+
+<span class="c1">#with BioPlate indexing</span>
+<span class="n">plate</span><span class="p">[</span><span class="s2">&quot;G&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;row G&quot;</span>
+<span class="n">plate</span><span class="p">[</span><span class="s2">&quot;F[2-5]&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;row F&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -315,14 +335,18 @@
 <span class="c1"># assign value in column</span>
 <span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">,</span>
 <span class="p">[</span><span class="s2">&quot;column2&quot;</span><span class="p">,</span> <span class="s2">&quot;column3&quot;</span><span class="p">,</span> <span class="s2">&quot;column4&quot;</span><span class="p">])</span>
+<span class="n">plate</span><span class="p">[</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;column2&quot;</span><span class="p">,</span> <span class="s2">&quot;column3&quot;</span><span class="p">,</span> <span class="s2">&quot;column4&quot;</span><span class="p">]</span>
 
  <span class="c1">#asign value in row</span>
 <span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;A-G[5-8]&quot;</span><span class="p">,</span>
 <span class="p">[</span><span class="s2">&quot;rowA&quot;</span><span class="p">,</span> <span class="s2">&quot;rowB&quot;</span><span class="p">,</span> <span class="s2">&quot;rowC&quot;</span><span class="p">,</span>
 <span class="s2">&quot;rowD&quot;</span><span class="p">,</span> <span class="s2">&quot;rowE&quot;</span><span class="p">,</span> <span class="s2">&quot;rowF&quot;</span><span class="p">,</span> <span class="s2">&quot;rowG&quot;</span><span class="p">])</span>
+<span class="n">plate</span><span class="p">[</span><span class="s2">&quot;A-G[5-8]&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="p">[</span><span class="s2">&quot;rowA&quot;</span><span class="p">,</span> <span class="s2">&quot;rowB&quot;</span><span class="p">,</span> <span class="s2">&quot;rowC&quot;</span><span class="p">,</span>
+<span class="s2">&quot;rowD&quot;</span><span class="p">,</span> <span class="s2">&quot;rowE&quot;</span><span class="p">,</span> <span class="s2">&quot;rowF&quot;</span><span class="p">,</span> <span class="s2">&quot;rowG&quot;</span><span class="p">]</span>
 
 <span class="c1">#assign one value</span>
 <span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;2-3[B-C]&quot;</span><span class="p">,</span> <span class="s2">&quot;ref&quot;</span><span class="p">)</span>
+<span class="n">plate</span><span class="p">[</span><span class="s2">&quot;2-3[B-C]&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ref&quot;</span>
 </pre></div>
 </div>
 <p>Assign multiple value with different pattern:</p>
@@ -334,6 +358,10 @@
     <span class="s2">&quot;E[4-7]&quot;</span> <span class="p">:</span> <span class="s2">&quot;rowE&quot;</span><span class="p">,</span>
     <span class="s2">&quot;6-8[E-G]&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;column6&quot;</span><span class="p">,</span> <span class="s2">&quot;column7&quot;</span><span class="p">,</span> <span class="s2">&quot;column8&quot;</span><span class="p">]})</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">dict assignation can only be done with <cite>set</cite></p>
 </div>
 </div>
 <div class="section" id="merge-value">
@@ -352,7 +380,10 @@
 
 <span class="c1">#assignation is respected</span>
 <span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;A-G[2-4]&quot;</span><span class="p">,</span>
-<span class="p">[</span><span class="s2">&quot;_A&quot;</span><span class="p">,</span> <span class="s2">&quot;_B&quot;</span><span class="p">,</span> <span class="s2">&quot;_C&quot;</span><span class="p">,</span> <span class="s2">&quot;_D&quot;</span><span class="p">,</span> <span class="s2">&quot;_E&quot;</span><span class="p">,</span> <span class="s2">&quot;_F&quot;</span><span class="p">,</span> <span class="s2">&quot;_G&quot;</span><span class="p">],</span> <span class="n">merge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">[</span><span class="s2">&quot;_A&quot;</span><span class="p">,</span> <span class="s2">&quot;_B&quot;</span><span class="p">,</span> <span class="s2">&quot;_C&quot;</span><span class="p">,</span> <span class="s2">&quot;_D&quot;</span><span class="p">,</span> <span class="s2">&quot;_E&quot;</span><span class="p">,</span> <span class="s2">&quot;_F&quot;</span><span class="p">,</span> <span class="s2">&quot;_G&quot;</span><span class="p">],</span>
+<span class="n">merge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="s2">&quot;A2&quot;</span><span class="p">])</span> <span class="c1"># column_2_A</span>
 </pre></div>
 </div>
 <p>It is now easier to produce complex patern with less code.</p>

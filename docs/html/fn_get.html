@@ -95,6 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-value-on-column">Set value on column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-value-on-row">Set value on row</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-multiple-value-at-once">Set multiple value at once</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#merge-value">Merge value</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#important">Important</a></li>
 </ul>
 </li>
@@ -226,6 +227,7 @@
 <span class="n">plate1</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 <span class="n">inserts</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">inserts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">stack</span> <span class="o">=</span> <span class="n">plate</span> <span class="o">+</span> <span class="n">plate1</span>
+<span class="n">stacki</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">inserts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">value</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">&quot;A1&quot;</span> <span class="p">:</span> <span class="s2">&quot;wellA1&quot;</span><span class="p">,</span>
    <span class="s2">&quot;3[A-C]&quot;</span> <span class="p">:</span> <span class="s2">&quot;column3&quot;</span><span class="p">,</span>
@@ -238,21 +240,28 @@
 <span class="n">inserts</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 <span class="n">inserts</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;6[D-E]&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
 <span class="n">stack</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;6[D-E]&quot;</span><span class="p">,</span> <span class="s2">&quot;plate1&quot;</span><span class="p">)</span>
+<span class="n">stacki</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;6[D-E]&quot;</span><span class="p">,</span> <span class="s2">&quot;insertsTop1&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="get-on-simple-plate">
 <h2>Get on simple plate<a class="headerlink" href="#get-on-simple-plate" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A1</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;A1&quot;</span><span class="p">)</span>
+<span class="n">B1</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;B1&quot;</span><span class="p">]</span>
 <span class="n">column</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;3[A-C]&quot;</span><span class="p">)</span>
+<span class="n">column1</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;4[A-C]&quot;</span><span class="p">]</span>
 <span class="n">row</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;B-D[8-12]&quot;</span><span class="p">)</span>
+<span class="n">row1</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;B-D[8-12]&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="get-on-inserts-plate">
 <h2>Get on inserts plate<a class="headerlink" href="#get-on-inserts-plate" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A1_top_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;A1&quot;</span><span class="p">)</span>
+<span class="n">B1_top_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;B1&quot;</span><span class="p">]</span> <span class="c1">#[0, &quot;B1&quot;]</span>
 <span class="n">column_bot_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;6[D-E]&quot;</span><span class="p">)</span>
+<span class="n">column1_bot_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="p">[</span><span class="s2">&quot;bot&quot;</span><span class="p">,</span> <span class="s2">&quot;7[D-E]&quot;</span><span class="p">]</span> <span class="c1"># [1, &quot;7[D-E]&quot;]</span>
 <span class="n">row_top_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;B-D[8-12]&quot;</span><span class="p">)</span>
+<span class="n">row1_top_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;B-D[4-8]&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -262,9 +271,19 @@
 </div>
 <div class="section" id="get-on-stack-of-plate">
 <h2>Get on stack of plate<a class="headerlink" href="#get-on-stack-of-plate" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A1_plate_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;A1&quot;</span><span class="p">)</span>
-<span class="n">column_bot_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;6[D-E]&quot;</span><span class="p">)</span>
-<span class="n">row_top_inserts</span> <span class="o">=</span> <span class="n">inserts</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;B-D[8-12]&quot;</span><span class="p">)</span>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For stack made of plate</span>
+<span class="n">A1_plate1_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;A1&quot;</span><span class="p">)</span>
+<span class="n">B1_plate1_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;B1&quot;</span><span class="p">]</span>
+<span class="n">column_plate2_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;6[D-E]&quot;</span><span class="p">)</span>
+<span class="n">column1_plate2_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;6[D-E]&quot;</span><span class="p">]</span>
+<span class="n">row_plate1_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;B-D[8-12]&quot;</span><span class="p">)</span>
+
+<span class="c1"># For stack made of inserts</span>
+<span class="n">A1_inserts1_top_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;top&quot;</span><span class="p">,</span>  <span class="s2">&quot;A1&quot;</span><span class="p">)</span>
+<span class="n">B1_inserts1_bot_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;B1&quot;</span><span class="p">]</span>
+<span class="n">column_inserts2_top_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;6[D-E]&quot;</span><span class="p">)</span>
+<span class="n">column1_inserts2_bot_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;bot&quot;</span><span class="p">,</span> <span class="s2">&quot;6[D-E]&quot;</span><span class="p">]</span>
+<span class="n">row_inserts3_top_stack</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;B-D[8-12]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -276,7 +295,9 @@
 <h2>Get one value at time<a class="headerlink" href="#get-one-value-at-time" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A1</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;A1&quot;</span><span class="p">)</span>
 <span class="n">A1_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">A1_bp</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;A1&quot;</span><span class="p">]</span>
 <span class="nb">any</span><span class="p">(</span><span class="n">A1</span> <span class="o">==</span> <span class="n">A1_np</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="nb">any</span><span class="p">(</span><span class="n">A1_bp</span> <span class="o">==</span> <span class="n">A1_np</span><span class="p">)</span> <span class="c1"># True</span>
 </pre></div>
 </div>
 </div>
@@ -284,23 +305,35 @@
 <h2>Get value on column<a class="headerlink" href="#get-value-on-column" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Column3</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">)</span>
 <span class="n">Column3_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">Column3_bp</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;3&quot;</span><span class="p">]</span>
 <span class="nb">any</span><span class="p">(</span><span class="n">Column3</span> <span class="o">==</span> <span class="n">Column3_np</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="nb">any</span><span class="p">(</span><span class="n">Column3_bp</span> <span class="o">==</span> <span class="n">Column3_np</span><span class="p">)</span>  <span class="c1"># True</span>
 
 <span class="n">Column5</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;5[A-C]&quot;</span><span class="p">)</span>
 <span class="n">Column5_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">Column5_bp</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;5[A-C]&quot;</span><span class="p">]</span>
 <span class="nb">any</span><span class="p">(</span><span class="n">Column5</span> <span class="o">==</span> <span class="n">Column5_np</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="nb">any</span><span class="p">(</span><span class="n">Column5_bp</span> <span class="o">==</span> <span class="n">Column5_np</span><span class="p">)</span> <span class="c1"># True</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you use bioplate indexation, column number should be pass as string, otherwise index will be interpreted as numpy index.</p>
 </div>
 </div>
 <div class="section" id="get-value-on-row">
 <h2>Get value on row<a class="headerlink" href="#get-value-on-row" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RowB</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
 <span class="n">RowB_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">RowB_bp</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span>
 <span class="nb">any</span><span class="p">(</span><span class="n">RowB</span> <span class="o">==</span> <span class="n">RowB_np</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="nb">any</span><span class="p">(</span><span class="n">RowB_bp</span> <span class="o">==</span> <span class="n">RowB_np</span><span class="p">)</span> <span class="c1"># True</span>
 
 <span class="n">RowD</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;D[2-5]&quot;</span><span class="p">)</span>
 <span class="n">RowD_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">RowD_bp</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;D[2-5]&quot;</span><span class="p">]</span>
 <span class="nb">any</span><span class="p">(</span><span class="n">RowD</span> <span class="o">==</span> <span class="n">RowD_np</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="nb">any</span><span class="p">(</span><span class="n">RowD_bp</span> <span class="o">==</span> <span class="n">RowD_np</span><span class="p">)</span> <span class="c1"># True</span>
 </pre></div>
 </div>
 </div>
@@ -309,11 +342,15 @@
 <p>This will return a numpy array.</p>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">multiC</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">)</span>
 <span class="n">multiC_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">multiC_bp</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;2-4[A-C]&quot;</span><span class="p">]</span>
 <span class="p">(</span><span class="n">multiC</span> <span class="o">==</span> <span class="n">multiC_np</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="c1"># True</span>
+<span class="p">(</span><span class="n">multiC_bp</span> <span class="o">==</span> <span class="n">multiC_np</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="c1"># True</span>
 
 <span class="n">multiR</span> <span class="o">=</span> <span class="n">plate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;A-G[5-8]&quot;</span><span class="p">)</span>
 <span class="n">multiR_np</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
+<span class="n">multiR_bp</span> <span class="o">=</span> <span class="n">plate</span><span class="p">[</span><span class="s2">&quot;A-G[5-8]&quot;</span><span class="p">]</span>
 <span class="p">(</span><span class="n">multiR</span> <span class="o">==</span> <span class="n">multiR_np</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="c1"># True</span>
+<span class="p">(</span><span class="n">multiR_bp</span> <span class="o">==</span> <span class="n">multiR_np</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="c1"># True</span>
 </pre></div>
 </div>
 <p>This will return a list</p>

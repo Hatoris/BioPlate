@@ -6,6 +6,11 @@ Set values on plate
 
 Set's function is used to quickly assign values to a plate.
 
+.. versionchanged:: 0.1.2
+
+    Set is not the only way to assign value, indexation can be performed too.
+    Set can now `Merge value` instead of overide
+
 Set on simple plate
 ---------------------------------
 
@@ -14,6 +19,7 @@ Set on simple plate
      from BioPlate import BioPlate
      simple_plate = BioPlate(12, 8)
      simple_plate.set("A1", "test1")
+     simple_plate["A1"] = "test1"
 
 
 Seton inserts plate
@@ -26,6 +32,8 @@ Seton inserts plate
      
      #assign value on top of inserts plate
      inserts_plate.top.set("A1", "test1 on top")
+     inserts_plate["top", "A1"] = "test1 on top"
+     inserts_plate[0, "A1"] = "test1 on top"
 
 .. note::
     
@@ -42,9 +50,11 @@ Set on stack of plate
      
      #create a stack of plate
      stack = plate1 + plate2
+     stack = BioPlate(2, 12, 8)
      
      #assign value to plate1
      stack.set(0, "A1", "test3 on plate1")
+     stack[0, "A1"] = "test3 on plate1"
 
 .. note::
     
@@ -65,7 +75,10 @@ Set one value at time
     plate.set("B1", "well B1")
         
     #with numpy indexing
-    plate[1,2] = "well B2" 
+    plate[1,2] = "well B2"
+    
+    #with BioPlate indexing
+    plate["B3"] = "well B3"
 
 Set value on column
 ----------------------------------
@@ -85,6 +98,10 @@ Set value on column
     plate[1:,4] = "column 4"     
     plate[1:4,6] = "column 6"
 
+     #with BioPlate indexing
+     plate["7"] = "column 7"
+     plate["8"] = "column 8"
+
 Set value on row
 ---------------------------
 
@@ -103,6 +120,10 @@ Set value on row
     plate[3,1:] = "row C"
     plate[5,2:6] = "row E"
 
+    #with BioPlate indexing
+    plate["G"] = "row G"
+    plate["F[2-5]"] = "row F"
+
 Set multiple value at once
 ----------------------------------------------
 
@@ -116,14 +137,18 @@ Assign multiple value with same pattern:
     # assign value in column
     plate.set("2-4[A-G]",
     ["column2", "column3", "column4"])
+    plate["2-4[A-G]"] = ["column2", "column3", "column4"]
                      
      #asign value in row                
     plate.set("A-G[5-8]",
     ["rowA", "rowB", "rowC", 
     "rowD", "rowE", "rowF", "rowG"])
+    plate["A-G[5-8]"] =  ["rowA", "rowB", "rowC", 
+    "rowD", "rowE", "rowF", "rowG"]
     
     #assign one value
     plate.set("2-3[B-C]", "ref")
+    plate["2-3[B-C]"] = "ref"
 
 Assign multiple value with different pattern:
 
@@ -136,6 +161,9 @@ Assign multiple value with different pattern:
         "3[A-C]" : "column3", 
         "E[4-7]" : "rowE",         
         "6-8[E-G]" : ["column6", "column7", "column8"]})
+
+.. note::
+    dict assignation can only be done with `set`
 
 Merge value
 -------------------------
@@ -157,7 +185,10 @@ Value are concatenate with value already present in well
 
     #assignation is respected
     plate.set("A-G[2-4]",
-    ["_A", "_B", "_C", "_D", "_E", "_F", "_G"], merge=True)
+    ["_A", "_B", "_C", "_D", "_E", "_F", "_G"], 
+    merge=True)
+    
+    print(plate["A2"]) # column_2_A
     
 It is now easier to produce complex patern with less code.
 

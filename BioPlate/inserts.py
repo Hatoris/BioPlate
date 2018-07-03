@@ -78,7 +78,7 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
 
     def __getitem__(self, index):
         if isinstance(index, tuple):
-            if isinstance(index[1], str):
+            if any(isinstance(i, str) for i in index):
                 ind = {"top": 0, "bot": 1, "0": 0, "1": 1, 0: 0, 1: 1}
                 plt = self[ind[index[0]]]
                 if isinstance(index[1], str):
@@ -104,12 +104,13 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
 
     def __setitem__(self, index, value):
         if isinstance(index, tuple):
-            if isinstance(index[1], str):
+            if any(isinstance(i, str) for i in index):
                 ind = {"top": 0, "bot": 1, 0: 0, 1: 1}
                 plt = self[ind[index[0]]]
                 if isinstance(index[1], str):
                     well = BioPlateMatrix(index[1])
                     plt[index[1]] = value
+                    return
                     if isinstance(value, list):
                         plate_shape = plt[well.row, well.column].shape
                         len_plate_shape = len(plate_shape)
@@ -118,12 +119,11 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
                                 resh_val = np.reshape(value, (plate_shape[0], 1))
                             else:
                                 resh_val = value
-                        plt[well.row, well.column] = resh_val
-                        return
+                            plt[well.row, well.column] = resh_val
+                            return
                     else:
-                        plt[well.row, well.column][: len(value)] = value
-                        return
-        return super(BioPlateInserts, self).__setitem__(index, value)
+                        plt[well.row, well.column] = value
+        super(BioPlateInserts, self).__setitem__(index, value)
 
     @property
     def top(self: "BioPlateInserts") -> np.ndarray:

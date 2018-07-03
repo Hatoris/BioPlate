@@ -86,9 +86,7 @@ class BioPlateArray(np.ndarray):
             else:
                 self[well.row, well.column] = value
                 return
-        else:
-            super(BioPlateArray, self).__setitem__(index, value)
-            return
+        super(BioPlateArray, self).__setitem__(index, value)
 
     @overload
     def bioplatearray(
