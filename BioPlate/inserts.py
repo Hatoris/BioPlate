@@ -24,7 +24,8 @@ from BioPlate.matrix import BioPlateMatrix
 class BioPlateInserts(BioPlateArray, BioPlateManipulation):
     def __new__(
         cls, *args, **kwargs):
-        return BioPlateArray.__new__(cls, *args, inserts=True)
+        kwargs.pop("inserts", None)
+        return BioPlateArray.__new__(cls, *args, inserts=True, **kwargs)
 
     def __init__(self: "BioPlateInserts", *args, **kwargs) -> None:
         self.ID = id(self)
