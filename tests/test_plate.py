@@ -65,7 +65,6 @@ class TestPlate(unittest.TestCase):
         """
         self.plt = BioPlate({"id": 1}, db_name="test_plate.db")
         self.plt1 = BioPlate(12, 8)
-        self.stack = self.plt + self.plt1
         self.Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
 
     def tearDown(self):
@@ -75,7 +74,6 @@ class TestPlate(unittest.TestCase):
         """
         try:
             Path(PurePath("test_plate_to_excel.xlsx")).unlink()
-            Path(PurePath("test_ins_to_excel.xlsx")).unlink()
             Path(PurePath("test_stack_to_excel.xlsx")).unlink()
         except FileNotFoundError:
             pass
@@ -143,9 +141,6 @@ class TestPlate(unittest.TestCase):
                 dtype="U40",
             ),
         )
-        np.testing.assert_array_equal(self.stack[0], self.plt)
-        self.assertIs(self.stack[0], self.plt)
-        self.assertIs(self.stack[1], self.plt1)
 
     def test_add_value(self):
         """
@@ -191,7 +186,6 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt1.set("A2", "Test"), self.plt1)
         np.testing.assert_array_equal(self.plt1.set("H6", "Test"), self.plt1)
         np.testing.assert_array_equal(self.plt1.set("12C", "Test"), self.plt1)
-        np.testing.assert_array_equal(self.stack.set(0, "B8", "Stack")[0], self.plt)
 
 
     def test_add_value_row(self):
@@ -258,12 +252,8 @@ class TestPlate(unittest.TestCase):
             ),
         )
         np.testing.assert_array_equal(self.plt.set("D[1-7]", "Test"), self.plt)
-        np.testing.assert_array_equal(self.stack.set(0, "B[1-6]", "Stack")[0], self.plt)
-
-
         with self.assertRaises(ValueError) as context:
             self.plt.set("D[0,8]", 18)
-            self.stack.set(0, "D[0,8]", 18)
 
     def test_add_value_column(self):
         np.testing.assert_array_equal(self.plt.set("3[C,E]", "Test"), self.plt)
@@ -342,19 +332,15 @@ class TestPlate(unittest.TestCase):
                 dtype="U40",
             ),
         )
-        np.testing.assert_array_equal(self.stack.set(0, "1[B-G]", "Stack")[0], self.plt)
 
     def test_set(self):
         V = {"A1": "Test", "B3": "Test"}
         np.testing.assert_array_equal(self.plt.set(V), self.plt)
-        np.testing.assert_array_equal(self.stack.set(0, V)[0], self.plt)
 
     def test_set_again(self):
         with self.assertRaises(ValueError):
             self.plt.set("A-C[1-5]", ["Test1", "Test2"])
             self.plt.set("A2", ["tezt1", "test2"])
-            self.stack.set(1, "A6", "tutu")
-
         np.testing.assert_array_equal(
             self.plt.set("A-C[1-5]", ["Test1", "Test2", "Test3"]), self.plt
         )
@@ -473,9 +459,6 @@ class TestPlate(unittest.TestCase):
                 dtype="U40",
             ),
         )
-        np.testing.assert_array_equal(
-            self.stack.set(1, "F-H[1-3]", ["Test1", "Test2", "Test3"])[1], self.plt1
-        )
 
     def test_set(self):
         np.testing.assert_array_equal(self.plt.set("2[B,E]", "Test"), self.plt)
@@ -486,9 +469,6 @@ class TestPlate(unittest.TestCase):
         )
         np.testing.assert_array_equal(
             self.plt.set("F-H[1,3]", ["Test1", "Test2", "Test3"]), self.plt
-        )
-        np.testing.assert_array_equal(
-            self.stack.set(1, "F-H[1-3]", ["Test1", "Test2", "Test3"])[1], self.plt1
         )
         np.testing.assert_array_equal(self.plt.set("A-D[1,3]", "Test4"), self.plt)
 
@@ -504,7 +484,6 @@ class TestPlate(unittest.TestCase):
 
     def test_save(self):
         self.plt.set("H4", "Test")
-        self.stack.set(1, "B6", "test1")
         self.assertEqual(
             self.plt.save("test save", db_hist_name="test_plate_historic.db"),
             "BioPlatePlate test save with 96 wells was successfully added to database test_plate_historic.db",
@@ -514,22 +493,12 @@ class TestPlate(unittest.TestCase):
             self.plt.save("test save", db_hist_name="test_plate_historic.db"),
             "plate with 1 id updated",
         )
-
-        self.assertEqual(
-            self.stack.save("test save2", db_hist_name="test_plate_historic.db"),
-            "BioPlateStack test save2 with 96 wells was successfully added to database test_plate_historic.db",
-        )
-        self.assertEqual(
-            self.stack.save("test save2"),
-            "BioPlateStack test save2 with 96 wells was successfully added to database plate_historic.db",
-        )
         phi = PlateHist(db_name="test_plate_historic.db")
         self.assertEqual(
             str(phi.get_one_hplate(1, key="id")),
             f"<plate N°1: test save, 96 wells, {phi.date_now}>",
         )
         np.testing.assert_array_equal(phi.get_one_hplate(1, key="id").plate, self.plt)
-        np.testing.assert_array_equal(phi.get_one_hplate(2, key="id").plate, self.stack)
 
     def test_iteration(self):
         ValIn = {"A1": "Control", "C[2,4]": "Test1"}
@@ -635,305 +604,6 @@ class TestPlate(unittest.TestCase):
                 ("H12", ""),
             ],
         ) 
-        multi = self.plt + self.plt1.set(self.Value)
-        self.assertEqual(
-            list(multi.iterate(accumulate=True)),
-            [
-                ("A1", "Control", "Control"),
-                ("B1", "", ""),
-                ("C1", "", ""),
-                ("D1", "", ""),
-                ("E1", "", ""),
-                ("F1", "", ""),
-                ("G1", "", ""),
-                ("H1", "", ""),
-                ("A2", "", ""),
-                ("B2", "", ""),
-                ("C2", "Test1", "Test1"),
-                ("D2", "", ""),
-                ("E2", "", ""),
-                ("F2", "", ""),
-                ("G2", "", ""),
-                ("H2", "", ""),
-                ("A3", "", ""),
-                ("B3", "", ""),
-                ("C3", "Test1", "Test1"),
-                ("D3", "", ""),
-                ("E3", "", ""),
-                ("F3", "", ""),
-                ("G3", "", ""),
-                ("H3", "", ""),
-                ("A4", "", ""),
-                ("B4", "", ""),
-                ("C4", "Test1", "Test1"),
-                ("D4", "", ""),
-                ("E4", "", ""),
-                ("F4", "", ""),
-                ("G4", "", ""),
-                ("H4", "", ""),
-                ("A5", "", ""),
-                ("B5", "", ""),
-                ("C5", "Test1", "Test1"),
-                ("D5", "", ""),
-                ("E5", "", ""),
-                ("F5", "", ""),
-                ("G5", "", ""),
-                ("H5", "", ""),
-                ("A6", "", ""),
-                ("B6", "", ""),
-                ("C6", "Test1", "Test1"),
-                ("D6", "", ""),
-                ("E6", "", ""),
-                ("F6", "", ""),
-                ("G6", "", ""),
-                ("H6", "", ""),
-                ("A7", "", ""),
-                ("B7", "", ""),
-                ("C7", "Test1", "Test1"),
-                ("D7", "", ""),
-                ("E7", "", ""),
-                ("F7", "", ""),
-                ("G7", "", ""),
-                ("H7", "", ""),
-                ("A8", "", ""),
-                ("B8", "", ""),
-                ("C8", "Test1", "Test1"),
-                ("D8", "", ""),
-                ("E8", "", ""),
-                ("F8", "", ""),
-                ("G8", "", ""),
-                ("H8", "", ""),
-                ("A9", "", ""),
-                ("B9", "", ""),
-                ("C9", "Test1", "Test1"),
-                ("D9", "", ""),
-                ("E9", "", ""),
-                ("F9", "", ""),
-                ("G9", "", ""),
-                ("H9", "", ""),
-                ("A10", "", ""),
-                ("B10", "", ""),
-                ("C10", "Test1", "Test1"),
-                ("D10", "", ""),
-                ("E10", "", ""),
-                ("F10", "", ""),
-                ("G10", "", ""),
-                ("H10", "", ""),
-                ("A11", "", ""),
-                ("B11", "Test2", "Test2"),
-                ("C11", "Test2", "Test2"),
-                ("D11", "Test2", "Test2"),
-                ("E11", "Test2", "Test2"),
-                ("F11", "Test2", "Test2"),
-                ("G11", "Test2", "Test2"),
-                ("H11", "", ""),
-                ("A12", "", ""),
-                ("B12", "", ""),
-                ("C12", "", ""),
-                ("D12", "", ""),
-                ("E12", "", ""),
-                ("F12", "", ""),
-                ("G12", "", ""),
-                ("H12", "", ""),
-            ],
-        )
-        self.assertEqual(
-            list(multi.iterate(accumulate=False)),
-            [
-                ("A1", "Control"),
-                ("B1", ""),
-                ("C1", ""),
-                ("D1", ""),
-                ("E1", ""),
-                ("F1", ""),
-                ("G1", ""),
-                ("H1", ""),
-                ("A2", ""),
-                ("B2", ""),
-                ("C2", "Test1"),
-                ("D2", ""),
-                ("E2", ""),
-                ("F2", ""),
-                ("G2", ""),
-                ("H2", ""),
-                ("A3", ""),
-                ("B3", ""),
-                ("C3", "Test1"),
-                ("D3", ""),
-                ("E3", ""),
-                ("F3", ""),
-                ("G3", ""),
-                ("H3", ""),
-                ("A4", ""),
-                ("B4", ""),
-                ("C4", "Test1"),
-                ("D4", ""),
-                ("E4", ""),
-                ("F4", ""),
-                ("G4", ""),
-                ("H4", ""),
-                ("A5", ""),
-                ("B5", ""),
-                ("C5", "Test1"),
-                ("D5", ""),
-                ("E5", ""),
-                ("F5", ""),
-                ("G5", ""),
-                ("H5", ""),
-                ("A6", ""),
-                ("B6", ""),
-                ("C6", "Test1"),
-                ("D6", ""),
-                ("E6", ""),
-                ("F6", ""),
-                ("G6", ""),
-                ("H6", ""),
-                ("A7", ""),
-                ("B7", ""),
-                ("C7", "Test1"),
-                ("D7", ""),
-                ("E7", ""),
-                ("F7", ""),
-                ("G7", ""),
-                ("H7", ""),
-                ("A8", ""),
-                ("B8", ""),
-                ("C8", "Test1"),
-                ("D8", ""),
-                ("E8", ""),
-                ("F8", ""),
-                ("G8", ""),
-                ("H8", ""),
-                ("A9", ""),
-                ("B9", ""),
-                ("C9", "Test1"),
-                ("D9", ""),
-                ("E9", ""),
-                ("F9", ""),
-                ("G9", ""),
-                ("H9", ""),
-                ("A10", ""),
-                ("B10", ""),
-                ("C10", "Test1"),
-                ("D10", ""),
-                ("E10", ""),
-                ("F10", ""),
-                ("G10", ""),
-                ("H10", ""),
-                ("A11", ""),
-                ("B11", "Test2"),
-                ("C11", "Test2"),
-                ("D11", "Test2"),
-                ("E11", "Test2"),
-                ("F11", "Test2"),
-                ("G11", "Test2"),
-                ("H11", ""),
-                ("A12", ""),
-                ("B12", ""),
-                ("C12", ""),
-                ("D12", ""),
-                ("E12", ""),
-                ("F12", ""),
-                ("G12", ""),
-                ("H12", ""),
-                ("A1", "Control"),
-                ("B1", ""),
-                ("C1", ""),
-                ("D1", ""),
-                ("E1", ""),
-                ("F1", ""),
-                ("G1", ""),
-                ("H1", ""),
-                ("A2", ""),
-                ("B2", ""),
-                ("C2", "Test1"),
-                ("D2", ""),
-                ("E2", ""),
-                ("F2", ""),
-                ("G2", ""),
-                ("H2", ""),
-                ("A3", ""),
-                ("B3", ""),
-                ("C3", "Test1"),
-                ("D3", ""),
-                ("E3", ""),
-                ("F3", ""),
-                ("G3", ""),
-                ("H3", ""),
-                ("A4", ""),
-                ("B4", ""),
-                ("C4", "Test1"),
-                ("D4", ""),
-                ("E4", ""),
-                ("F4", ""),
-                ("G4", ""),
-                ("H4", ""),
-                ("A5", ""),
-                ("B5", ""),
-                ("C5", "Test1"),
-                ("D5", ""),
-                ("E5", ""),
-                ("F5", ""),
-                ("G5", ""),
-                ("H5", ""),
-                ("A6", ""),
-                ("B6", ""),
-                ("C6", "Test1"),
-                ("D6", ""),
-                ("E6", ""),
-                ("F6", ""),
-                ("G6", ""),
-                ("H6", ""),
-                ("A7", ""),
-                ("B7", ""),
-                ("C7", "Test1"),
-                ("D7", ""),
-                ("E7", ""),
-                ("F7", ""),
-                ("G7", ""),
-                ("H7", ""),
-                ("A8", ""),
-                ("B8", ""),
-                ("C8", "Test1"),
-                ("D8", ""),
-                ("E8", ""),
-                ("F8", ""),
-                ("G8", ""),
-                ("H8", ""),
-                ("A9", ""),
-                ("B9", ""),
-                ("C9", "Test1"),
-                ("D9", ""),
-                ("E9", ""),
-                ("F9", ""),
-                ("G9", ""),
-                ("H9", ""),
-                ("A10", ""),
-                ("B10", ""),
-                ("C10", "Test1"),
-                ("D10", ""),
-                ("E10", ""),
-                ("F10", ""),
-                ("G10", ""),
-                ("H10", ""),
-                ("A11", ""),
-                ("B11", "Test2"),
-                ("C11", "Test2"),
-                ("D11", "Test2"),
-                ("E11", "Test2"),
-                ("F11", "Test2"),
-                ("G11", "Test2"),
-                ("H11", ""),
-                ("A12", ""),
-                ("B12", ""),
-                ("C12", ""),
-                ("D12", ""),
-                ("E12", ""),
-                ("F12", ""),
-                ("G12", ""),
-                ("H12", ""),
-            ],
-        )
 
     def test_count(self):
         ValIn = {"A1": "Control", "C[2,4]": "Test1"}
@@ -941,27 +611,10 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(
             self.plt.count(), {"": 80, "Control": 1, "Test1": 9, "Test2": 6}
         )
-        multi = self.plt + self.plt1.set(self.Value)
-#        multiInsert = self.Inserts + BioPlate(4, 3, inserts=True)
-        self.assertEqual(
-            multi.count(),
-            {
-                0: {"": 80, "Control": 1, "Test1": 9, "Test2": 6},
-                1: {"": 80, "Control": 1, "Test1": 9, "Test2": 6},
-            },
-        )
-#        self.assertEqual(
-#            multiInsert.count(),
-#            {
-#                0: {"top": {"Control": 1, "Test1": 3, "": 8}, "bot": {"": 12}},
-#                1: {"top": {"": 12}, "bot": {"": 12}},
-#            },
-#        )
 
     def test_get_value(self):
         self.plt.set(self.Value)
         np.testing.assert_array_equal(self.plt.get("C2"), "Test1")
-        np.testing.assert_array_equal(self.stack.get(0, "C2"), "Test1")
 
     def test_get_value_row(self):
         self.plt.set(self.Value)
@@ -998,24 +651,11 @@ class TestPlate(unittest.TestCase):
 
     def test_name(self):
         self.assertEqual(self.plt.name, "BioPlatePlate")
-        self.assertEqual(self.stack.name, "BioPlateStack")
 
     def test_to_excel(self):
         self.plt.to_excel("test_plate_to_excel.xlsx")
         exist_plate = Path("test_plate_to_excel.xlsx").exists()
-        self.stack.to_excel("test_stack_to_excel.xlsx")
-        exist_stack = Path("test_stack_to_excel.xlsx").exists()
         self.assertTrue(exist_plate)
-        self.assertTrue(exist_stack)
-
-    def test_create_stack(self):
-        Nstack = BioPlate(2, 12, 8)
-        self.assertEqual(Nstack.name, "BioPlateStack")
-
-    def test_add__(self):
-        Nstack = BioPlate(12, 8) + BioPlate(12, 8)
-        Bstack = BioPlate(12, 8) + Nstack
-        self.assertEqual(Bstack.name, "BioPlateStack")
 
     def test_all_C(self):
         pl = BioPlate(6, 4)
@@ -1034,23 +674,9 @@ class TestPlate(unittest.TestCase):
         self.plt.set("A[2-3]", ["_1", "_2"], merge=True)
         self.assertEqual(self.plt.get("A2"), "Test_1")
         self.assertEqual(self.plt.get("A3"), "Test_2")
-        self.stack.set(0, "A3", "_bob", merge=True)
-        self.assertEqual(self.stack.get(0, "A3"), "Test_2_bob")
         self.plt.set({"A2" : "_A", "A3" : "_B"}, merge=True)
         self.assertEqual(self.plt["A2"], "Test_1_A")
-        self.assertEqual(self.plt["A3"], "Test_2_bob_B")
-
-    def test_inserts_stack(self):
-        ins = BioPlate(2, 12, 8, inserts=True)
-        ins.set(0, "top", "A1", "gaston")
-        ins1 = BioPlate(2, 12, 8, inserts=True)
-        ins1.set(0, "bot",  "A1", "gulu")
-        ins2 = BioPlate(12, 8, inserts=True)
-        Nins = ins + ins1
-        PNins = ins2 + ins
-        self.assertEqual(Nins.get(0, "top", "A1"), "gaston")
-        self.assertEqual(Nins.get(2, "bot", "A1"), "gulu")
-        self.assertEqual(PNins.get(1, "top", "A1"), "gaston")
+        self.assertEqual(self.plt["A3"], "Test_2_B")
         
     def test_set_get_item(self):
        p = BioPlate(12,8)

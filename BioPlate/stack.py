@@ -87,12 +87,6 @@ class BioPlateStack(BioPlateManipulation):
         newstack = list(OrderedDict.fromkeys(newstack))
         return BioPlateStack(newstack)
 
-#    def __iter__(self):
-#        print(BioPlateArray._get_stack_in_cache(self.ID))
-#        for plate in BioPlateArray._get_stack_in_cache(self.ID):
-#            print(plate)
-#            yield BioPlateArray._get_plate_in_stack(self.ID, plate)
-
     def change_args(func: Any):
         def wrapper(self, *args, **kwargs):
             bioplate = self[args[0]]
