@@ -66,7 +66,6 @@ class TestPlate(unittest.TestCase):
         self.plt = BioPlate({"id": 1}, db_name="test_plate.db")
         self.plt1 = BioPlate(12, 8)
         self.stack = self.plt + self.plt1
-        self.Inserts = BioPlate(4, 3, inserts=True)
         self.Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
 
     def tearDown(self):
@@ -144,37 +143,9 @@ class TestPlate(unittest.TestCase):
                 dtype="U40",
             ),
         )
-
-        np.testing.assert_array_equal(
-            self.Inserts,
-            np.array(
-                [
-                    [
-                        [" ", "1", "2", "3", "4"],
-                        ["A", "", "", "", ""],
-                        ["B", "", "", "", ""],
-                        ["C", "", "", "", ""],
-                    ],
-                    [
-                        [" ", "1", "2", "3", "4"],
-                        ["A", "", "", "", ""],
-                        ["B", "", "", "", ""],
-                        ["C", "", "", "", ""],
-                    ],
-                ],
-                dtype="U40",
-            ),
-        )
         np.testing.assert_array_equal(self.stack[0], self.plt)
         self.assertIs(self.stack[0], self.plt)
         self.assertIs(self.stack[1], self.plt1)
-
-    # def test_plate_array(self):
-    # np.testing.assert_array_equal(self.plt.plate, self.plt.plate_array)
-
-    # def test_matrix_well(self):
-    # self.assertEqual(self.plt.matrix_well('A2'), (1, 2))
-    # self.assertEqual(self.plt.matrix_well('G7'), (7, 7))
 
     def test_add_value(self):
         """
@@ -221,9 +192,7 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.plt1.set("H6", "Test"), self.plt1)
         np.testing.assert_array_equal(self.plt1.set("12C", "Test"), self.plt1)
         np.testing.assert_array_equal(self.stack.set(0, "B8", "Stack")[0], self.plt)
-        np.testing.assert_array_equal(
-            self.Inserts.top.set("B3", "inserts"), self.Inserts.top
-        )
+
 
     def test_add_value_row(self):
         np.testing.assert_array_equal(self.plt.set("C[3,12]", "Test"), self.plt)
@@ -290,20 +259,11 @@ class TestPlate(unittest.TestCase):
         )
         np.testing.assert_array_equal(self.plt.set("D[1-7]", "Test"), self.plt)
         np.testing.assert_array_equal(self.stack.set(0, "B[1-6]", "Stack")[0], self.plt)
-        np.testing.assert_array_equal(
-            self.Inserts.top.set("B[1-3]", "inserts"), self.Inserts.top
-        )
-        np.testing.assert_array_equal(
-            self.Inserts.bot.set("1", "inserts"), self.Inserts.bot
-        )
-        np.testing.assert_array_equal(
-            self.Inserts.bot.set(1, "inserts"), self.Inserts.bot
-        )
+
 
         with self.assertRaises(ValueError) as context:
             self.plt.set("D[0,8]", 18)
             self.stack.set(0, "D[0,8]", 18)
-            self.Inserts.bot.set("B[1,6]", 18)
 
     def test_add_value_column(self):
         np.testing.assert_array_equal(self.plt.set("3[C,E]", "Test"), self.plt)
@@ -383,23 +343,15 @@ class TestPlate(unittest.TestCase):
             ),
         )
         np.testing.assert_array_equal(self.stack.set(0, "1[B-G]", "Stack")[0], self.plt)
-        np.testing.assert_array_equal(
-            self.Inserts.top.set("2[A,C]", "inserts"), self.Inserts.top
-        )
-        np.testing.assert_array_equal(
-            self.Inserts.top.set("B", "inserts2"), self.Inserts.top
-        )
 
     def test_set(self):
         V = {"A1": "Test", "B3": "Test"}
         np.testing.assert_array_equal(self.plt.set(V), self.plt)
         np.testing.assert_array_equal(self.stack.set(0, V)[0], self.plt)
-        np.testing.assert_array_equal(self.Inserts.top.set(V), self.Inserts.top)
 
     def test_set_again(self):
         with self.assertRaises(ValueError):
             self.plt.set("A-C[1-5]", ["Test1", "Test2"])
-            self.Inserts.bot.set("A[2-4]", ["test1", "test2", "test3", "test4"])
             self.plt.set("A2", ["tezt1", "test2"])
             self.stack.set(1, "A6", "tutu")
 
@@ -521,15 +473,9 @@ class TestPlate(unittest.TestCase):
                 dtype="U40",
             ),
         )
-
         np.testing.assert_array_equal(
             self.stack.set(1, "F-H[1-3]", ["Test1", "Test2", "Test3"])[1], self.plt1
         )
-        np.testing.assert_array_equal(
-            self.Inserts.top.set("A-C[1-3]", ["Test1", "Test2", "Test3"]),
-            self.Inserts.top,
-        )
-        # np.testing.assert_array_equal(self.plt.set('1-3[F-H]', ["Test1", "Test2", "Test3"]))
 
     def test_set(self):
         np.testing.assert_array_equal(self.plt.set("2[B,E]", "Test"), self.plt)
@@ -543,10 +489,6 @@ class TestPlate(unittest.TestCase):
         )
         np.testing.assert_array_equal(
             self.stack.set(1, "F-H[1-3]", ["Test1", "Test2", "Test3"])[1], self.plt1
-        )
-        np.testing.assert_array_equal(
-            self.Inserts.top.set("A-C[1-3]", ["Test1", "Test2", "Test3"]),
-            self.Inserts.top,
         )
         np.testing.assert_array_equal(self.plt.set("A-D[1,3]", "Test4"), self.plt)
 
@@ -581,10 +523,6 @@ class TestPlate(unittest.TestCase):
             self.stack.save("test save2"),
             "BioPlateStack test save2 with 96 wells was successfully added to database plate_historic.db",
         )
-        self.assertEqual(
-            self.Inserts.save("test save3", db_hist_name="test_plate_historic.db"),
-            "BioPlateInserts test save3 with 12 wells was successfully added to database test_plate_historic.db",
-        )
         phi = PlateHist(db_name="test_plate_historic.db")
         self.assertEqual(
             str(phi.get_one_hplate(1, key="id")),
@@ -592,14 +530,10 @@ class TestPlate(unittest.TestCase):
         )
         np.testing.assert_array_equal(phi.get_one_hplate(1, key="id").plate, self.plt)
         np.testing.assert_array_equal(phi.get_one_hplate(2, key="id").plate, self.stack)
-        np.testing.assert_array_equal(
-            phi.get_one_hplate(3, key="id").plate, self.Inserts
-        )
 
     def test_iteration(self):
         ValIn = {"A1": "Control", "C[2,4]": "Test1"}
         self.plt.set(self.Value)
-        self.Inserts.top.set(ValIn)
         self.assertEqual(
             list(self.plt.iterate()),
             [
@@ -700,25 +634,7 @@ class TestPlate(unittest.TestCase):
                 ("G12", ""),
                 ("H12", ""),
             ],
-        )
-
-        self.assertEqual(
-            list(self.Inserts.iterate()),
-            [
-                ("A1", "Control", ""),
-                ("B1", "", ""),
-                ("C1", "", ""),
-                ("A2", "", ""),
-                ("B2", "", ""),
-                ("C2", "Test1", ""),
-                ("A3", "", ""),
-                ("B3", "", ""),
-                ("C3", "Test1", ""),
-                ("A4", "", ""),
-                ("B4", "", ""),
-                ("C4", "Test1", ""),
-            ],
-        )
+        ) 
         multi = self.plt + self.plt1.set(self.Value)
         self.assertEqual(
             list(multi.iterate(accumulate=True)),
@@ -821,7 +737,6 @@ class TestPlate(unittest.TestCase):
                 ("H12", "", ""),
             ],
         )
-
         self.assertEqual(
             list(multi.iterate(accumulate=False)),
             [
@@ -1021,15 +936,13 @@ class TestPlate(unittest.TestCase):
         )
 
     def test_count(self):
-        # Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
         ValIn = {"A1": "Control", "C[2,4]": "Test1"}
         self.plt.set(self.Value)
-        self.Inserts.top.set(ValIn)
         self.assertEqual(
             self.plt.count(), {"": 80, "Control": 1, "Test1": 9, "Test2": 6}
         )
         multi = self.plt + self.plt1.set(self.Value)
-        multiInsert = self.Inserts + BioPlate(4, 3, inserts=True)
+#        multiInsert = self.Inserts + BioPlate(4, 3, inserts=True)
         self.assertEqual(
             multi.count(),
             {
@@ -1037,51 +950,24 @@ class TestPlate(unittest.TestCase):
                 1: {"": 80, "Control": 1, "Test1": 9, "Test2": 6},
             },
         )
-        self.assertEqual(
-            self.Inserts.count(),
-            {"top": {"Control": 1, "Test1": 3, "": 8}, "bot": {"": 12}},
-        )
-        self.assertEqual(
-            multiInsert.count(),
-            {
-                0: {"top": {"Control": 1, "Test1": 3, "": 8}, "bot": {"": 12}},
-                1: {"top": {"": 12}, "bot": {"": 12}},
-            },
-        )
+#        self.assertEqual(
+#            multiInsert.count(),
+#            {
+#                0: {"top": {"Control": 1, "Test1": 3, "": 8}, "bot": {"": 12}},
+#                1: {"top": {"": 12}, "bot": {"": 12}},
+#            },
+#        )
 
     def test_get_value(self):
         self.plt.set(self.Value)
-        self.Inserts.top.set("C2", "Test1")
         np.testing.assert_array_equal(self.plt.get("C2"), "Test1")
         np.testing.assert_array_equal(self.stack.get(0, "C2"), "Test1")
-        np.testing.assert_array_equal(self.Inserts.top.get("C2"), "Test1")
 
     def test_get_value_row(self):
         self.plt.set(self.Value)
         np.testing.assert_array_equal(
             self.plt.get("C[1,6]"), ["", "Test1", "Test1", "Test1", "Test1", "Test1"]
         )
-
-#    def test_eval_well(self):
-#        self.plt.set(self.Value)
-#        np.testing.assert_array_equal(
-#            self.plt._eval_well(bpu.EL("C", slice(1, None), 2)),
-#            np.array(["", "", "Test1", "", "", "", "", ""], dtype="U40"),
-#        )
-#        np.testing.assert_array_equal(
-#            self.plt._eval_well(bpu.EL("R", 2, slice(1, None))),
-#            np.array(
-#                ["", "", "", "", "", "", "", "", "", "", "Test2", ""], dtype="U40"
-#            ),
-#        )
-#        np.testing.assert_array_equal(
-#            self.plt._eval_well(bpu.EL("R", slice(2, 4), 8)),
-#            np.array(["", "Test1"], dtype="U40"),
-#        )
-#        np.testing.assert_array_equal(
-#            self.plt._eval_well(bpu.EL("C", 3, slice(4, 8))),
-#            np.array(["Test1", "Test1", "Test1", "Test1"], dtype="U40"),
-#        )
 
     def test_get_values(self):
         self.plt.set(self.Value)
@@ -1112,19 +998,14 @@ class TestPlate(unittest.TestCase):
 
     def test_name(self):
         self.assertEqual(self.plt.name, "BioPlatePlate")
-        self.assertEqual(self.Inserts.name, "BioPlateInserts")
         self.assertEqual(self.stack.name, "BioPlateStack")
 
     def test_to_excel(self):
         self.plt.to_excel("test_plate_to_excel.xlsx")
         exist_plate = Path("test_plate_to_excel.xlsx").exists()
-        self.Inserts.to_excel("test_ins_to_excel.xlsx")
-        exist_ins = Path("test_ins_to_excel.xlsx").exists()
         self.stack.to_excel("test_stack_to_excel.xlsx")
         exist_stack = Path("test_stack_to_excel.xlsx").exists()
-
         self.assertTrue(exist_plate)
-        self.assertTrue(exist_ins)
         self.assertTrue(exist_stack)
 
     def test_create_stack(self):
@@ -1153,25 +1034,11 @@ class TestPlate(unittest.TestCase):
         self.plt.set("A[2-3]", ["_1", "_2"], merge=True)
         self.assertEqual(self.plt.get("A2"), "Test_1")
         self.assertEqual(self.plt.get("A3"), "Test_2")
-        ins = BioPlate(12, 8, inserts=True)
-        ins.top.set("2-5[A-C]", ["test", "tes", "te", "t"])
-        self.assertEqual(ins.top.get("A2"), "test")
-        ins.top.set("2-3[A-C]", ["_1", "_2"], merge=True)
-        ins.top.set("A-C[4-5]", ["_3", "_4", "_5"], merge=True)
-        self.assertEqual(ins.top.get("A2"), "test_1")
-        self.assertEqual(ins.top.get("B3"), "tes_2")
-        self.assertEqual(ins.top.get("A4"), "te_3")
-        self.assertEqual(ins.top.get("B5"), "t_4")
-        self.assertEqual(ins.top.get("C5"), "t_5")
         self.stack.set(0, "A3", "_bob", merge=True)
         self.assertEqual(self.stack.get(0, "A3"), "Test_2_bob")
         self.plt.set({"A2" : "_A", "A3" : "_B"}, merge=True)
         self.assertEqual(self.plt["A2"], "Test_1_A")
         self.assertEqual(self.plt["A3"], "Test_2_bob_B")
-
-    def test_raise_inserts(self):
-        with self.assertRaises(ValueError):
-            self.Inserts.set("A5", "martin")
 
     def test_inserts_stack(self):
         ins = BioPlate(2, 12, 8, inserts=True)
@@ -1189,19 +1056,6 @@ class TestPlate(unittest.TestCase):
        p = BioPlate(12,8)
        p["A[4-6]"] = "bob"
        self.assertEqual(p["A6"], "bob")
-       
-    def test_insert_set_get(self):
-        ii = BioPlate(12, 8, inserts=True)
-        ii["top", "A[3-7]"] = "Bob"
-        ii["bot", "B-D[6-9]"] = ["t1", "t2", "t3"]
-        ii[0, "7-10[F-H]"] = ["t4", "t5", "t6", "t7"]
-        self.assertEqual(ii.top.get("A4" ), "Bob")
-        self.assertEqual(ii.bot.get("C7" ), "t2")
-        self.assertEqual(ii.top.get("G8" ), "t5")
-        self.assertEqual(ii["top", "A5"], "Bob")
-        self.assertEqual(ii["bot", "B6"], "t1")
-        self.assertEqual(ii[0, "H10"], "t7")
-        self.assertEqual(ii[1, 3, 8], "t2")
 
     def test_partial_value(self):
         pl = BioPlate(12, 8)
