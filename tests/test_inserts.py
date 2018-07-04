@@ -141,7 +141,13 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(
             self.Inserts.top.set("A-C[1-3]", ["Test1", "Test2", "Test3"]),
             self.Inserts.top,
-        )                              
+        )
+        Ns = BioPlate(12, 8, inserts=True)
+        Ns["bot", "4-7[A-D]"] = ["boom1", "boom2", "boom3", "boom4"]
+        np.testing.assert_array_equal(Ns["bot", "4-7[A-D]"], np.array([["boom1", "boom2", "boom3", "boom4"],
+                   ["boom1", "boom2", "boom3", "boom4"],
+                   ["boom1", "boom2", "boom3", "boom4"],
+                   ["boom1", "boom2", "boom3", "boom4"]]))                
 
     def test_table(self):
         v = {

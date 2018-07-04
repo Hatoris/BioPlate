@@ -112,18 +112,6 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
                     well = BioPlateMatrix(index[1])
                     plt[index[1]] = value
                     return
-                    if isinstance(value, list):
-                        plate_shape = plt[well.row, well.column].shape
-                        len_plate_shape = len(plate_shape)
-                        if len_plate_shape > 1:
-                            if well.pos == "R":
-                                resh_val = np.reshape(value, (plate_shape[0], 1))
-                            else:
-                                resh_val = value
-                            plt[well.row, well.column] = resh_val
-                            return
-                    else:
-                        plt[well.row, well.column] = value
         super(BioPlateInserts, self).__setitem__(index, value)
 
     @property

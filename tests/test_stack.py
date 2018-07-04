@@ -471,12 +471,6 @@ class TestPlate(unittest.TestCase):
 
     def test_get_value(self):
         np.testing.assert_array_equal(self.stack.get(0, "C2"), "NT")
-     
-    def test_get_value_row(self):
-         pass
-        
-    def test_get_values(self):
-          pass
 
     def test_name(self):
         self.assertEqual(self.stack.name, "BioPlateStack")
@@ -519,6 +513,10 @@ class TestPlate(unittest.TestCase):
         N2stack = self.plt2 + self.plt3
         Astack = self.stack + N2stack
         np.testing.assert_array_equal(Nstack[2], self.plt2)
+        pp = BioPlate(12, 8)
+        ps = BioPlate(2, 12, 8)
+        Nps = pp + ps
+        self.assertIs(Nps[0], pp)
 
     def test_change_args(self):
         Nstacki = self.Ins + self.Ins1
