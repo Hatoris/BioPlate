@@ -26,7 +26,7 @@ class PlateHist(Database):
         @hybrid_property
         def plate(self):
             if isinstance(self.plate_array, list):
-                return BioPlate.stack.BioPlateStack(self.plate_array)
+                return BioPlate.stack.Stack(self.plate_array)
             else:
                 return self.plate_array
 
@@ -90,7 +90,7 @@ class PlateHist(Database):
             self.session.commit()
             self.session.close()
             Type = type(plate_array).__name__
-            Type = "BioPlateStack" if Type == "list" else Type
+            Type = "Stack" if Type == "list" else Type
             return f"{Type} {plate_name} with {numWell} wells was successfully added to database {self.db_name}"
         else:
             return already_exist[0].id

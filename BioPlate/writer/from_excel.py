@@ -5,9 +5,9 @@ from typing import List, Tuple, Dict, Callable, Union, Iterable, Any, Iterator, 
 import pyexcel_xlsx as pex
 
 from BioPlate import BioPlate
-from BioPlate.inserts import BioPlateInserts
-from BioPlate.plate import BioPlatePlate
-from BioPlate.stack import BioPlateStack
+from BioPlate.inserts import Inserts
+from BioPlate.plate import Plate
+from BioPlate.stack import Stack
 from BioPlate.utilitis import _LETTER
 
 
@@ -70,11 +70,11 @@ class _BioPlateFromExcel:
             column, row = self._guess_column_row(value)
         else:
             # do stuff with plate infos
-            TYPE = {"BioPlatePlate": BioPlatePlate, "BioPlateInserts": BioPlateInserts}
+            TYPE = {"Plate": Plate, "Inserts": Inserts}
             infos = self.plate_infos[sheetname]
             header = infos.get("header", False)
             stack = infos.get("stack", False)
-            Type = TYPE.get(infos.get("type", "BioPlatePlate"))
+            Type = TYPE.get(infos.get("type", "Plate"))
             column = infos.get("column")
             row = infos.get("row")
         return Type, stack, column, row
@@ -86,19 +86,19 @@ class _BioPlateFromExcel:
         return False
 
     @overload
-    def _guess_type(self, value : List[List]) -> BioPlatePlate:#pragma: no cover
+    def _guess_type(self, value : List[List]) -> Plate:#pragma: no cover
         pass
 
     @overload
-    def _guess_type(self, value : List[List]) -> BioPlateInserts:#pragma: no cover
+    def _guess_type(self, value : List[List]) -> Inserts:#pragma: no cover
         pass
 
     def _guess_type(self, value):
         """this function have to guess from list[list] the shape of plate and return plate class to use"""
         if self.is_insert(value):
-            return BioPlateInserts
+            return Inserts
         else:
-            return BioPlatePlate
+            return Plate
 
     def _get_stack(self, value: List[List], sheetname: str = None) -> bool:
         """this function have to guess from list[list] if it is a stack or not """
@@ -112,9 +112,9 @@ class _BioPlateFromExcel:
                 if self.is_insert(value):
                     return stack
                 else:
-                    return True  # two BioPlatePlate
+                    return True  # two Plate
             else:
-                return False  # a BioPlatePlate alone
+                return False  # a Plate alone
         else:
             return self.plate_infos[sheetname].get("stack", False)
 
@@ -127,11 +127,11 @@ class _BioPlateFromExcel:
             row = len(value) - 1
         return column, row
 
-    def _get_BioPlate_object(self) -> Dict[str, Union[BioPlatePlate, BioPlateInserts, BioPlateStack]]:
+    def _get_BioPlate_object(self) -> Dict[str, Union[Plate, Inserts, Stack]]:
         final = dict()
         for sheetname, value in self.no_empty_sheets.items():
             if self._get_stack(value, sheetname):
-                final[sheetname] = BioPlateStack(
+                final[sheetname] = Stack(
                     list(self._get_one_plate(value, sheetname))
                 )
             else:
@@ -161,11 +161,11 @@ class _BioPlateFromExcel:
             yield value[rowS:]
 
     @overload
-    def _instance_of_plate(self, Type : Callable[[int, int], BioPlatePlate], column : int, row : int):#pragma: no cover
+    def _instance_of_plate(self, Type : Callable[[int, int], Plate], column : int, row : int):#pragma: no cover
         pass
 
     @overload
-    def _instance_of_plate(self, Type : Callable[[int, int], BioPlateInserts], column : int, row : int):#pragma: no cover
+    def _instance_of_plate(self, Type : Callable[[int, int], Inserts], column : int, row : int):#pragma: no cover
         pass
 
     def _instance_of_plate(self, Type , column , row):
@@ -174,11 +174,11 @@ class _BioPlateFromExcel:
     def _get_one_plate(self, values: List[List], sheetname: str) -> Iterator:
         Type, stack, column, row = self._get_plate_informations(values, sheetname)
         plate = self._instance_of_plate(Type, column, row)
-        if plate.name == "BioPlatePlate":
+        if plate.name == "Plate":
             plates, rest = self._pre_bp_iterate(values, row)
             for i, val in self._iterate_bp_value(plates, row):
                 plate.set(_LETTER[i], val)
-        elif plate.name == "BioPlateInserts":
+        elif plate.name == "Inserts":
             plates, rest = self._pre_bpi_iterate(values, row)
             for i, position, val in self._iterate_bpi_value(plates, row):
                 getattr(plate, position).set(_LETTER[i], val)

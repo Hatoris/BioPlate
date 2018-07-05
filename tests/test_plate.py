@@ -486,7 +486,7 @@ class TestPlate(unittest.TestCase):
         self.plt.set("H4", "Test")
         self.assertEqual(
             self.plt.save("test save", db_hist_name="test_plate_historic.db"),
-            "BioPlatePlate test save with 96 wells was successfully added to database test_plate_historic.db",
+            "Plate test save with 96 wells was successfully added to database test_plate_historic.db",
         )
         self.plt.set("H5", "lol")
         self.assertEqual(
@@ -650,7 +650,7 @@ class TestPlate(unittest.TestCase):
         )
 
     def test_name(self):
-        self.assertEqual(self.plt.name, "BioPlatePlate")
+        self.assertEqual(self.plt.name, "Plate")
 
     def test_to_excel(self):
         self.plt.to_excel("test_plate_to_excel.xlsx")

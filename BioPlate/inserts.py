@@ -15,65 +15,65 @@ from collections import OrderedDict
 
 import numpy as np
 
-from BioPlate.array import BioPlateArray
+from BioPlate.array import Array
 from BioPlate.manipulation import BioPlateManipulation
-from BioPlate.stack import BioPlateStack
+from BioPlate.stack import Stack
 from BioPlate.matrix import BioPlateMatrix
 
 
-class BioPlateInserts(BioPlateArray, BioPlateManipulation):
+class Inserts(Array, BioPlateManipulation):
     def __new__(
         cls, *args, **kwargs):
         kwargs.pop("inserts", None)
-        return BioPlateArray.__new__(cls, *args, inserts=True, **kwargs)
+        return Array.__new__(cls, *args, inserts=True, **kwargs)
 
-    def __init__(self: "BioPlateInserts", *args, **kwargs) -> None:
+    def __init__(self: "Inserts", *args, **kwargs) -> None:
         self.ID = id(self)
 
     def __add__(
-        self: "BioPlateInserts", other: Union[BioPlateStack, "BioPlateInserts"]
-    ) -> BioPlateStack:
-        if isinstance(other, BioPlateStack):
-            newstack = BioPlateArray._get_stack_in_cache(other.ID)
+        self: "Inserts", other: Union[Stack, "Inserts"]
+    ) -> Stack:
+        if isinstance(other, Stack):
+            newstack = Array._get_stack_in_cache(other.ID)
             newstack = [self.ID] + newstack
         else:
             newstack = [self.ID, other.ID]
         newstack = list(OrderedDict.fromkeys(newstack))
-        return BioPlateStack(newstack)            
+        return Stack(newstack)
 
     @overload
     def __getitem__(
-        self: "BioPlateInserts", index: int
+        self: "Inserts", index: int
     ) -> Union[np.ndarray, str]:  # pragma: no cover
         pass
 
     @overload
     def __getitem__(
-        self: "BioPlateInserts", index: Tuple[int, int]
+        self: "Inserts", index: Tuple[int, int]
     ) -> Union[np.ndarray, str]:  # pragma: no cover
         pass
 
     @overload
     def __getitem__(
-        self: "BioPlateInserts", index: Union[slice, int]
+        self: "Inserts", index: Union[slice, int]
     ) -> Union[np.ndarray, str]:  # pragma: no cover
         pass
 
     @overload
     def __getitem__(
-        self: "BioPlateInserts", index: Tuple[str, str]
+        self: "Inserts", index: Tuple[str, str]
     ) -> Union[np.ndarray, str]:  # pragma: no cover
         pass
 
     @overload
     def __getitem__(
-        self: "BioPlateInserts", index: str
+        self: "Inserts", index: str
     ) -> Union[np.ndarray, str]:  # pragma: no cover
         pass
 
     @overload
     def __getitem__(
-        self: "BioPlateInserts", index: Tuple[Union[int, slice], Union[int, slice], int, str]
+        self: "Inserts", index: Tuple[Union[int, slice], Union[int, slice], int, str]
     ) -> Union[np.ndarray, str]:  # pragma: no cover
         pass
 
@@ -85,11 +85,11 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
                 if isinstance(index[1], str):
                     well = BioPlateMatrix(index[1])
                     return plt[well.row, well.column]
-        return super(BioPlateInserts, self).__getitem__(index)
+        return super(Inserts, self).__getitem__(index)
 
     @overload
     def __setitem__(
-        self: "BioPlateInserts",
+        self: "Inserts",
         index : Tuple[Union[int, slice], Union[int, slice]],
         value : Union[List[int], List[str], int, str],
     ) -> None : # pragma: no cover 
@@ -97,7 +97,7 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
 
     @overload
     def __setitem__(
-        self: "BioPlateInserts",
+        self: "Inserts",
         index: Union[str, Tuple[int, slice], int],
         value: Union[List[int], List[str], int, str],
     ) -> None:#pragma: no cover
@@ -112,14 +112,14 @@ class BioPlateInserts(BioPlateArray, BioPlateManipulation):
                     well = BioPlateMatrix(index[1])
                     plt[index[1]] = value
                     return
-        super(BioPlateInserts, self).__setitem__(index, value)
+        super(Inserts, self).__setitem__(index, value)
 
     @property
-    def top(self: "BioPlateInserts") -> np.ndarray:
+    def top(self: "Inserts") -> np.ndarray:
         return self[0]
 
     @property
-    def bot(self: "BioPlateInserts") -> np.ndarray:
+    def bot(self: "Inserts") -> np.ndarray:
         return self[1]
 
     def force_position(func: Callable) -> Callable:

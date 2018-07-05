@@ -4,7 +4,7 @@ import numpy as np
 
 from pathlib import Path, PurePath
 from BioPlate import BioPlate
-from BioPlate.stack import BioPlateStack
+from BioPlate.stack import Stack
 from string import ascii_uppercase
 from tabulate import tabulate
 from BioPlate.database.plate_db import PlateDB
@@ -134,11 +134,11 @@ class TestPlate(unittest.TestCase):
         self.stack.set(1, "B6", "test1")                                
         self.assertEqual(
             self.stack.save("test save2", db_hist_name="test_plate_historic.db"),
-            "BioPlateStack test save2 with 96 wells was successfully added to database test_plate_historic.db",
+            "Stack test save2 with 96 wells was successfully added to database test_plate_historic.db",
         )
         self.assertEqual(
             self.stack.save("test save2"),
-            "BioPlateStack test save2 with 96 wells was successfully added to database plate_historic.db",
+            "Stack test save2 with 96 wells was successfully added to database plate_historic.db",
         )
         phi = PlateHist(db_name="test_plate_historic.db")
         np.testing.assert_array_equal( phi.get_one_hplate( 1, key="id").plate, self.stack)
@@ -473,7 +473,7 @@ class TestPlate(unittest.TestCase):
         np.testing.assert_array_equal(self.stack.get(0, "C2"), "NT")
 
     def test_name(self):
-        self.assertEqual(self.stack.name, "BioPlateStack")
+        self.assertEqual(self.stack.name, "Stack")
 
     def test_to_excel(self):
         self.stack.to_excel("test_stack_to_excel.xlsx")
@@ -506,7 +506,7 @@ class TestPlate(unittest.TestCase):
 
     def test__add__(self):
         Nstack = self.stack + self.plt2
-        self.assertEqual(Nstack.name, "BioPlateStack")
+        self.assertEqual(Nstack.name, "Stack")
         np.testing.assert_array_equal(Nstack[2], self.plt2)
         with self.assertRaises(ValueError):
             Nstack + self.plt2

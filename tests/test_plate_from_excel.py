@@ -162,7 +162,7 @@ class TestPlateFromExcel(unittest.TestCase):
                 "row": 8,
                 "column": 12,
                 "stack": False,
-                "type": "BioPlatePlate",
+                "type": "Plate",
             }
         }
         From = BioPlateFromExcel(
@@ -178,7 +178,7 @@ class TestPlateFromExcel(unittest.TestCase):
                 "row": 8,
                 "column": 12,
                 "stack": False,
-                "type": "BioPlateInserts",
+                "type": "Inserts",
             }
         }
         From = BioPlateFromExcel(
@@ -194,7 +194,7 @@ class TestPlateFromExcel(unittest.TestCase):
                 "row": 8,
                 "column": 12,
                 "stack": True,
-                "type": "BioPlatePlate",
+                "type": "Plate",
             }
         }
         From = BioPlateFromExcel(
@@ -210,7 +210,7 @@ class TestPlateFromExcel(unittest.TestCase):
                 "row": 8,
                 "column": 12,
                 "stack": True,
-                "type": "BioPlateInserts",
+                "type": "Inserts",
             }
         }
         From = BioPlateFromExcel(

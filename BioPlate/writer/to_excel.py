@@ -3,9 +3,9 @@ from io import BytesIO
 import xlsxwriter
 
 from BioPlate import BioPlate
-from BioPlate.inserts import BioPlateInserts
-from BioPlate.stack import BioPlateStack
-from BioPlate.plate import BioPlatePlate
+from BioPlate.inserts import Inserts
+from BioPlate.stack import Stack
+from BioPlate.plate import Plate
 
 class BioPlateToExcel:
 
@@ -110,15 +110,15 @@ class BioPlateToExcel:
         """
         get representation of BioPlate in excel file
         """
-        if isinstance(BPlate, BioPlatePlate):
+        if isinstance(BPlate, Plate):
             self._representation(BPlate)
-        elif isinstance(BPlate, BioPlateStack):
+        elif isinstance(BPlate, Stack):
             for plate in BPlate:
-                if isinstance(plate, BioPlatePlate):
+                if isinstance(plate, Plate):
                     self._representation(plate)
-                elif isinstance(plate, BioPlateInserts):
+                elif isinstance(plate, Inserts):
                     self._representation_inserts(plate)
-        elif isinstance(BPlate, BioPlateInserts):
+        elif isinstance(BPlate, Inserts):
             self._representation_inserts(BPlate)
 
     def _representation(self, plate):
@@ -155,8 +155,8 @@ class BioPlateToExcel:
         """
         order = self.order if order is None else order
         accumulate = self.accumulate if accumulate is None else accumulate
-        if isinstance(BPlate, BioPlateInserts) or isinstance(
-            BPlate[0], BioPlateInserts
+        if isinstance(BPlate, Inserts) or isinstance(
+            BPlate[0], Inserts
         ):
             self._data(
                 BPlate, accumulate=accumulate, order=order, inserts=True, header=header
@@ -202,7 +202,7 @@ class BioPlateToExcel:
     def _count(self, BPlate):
         for row, V in self.__count(BPlate):
             self.plate_count.write_row(row, 0, V)
-        self._header_count(len(V), Inserts=isinstance(BPlate, BioPlateInserts))
+        self._header_count(len(V), Inserts=isinstance(BPlate, Inserts))
 
     def __count(self, BPlate):
         row = 0

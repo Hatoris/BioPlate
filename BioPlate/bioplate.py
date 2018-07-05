@@ -13,9 +13,9 @@ from typing import (
 
 from collections import OrderedDict
 
-from BioPlate.plate import BioPlatePlate
-from BioPlate.inserts import BioPlateInserts
-from BioPlate.stack import BioPlateStack
+from BioPlate.plate import Plate
+from BioPlate.inserts import Inserts
+from BioPlate.stack import Stack
 
 
 @overload
@@ -24,7 +24,7 @@ def BioPlate(
     column: int,
     row: int,
     inserts: bool = False,
-) -> BioPlateStack:  # pragma: no cover
+) -> Stack:  # pragma: no cover
     pass
 
 @overload
@@ -33,14 +33,14 @@ def BioPlate(
     column: int,
     row: int,
     inserts: bool = True,
-) -> BioPlateStack:  # pragma: no cover
+) -> Stack:  # pragma: no cover
     pass
 
 @overload
 def BioPlate(
     args: Dict,
     inserts: bool = False,
-) -> Union[BioPlatePlate, BioPlateInserts, BioPlateStack]:  # pragma: no cover
+) -> Union[Plate, Inserts, Stack]:  # pragma: no cover
     pass
     
 @overload
@@ -48,7 +48,7 @@ def BioPlate(
     column: int,
     row: int,
     inserts: bool = False,
-) -> BioPlatePlate:  # pragma: no cover
+) -> Plate:  # pragma: no cover
     pass    
 
 @overload
@@ -56,7 +56,7 @@ def BioPlate(
     column: int,
     row: int,
     inserts: bool = True,
-) -> BioPlateInserts:  # pragma: no cover
+) -> Inserts:  # pragma: no cover
     pass
 
 def BioPlate(*args, **kwargs):
@@ -80,17 +80,17 @@ def BioPlate(*args, **kwargs):
     """
     if len(args) == 2 or isinstance(args[0], dict):
         if kwargs.get("inserts", False):
-            return BioPlateInserts(*args, **kwargs)
+            return Inserts(*args, **kwargs)
         else:
-            return BioPlatePlate(*args, **kwargs)
+            return Plate(*args, **kwargs)
     elif len(args) == 3:
         ID_list = []
         nb_plates, *nargs = args
         for nb_plate in range(nb_plates):
             if kwargs.get("inserts", False):
-                plate = BioPlateInserts(*nargs, **kwargs)
+                plate = Inserts(*nargs, **kwargs)
             else:
-                plate = BioPlatePlate(*nargs, **kwargs)
+                plate = Plate(*nargs, **kwargs)
             ID_list.append(id(plate))
-        return BioPlateStack(ID_list)
+        return Stack(ID_list)
 

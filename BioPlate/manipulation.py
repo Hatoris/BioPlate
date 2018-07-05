@@ -34,7 +34,7 @@ class BioPlateManipulation:
     @property
     def name(self: "BioPlateManipulation") -> str:
         """
-        Get object name (BioPlate, BioPlateInserts, BioPlateArray)
+        Get object name (BioPlate, Inserts, Array)
 
         Returns
         -------

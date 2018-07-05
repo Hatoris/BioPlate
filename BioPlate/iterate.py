@@ -77,14 +77,14 @@ class BioPlateIterate:
 
     @classmethod
     def _iterate(cls) -> Iterator:
-        bp = cls.plate.name == "BioPlatePlate"
-        bpi = cls.plate.name == "BioPlateInserts"
-        bps = cls.plate.name == "BioPlateStack"
+        bp = cls.plate.name == "Plate"
+        bpi = cls.plate.name == "Inserts"
+        bps = cls.plate.name == "Stack"
         if bp:
             yield from cls.__iterate(cls.plate)
         else:
             for plat in cls.plate:
-                if bps and plat.name == "BioPlateInserts":
+                if bps and plat.name == "Inserts":
                     for pl in plat:
                         yield from cls.__iterate(pl)
                 else:

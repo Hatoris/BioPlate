@@ -124,7 +124,7 @@ class TestPlateDB(unittest.TestCase):
         )
         self.assertEqual(
             add_hplate_1,
-            "BioPlatePlate second plate with 6 wells was successfully added to database test_plate_historic.db",
+            "Plate second plate with 6 wells was successfully added to database test_plate_historic.db",
         )
         self.assertEqual(add_hplate_2, 2)
         self.assertEqual(
@@ -152,7 +152,7 @@ class TestPlateDB(unittest.TestCase):
             Plate_id=2, numWell=96, plate_name="stack", plate_array=[pl1, pl2]
         )
        Pl = self.phi.get_one(2, key="id").plate
-       self.assertEqual(Pl.name, "BioPlateStack")
+       self.assertEqual(Pl.name, "Stack")
        self.assertEqual(Pl.get(0, "A2"), "bob")
       
 if __name__ == "__main__":

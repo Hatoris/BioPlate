@@ -37,9 +37,9 @@ def remove_np_tail(liste):
 
 def like_read_excel(plate, header=True, lst=None):
     rm_empty = [] if lst is None else lst
-    if plate.name == "BioPlatePlate":
+    if plate.name == "Plate":
         return clean_list(rm_empty, plate, header=header)
-    elif plate.name == "BioPlateInserts":
+    elif plate.name == "Inserts":
         n = 0
         for parts in plate:
             parts = parts if header else parts[1:, 1:]
@@ -96,9 +96,9 @@ def like_read_data(plate, accumulate=True, order="C", header=None, stack=False):
         pass
     else:
         val = len(rm_empty[0])
-        if plate.name == "BioPlatePlate":
+        if plate.name == "Plate":
             header = ["well", "value0"]
-        elif plate.name == "BioPlateInserts":
+        elif plate.name == "Inserts":
             if accumulate:
                 header = ["well", "top0", "bot0"]
             else:
@@ -106,7 +106,7 @@ def like_read_data(plate, accumulate=True, order="C", header=None, stack=False):
         if val <= 2:
             pass
         else:
-            if plate.name == "BioPlateInserts":
+            if plate.name == "Inserts":
                 pass
             #                if val <= 3:
             #                    for i in range(1, val):
@@ -121,19 +121,19 @@ def like_read_data(plate, accumulate=True, order="C", header=None, stack=False):
 
 
 def like_read_data_stack(stack, accumulate=True, order="C", header=None):
-    if stack[0].name == "BioPlatePlate":
+    if stack[0].name == "Plate":
         if accumulate:
             header = ["well", "value0"]
         else:
             header = ["well", "value"]
-    elif stack[0].name == "BioPlateInserts":
+    elif stack[0].name == "Inserts":
         if accumulate:
             header = ["well", "top0", "bot0"]
         else:
             header = ["well", "top", "bot"]
     if accumulate:
         for i in range(1, len(stack)):
-            if stack[0].name == "BioPlateInserts":
+            if stack[0].name == "Inserts":
                 header.append("top" + str(i))
                 header.append("bot" + str(i))
             else:

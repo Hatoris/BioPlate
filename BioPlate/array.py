@@ -2,12 +2,8 @@ from typing import (
     Dict,
     List,
     Tuple,
-    Optional,
     Union,
-    Any,
     overload,
-    Sequence,
-    Generator,
 )
 
 from string import ascii_uppercase
@@ -19,10 +15,10 @@ from BioPlate.matrix import BioPlateMatrix
 import BioPlate.utilitis as bpu
 
 
-class BioPlateArray(np.ndarray):
+class Array(np.ndarray):
     """ 
-    BioPlateArray is core based application, this class is the only one to inerit from np.ndarray. 
-    This class return a np.array format properly for BioPlate or BioPlateInserts. 
+    Array is core based application, this class is the only one to inerit from np.ndarray.
+    This class return a np.array format properly for BioPlate or Inserts.
     A row is symbolise by it's letter, a column by a number.
     """
 
@@ -46,14 +42,14 @@ class BioPlateArray(np.ndarray):
 
         """
         if kwargs.get("inserts", False):
-            bp = BioPlateArray.bioplatearray(*args, **kwargs)
+            bp = Array.bioplatearray(*args, **kwargs)
             BioPlate = np.array([bp, bp]).view(cls)
         else:
-            BioPlate = BioPlateArray.bioplatearray(*args, **kwargs).view(cls)
+            BioPlate = Array.bioplatearray(*args, **kwargs).view(cls)
         ID = id(BioPlate)
-        if ID not in BioPlateArray._PLATE_CACHE:
-            BioPlateArray._PLATE_CACHE[ID] = BioPlate
-        return BioPlateArray._PLATE_CACHE[ID]
+        if ID not in Array._PLATE_CACHE:
+            Array._PLATE_CACHE[ID] = BioPlate
+        return Array._PLATE_CACHE[ID]
 
     def __getitem__(
         self, index: Tuple[Union[int, slice], Union[int, slice], int, str]
@@ -61,7 +57,7 @@ class BioPlateArray(np.ndarray):
         if isinstance(index, str):
             well = BioPlateMatrix(index)
             return self[well.row, well.column]
-        return super(BioPlateArray, self).__getitem__(index)
+        return super(Array, self).__getitem__(index)
 
     def __setitem__(
         self,
@@ -86,7 +82,7 @@ class BioPlateArray(np.ndarray):
             else:
                 self[well.row, well.column] = value
                 return
-        super(BioPlateArray, self).__setitem__(index, value)
+        super(Array, self).__setitem__(index, value)
 
     @overload
     def bioplatearray(
@@ -116,9 +112,9 @@ class BioPlateArray(np.ndarray):
             if isinstance(args[0], list):
                 return args[0]
             elif len(args) == 2 or isinstance(args[0], dict):
-                columns, rows = BioPlateArray.get_columns_rows(*args, **kwargs)
+                columns, rows = Array.get_columns_rows(*args, **kwargs)
                 if isinstance(columns, int) and isinstance(rows, int):
-                    return BioPlateArray.bio_plate_array(columns, rows)
+                    return Array.bio_plate_array(columns, rows)
                 else:
                     raise ValueError
         except ValueError:
@@ -205,7 +201,7 @@ class BioPlateArray(np.ndarray):
             
             Exemples
             ----------------
-            >>>print(BioPlateArray.bio_plate_array(3, 2))
+            >>>print(Array.bio_plate_array(3, 2))
             [ [', '1', '2', '3']
               ['A', '', '', '']
               ['B', '', '', '']
@@ -233,14 +229,14 @@ class BioPlateArray(np.ndarray):
        Exemples
        -----------------
        >>> from BioPlate import BioPlate
-       >>> from BioPlate.array import BioPlateArray
+       >>> from BioPlate.array import Array
        >>> plate = BioPlate(12, 8)
-       >>> same_plate = BioPlateArray._get_plate_in_cache(id(plate))
+       >>> same_plate = Array._get_plate_in_cache(id(plate))
        >>> id(plate) == id(same_plate)
        True
        """
         try:
-            return BioPlateArray._PLATE_CACHE[plate_id]
+            return Array._PLATE_CACHE[plate_id]
         except KeyError:
             raise KeyError(f"plate {plate_id} is not in plate cache")
 
@@ -261,13 +257,13 @@ class BioPlateArray(np.ndarray):
        Exemples
        -----------------
        >>> from BioPlate import BioPlate
-       >>> from BioPlate.array import BioPlateArray
+       >>> from BioPlate.array import Array
        >>> stack = BioPlate(2, 12, 8)
-       >>> BioPlateArray._get_stack_in_cache(id(stack))
+       >>> Array._get_stack_in_cache(id(stack))
        [4356278905, 4356789241]
        """
         try:
-            return BioPlateArray._STACK_CACHE[stack_id]
+            return Array._STACK_CACHE[stack_id]
         except KeyError:
             raise KeyError(f"stack {stack_id} is not in stack cache")
 
@@ -290,16 +286,16 @@ class BioPlateArray(np.ndarray):
        Exemples
        -----------------
        >>> from BioPlate import BioPlate
-       >>> from BioPlate.array import BioPlateArray
+       >>> from BioPlate.array import Array
        >>> stack = BioPlate(2, 12, 8)
-       >>> BioPlateArray._get_plate_in_stack(id(stack), 0)
+       >>> Array._get_plate_in_stack(id(stack), 0)
        [[ '' , 1, 2, 3 ..., 12]
         ['A', '' , ...]
         ...
        """
         try:
-            plate_id = BioPlateArray._get_stack_in_cache(stack_id)[plate_index]
-            return BioPlateArray._get_plate_in_cache(plate_id)
+            plate_id = Array._get_stack_in_cache(stack_id)[plate_index]
+            return Array._get_plate_in_cache(plate_id)
         except KeyError:
             raise KeyError(f"object {stack_id} is not in cache")
         except IndexError:
@@ -324,16 +320,16 @@ class BioPlateArray(np.ndarray):
        Exemples
        -----------------
        >>> from BioPlate import BioPlate
-       >>> from BioPlate.array import BioPlateArray
+       >>> from BioPlate.array import Array
        >>> stack1 = BioPlate(2, 12, 8)
        >>> stack2 = BioPlate(2, 12, 8)
-       >>> BioPlateArray._merge_stack(id(stack1), id(stack2))
+       >>> Array._merge_stack(id(stack1), id(stack2))
        [4356278905, 4356789241, 3456890234, 2346789120]
        """
         try:
             newstack = (
-                BioPlateArray._STACK_CACHE[stack1_id]
-                + BioPlateArray._STACK_CACHE[stack2_id]
+                Array._STACK_CACHE[stack1_id]
+                + Array._STACK_CACHE[stack2_id]
             )
             return newstack
         except KeyError:
@@ -359,14 +355,14 @@ class BioPlateArray(np.ndarray):
        Exemples
        -----------------
        >>> from BioPlate import BioPlate
-       >>> from BioPlate.array import BioPlateArray
+       >>> from BioPlate.array import Array
        >>> plate1 = BioPlate(12, 8)
        >>> plate2 = BioPlate(12, 8)
        >>> stack = [id(plate1), id(plate2)]
-       >>> BioPlateArray._add_stack_to_cache(123, stack)
+       >>> Array._add_stack_to_cache(123, stack)
        >>>
         """
-        BioPlateArray._STACK_CACHE[stack_id] = id_list
+        Array._STACK_CACHE[stack_id] = id_list
         return None
 
     def _add_plate_in_cache(plate_id: int, plate: np.ndarray) -> None:
@@ -387,23 +383,23 @@ class BioPlateArray(np.ndarray):
        Exemples
        -----------------
        >>> import numpy as np
-       >>> from BioPlate.array import BioPlateArray
+       >>> from BioPlate.array import Array
        >>> plate = np.arange(117).reshape(13,9)
-       >>> BioPlateArray._add_plate_in_cache(123, plate)
+       >>> Array._add_plate_in_cache(123, plate)
        >>>
        """
-        if plate_id not in BioPlateArray._PLATE_CACHE:
-            BioPlateArray._PLATE_CACHE[plate_id] = plate
+        if plate_id not in Array._PLATE_CACHE:
+            Array._PLATE_CACHE[plate_id] = plate
             return None
 
-    def _get_list_id_of_stack(stack_object: "BioPlateArray") -> List[int]:
+    def _get_list_id_of_stack(stack_object: "Array") -> List[int]:
         """
         Get a list of plate id in stack 
        
        Parameters
        ---------------------
-       stack_object: BioPlateStack
-           BioPlateStack object
+       stack_object: Stack
+           Stack object
            
        Returns
        --------------
@@ -412,12 +408,12 @@ class BioPlateArray(np.ndarray):
        Exemples
        -----------------
        >>> from BioPlate import BioPlate
-       >>> from BioPlate.array import BioPlateArray
+       >>> from BioPlate.array import Array
        >>> stack = BioPlate(2, 12, 8)
-       >>> BioPlateArray._get_list_id_of_stack(stack)
+       >>> Array._get_list_id_of_stack(stack)
         [4356278905, 4356789241]
        """
-        if stack_object.name == "BioPlateStack":
+        if stack_object.name == "Stack":
             id_list = []
             for plate in stack_object:
                 plate_id = id(plate)

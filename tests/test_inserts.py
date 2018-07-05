@@ -161,7 +161,7 @@ class TestPlate(unittest.TestCase):
     def test_save(self):
         self.assertEqual(
             self.Inserts.save("test save3", db_hist_name="test_plate_historic.db"),
-            "BioPlateInserts test save3 with 12 wells was successfully added to database test_plate_historic.db",
+            "Inserts test save3 with 12 wells was successfully added to database test_plate_historic.db",
         )
         phi = PlateHist(db_name="test_plate_historic.db")
         np.testing.assert_array_equal(
@@ -208,8 +208,8 @@ class TestPlate(unittest.TestCase):
         )
     
     def test_name(self):
-        self.assertEqual(self.Inserts.name, "BioPlateInserts")
-        self.assertEqual(self.Ins.name, "BioPlateInserts")
+        self.assertEqual(self.Inserts.name, "Inserts")
+        self.assertEqual(self.Ins.name, "Inserts")
         
     def test_to_excel(self):
         self.Inserts.to_excel("test_ins_to_excel.xlsx")
