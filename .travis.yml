@@ -5,7 +5,9 @@ python:
 install:
     - pip install .
     - pip install codecov
+    - pip install coverage
 script:
     - pytest
+    - coverage run tests/run_all_test.py
 after_success:
     - codecov
