@@ -1,3 +1,5 @@
+![licence](https://img.shields.io/pypi/l/BioPlate)
+
 BioPlate
 ===========
 
