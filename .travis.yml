@@ -7,4 +7,4 @@ install:
     - pip install codecov
 script: pytest 
 after_success:
-  codecov
+  codecov --token=f7d99ba3-7946-4e0b-b15f-cf5fde5a6e82
