@@ -2,9 +2,10 @@ language: python
 python:
   - "3.6"
   - "3.7-dev"
+before_install:
+  pip install .
+  pip install codecov
 script: 
   - pytest 
-before_install:
-  pip install codecov
 after_success:
   codecov
