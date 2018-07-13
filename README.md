@@ -1,4 +1,4 @@
-![licence](https://img.shields.io/pypi/l/BioPlate)
+[![licence](https://img.shields.io/pypi/l/BioPlate)](https://GitHub.com/Hatoris/BioPlate)
 
 BioPlate
 ===========
