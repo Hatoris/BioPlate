@@ -29,8 +29,9 @@ setup(
         'pyexcel_xls>=0.5',
     ],
     long_description=read('README.md'),
-    python_requires='>=3.6',
+    python_requires='>=3.3',
     classifiers=[
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Development Status :: 3 - Alpha",
         "Natural Language :: English",
