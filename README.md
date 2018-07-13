@@ -1,4 +1,6 @@
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://GitHub.com/Hatoris/BioPlate)
+[![PyPI version](https://badge.fury.io/py/BioPlate.svg)](https://badge.fury.io/py/BioPlate)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Hatoris/BioPlate/blob/master/LICENCE.md)
+[![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/Hatoris/BioPlate)
 
 BioPlate
 ===========
