@@ -27,10 +27,12 @@ setup(
         'pyexcel>=0.5',
         'pyexcel_xlsx>=0.5',
         'pyexcel_xls>=0.5',
+        'typing>=3.6.4'
     ],
     long_description=read('README.md'),
-    python_requires='>=3.3',
+    python_requires='>=3.4',
     classifiers=[
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Development Status :: 3 - Alpha",
