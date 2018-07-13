@@ -5,6 +5,7 @@ python:
 install:
     - pip install .
     - pip install codecov
-script: pytest 
+script:
+    - py.test --cov=BioPlate tests
 after_success:
-  codecov --token=f7d99ba3-7946-4e0b-b15f-cf5fde5a6e82
+  codecov
