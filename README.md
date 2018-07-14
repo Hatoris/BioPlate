@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/Hatoris/BioPlate.svg?branch=master)](https://travis-ci.org/Hatoris/BioPlate)
 [![PyPI version](https://badge.fury.io/py/BioPlate.svg)](https://badge.fury.io/py/BioPlate)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Hatoris/BioPlate/blob/master/LICENCE.md)
-[![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/Hatoris/BioPlate)
+[![coverage](https://codecov.io/gh/Hatoris/BioPlate/branch/master/graph/badge.svg)](https://codecov.io/gh/Hatoris/BioPlate)
 
 BioPlate
 ===========
