@@ -18,25 +18,24 @@ class BioPlateFromExcel:
 
 
 class _BioPlateFromExcel:
-    """
-   thia class is for load plate representation and data fron excel file
-   one sheet => one plate
-   one sheet => multi plate
-   multi sheet => one plate per sheet
-   1. Open excel file
-   2. Sheets are specifed ? If no, use all sheets
-   3. Header are present ? If no, provide plate_infotmation
-   
-   """
 
     def __init__(self, file_name, sheets=None, plate_infos=None):
         """
-       header : plate represented in excel have header
-       sheets : list of sheet name to select from excel file if None all sheet will be transform
-       plate_infos : dict : {"sheetname" : { "row" : 9, "column" : 12, "stack" : True, "type" : "BioPlate"}}
-       if header is false, plate_infos should be provide. If sheets is None all sheets will be processes, 
-       
-       give excel book name, if no sheets list( shoukd be always in list) do on all sheets, return dict of sheet_name : list of bioplate
+        This class load plate representation and data fron excel file. And can read following structures :
+            * one sheet => one plate
+            * one sheet => multi plate
+            * multi sheet => one plate per sheet
+        If no sheetnames are specifed all sheets will be process. If plate are only data and no headers are present, you should provide a plate information. Eg : {"sheetname" : { "row" : 9, "column" : 12, "stack" : True, "type" : "BioPlate"}}
+        Parameters
+        --------------------
+       sheets : list, default None 
+           List of sheet name to process if None all sheet will be process
+       plate_infos : dict, default None
+           Should be provide if no header are present in given sheet. Eg : {"sheetname" : { "row" : 9, "column" : 12, "stack" : True, "type" : "BioPlate"}}
+       Return
+       ------------
+       bioplate_dict : dict
+           Dict with sheetname as key and list of bioplate object as value
        """
         self.file_name = file_name
         self.sheets = sheets

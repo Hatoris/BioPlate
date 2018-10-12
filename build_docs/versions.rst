@@ -1,7 +1,8 @@
 ================
 Version history
 ================
-
+- v 0.1.3 :
+    - Corrected merge bug that throw shape mismatch error when merge is enabled
 - v 0.1.2 :
     - Add missing docstring
     - Set can now assign one value to multiple position `set("2-3[B-C]", "ref")`.
