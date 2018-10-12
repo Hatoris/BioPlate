@@ -1,6 +1,5 @@
 import unittest
 import contextlib
-#import mock
 import numpy
 
 from pathlib import Path, PurePath

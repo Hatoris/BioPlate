@@ -4,7 +4,7 @@
 [![coverage](https://codecov.io/gh/Hatoris/BioPlate/branch/master/graph/badge.svg)](https://codecov.io/gh/Hatoris/BioPlate)
 
 BioPlate
-===========
+==========
 
 [Documentation](https://hatoris.github.io/BioPlate/html/index.html)
 

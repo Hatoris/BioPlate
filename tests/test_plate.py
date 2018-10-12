@@ -66,6 +66,8 @@ class TestPlate(unittest.TestCase):
         self.plt = BioPlate({"id": 1}, db_name="test_plate.db")
         self.plt1 = BioPlate(12, 8)
         self.Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
+        self.multiValue = {"A[2-8]" : "Bob"}
+        self.multiValue1 = {"A-D[1-5]" : ["A", "B", "C", "D"], "A-D[1-6]" : ["_1", "_2", "_3", "_4"]}
 
     def tearDown(self):
         """
@@ -686,6 +688,18 @@ class TestPlate(unittest.TestCase):
     def test_partial_value(self):
         pl = BioPlate(12, 8)
         pl["A[5-9]"] = ["test", "test2", "test3"]
-                
+
+    def test_multi_value(self):
+        pl = BioPlate(12,8)
+        pl.set(self.multiValue)
+        self.assertEqual(pl["A[2-8]"].tolist(), ["Bob"] * 7)
+        pl1 = BioPlate(12,8)
+        pl1.set(self.multiValue1, merge=True)
+        self.assertEqual(pl1["A-D[1-5]"].tolist(), [
+        ["A_1"] * 5,
+        ["B_2"] * 5,
+        ["C_3"] *5,
+        ["D_4"] *5 ])             
+                                                
 if __name__ == "__main__":
     unittest.main()

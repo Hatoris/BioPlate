@@ -166,9 +166,9 @@ class BioPlateManipulation:
         if isinstance(well, dict):
             for key, val in well.items():
                 if merge:
-                    self[key] = ncd.add(self[key], val)
+                    self.set(key, val, merge=True)
                 else:
-                    self[key] = val
+                    self.set(key, val)
             return self
         well = BioPlateMatrix(str(well))
         if isinstance(value, list):

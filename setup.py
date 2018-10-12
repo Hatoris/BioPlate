@@ -29,7 +29,7 @@ setup(
         'pyexcel_xls>=0.5',
         'typing>=3.6.4'
     ],
-    long_description=read('README.md'),
+    long_description=read('README.md'),    long_description_content_type="text/markdown",
     python_requires='>=3.4',
     classifiers=[
         "Programming Language :: Python :: 3.5",
