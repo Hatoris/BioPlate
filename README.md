@@ -6,7 +6,7 @@
 BioPlate
 ==========
 
-[Documentation](https://hatoris.github.io/BioPlate/html/index.html)
+[Documentation](https://hatoris.github.io/BioPlate/)
 
 The main use cases of the library are:
 
