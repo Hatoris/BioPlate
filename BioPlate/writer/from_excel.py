@@ -19,7 +19,7 @@ class BioPlateFromExcel:
 
 class _BioPlateFromExcel:
 
-    def __init__(self, file_name, sheets=None, plate_infos=None):
+    def __init__(self, file_name : str, sheets : List[str] =None, plate_infos : Dict[str, Dict]=None):
         """
         This class load plate representation and data fron excel file. And can read following structures :
             * one sheet => one plate
@@ -32,7 +32,7 @@ class _BioPlateFromExcel:
            List of sheet name to process if None all sheet will be process
        plate_infos : dict, default None
            Should be provide if no header are present in given sheet. Eg : {"sheetname" : { "row" : 9, "column" : 12, "stack" : True, "type" : "BioPlate"}}
-       Return
+       Returns
        ------------
        bioplate_dict : dict
            Dict with sheetname as key and list of bioplate object as value
@@ -47,7 +47,12 @@ class _BioPlateFromExcel:
         self.no_empty_sheets = self._get_no_empty_sheets()
 
     def _get_no_empty_sheets(self) -> Dict[str, List]:
-        """return a dict without empty sheet"""
+        """Get only sheet with element in it and discard empty ones.
+        Returns
+        ------------
+        Dict_of_sheet : dict
+            keys are sheet name, values are list of element              
+        """
         no_empty_sheet = dict()
         for sheetname, value in self.loaded_file.items():
             if value:
@@ -61,7 +66,37 @@ class _BioPlateFromExcel:
     def _get_plate_informations(
         self, value: List[List], sheetname: str
     ) -> Tuple[Callable, bool, int, int]:
-        """type, plate object in stack with column snd row"""
+        """Guess or extract plate informations from a list of data 
+        Parameters
+        ----------
+        value : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+         sheetname : str
+             Name of sheet to process
+            .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+        Returns
+        --------
+        Type : Plate or Inserts
+            Basic object type (Plate or Inserts)
+         stack : Boolean, dafault False
+             values are a stack of basic object type (Plate or Inserts)
+          column : int
+              number of column in plate
+          row : int
+              number of row in plate
+         Exemples
+         -----------
+        >>> from BioPlate.from_excel import _BioPlateFromExcel
+        >>> BPFE = _BioPlateFromExcel("path/to/my_file.xlsx", sheetname = ["sheet1"])
+        >>> BPFE.loaded_file["sheet1"]
+        [
+            [, 1, 2, 3],
+            ["A", "t1", "t2", "t3"],
+            ["B", "y1", "y2", "y3"]        
+        ]
+        >>> BPFE._get_plate_informations(BPFE.loaded_file["sheet1"], "sheet1")
+        (Plate, False, 3, 2)        
+        """
         if self.plate_infos is None:
             # do stuff with header
             Type = self._guess_type(value)
