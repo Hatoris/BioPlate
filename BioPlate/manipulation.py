@@ -21,8 +21,8 @@ from BioPlate.matrix import BioPlateMatrix
 
 
 class BioPlateManipulation:
-    """
-    This parent class grouped all method that can be applied to BioPlate instance.
+    """This parent class grouped all method that can be applied to BioPlate instance.
+    
     """
 
     def __getitem__(self, index): #pragma: no cover
@@ -137,30 +137,28 @@ class BioPlateManipulation:
         pass
 
     def set(self, *args, merge=False):
-        """
-        Main entry point to assign value on plate
-
-        Parameters
+        """Main entry point to assign value on plate 
+           
+        Parameters 
         ----------
           well : dict or str
-                   - if dict, well must contain well identifier as key and value to assign as value.eg : {"A2" : "value", "A[3-6]" : 42}
-                   - if string, well is only a well identifier eg : "G5"
-         value : list or str or int or float
-                      - if list, value should be presented with multiple well identifer
-                      "B-D[2-5]", ["value1", "value2", "value3"]
-        merge : bool (by default False)
-            Value on well are not overide but added
+              - if dict, well must contain well identifier as key and value to assign as value.eg : {"A2" : "value", "A[3-6]" : 42} 
+              - if string, well is only a well identifier eg : "G5" 
 
+         value : list or str or int or float 
+             - if list, value should be presented with multiple well identifer "B-D[2-5]", ["value1", "value2", "value3"]
+
+        merge : bool (by default False) 
+            Value on well are not overide but added
         Returns
         -------
          BioPlate : BioPlate
-                        return instance of plate
-         
-         Examples
-         -----------
-         
+             return instance of plate
+
+         Exemples
+         --------    
          see :ref:`Set-values-on-plate`
-        
+                 
         """
         well, value = self._args_analyse(*args)
         if isinstance(well, dict):
@@ -209,17 +207,15 @@ class BioPlateManipulation:
         Parameters
         ----------
         well : str
-            well is only a well identifier eg : "G5", "2[B-G]"
-         
-
+            well is only a well identifier eg : "G5", "2[B-G]"         
         Returns
         -------
-            One_well : str
-                get back value in one well eg : "G5"
-            multiple_well : np.array
-                get back all value eg : "2[B-G]"
-            multiple_well_multiple_identifier : list
-                return a list of eqch given arguments
+        One_well : str
+            get back value in one well eg : "G5"
+        multiple_well : np.array
+            get back all value eg : "2[B-G]"
+        multiple_well_multiple_identifier : list
+            return a list of eqch given arguments
                  
         """
         if len(well) > 1:

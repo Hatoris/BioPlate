@@ -22,17 +22,14 @@ from BioPlate.matrix import BioPlateMatrix
 
 
 class Inserts(Array, BioPlateManipulation):
-    def __new__(
-        cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
         kwargs.pop("inserts", None)
         return Array.__new__(cls, *args, inserts=True, **kwargs)
 
     def __init__(self: "Inserts", *args, **kwargs) -> None:
         self.ID = id(self)
 
-    def __add__(
-        self: "Inserts", other: Union[Stack, "Inserts"]
-    ) -> Stack:
+    def __add__(self: "Inserts", other: Union[Stack, "Inserts"]) -> Stack:
         if isinstance(other, Stack):
             newstack = Array._get_stack_in_cache(other.ID)
             newstack = [self.ID] + newstack
@@ -90,9 +87,9 @@ class Inserts(Array, BioPlateManipulation):
     @overload
     def __setitem__(
         self: "Inserts",
-        index : Tuple[Union[int, slice], Union[int, slice]],
-        value : Union[List[int], List[str], int, str],
-    ) -> None : # pragma: no cover 
+        index: Tuple[Union[int, slice], Union[int, slice]],
+        value: Union[List[int], List[str], int, str],
+    ) -> None:  # pragma: no cover
         pass
 
     @overload
@@ -100,7 +97,7 @@ class Inserts(Array, BioPlateManipulation):
         self: "Inserts",
         index: Union[str, Tuple[int, slice], int],
         value: Union[List[int], List[str], int, str],
-    ) -> None:#pragma: no cover
+    ) -> None:  # pragma: no cover
         pass
 
     def __setitem__(self, index, value):

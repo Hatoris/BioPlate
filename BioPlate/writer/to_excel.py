@@ -8,15 +8,7 @@ from BioPlate.stack import Stack
 from BioPlate.plate import Plate
 
 class BioPlateToExcel:
-
-    """
-    past to excel in different way bioplate object
-    plateToExcel.representation: 
-        past a representation of a BioPlate object in excel file
-    plateToExcel.data:
-        past an iteration of BioPlate object in excel
-    plateToExcel.count:
-        past a count of each value in BioPlate object to excel           
+    """Past BioPlate object to excel file.     
     """
 
     def __init__(
@@ -29,15 +21,24 @@ class BioPlateToExcel:
         empty="empty",
         test=False,
     ):
-        """
-
-        :param file_name: name of excel file
-        :param sheets: list of sheetname
-        :param header: if header should be put
-        :param accumulate: if plate data should be accumulat for same well or listed
-        :param order: if iteration should be done by column or row
-        :param empty:
-        :param test:
+        """This class is instentiate with parameters for excel file. BioPlate object are only pass to method.
+        
+        Parameters
+        ----------------
+        file_name: str
+            name of excel file
+        sheets: List[str]
+            list of sheetname (default is ["plate_representation", "plate_data", "plate_count"])
+        header: bool
+            if header should be put
+        accumulate: bool
+            if plate data should be accumulate for same well or listed
+        order: str, {"R", "C"}
+            if iteration should be done by column or row
+        empty: str
+            Name of well without value 
+        test : bool
+            For testing purpose, return in memory object
         """
         self.fileName = file_name
         self.sheets = sheets
@@ -67,9 +68,17 @@ class BioPlateToExcel:
 
     @property
     def open_excel_file(self):
-        """
-
-        :return:
+        """Create a ``xlsxwriter Workbook`` to work with. If test is ``True`` when class is instenciate this function will return a in `memory Workbook`_.
+        
+        .. _memory Workbook: https://xlsxwriter.readthedocs.io/workbook.html
+        .. _`xlsxwriter.Workbook`: https://xlsxwriter.readthedocs.io/workbook.html
+        
+        Returns
+        -----------
+        Workbook : `xlsxwriter.Workbook`_                
+            An object to write excel file
+            
+         
         """
         if self.test:
             return xlsxwriter.Workbook(self.output, {"in_memory": True})
