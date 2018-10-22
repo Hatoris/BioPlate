@@ -21,7 +21,7 @@ class BioPlateFromExcel:
     """
     def __new__(cls, *args, **kwargs):
         BPFE = _BioPlateFromExcel(*args, **kwargs)
-        return BPFE._get_BioPlate_object()
+        return BPFE.get_BioPlate_object()
 
 
 class _BioPlateFromExcel:
@@ -89,8 +89,8 @@ class _BioPlateFromExcel:
         row : int
              number of row in plate
               
-         Exemples
-         -----------------         
+         Examples
+         -------------
         >>> from BioPlate.from_excel import _BioPlateFromExcel
         >>> BPFE = _BioPlateFromExcel("path/to/my_file.xlsx", sheetname = ["sheet1"])
         >>> BPFE.loaded_file["sheet1"]
@@ -102,7 +102,7 @@ class _BioPlateFromExcel:
         if self.plate_infos is None:
             # do stuff with header
             Type = self._guess_type(value)
-            stack = self._get_stack(value)
+            stack = self.is_stack(value)
             column, row = self._guess_column_row(value)
         else:
             # do stuff with plate infos
@@ -116,6 +116,21 @@ class _BioPlateFromExcel:
         return Type, stack, column, row
 
     def is_insert(self, value: List[List]) -> bool:
+        """Evaluate if BioPlate object is an insert.
+        
+        Parameters
+        -------------
+        value : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+            
+             .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+             
+         Returns
+         ----------
+         is_insert : bool
+             True or False            
+        
+        """
         val = value[0][0]
         if val in ["TOP", "BOT"]:
             return True
@@ -130,14 +145,44 @@ class _BioPlateFromExcel:
         pass
 
     def _guess_type(self, value):
-        """this function have to guess from list[list] the shape of plate and return plate class to use"""
+        """this function have to guess from plate shape and return an empty BioPlate object to use
+        
+        Parameters
+        --------------
+        value : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+            
+             .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+        
+        Returns
+        ---------
+        BioPlate : ``Plate`` , ``Inserts``
+            return :func:`~BioPlate.plate.Plate.__init__` or :func:`~BioPlate.inserts.Inserts.__init__`
+         
+        """
         if self.is_insert(value):
             return Inserts
         else:
             return Plate
 
-    def _get_stack(self, value: List[List], sheetname: str = None) -> bool:
-        """this function have to guess from list[list] if it is a stack or not """
+    def is_stack(self, value: List[List], sheetname: str = None) -> bool:
+        """this function have to guess from plate if it is a stack
+        
+        Parameters
+        ----------
+        value : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+        sheetname : str
+            Name of sheet to process
+        
+            .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+
+         Returns
+         ----------
+         is_stack: bool
+             True or False                    
+            
+        """
         if self.plate_infos is None:
             blank_line = value.count([])
             if blank_line >= 1:
@@ -155,7 +200,25 @@ class _BioPlateFromExcel:
             return self.plate_infos[sheetname].get("stack", False)
 
     def _guess_column_row(self, value: List[List]) -> Tuple[int, int]:
-        """get column and row number from representation with header, -1 is to remove header"""
+        """get column and row number from representation with header.
+        
+        Note
+        -------
+        -1 is to remove header
+        
+        Parameters
+        ---------------
+                value : List[List]
+                    list of element return by `pyexcel_xlsx.get_data`_
+                     
+                    .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+                    
+        Returns
+        ---------
+        column_row : Tuple[int, int]
+            returns column and row numbers        
+          
+        """
         column = len(value[0]) - 1
         try:
             row = value.index(list()) - 1
@@ -163,10 +226,18 @@ class _BioPlateFromExcel:
             row = len(value) - 1
         return column, row
 
-    def _get_BioPlate_object(self) -> Dict[str, Union[Plate, Inserts, Stack]]:
+    def get_BioPlate_object(self) -> Dict[str, Union[Plate, Inserts, Stack]]:
+        """Main method of this class, return a dict with sheetname as key and BioPlate object filled with element from spreadsheets as value.
+        
+        Returns
+        ----------
+        BioPlate_object : Dict[str, Union[Plate, Inserts, Stack]]
+            
+        
+        """
         final = dict()
         for sheetname, value in self.no_empty_sheets.items():
-            if self._get_stack(value, sheetname):
+            if self.is_stack(value, sheetname):
                 final[sheetname] = Stack(
                     list(self._get_one_plate(value, sheetname))
                 )
@@ -175,16 +246,56 @@ class _BioPlateFromExcel:
         return final
 
     def _pre_bp_iterate(self, value : List[List], row : int)-> Iterator:
+        """Split value from a sheet into chunck of plate.
+        
+        Parameters
+        ---------------
+        value : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+        row : int
+            number of row in plate
+            
+             .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+             
+        Yelds
+        -------
+        plate1 : List[List]
+            First representation on plate object in value
+         reminder : List[List]
+             Next value in sheet
+                
+        
+        """
         if self.plate_infos is None:
             # 1 header + 1 empty
             yield value[: row + 1]
             yield value[row + 2 :]
         else:
-            # 1 header + 1 empty
+            # 0 header + 1 empty
             yield value[:row]
             yield value[row + 1 :]
 
     def _pre_bpi_iterate(self, value : List[List], row : int)-> Iterator:
+        """Split value from a sheet into chunck of inserts.
+        
+        Parameters
+        ---------------
+        value : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+        row : int
+            number of row in plate
+            
+             .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+             
+        Yelds
+        -------
+        inserts1 : List[List]
+            First representation on plate object in value
+         reminder : List[List]
+             Next value in sheet
+                
+        
+        """
         if self.plate_infos is None:
             # 2 plate + 2 header + 2 empty
             rowS = row + row + 2 + 2
@@ -205,9 +316,44 @@ class _BioPlateFromExcel:
         pass
 
     def _instance_of_plate(self, Type , column , row):
+        """instantiate a plate object with column and row number.
+        
+        Parameters
+        ----------------
+        Type : ``Plate``, ``Inserts``
+            class definitions to instanciate
+        column : int
+            number of column in plate object
+        row : int
+            number of row in plate object
+            
+        Returns
+        ----------
+        instanciate_plate: ``Plate``, ``Inserts``
+            instanciate object with right number of columns and rows
+        
+        """
         return Type(column, row)
 
     def _get_one_plate(self, values: List[List], sheetname: str) -> Iterator:
+        """yield plate object representation from list for a given sheetname
+        
+        Parameters
+        ----------
+        value : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+        sheetname : str
+            Name of sheet to process
+        
+            .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file
+            
+        Yields
+        -----------
+        value_of_one_plate : ``Plate``, ``Inserts``, List[List]
+            Yields plate object filled with value or List[List]                         
+        
+        
+        """
         Type, stack, column, row = self._get_plate_informations(values, sheetname)
         plate = self._instance_of_plate(Type, column, row)
         if plate.name == "Plate":
@@ -225,6 +371,23 @@ class _BioPlateFromExcel:
     def _iterate_bpi_value(
         self, plates: List[List], row: int
     ) -> Union[Iterator[Tuple[int, str, List]]]:
+        """yield row index, position (top or bottom) and value of given well for Inserts.
+        
+        Parameters
+        ------------
+        plates : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+        row : int
+            index of row
+                    
+            .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file        
+        
+        Yields
+        --------
+        Infos : Tuple[int, str, str]
+            Yields infos to assign value on Inserts
+                                
+        """
         position = "top"
         for plate in plates:
             if self.plate_infos is None:
@@ -238,6 +401,23 @@ class _BioPlateFromExcel:
             position = "top" if position == "bot" else "bot"
 
     def _iterate_bp_value(self, plate: List[List], row: int) -> Iterator[Tuple[int, List]]:
+        """yield row index and value of given well for Plate.
+        
+        Parameters
+        ------------
+        plates : List[List]
+            list of element return by `pyexcel_xlsx.get_data`_
+        row : int
+            index of row
+                    
+            .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file        
+        
+        Yields
+        --------
+        Infos : Tuple[int, str]
+            Yields infos to assign value on Plate
+                                
+        """        
         if self.plate_infos is None:
             for i, val in enumerate(plate[1:]):
                 i = i % row

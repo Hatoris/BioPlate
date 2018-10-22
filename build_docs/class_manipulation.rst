@@ -17,7 +17,7 @@ To excel
     :members:
     :special-members:
     :private-members:
-    :no-undoc-members: 
+    :no-undoc-members: __weakref__
  
 From excel
 ==========

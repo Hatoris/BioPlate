@@ -86,9 +86,16 @@ class BioPlateToExcel:
 
     @property
     def select_worksheet(self):
-        """
-
-        :return:
+        """Create worksheets object for each sheets given.
+        
+        Returns
+        -----------
+        worksheets : List[xlsxwriter.worksheets]
+            Return a list of `worksheets`_        
+            
+            .. _worksheets: https://xlsxwriter.readthedocs.io/worksheet.html#worksheet
+        
+        
         """
         worksheets = list()
         for sheet in self.sheets:
@@ -97,27 +104,44 @@ class BioPlateToExcel:
         return worksheets
 
     def close(self):
+        """Close workbook properly        
+        """
         self.workbook.close()
 
     def get_test(self):
+        """Return list of value stocked in memory of workbook.
+        
+        Returns
+        ---------
+        values : Dict[str, List[List]]
+            returns values passed to workbook as dict with sheetnames as key and value as list of values.       
+        
+        """
         try:
             return self.output.getvalue()
         except AttributeError:
             return None
 
     def __header_format_representation(self, format):
-        """
-
-        :param format:
-        :param row:
-        :return:
+        """Function to pass heqdwr format representation to workbook object
+        
+        Parameters
+        ---------------
+        format : Dict
+            Dict of format to apply to plate header following xlswriter rules
+            
         """
         self.plate_rep.set_row(self.last_row_representation, None, format)
         self.plate_rep.set_column(0, 0, None, format)
 
     def representation(self, BPlate):
-        """
-        get representation of BioPlate in excel file
+        """This function put reprenstation of BPlate depending on is type (Plate, Inserts, Stack)
+        
+        Parameters
+        --------------
+        BPlate : BioPlate
+            BioPlate object to represent in spreqdsheets
+            
         """
         if isinstance(BPlate, Plate):
             self._representation(BPlate)
@@ -131,16 +155,29 @@ class BioPlateToExcel:
             self._representation_inserts(BPlate)
 
     def _representation(self, plate):
+        """Pass Plate representation to spreadsheet
+        
+        Parameters
+        --------------
+        plate : Plate
+            Plate object to represent
+            
         """
-        protected func, write in specified workbook
-        """
-        self.__header_format_representation(self.hd_format_representation)
+        self.__header_format_representation( self.hd_format_representation)
         plate = self.plate_split(plate)
         for row, value in enumerate(plate, self.last_row_representation):
             self.plate_rep.write_row(row, 0, value)
         self.last_row_representation += len(plate) + 1
 
     def _representation_inserts(self, BPlate):
+        """Pass Inserts representation to spreadsheet
+        
+        Parameters
+        --------------
+        BPlate : Inserts
+            Inserts object to represent
+            
+        """
         position = ["TOP", "BOT"]
         for pos, plate_part in zip(position, BPlate):
             rm = self.last_row_representation
