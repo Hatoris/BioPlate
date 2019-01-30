@@ -65,6 +65,7 @@ class TestPlate(unittest.TestCase):
         """
         self.plt = BioPlate({"id": 1}, db_name="test_plate.db")
         self.plt1 = BioPlate(12, 8)
+        self.plt3 = BioPlate(12,8)
         self.Value = {"A1": "Control", "C[2,10]": "Test1", "11[B,G]": "Test2"}
         self.multiValue = {"A[2-8]" : "Bob"}
         self.multiValue1 = {"A-D[1-5]" : ["A", "B", "C", "D"], "A-D[1-6]" : ["_1", "_2", "_3", "_4"]}
@@ -335,9 +336,13 @@ class TestPlate(unittest.TestCase):
             ),
         )
 
-    def test_set(self):
+    def test_set0(self):
         V = {"A1": "Test", "B3": "Test"}
         np.testing.assert_array_equal(self.plt.set(V), self.plt)
+        V2 = [("A3", "Bob"), ("A3" ,"_thefirst")]
+        self.plt1.set(V2, merge=True)
+        self.assertEqual(self.plt1["A3"], "Bob_thefirst")
+        
 
     def test_set_again(self):
         with self.assertRaises(ValueError):
