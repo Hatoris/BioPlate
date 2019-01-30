@@ -9,6 +9,7 @@ from typing import (
     Sequence,
     Generator,
 )
+from collections.abc import Iterable
 
 import numpy as np
 import numpy.core.defchararray as ncd
@@ -106,14 +107,12 @@ class BioPlateManipulation:
         ("A[1-2]",  ["test", "test1"])
 
         """
-        dict_in = any(isinstance(arg, dict) for arg in args)
-        list_in = any(isinstance(arg, list) for arg in args)
-        if len(args) == 2 and not dict_in:
-            well, value, *trash = args
-            return well, value
-        if len(args) == 1 and dict_in:
+        if len(args) == 1:
             well, *trash = args
             value = None
+            return well, value
+        if len(args) == 2:
+            well, value, *trash = args
             return well, value
 
     @overload
@@ -161,8 +160,9 @@ class BioPlateManipulation:
                  
         """
         well, value = self._args_analyse(*args)
-        if isinstance(well, dict):
-            for key, val in well.items():
+        if not isinstance(well, str) and isinstance(well, Iterable):
+            generator = well.items() if isinstance(well, dict) else well
+            for key, val in generator:
                 if merge:
                     self.set(key, val, merge=True)
                 else:
