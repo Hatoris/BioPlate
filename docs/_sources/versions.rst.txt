@@ -1,6 +1,8 @@
 ================
 Version history
 ================
+- v 0.1.4 :
+    - Set function can now be used with tuple of tuple, list of list and a mix of both. This allow to use the same key several time as long as `merge = True`
 - v 0.1.3 :
     - Corrected merge bug that throw shape mismatch error when merge is enabled
 - v 0.1.2 :

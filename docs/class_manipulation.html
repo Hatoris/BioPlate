@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Class documentation &mdash; BioPlate 0.1.3 documentation</title>
+  <title>Class documentation &mdash; BioPlate 0.1.4 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -59,7 +58,7 @@
             
             
               <div class="version">
-                0.1
+                0.1.4
               </div>
             
           
@@ -89,7 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Library usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fn_set.html">Set values on plate</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-on-simple-plate">Set on simple plate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fn_set.html#seton-inserts-plate">Seton inserts plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-on-inserts-plate">Set on inserts plate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-on-stack-of-plate">Set on stack of plate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-one-value-at-time">Set one value at time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fn_set.html#set-value-on-column">Set value on column</a></li>
@@ -141,9 +140,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Class documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-BioPlate.manipulation">Manipulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-BioPlate.writer.to_excel">To excel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#from-excel">From excel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plate-database">Plate database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plate-database-historic">Plate database historic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-BioPlate.writer.from_excel">From excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-BioPlate.database.plate_db">Plate database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-BioPlate.database.plate_historic_db">Plate database historic</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -253,32 +252,28 @@
 
 <dl class="method">
 <dt id="BioPlate.manipulation.BioPlateManipulation.get">
-<code class="descname">get</code><span class="sig-paren">(</span><em>*well</em><span class="sig-paren">)</span> &#x2192; Union[typing.List[str], _ForwardRef('BioPlateManipulation'), NoneType, typing.List[typing.Sequence[typing.Any]]]<a class="headerlink" href="#BioPlate.manipulation.BioPlateManipulation.get" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get</code><span class="sig-paren">(</span><em>*well</em><span class="sig-paren">)</span> &#x2192; Union[List[str], BioPlate.manipulation.BioPlateManipulation, None, List[Sequence[Any]]]<a class="headerlink" href="#BioPlate.manipulation.BioPlateManipulation.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use to retrive informations from BioPlate instance</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">well is only a well identifier eg : “G5”, “2[B-G]”</p>
 </dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Returns</strong></dt>
+<dd></dd>
+<dt><strong>——-</strong></dt>
+<dd></dd>
 <dt><strong>One_well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><blockquote class="first">
-<div><p>get back value in one well eg : “G5”</p>
-</div></blockquote>
-<dl class="last docutils">
-<dt>multiple_well <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
+<dd><p class="first last">get back value in one well eg : “G5”</p>
+</dd>
+<dt><strong>multiple_well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
 <dd><p class="first last">get back all value eg : “2[B-G]”</p>
 </dd>
-<dt>multiple_well_multiple_identifier <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dt><strong>multiple_well_multiple_identifier</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
 <dd><p class="first last">return a list of eqch given arguments</p>
-</dd>
-</dl>
 </dd>
 </dl>
 </td>
@@ -344,7 +339,7 @@
 
 <dl class="method">
 <dt id="BioPlate.manipulation.BioPlateManipulation.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>plate_name: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Union[str, NoneType]<a class="headerlink" href="#BioPlate.manipulation.BioPlateManipulation.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>plate_name: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Optional[str]<a class="headerlink" href="#BioPlate.manipulation.BioPlateManipulation.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save BioPlate objwct to plate history database</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -355,7 +350,7 @@
 <dd><p class="first last">name of plate to save it in database eg : “expetiment 1”</p>
 </dd>
 <dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">To know kwargs see <code class="xref py py-func docutils literal notranslate"><span class="pre">add_hplate()</span></code></p>
+<dd><p class="first last">To know kwargs see <a class="reference internal" href="#BioPlate.database.plate_historic_db.PlateHist.add_hplate" title="BioPlate.database.plate_historic_db.PlateHist.add_hplate"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_hplate()</span></code></a></p>
 </dd>
 </dl>
 </td>
@@ -379,7 +374,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>well</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict or str</span></dt>
 <dd><blockquote class="first">
 <div><ul class="simple">
@@ -388,36 +383,35 @@
 </ul>
 </div></blockquote>
 <dl class="last docutils">
-<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">list or str or int or float</span></dt>
-<dd><ul class="first simple">
-<li>if list, value should be presented with multiple well identifer</li>
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">list or str or int or float </span></dt>
+<dd><ul class="first last simple">
+<li>if list, value should be presented with multiple well identifer “B-D[2-5]”, [“value1”, “value2”, “value3”]</li>
 </ul>
-<p class="last">“B-D[2-5]”, [“value1”, “value2”, “value3”]</p>
 </dd>
 </dl>
 </dd>
 <dt><strong>merge</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (by default False)</span></dt>
 <dd><p class="first last">Value on well are not overide but added</p>
 </dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>BioPlate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">BioPlate</span></dt>
+<dt><strong>Returns</strong></dt>
+<dd></dd>
+<dt><strong>——-</strong></dt>
+<dd><dl class="first last docutils">
+<dt>BioPlate <span class="classifier-delimiter">:</span> <span class="classifier">BioPlate</span></dt>
 <dd><p class="first last">return instance of plate</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Examples</p>
-<p>see <a class="reference internal" href="fn_set.html#set-values-on-plate"><span class="std std-ref">Set values on plate</span></a></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="BioPlate.manipulation.BioPlateManipulation.table">
-<code class="descname">table</code><span class="sig-paren">(</span><em>headers: str = 'firstrow'</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; &lt;function tabulate at 0xea8d8420&gt;<a class="headerlink" href="#BioPlate.manipulation.BioPlateManipulation.table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">table</code><span class="sig-paren">(</span><em>headers: str = 'firstrow'</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; tabulate.tabulate<a class="headerlink" href="#BioPlate.manipulation.BioPlateManipulation.table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform BioPlate object to table</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -492,16 +486,113 @@
 <dl class="class">
 <dt id="BioPlate.writer.to_excel.BioPlateToExcel">
 <em class="property">class </em><code class="descclassname">BioPlate.writer.to_excel.</code><code class="descname">BioPlateToExcel</code><span class="sig-paren">(</span><em>file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header=True, accumulate=True, order='C', empty='empty', test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel" title="Permalink to this definition">¶</a></dt>
-<dd><p>past to excel in different way bioplate object
-plateToExcel.representation:</p>
-<blockquote>
-<div>past a representation of a BioPlate object in excel file</div></blockquote>
-<dl class="docutils">
-<dt>plateToExcel.data:</dt>
-<dd>past an iteration of BioPlate object in excel</dd>
-<dt>plateToExcel.count:</dt>
-<dd>past a count of each value in BioPlate object to excel</dd>
+<dd><p>Past BioPlate object to excel file.</p>
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel._BioPlateToExcel__header_format_representation">
+<code class="descname">_BioPlateToExcel__header_format_representation</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel._BioPlateToExcel__header_format_representation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pass heqdwr format representation to workbook object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Dict of format to apply to plate header following xlswriter rules</p>
+</dd>
 </dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>file_name, sheets=['plate_representation', 'plate_data', 'plate_count'], header=True, accumulate=True, order='C', empty='empty', test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is instentiate with parameters for excel file. BioPlate object are only pass to method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>file_name: str</strong></dt>
+<dd><p class="first last">name of excel file</p>
+</dd>
+<dt><strong>sheets: List[str]</strong></dt>
+<dd><p class="first last">list of sheetname (default is [“plate_representation”, “plate_data”, “plate_count”])</p>
+</dd>
+<dt><strong>header: bool</strong></dt>
+<dd><p class="first last">if header should be put</p>
+</dd>
+<dt><strong>accumulate: bool</strong></dt>
+<dd><p class="first last">if plate data should be accumulate for same well or listed</p>
+</dd>
+<dt><strong>order: str, {“R”, “C”}</strong></dt>
+<dd><p class="first last">if iteration should be done by column or row</p>
+</dd>
+<dt><strong>empty: str</strong></dt>
+<dd><p class="first last">Name of well without value</p>
+</dd>
+<dt><strong>test</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">For testing purpose, return in memory object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel._representation">
+<code class="descname">_representation</code><span class="sig-paren">(</span><em>plate</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel._representation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pass Plate representation to spreadsheet</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>plate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Plate</span></dt>
+<dd><p class="first last">Plate object to represent</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel._representation_inserts">
+<code class="descname">_representation_inserts</code><span class="sig-paren">(</span><em>BPlate</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel._representation_inserts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pass Inserts representation to spreadsheet</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>BPlate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Inserts</span></dt>
+<dd><p class="first last">Inserts object to represent</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close workbook properly</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="BioPlate.writer.to_excel.BioPlateToExcel.data">
 <code class="descname">data</code><span class="sig-paren">(</span><em>BPlate</em>, <em>accumulate=None</em>, <em>order=None</em>, <em>header=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.data" title="Permalink to this definition">¶</a></dt>
@@ -509,14 +600,39 @@ plateToExcel.representation:</p>
 header should be a list of column name</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="BioPlate.writer.to_excel.BioPlateToExcel.open_excel_file">
-<code class="descname">open_excel_file</code><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.open_excel_file" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dl class="method">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.get_test">
+<code class="descname">get_test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.get_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of value stocked in memory of workbook.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>values</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict[str, List[List]]</span></dt>
+<dd><p class="first last">returns values passed to workbook as dict with sheetnames as key and value as list of values.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="BioPlate.writer.to_excel.BioPlateToExcel.open_excel_file">
+<code class="descname">open_excel_file</code><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.open_excel_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">xlsxwriter</span> <span class="pre">Workbook</span></code> to work with. If test is <code class="docutils literal notranslate"><span class="pre">True</span></code> when class is instenciate this function will return a in <a class="reference external" href="https://xlsxwriter.readthedocs.io/workbook.html">memory Workbook</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Workbook</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://xlsxwriter.readthedocs.io/workbook.html">xlsxwriter.Workbook</a></span></dt>
+<dd><p class="first last">An object to write excel file</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -531,17 +647,36 @@ header should be a list of column name</p>
 <dl class="method">
 <dt id="BioPlate.writer.to_excel.BioPlateToExcel.representation">
 <code class="descname">representation</code><span class="sig-paren">(</span><em>BPlate</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.representation" title="Permalink to this definition">¶</a></dt>
-<dd><p>get representation of BioPlate in excel file</p>
+<dd><p>This function put reprenstation of BPlate depending on is type (Plate, Inserts, Stack)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>BPlate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">BioPlate</span></dt>
+<dd><p class="first last">BioPlate object to represent in spreqdsheets</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="BioPlate.writer.to_excel.BioPlateToExcel.select_worksheet">
 <code class="descname">select_worksheet</code><a class="headerlink" href="#BioPlate.writer.to_excel.BioPlateToExcel.select_worksheet" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Create worksheets object for each sheets given.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>worksheets</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[xlsxwriter.worksheets]</span></dt>
+<dd><p class="first last">Return a list of <a class="reference external" href="https://xlsxwriter.readthedocs.io/worksheet.html#worksheet">worksheets</a></p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -550,17 +685,426 @@ header should be a list of column name</p>
 </dd></dl>
 
 </div>
-<div class="section" id="from-excel">
-<h2>From excel<a class="headerlink" href="#from-excel" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-BioPlate.writer.from_excel">
+<span id="from-excel"></span><h2>From excel<a class="headerlink" href="#module-BioPlate.writer.from_excel" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="BioPlate.writer.from_excel.BioPlateFromExcel">
+<em class="property">class </em><code class="descclassname">BioPlate.writer.from_excel.</code><code class="descname">BioPlateFromExcel</code><a class="headerlink" href="#BioPlate.writer.from_excel.BioPlateFromExcel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class should be instanciate with those parameters <a class="reference internal" href="#BioPlate.writer.from_excel._BioPlateFromExcel.__init__" title="BioPlate.writer.from_excel._BioPlateFromExcel.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>bioplate_dict</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Dict with sheetname as key and list of bioplate object as value</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <span class="target" id="module-BioPlate.writer.from_excel"></span><dl class="class">
 <dt id="BioPlate.writer.from_excel._BioPlateFromExcel">
-<em class="property">class </em><code class="descclassname">BioPlate.writer.from_excel.</code><code class="descname">_BioPlateFromExcel</code><span class="sig-paren">(</span><em>file_name</em>, <em>sheets=None</em>, <em>plate_infos=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">class </em><code class="descclassname">BioPlate.writer.from_excel.</code><code class="descname">_BioPlateFromExcel</code><span class="sig-paren">(</span><em>file_name: str</em>, <em>sheets: List[str] = None</em>, <em>plate_infos: Dict[str</em>, <em>Dict] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>file_name: str</em>, <em>sheets: List[str] = None</em>, <em>plate_infos: Dict[str</em>, <em>Dict] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class load plate representation and data fron excel file. If no sheetnames are specifed all sheets will be process. If plate are only data and no headers are present, you should provide a plate information. Eg : {“sheetname” : { “row” : 9, “column” : 12, “stack” : True, “type” : “BioPlate”}}</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>sheets</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list, default None</span></dt>
+<dd><p class="first last">List of sheet name to process if None all sheet will be process</p>
+</dd>
+<dt><strong>plate_infos</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict, default None</span></dt>
+<dd><p class="first last">Should be provide if no header are present in given sheet. Eg : {“sheetname” : { “row” : 9, “column” : 12, “stack” : True, “type” : “BioPlate”}}</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._get_no_empty_sheets">
+<code class="descname">_get_no_empty_sheets</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[str, List]<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._get_no_empty_sheets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get only sheet with element in it and discard empty ones.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict_of_sheet</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">keys are sheet name, values are list of element</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._get_one_plate">
+<code class="descname">_get_one_plate</code><span class="sig-paren">(</span><em>values: List[List], sheetname: str</em><span class="sig-paren">)</span> &#x2192; Iterator<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._get_one_plate" title="Permalink to this definition">¶</a></dt>
+<dd><p>yield plate object representation from list for a given sheetname</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+<dt><strong>sheetname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of sheet to process</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>value_of_one_plate</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal notranslate"><span class="pre">Plate</span></code>, <code class="docutils literal notranslate"><span class="pre">Inserts</span></code>, List[List]</span></dt>
+<dd><p class="first last">Yields plate object filled with value or List[List]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._get_plate_informations">
+<code class="descname">_get_plate_informations</code><span class="sig-paren">(</span><em>value: List[List], sheetname: str</em><span class="sig-paren">)</span> &#x2192; Tuple[Callable, bool, int, int]<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._get_plate_informations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guess or extract plate informations from a list of data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+<dt><strong>sheetname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of sheet to process</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Plate or Inserts</span></dt>
+<dd><p class="first last">Basic object type (Plate or Inserts)</p>
+</dd>
+<dt><strong>stack</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Boolean, dafault False</span></dt>
+<dd><p class="first last">values are a stack of basic object type (Plate or Inserts)</p>
+</dd>
+<dt><strong>column</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of column in plate</p>
+</dd>
+<dt><strong>row</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of row in plate</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">BioPlate.from_excel</span> <span class="k">import</span> <span class="n">_BioPlateFromExcel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BPFE</span> <span class="o">=</span> <span class="n">_BioPlateFromExcel</span><span class="p">(</span><span class="s2">&quot;path/to/my_file.xlsx&quot;</span><span class="p">,</span> <span class="n">sheetname</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sheet1&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BPFE</span><span class="o">.</span><span class="n">loaded_file</span><span class="p">[</span><span class="s2">&quot;sheet1&quot;</span><span class="p">]</span>
+<span class="go">[[, 1, 2, 3], [&quot;A&quot;, &quot;t1&quot;, &quot;t2&quot;, &quot;t3&quot;], [&quot;B&quot;, &quot;y1&quot;, &quot;y2&quot;, &quot;y3&quot;]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BPFE</span><span class="o">.</span><span class="n">_get_plate_informations</span><span class="p">(</span><span class="n">BPFE</span><span class="o">.</span><span class="n">loaded_file</span><span class="p">[</span><span class="s2">&quot;sheet1&quot;</span><span class="p">],</span> <span class="s2">&quot;sheet1&quot;</span><span class="p">)</span>
+<span class="go">(Plate, False, 3, 2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._guess_column_row">
+<code class="descname">_guess_column_row</code><span class="sig-paren">(</span><em>value: List[List]</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._guess_column_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>get column and row number from representation with header.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>column_row</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Tuple[int, int]</span></dt>
+<dd><p class="first last">returns column and row numbers</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._guess_type">
+<code class="descname">_guess_type</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._guess_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function have to guess from plate shape and return an empty BioPlate object to use</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+<blockquote class="last">
+<div></div></blockquote>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>BioPlate</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal notranslate"><span class="pre">Plate</span></code> , <code class="docutils literal notranslate"><span class="pre">Inserts</span></code></span></dt>
+<dd><p class="first last">return <code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._instance_of_plate">
+<code class="descname">_instance_of_plate</code><span class="sig-paren">(</span><em>Type</em>, <em>column</em>, <em>row</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._instance_of_plate" title="Permalink to this definition">¶</a></dt>
+<dd><p>instantiate a plate object with column and row number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Type</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal notranslate"><span class="pre">Plate</span></code>, <code class="docutils literal notranslate"><span class="pre">Inserts</span></code></span></dt>
+<dd><p class="first last">class definitions to instanciate</p>
+</dd>
+<dt><strong>column</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of column in plate object</p>
+</dd>
+<dt><strong>row</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of row in plate object</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>instanciate_plate: ``Plate``, ``Inserts``</strong></dt>
+<dd><p class="first last">instanciate object with right number of columns and rows</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._iterate_bp_value">
+<code class="descname">_iterate_bp_value</code><span class="sig-paren">(</span><em>plate: List[List], row: int</em><span class="sig-paren">)</span> &#x2192; Iterator[Tuple[int, List]]<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._iterate_bp_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>yield row index and value of given well for Plate.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>plates</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+<dt><strong>row</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">index of row</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Infos</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Tuple[int, str]</span></dt>
+<dd><p class="first last">Yields infos to assign value on Plate</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._iterate_bpi_value">
+<code class="descname">_iterate_bpi_value</code><span class="sig-paren">(</span><em>plates: List[List], row: int</em><span class="sig-paren">)</span> &#x2192; Iterator[Tuple[int, str, List]]<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._iterate_bpi_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>yield row index, position (top or bottom) and value of given well for Inserts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>plates</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+<dt><strong>row</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">index of row</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Infos</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Tuple[int, str, str]</span></dt>
+<dd><p class="first last">Yields infos to assign value on Inserts</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._pre_bp_iterate">
+<code class="descname">_pre_bp_iterate</code><span class="sig-paren">(</span><em>value: List[List], row: int</em><span class="sig-paren">)</span> &#x2192; Iterator<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._pre_bp_iterate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split value from a sheet into chunck of plate.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+<dt><strong>row</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first">number of row in plate</p>
+<blockquote class="last">
+<div></div></blockquote>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel._pre_bpi_iterate">
+<code class="descname">_pre_bpi_iterate</code><span class="sig-paren">(</span><em>value: List[List], row: int</em><span class="sig-paren">)</span> &#x2192; Iterator<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel._pre_bpi_iterate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split value from a sheet into chunck of inserts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+<dt><strong>row</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first">number of row in plate</p>
+<blockquote class="last">
+<div></div></blockquote>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel.get_BioPlate_object">
+<code class="descname">get_BioPlate_object</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[str, Union[BioPlate.plate.Plate, BioPlate.inserts.Inserts, BioPlate.stack.Stack]]<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel.get_BioPlate_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main method of this class, return a dict with sheetname as key and BioPlate object filled with element from spreadsheets as value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>BioPlate_object</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict[str, Union[Plate, Inserts, Stack]]</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel.is_insert">
+<code class="descname">is_insert</code><span class="sig-paren">(</span><em>value: List[List]</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel.is_insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate if BioPlate object is an insert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+<blockquote class="last">
+<div></div></blockquote>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>is_insert</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">True or False</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.writer.from_excel._BioPlateFromExcel.is_stack">
+<code class="descname">is_stack</code><span class="sig-paren">(</span><em>value: List[List], sheetname: str = None</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#BioPlate.writer.from_excel._BioPlateFromExcel.is_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function have to guess from plate if it is a stack</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List]</span></dt>
+<dd><p class="first last">list of element return by <a class="reference external" href="https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file">pyexcel_xlsx.get_data</a></p>
+</dd>
+<dt><strong>sheetname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of sheet to process</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>is_stack: bool</strong></dt>
+<dd><p class="first last">True or False</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
 
 </div>
-<div class="section" id="plate-database">
-<h2>Plate database<a class="headerlink" href="#plate-database" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-BioPlate.database.plate_db"></span><dl class="class">
+<div class="section" id="module-BioPlate.database.plate_db">
+<span id="plate-database"></span><h2>Plate database<a class="headerlink" href="#module-BioPlate.database.plate_db" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
 <dt id="BioPlate.database.plate_db.PlateDB">
 <em class="property">class </em><code class="descclassname">BioPlate.database.plate_db.</code><code class="descname">PlateDB</code><span class="sig-paren">(</span><em>db_name='plate.db'</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.database.plate_db.PlateDB" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="class">
@@ -600,8 +1144,42 @@ header should be a list of column name</p>
 </dd></dl>
 
 </div>
-<div class="section" id="plate-database-historic">
-<h2>Plate database historic<a class="headerlink" href="#plate-database-historic" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-BioPlate.database.plate_historic_db">
+<span id="plate-database-historic"></span><h2>Plate database historic<a class="headerlink" href="#module-BioPlate.database.plate_historic_db" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="BioPlate.database.plate_historic_db.PlateHist">
+<em class="property">class </em><code class="descclassname">BioPlate.database.plate_historic_db.</code><code class="descname">PlateHist</code><span class="sig-paren">(</span><em>db_name='plate_historic.db'</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.database.plate_historic_db.PlateHist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="class">
+<dt id="BioPlate.database.plate_historic_db.PlateHist.PlateHistoric">
+<em class="property">class </em><code class="descname">PlateHistoric</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.database.plate_historic_db.PlateHist.PlateHistoric" title="Permalink to this definition">¶</a></dt>
+<dd><p>historic of create plate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="BioPlate.database.plate_historic_db.PlateHist.add_hplate">
+<code class="descname">add_hplate</code><span class="sig-paren">(</span><em>numWell</em>, <em>plate_name</em>, <em>plate_array</em>, <em>Plate_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BioPlate.database.plate_historic_db.PlateHist.add_hplate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Plate_id</strong> – id of plate in plate.db</li>
+<li><strong>numWell</strong> – int, number of well in plate</li>
+<li><strong>date</strong> – date where plate was creating</li>
+<li><strong>plate_name</strong> – name of experiment or plate</li>
+<li><strong>plate_array</strong> – numpy array representation of the plate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -625,7 +1203,7 @@ header should be a list of column name</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Florian Bernard.
+        &copy; Copyright 2018, Florian Bernard
 
     </p>
   </div>
@@ -644,34 +1222,23 @@ header should be a list of column name</p>
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.1.3',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
-          
-          SphinxRtdTheme.Navigation.enableSticky();
-          
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script> 
 

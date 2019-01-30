@@ -42,6 +42,7 @@ class TestBioPlateManipulation(unittest.TestCase):
     def test_args_analysis(self):
         self.assertEqual(self.BPM._args_analyse(12, ["bob1", "bob2"]), (12, ["bob1", "bob2"]))
         self.assertEqual(self.BPM._args_analyse({"test" : 12}), ({"test" : 12}, None))
+        self.assertEqual( self.BPM._args_analyse("A[2-3]", ["Bob", "Marc"]), ("A[2-3]", ["Bob", "Marc"]))
 
 
 if __name__ == "__main__":

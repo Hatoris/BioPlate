@@ -9,6 +9,7 @@ from typing import (
     Sequence,
     Generator,
 )
+from collections.abc import Iterable
 
 import numpy as np
 import numpy.core.defchararray as ncd
@@ -21,8 +22,8 @@ from BioPlate.matrix import BioPlateMatrix
 
 
 class BioPlateManipulation:
-    """
-    This parent class grouped all method that can be applied to BioPlate instance.
+    """This parent class grouped all method that can be applied to BioPlate instance.
+    
     """
 
     def __getitem__(self, index): #pragma: no cover
@@ -106,14 +107,12 @@ class BioPlateManipulation:
         ("A[1-2]",  ["test", "test1"])
 
         """
-        dict_in = any(isinstance(arg, dict) for arg in args)
-        list_in = any(isinstance(arg, list) for arg in args)
-        if len(args) == 2 and not dict_in:
-            well, value, *trash = args
-            return well, value
-        if len(args) == 1 and dict_in:
+        if len(args) == 1:
             well, *trash = args
             value = None
+            return well, value
+        if len(args) == 2:
+            well, value, *trash = args
             return well, value
 
     @overload
@@ -137,34 +136,33 @@ class BioPlateManipulation:
         pass
 
     def set(self, *args, merge=False):
-        """
-        Main entry point to assign value on plate
-
-        Parameters
+        """Main entry point to assign value on plate 
+           
+        Parameters 
         ----------
           well : dict or str
-                   - if dict, well must contain well identifier as key and value to assign as value.eg : {"A2" : "value", "A[3-6]" : 42}
-                   - if string, well is only a well identifier eg : "G5"
-         value : list or str or int or float
-                      - if list, value should be presented with multiple well identifer
-                      "B-D[2-5]", ["value1", "value2", "value3"]
-        merge : bool (by default False)
-            Value on well are not overide but added
+              - if dict, well must contain well identifier as key and value to assign as value.eg : {"A2" : "value", "A[3-6]" : 42} 
+              - if string, well is only a well identifier eg : "G5" 
 
+         value : list or str or int or float 
+             - if list, value should be presented with multiple well identifer "B-D[2-5]", ["value1", "value2", "value3"]
+
+        merge : bool (by default False) 
+            Value on well are not overide but added
         Returns
         -------
          BioPlate : BioPlate
-                        return instance of plate
-         
-         Examples
-         -----------
-         
+             return instance of plate
+
+         Exemples
+         --------    
          see :ref:`Set-values-on-plate`
-        
+                 
         """
         well, value = self._args_analyse(*args)
-        if isinstance(well, dict):
-            for key, val in well.items():
+        if not isinstance(well, str) and isinstance(well, Iterable):
+            generator = well.items() if isinstance(well, dict) else well
+            for key, val in generator:
                 if merge:
                     self.set(key, val, merge=True)
                 else:
@@ -209,17 +207,15 @@ class BioPlateManipulation:
         Parameters
         ----------
         well : str
-            well is only a well identifier eg : "G5", "2[B-G]"
-         
-
+            well is only a well identifier eg : "G5", "2[B-G]"         
         Returns
         -------
-            One_well : str
-                get back value in one well eg : "G5"
-            multiple_well : np.array
-                get back all value eg : "2[B-G]"
-            multiple_well_multiple_identifier : list
-                return a list of eqch given arguments
+        One_well : str
+            get back value in one well eg : "G5"
+        multiple_well : np.array
+            get back all value eg : "2[B-G]"
+        multiple_well_multiple_identifier : list
+            return a list of eqch given arguments
                  
         """
         if len(well) > 1:

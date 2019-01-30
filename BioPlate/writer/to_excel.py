@@ -8,15 +8,7 @@ from BioPlate.stack import Stack
 from BioPlate.plate import Plate
 
 class BioPlateToExcel:
-
-    """
-    past to excel in different way bioplate object
-    plateToExcel.representation: 
-        past a representation of a BioPlate object in excel file
-    plateToExcel.data:
-        past an iteration of BioPlate object in excel
-    plateToExcel.count:
-        past a count of each value in BioPlate object to excel           
+    """Past BioPlate object to excel file.     
     """
 
     def __init__(
@@ -29,15 +21,24 @@ class BioPlateToExcel:
         empty="empty",
         test=False,
     ):
-        """
-
-        :param file_name: name of excel file
-        :param sheets: list of sheetname
-        :param header: if header should be put
-        :param accumulate: if plate data should be accumulat for same well or listed
-        :param order: if iteration should be done by column or row
-        :param empty:
-        :param test:
+        """This class is instentiate with parameters for excel file. BioPlate object are only pass to method.
+        
+        Parameters
+        ----------------
+        file_name: str
+            name of excel file
+        sheets: List[str]
+            list of sheetname (default is ["plate_representation", "plate_data", "plate_count"])
+        header: bool
+            if header should be put
+        accumulate: bool
+            if plate data should be accumulate for same well or listed
+        order: str, {"R", "C"}
+            if iteration should be done by column or row
+        empty: str
+            Name of well without value 
+        test : bool
+            For testing purpose, return in memory object
         """
         self.fileName = file_name
         self.sheets = sheets
@@ -67,9 +68,17 @@ class BioPlateToExcel:
 
     @property
     def open_excel_file(self):
-        """
-
-        :return:
+        """Create a ``xlsxwriter Workbook`` to work with. If test is ``True`` when class is instenciate this function will return a in `memory Workbook`_.
+        
+        .. _memory Workbook: https://xlsxwriter.readthedocs.io/workbook.html
+        .. _`xlsxwriter.Workbook`: https://xlsxwriter.readthedocs.io/workbook.html
+        
+        Returns
+        -----------
+        Workbook : `xlsxwriter.Workbook`_                
+            An object to write excel file
+            
+         
         """
         if self.test:
             return xlsxwriter.Workbook(self.output, {"in_memory": True})
@@ -77,9 +86,16 @@ class BioPlateToExcel:
 
     @property
     def select_worksheet(self):
-        """
-
-        :return:
+        """Create worksheets object for each sheets given.
+        
+        Returns
+        -----------
+        worksheets : List[xlsxwriter.worksheets]
+            Return a list of `worksheets`_        
+            
+            .. _worksheets: https://xlsxwriter.readthedocs.io/worksheet.html#worksheet
+        
+        
         """
         worksheets = list()
         for sheet in self.sheets:
@@ -88,27 +104,44 @@ class BioPlateToExcel:
         return worksheets
 
     def close(self):
+        """Close workbook properly        
+        """
         self.workbook.close()
 
     def get_test(self):
+        """Return list of value stocked in memory of workbook.
+        
+        Returns
+        ---------
+        values : Dict[str, List[List]]
+            returns values passed to workbook as dict with sheetnames as key and value as list of values.       
+        
+        """
         try:
             return self.output.getvalue()
         except AttributeError:
             return None
 
     def __header_format_representation(self, format):
-        """
-
-        :param format:
-        :param row:
-        :return:
+        """Function to pass heqdwr format representation to workbook object
+        
+        Parameters
+        ---------------
+        format : Dict
+            Dict of format to apply to plate header following xlswriter rules
+            
         """
         self.plate_rep.set_row(self.last_row_representation, None, format)
         self.plate_rep.set_column(0, 0, None, format)
 
     def representation(self, BPlate):
-        """
-        get representation of BioPlate in excel file
+        """This function put reprenstation of BPlate depending on is type (Plate, Inserts, Stack)
+        
+        Parameters
+        --------------
+        BPlate : BioPlate
+            BioPlate object to represent in spreqdsheets
+            
         """
         if isinstance(BPlate, Plate):
             self._representation(BPlate)
@@ -122,16 +155,29 @@ class BioPlateToExcel:
             self._representation_inserts(BPlate)
 
     def _representation(self, plate):
+        """Pass Plate representation to spreadsheet
+        
+        Parameters
+        --------------
+        plate : Plate
+            Plate object to represent
+            
         """
-        protected func, write in specified workbook
-        """
-        self.__header_format_representation(self.hd_format_representation)
+        self.__header_format_representation( self.hd_format_representation)
         plate = self.plate_split(plate)
         for row, value in enumerate(plate, self.last_row_representation):
             self.plate_rep.write_row(row, 0, value)
         self.last_row_representation += len(plate) + 1
 
     def _representation_inserts(self, BPlate):
+        """Pass Inserts representation to spreadsheet
+        
+        Parameters
+        --------------
+        BPlate : Inserts
+            Inserts object to represent
+            
+        """
         position = ["TOP", "BOT"]
         for pos, plate_part in zip(position, BPlate):
             rm = self.last_row_representation

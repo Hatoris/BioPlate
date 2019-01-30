@@ -22,7 +22,7 @@ Set on simple plate
      simple_plate["A1"] = "test1"
 
 
-Seton inserts plate
+Set on inserts plate
 ----------------------------------
 
 .. code:: python
@@ -163,7 +163,7 @@ Assign multiple value with different pattern:
         "6-8[E-G]" : ["column6", "column7", "column8"]})
 
 .. note::
-    dict assignation can only be done with `set`
+    dict assignation can only be done with `set` method
 
 Merge value
 -------------------------
@@ -189,6 +189,12 @@ Value are concatenate with value already present in well
     merge=True)
     
     print(plate["A2"]) # column_2_A
+    
+    #multiple assignation with same key
+    plate.set([("2-4[A-G]",
+    ["column", "column", "column"), ("2-4[A-G]",
+    ["_2", "_3", "_4"]), ("A-G[2-4]",
+    ["_A", "_B", "_C", "_D", "_E", "_F", "_G"])], merge=True)
     
 It is now easier to produce complex patern with less code.
 
@@ -226,6 +232,10 @@ Important
 .. warning::
      - If you use numpy indexing to assign be carrefull to not overide your header. Value are in position plate[1:,1:] where column header are on plate[0] and row header are on plate[0, 1:].
      
+     .. versionchanged:: 0.1.4
+     
+     - Set function can be used with tuple of tuple, list of list and a mix of both. This allow to use the same key several time as long as `merge = True`
+     
      .. versionchanged:: 0.1.2
      
-     - Set function, `without merge = True` keep only the last assignation of a value in a  well.
+     - Set function without `merge = True` keep only the last assignation of a value in a  well.

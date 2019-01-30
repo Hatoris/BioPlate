@@ -7,7 +7,7 @@ def read(fname):
 
 setup(
     name = "BioPlate",
-    version = "0.1.3",
+    version = "0.1.4",
     author = "Florian Bernard",
     author_email = "florianxbernard@gmail.com",
     description = ("An application to quickly generate plate schemes used in life science, "

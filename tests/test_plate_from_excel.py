@@ -129,29 +129,29 @@ class TestPlateFromExcel(unittest.TestCase):
         self.Inserts.to_excel("test.xlsx")
         remove_sheet("test.xlsx")
         From = _BioPlateFromExcel("test.xlsx")
-        Fr = From._get_BioPlate_object()
+        Fr = From.get_BioPlate_object()
         self.assertTrue(From.is_insert(get_data("test.xlsx")["plate_representation"]))
 
     def test_is_insert_bps(self):
         self.stack.to_excel("test.xlsx")
         remove_sheet("test.xlsx")
         From = _BioPlateFromExcel("test.xlsx")
-        Fr = From._get_BioPlate_object()
+        Fr = From.get_BioPlate_object()
         self.assertFalse(From.is_insert(get_data("test.xlsx")["plate_representation"]))
 
     def test_is_insert_bpsi(self):
         self.stacki.to_excel("test.xlsx")
         remove_sheet("test.xlsx")
         From = _BioPlateFromExcel("test.xlsx")
-        Fr = From._get_BioPlate_object()
+        Fr = From.get_BioPlate_object()
         self.assertTrue(From.is_insert(get_data("test.xlsx")["plate_representation"]))
 
-    def test_get_stack(self):
+    def test_is_stack(self):
         self.stack.to_excel("test.xlsx")
         remove_sheet("test.xlsx")
         From = _BioPlateFromExcel("test.xlsx")
-        Fr = From._get_BioPlate_object()
-        self.assertTrue(From._get_stack(get_data("test.xlsx")["plate_representation"]))
+        Fr = From.get_BioPlate_object()
+        self.assertTrue(From.is_stack(get_data("test.xlsx")["plate_representation"]))
 
     # test with no header
 
