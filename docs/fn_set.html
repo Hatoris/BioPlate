@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Set values on plate &mdash; BioPlate 0.1.3 documentation</title>
+  <title>Set values on plate &mdash; BioPlate 0.1.4 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -59,7 +58,7 @@
             
             
               <div class="version">
-                0.1
+                0.1.4
               </div>
             
           
@@ -89,7 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Library usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Set values on plate</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#set-on-simple-plate">Set on simple plate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#seton-inserts-plate">Seton inserts plate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set-on-inserts-plate">Set on inserts plate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#set-on-stack-of-plate">Set on stack of plate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#set-one-value-at-time">Set one value at time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#set-value-on-column">Set value on column</a></li>
@@ -141,9 +140,9 @@
 <li class="toctree-l1"><a class="reference internal" href="class_manipulation.html">Class documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#module-BioPlate.manipulation">Manipulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#module-BioPlate.writer.to_excel">To excel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#from-excel">From excel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#plate-database">Plate database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#plate-database-historic">Plate database historic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#module-BioPlate.writer.from_excel">From excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#module-BioPlate.database.plate_db">Plate database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class_manipulation.html#module-BioPlate.database.plate_historic_db">Plate database historic</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -234,8 +233,8 @@ Set can now <cite>Merge value</cite> instead of overide</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="seton-inserts-plate">
-<h2>Seton inserts plate<a class="headerlink" href="#seton-inserts-plate" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="set-on-inserts-plate">
+<h2>Set on inserts plate<a class="headerlink" href="#set-on-inserts-plate" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BioPlate</span> <span class="k">import</span> <span class="n">BioPlate</span>
 <span class="n">inserts_plate</span> <span class="o">=</span> <span class="n">BioPlate</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">inserts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -365,7 +364,7 @@ Set can now <cite>Merge value</cite> instead of overide</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">dict assignation can only be done with <cite>set</cite></p>
+<p class="last">dict assignation can only be done with <cite>set</cite> method</p>
 </div>
 </div>
 <div class="section" id="merge-value">
@@ -388,6 +387,12 @@ Set can now <cite>Merge value</cite> instead of overide</p>
 <span class="n">merge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="s2">&quot;A2&quot;</span><span class="p">])</span> <span class="c1"># column_2_A</span>
+
+<span class="c1">#multiple assignation with same key</span>
+<span class="n">plate</span><span class="o">.</span><span class="n">set</span><span class="p">([(</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">,</span>
+<span class="p">[</span><span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="s2">&quot;column&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;2-4[A-G]&quot;</span><span class="p">,</span>
+<span class="p">[</span><span class="s2">&quot;_2&quot;</span><span class="p">,</span> <span class="s2">&quot;_3&quot;</span><span class="p">,</span> <span class="s2">&quot;_4&quot;</span><span class="p">]),</span> <span class="p">(</span><span class="s2">&quot;A-G[2-4]&quot;</span><span class="p">,</span>
+<span class="p">[</span><span class="s2">&quot;_A&quot;</span><span class="p">,</span> <span class="s2">&quot;_B&quot;</span><span class="p">,</span> <span class="s2">&quot;_C&quot;</span><span class="p">,</span> <span class="s2">&quot;_D&quot;</span><span class="p">,</span> <span class="s2">&quot;_E&quot;</span><span class="p">,</span> <span class="s2">&quot;_F&quot;</span><span class="p">,</span> <span class="s2">&quot;_G&quot;</span><span class="p">])],</span> <span class="n">merge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>It is now easier to produce complex patern with less code.</p>
@@ -422,10 +427,16 @@ Set can now <cite>Merge value</cite> instead of overide</p>
 <li>If you use numpy indexing to assign be carrefull to not overide your header. Value are in position plate[1:,1:] where column header are on plate[0] and row header are on plate[0, 1:].</li>
 </ul>
 <div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.1.4.</span></p>
+</div>
+<ul class="simple">
+<li>Set function can be used with tuple of tuple, list of list and a mix of both. This allow to use the same key several time as long as <cite>merge = True</cite></li>
+</ul>
+<div class="versionchanged">
 <p><span class="versionmodified">Changed in version 0.1.2.</span></p>
 </div>
 <ul class="last simple">
-<li>Set function, <cite>without merge = True</cite> keep only the last assignation of a value in a  well.</li>
+<li>Set function without <cite>merge = True</cite> keep only the last assignation of a value in a  well.</li>
 </ul>
 </div>
 </div>
@@ -451,7 +462,7 @@ Set can now <cite>Merge value</cite> instead of overide</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Florian Bernard.
+        &copy; Copyright 2018, Florian Bernard
 
     </p>
   </div>
@@ -470,34 +481,23 @@ Set can now <cite>Merge value</cite> instead of overide</p>
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.1.3',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
-          
-          SphinxRtdTheme.Navigation.enableSticky();
-          
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script> 
 
