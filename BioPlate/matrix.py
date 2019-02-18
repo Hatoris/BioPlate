@@ -149,14 +149,10 @@ class BioPlateMatrix(Matrix):
 
     @staticmethod
     def _test_row_or_column(well: str) -> bool:
-        if isinstance(well, int):  # int return true
-            return True
-        elif isinstance(well, str):  # str to int return true
-            try:
-                int(well)
-                return True
-            except ValueError:  # here it's string that can't be convert
-                if len(well) == 1:
-                    return True
-                else:
-                    return False
+    	try:
+    		int(well)
+    		return True
+    	except ValueError:
+    		if len(well) == 1: #only one letter
+    			return True
+    		return False
