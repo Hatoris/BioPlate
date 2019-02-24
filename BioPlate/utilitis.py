@@ -7,9 +7,9 @@ import numpy as np
 import re
 
 _LETTER: np.ndarray = np.array(list(ascii_uppercase))
-_CP1 = re.compile("(\d+)")
-_CP2 = re.compile("([A-Za-z])")
-_CP3 = re.compile("(\w+[\-|\,]\w+)")
+_FIND_LEFT_RIGHT = re.compile(r"\w+[\-|\,]\w+|[A-Za-z]|\d+")
+_SPECIAL_CHAR = re.compile(r"\W")
+_FIND_ZERO = re.compile("(^0$|(?<!\d)0)")
 
 # el for element
 EL = NamedTuple(

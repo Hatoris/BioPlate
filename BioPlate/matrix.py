@@ -1,5 +1,5 @@
 import re
-from typing import Tuple, Dict, NamedTuple, Optional, Union
+from typing import Tuple, Dict, NamedTuple, Optional, Union, List
 
 import numpy as np
 
@@ -30,129 +30,136 @@ class BioPlateMatrix(Matrix):
 
     def __new__(cls, well: str) -> bpu.EL:
         well = str(well).replace(" ", "")
-        BioPlateMatrix._test_for_0(well)
+        test_for_0(well)
         if well not in BioPlateMatrix._WELL_CACHE:
-            result = BioPlateMatrix._index_from_well(well)
+            result = well_to_index(well)
             BioPlateMatrix._WELL_CACHE[well] = result
         return BioPlateMatrix._WELL_CACHE[well]
+      
+def  well_to_index(well : str) -> bpu.EL:
+    """
+    from a raw string representing well, convert it to an index for slicing BioPlate object
+    
+    Parameters
+    -------------------
+    well : str
+        A human representation of well (eg: A-B[2-8])
+        
+    Returns
+    -------------
+    Coordinate : named tuple
+        return a name tuple with following informations
+        - position : row or column
+        - row slicing aka first dimension of numpy array
+        - column slicing aka second dimension of numpy array
+    """
+    left, right = split_well_infos(well)
+    pos = position(left)
+    row, column, pos = index_formater(left, right, pos)
+    return index(pos, row, column)
 
-    @staticmethod
-    def _index_from_well(well: str) -> bpu.EL:
-        if BioPlateMatrix._test_row_or_column(well):
-            index = BioPlateMatrix._all_row_column(well)
-        else:
-            column, row = BioPlateMatrix._base_row_column(well)
-            index = BioPlateMatrix._index_row_column(row, column)
-        return index
+def position(infos: str) -> str:
+    """
+    return R or C based on infos first elements, if it is a digit return C for column, otherwise R for row
+    """
+    if infos[0].isdigit():
+        return "C"
+    return "R"    
 
-    @staticmethod
-    def _base_row_column(well: str) -> Tuple[str, str]:
-        """
-        split string well to row column
-        """
-        row: str
-        column: str
-        try:  # A5, 2[B-H]
-            row, column = list(reversed(sorted(filter(None, bpu._CP1.split(well)))))
-        except ValueError:
-            try:  # D[1-6]
-                row, column = sorted(filter(None, bpu._CP2.split(well)))
-            except ValueError:  # 1-5[D-F]
-                row, column = bpu._CP3.findall(well)
-        return column, row
+def index_formater(left : str, right : str, pos : str) -> Tuple[Union[int, slice], Union[int, slice]]:
+    """
+    evaluate if right is None, if true well information represent an entire row or column. Else futher comparaison should be performed
+    """
+    if right is None:
+        return entire_row_column(left, pos)
+    return  one_well(left, right, pos)
 
-    @staticmethod
-    def _multi_row_column(multi: str) -> Tuple[str, str]:
-        """
-        From multi value return only row or column
-        """
-        comp = re.compile("(\w+)")
-        multi1, multi2 = list(sorted(filter(comp.search, re.split("(\W)", multi))))
-        return multi1, multi2
+def entire_row_column(left : str, pos : str) -> Union[Tuple[int, slice, str], Tuple[slice, int, str]]:
+    """
+    return index for an entire column or row
+    
+    """
+    if pos == "R":
+        return row_index(left), slice(1, None), pos 
+    return slice(1, None), column_index(left), pos
 
-    @staticmethod
-    def _index_row_column(row: str, column: str) -> bpu.EL:
-        """
-        get split of row or  column in multi value
-        """
-        comp = re.compile("(\w+)")
-        lrow = len(row)
-        lcolumn = len(re.findall(comp, column))
-        if lrow > 1 and lcolumn > 1:
-            value = BioPlateMatrix.__m_row_m_column(row, column)
-            return value
-        elif lrow == 1 and lcolumn == 1:
-            ro = BioPlateMatrix._well_letter_index(row)
-            return bpu.EL("W", int(ro), int(column))
-        elif lrow > 1 and lcolumn == 1:
-            row1, row2 = list(
-                map(
-                    BioPlateMatrix._well_letter_index,
-                    BioPlateMatrix._multi_row_column(row),
-                )
-            )
-            return bpu.EL("C", slice(int(row1), int(row2) + 1, 1), int(column))
-        else:  # lcolumn > 1 and lrow == 1:
-            column1, column2 = sorted(
-                map(int, BioPlateMatrix._multi_row_column(column))
-            )
-            ro = BioPlateMatrix._well_letter_index(row)
-            return bpu.EL("R", int(ro), slice(column1, column2 + 1, 1))
+def row_index(infos : str) -> Union[str, slice]:
+    if len(infos) == 1:
+        row = convert_letter_to_index(infos)
+        return row
+    start, stop = split_multi_value(infos)
+    return slice(start, stop, 1)
+        
+def column_index(infos : str) -> Union[int, slice]:
+    """
+    return ind3x for column.
+    
+    Parameters
+    -------------------
+    infos : str
+        a string with column value eg : "1", "1-9"
+        
+    Returns 
+    -----------
+    index : int, slice
+        Int or slice of column
+    """
+    try:
+        column = int(infos)
+        return column
+    except ValueError:
+        start, stop = split_multi_value(infos)
+        return slice(start, stop, 1)
 
-    @staticmethod
-    def __m_row_m_column(row: str, column: str) -> bpu.EL:
-        val = re.compile("(\w+)")
-        comp = lambda x: list(BioPlateMatrix._multi_row_column(x))
-        iterator, selector = list(map(comp, [row, column]))
-        try:
-            row1, row2 = list(map(BioPlateMatrix._well_letter_index, selector))
-            column1, column2 = sorted(map(int, iterator))
-            return bpu.EL(
-                "C",
-                slice(int(row1), int(row2) + 1, 1),
-                slice(int(column1), int(column2) + 1, 1),
-            )
-        except ValueError:
-            row1, row2 = list(map(BioPlateMatrix._well_letter_index, iterator))
-            column1, column2 = sorted(map(int, [selector[0], selector[1]]))
-            return bpu.EL(
-                "R", slice(int(row1), int(row2) + 1, 1), slice(column1, column2 + 1, 1)
-            )
+def one_well(left : str, right: str, pos : str) -> Tuple[int, int, str]:
+    if pos == "R":
+        row = row_index(left)
+        column = column_index(right)
+    else:
+        row = row_index(right)
+        column = column_index(left)
+    if len(left) == 1 and len(right) == 1:
+        pos = "W"
+    return row, column, pos
+    
+def split_well_infos(well: str) -> Tuple[str, str]:
+    """
+        split string well on left and right part.
+        eg :
+            'A12' => ('A', '12')
+            'B[2-8]' => ('B', '2-8')
+            '2-9[A-D]' => ('2-9', 'A-D')
+    """
+    left : str
+    right : str
+    try:
+        left, right = bpu._FIND_LEFT_RIGHT .findall(well)
+    except ValueError:
+        left, right = well, None
+    return left, right
 
-    @staticmethod
-    def _well_letter_index(row_letter: str) -> int:
-        """
+def split_multi_value(multi : str ) -> Tuple[str, str]:
+    try:
+        start, stop = map(int, sorted(bpu._SPECIAL_CHAR.split(multi), key=float))
+    except ValueError:
+        start, stop = map(convert_letter_to_index, sorted(bpu._SPECIAL_CHAR.split(multi)))
+    return start, stop + 1 # +1 is mandatory to slect the right position and avoid rembering that list slicing do not include the last element
+
+def convert_letter_to_index(row_letter: str) -> int:
+    """
         get index for a given letter (eg : C)
         
         :param row_letter: C => letter of a row
         :return: 3 => index of row C in plate.array
-        """
-        return np.searchsorted(bpu._LETTER, row_letter) + 1
-
-    @staticmethod
-    def _test_for_0(well: str) -> Optional[str]:
-        zero = re.compile("(^\D*0\D*$)")
-        test = list(filter(zero.search, re.split("(\d+)", well)))
-        if not test:
-            return None
-        else:
-            raise ValueError(f"well = {well} is not allowed, column 0 is forbiden")
-
-    @staticmethod
-    def _all_row_column(well: str) -> bpu.EL:
-        try:
-            index = int(well)
-            return bpu.EL("C", slice(1, None), index)
-        except ValueError:
-            index = BioPlateMatrix._well_letter_index(well)
-            return bpu.EL("R", index, slice(1, None))
-
-    @staticmethod
-    def _test_row_or_column(well: str) -> bool:
-    	try:
-    		int(well)
-    		return True
-    	except ValueError:
-    		if len(well) == 1: #only one letter
-    			return True
-    		return False
+    """
+    return np.searchsorted(bpu._LETTER, row_letter) + 1
+    
+def index(pos : str, row: Union[int, slice], column : Union[int, slice]) -> bpu.EL:
+    """
+    Return a namedtuple with informations to isolate or slice bioplate
+    """
+    return bpu.EL(pos, row, column)
+   
+def test_for_0(well: str) -> Optional[str]:
+    if bool(bpu._FIND_ZERO.search(well)):
+        raise ValueError(f"well = {well} is not allowed, column 0 is forbiden")   
