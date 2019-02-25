@@ -55,14 +55,14 @@ class TestMatrix(unittest.TestCase):
     def test_one_well(self):
         self.assertEqual(one_well("A", "2", "R"), (1, 2, "W"))
         
-    def test_test_for_0(self):
+    def test_is_zero(self):
         with self.assertRaises(ValueError) :
-            test_for_0("D[0-9]")
+            is_zero("D[0-9]")
         with self.assertRaises(ValueError):
-            test_for_0("0")
+            is_zero("0")
         with self.assertRaises(ValueError) :
-            test_for_0("0-10[A-B]")
-        self.assertEqual(test_for_0("10"), None)
+            is_zero("0-10[A-B]")
+        self.assertEqual(is_zero("10"), None)
 
 if __name__ == "__main__":
     unittest.main()   

@@ -40,3 +40,4 @@ class Plate(Array, BioPlateManipulation):
             newstack = [self.ID, other.ID]
         newstack = list(OrderedDict.fromkeys(newstack))
         return Stack(newstack)
+        

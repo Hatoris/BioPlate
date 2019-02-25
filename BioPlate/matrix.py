@@ -30,7 +30,7 @@ class BioPlateMatrix(Matrix):
 
     def __new__(cls, well: str) -> bpu.EL:
         well = str(well).replace(" ", "")
-        test_for_0(well)
+        is_zero(well)
         if well not in BioPlateMatrix._WELL_CACHE:
             result = well_to_index(well)
             BioPlateMatrix._WELL_CACHE[well] = result
@@ -160,6 +160,9 @@ def index(pos : str, row: Union[int, slice], column : Union[int, slice]) -> bpu.
     """
     return bpu.EL(pos, row, column)
    
-def test_for_0(well: str) -> Optional[str]:
+def is_zero(well: str) -> Optional[str]:
+    """
+    test if a well infos contain reference to column 0.
+    """
     if bool(bpu._FIND_ZERO.search(well)):
         raise ValueError(f"well = {well} is not allowed, column 0 is forbiden")   
