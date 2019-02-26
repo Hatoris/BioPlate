@@ -160,44 +160,67 @@ class BioPlateManipulation:
                  
         """
         well, value = self._args_analyse(*args)
-        if not isinstance(well, str) and isinstance(well, Iterable):
+        if value is None:
             generator = well.items() if isinstance(well, dict) else well
             for key, val in generator:
-                if merge:
-                    self.set(key, val, merge=True)
-                else:
-                    self.set(key, val)
+                self._set_selector(key, val, merge)
             return self
-        well = BioPlateMatrix(str(well))
-        if isinstance(value, list):
-            plate_shape = self[well.row, well.column].shape
-            len_plate_shape = len(plate_shape)
-            if len_plate_shape > 1:
-                if well.pos == "R":
-                    resh_val = np.reshape(value, (plate_shape[0], 1))
-                else:
-                    resh_val = value
-                if merge:
-                    self[well.row, well.column] = ncd.add(
-                        self[well.row, well.column], resh_val
-                    )
-                    return self
-                self[well.row, well.column] = resh_val
-                return self
+        else:
+            self._set_selector(well, value, merge)
+            return self
+        
+    def _set_selector(self, well, value, merge):
+        index = BioPlateMatrix(str(well))
+        try:
+            if isinstance(value, list):
+                self._set_list(index, value, merge)
             else:
-                if merge:
-                    self[well.row, well.column][: len(value)] = ncd.add(
-                        self[well.row, well.column][: len(value)], value
-                    )
-                    return self
-                self[well.row, well.column][: len(value)] = value
-                return self
-        if merge:
-            self[well.row, well.column] = ncd.add(self[well.row, well.column], value)
-            return self
-        self[well.row, well.column] = value
-        return self
+                self._basic_set(index, value, merge)
+        except TypeError:
+            raise ValueError(f"Can not assign {value} to {well}")
 
+    def _basic_set(self, index, value, merge, part=None):
+        if merge:
+            if part is None:
+                self._set_merge(index, value)
+            else:
+                self._set_merge_part(index, value, part)
+        else:
+            if part is None:
+                self._set(index, value)
+            else:
+                self._set_part(index, value, part)
+                                      
+    def _set_merge(self, index, value):
+        self[index.row, index.column] = ncd.add(self[index.row, index.column], value)
+
+    def _set_merge_part(self, index, value, part):
+        self[index.row, index.column][:part] = ncd.add(self[index.row, index.column][:part], value)
+                        
+    def _set(self, index, value):
+        self[index.row, index.column] = value
+
+    def _set_part(self, index, value, part):
+        self[index.row, index.column][:part] = value
+
+    def _set_list(self, index, value, merge):
+        plate_shape = self[index.row, index.column].shape
+        len_plate_shape = len(plate_shape)
+        if len_plate_shape > 1:
+            self._set_reshape(index, value, plate_shape, merge)
+        else:
+            self._set_slice(index, value, merge)
+            
+    def _set_reshape(self, index, value, plate_shape, merge):
+        if index.pos == "R":
+            value = np.reshape(value, (plate_shape[0], 1))
+        self._basic_set(index, value, merge)
+            
+        
+    def _set_slice(self,  index, value, merge):
+        part = len(value)
+        self._basic_set(index, value, merge, part)
+              
     def get(
         self: "BioPlateManipulation", *well: str
     ) -> Union[List[str], Optional["BioPlateManipulation"], List[Sequence[Any]]]:

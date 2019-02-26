@@ -347,13 +347,15 @@ class TestPlate(unittest.TestCase):
     def test_set_again(self):
         with self.assertRaises(ValueError):
             self.plt.set("A-C[1-5]", ["Test1", "Test2"])
+        with self.assertRaises(ValueError):
             self.plt.set("A2", ["tezt1", "test2"])
+    
+    def test_set_again_1(self):
         np.testing.assert_array_equal(
             self.plt.set("A-C[1-5]", ["Test1", "Test2", "Test3"]), self.plt
         )
-        np.testing.assert_array_equal(
-            self.plt.set("F-H[1-3]", ["Test1", "Test2", "Test3"]),
-            np.array(
+        pp =  self.plt.set("F-H[1-3]", ["Test1", "Test2", "Test3"])
+        test_pp = np.array(
                 [
                     [
                         " ",
@@ -463,9 +465,10 @@ class TestPlate(unittest.TestCase):
                         "",
                     ],
                 ],
-                dtype="U40",
-            ),
-        )
+                dtype="U100",
+            )
+        np.testing.assert_array_equal(pp, test_pp)
+            
 
     def test_set(self):
         np.testing.assert_array_equal(self.plt.set("2[B,E]", "Test"), self.plt)
