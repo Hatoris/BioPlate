@@ -112,6 +112,10 @@ class TestPlate(unittest.TestCase):
         self.Inserts["bot", "A2"] = "Bibi"
         self.assertEqual(self.Inserts[1, "A2"], "Bibi")
 
+    def test_add_list(self):
+        self.Inserts["top", "A[1-3]"] = ["b1", "b2", "b3"]
+        self.assertEqual(self.Inserts[0, "A1"], "b1")
+
     def test_add_value_row(self):
         np.testing.assert_array_equal(
             self.Inserts.top.set("B[1-3]", "inserts"), self.Inserts.top

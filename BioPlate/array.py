@@ -13,9 +13,10 @@ import numpy as np
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.matrix import BioPlateMatrix
 import BioPlate.utilitis as bpu
+from BioPlate.manipulation import BioPlateManipulation
 
 
-class Array(np.ndarray):
+class Array(np.ndarray, BioPlateManipulation):
     """ 
     Array is core based application, this class is the only one to inerit from np.ndarray.
     This class return a np.array format properly for BioPlate or Inserts.
@@ -64,25 +65,10 @@ class Array(np.ndarray):
         index: Tuple[Union[int, slice], Union[int, slice]],
         value: Union[List[int], List[str], int, str],
     ) -> None:
-        if isinstance(index, str):
-            well = BioPlateMatrix(index)
-            if isinstance(value, list):
-                plate_shape = self[well.row, well.column].shape
-                len_plate_shape = len(plate_shape)
-                if len_plate_shape > 1:
-                    if well.pos == "R":
-                        resh_val = np.reshape(value, (plate_shape[0], 1))
-                    else:
-                        resh_val = value
-                    self[well.row, well.column] = resh_val
-                    return
-                else:
-                    self[well.row, well.column][: len(value)] = value
-                    return
-            else:
-                self[well.row, well.column] = value
-                return
-        super(Array, self).__setitem__(index, value)
+        if isinstance(index, str) or (isinstance(index, int) and index != 0):
+            self.set(index, value)
+        else:    
+            super(Array, self).__setitem__(index, value)
 
     @overload
     def bioplatearray(

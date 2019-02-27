@@ -26,12 +26,6 @@ class BioPlateManipulation:
     
     """
 
-    def __getitem__(self, index): #pragma: no cover
-        return self[index]
-
-    def __setitem__(self, index, value):#pragma: no cover
-        self[index] = value
-
     @property
     def name(self: "BioPlateManipulation") -> str:
         """
@@ -165,9 +159,10 @@ class BioPlateManipulation:
             for key, val in generator:
                 self._set_selector(key, val, merge)
             return self
-        else:
+        elif value:
             self._set_selector(well, value, merge)
             return self
+        return self
         
     def _set_selector(self, well, value, merge):
         index = BioPlateMatrix(str(well))
@@ -181,21 +176,15 @@ class BioPlateManipulation:
 
     def _basic_set(self, index, value, merge, part=None):
         if merge:
-            if part is None:
-                self._set_merge(index, value)
-            else:
-                self._set_merge_part(index, value, part)
+            value = self._merge_value(index, value, part)
+        if part:
+            self._set_part(index, value, part)
         else:
-            if part is None:
-                self._set(index, value)
-            else:
-                self._set_part(index, value, part)
-                                      
-    def _set_merge(self, index, value):
-        self[index.row, index.column] = ncd.add(self[index.row, index.column], value)
+            self._set(index, value)
 
-    def _set_merge_part(self, index, value, part):
-        self[index.row, index.column][:part] = ncd.add(self[index.row, index.column][:part], value)
+    def _merge_value(self, index, value, part):
+        previous_value = self[index.row, index.column][:part]
+        return ncd.add(previous_value, value)
                         
     def _set(self, index, value):
         self[index.row, index.column] = value
@@ -214,8 +203,7 @@ class BioPlateManipulation:
     def _set_reshape(self, index, value, plate_shape, merge):
         if index.pos == "R":
             value = np.reshape(value, (plate_shape[0], 1))
-        self._basic_set(index, value, merge)
-            
+        self._basic_set(index, value, merge)           
         
     def _set_slice(self,  index, value, merge):
         part = len(value)

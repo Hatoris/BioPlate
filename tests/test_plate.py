@@ -343,7 +343,6 @@ class TestPlate(unittest.TestCase):
         self.plt1.set(V2, merge=True)
         self.assertEqual(self.plt1["A3"], "Bob_thefirst")
         
-
     def test_set_again(self):
         with self.assertRaises(ValueError):
             self.plt.set("A-C[1-5]", ["Test1", "Test2"])
@@ -696,6 +695,7 @@ class TestPlate(unittest.TestCase):
     def test_partial_value(self):
         pl = BioPlate(12, 8)
         pl["A[5-9]"] = ["test", "test2", "test3"]
+        self.assertEqual(list(pl["A[5,9]"]), ["test", "test2", "test3", "", ""])
 
     def test_multi_value(self):
         pl = BioPlate(12,8)
