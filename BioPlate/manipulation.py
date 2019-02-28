@@ -167,7 +167,7 @@ class BioPlateManipulation:
     def _set_selector(self, well, value, merge):
         index = BioPlateMatrix(str(well))
         try:
-            if isinstance(value, list):
+            if self.is_list_tuple_set(value):
                 self._set_list(index, value, merge)
             else:
                 self._basic_set(index, value, merge)
@@ -208,7 +208,17 @@ class BioPlateManipulation:
     def _set_slice(self,  index, value, merge):
         part = len(value)
         self._basic_set(index, value, merge, part)
-              
+
+    def  is_list_tuple_set(self, object):
+        """
+        Evaluate if object is a list, a tuple or a set and return True otherwise False
+        """
+        if isinstance(object, (list, tuple)):
+            return True
+        elif isinstance(object, set):
+             raise ValueError("Set object can not be used to assign value")
+        return False           
+                                                       
     def get(
         self: "BioPlateManipulation", *well: str
     ) -> Union[List[str], Optional["BioPlateManipulation"], List[Sequence[Any]]]:

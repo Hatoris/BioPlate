@@ -65,7 +65,7 @@ class Array(np.ndarray, BioPlateManipulation):
         index: Tuple[Union[int, slice], Union[int, slice]],
         value: Union[List[int], List[str], int, str],
     ) -> None:
-        if isinstance(index, str) or (isinstance(index, int) and index != 0):
+        if isinstance(index, str): # and index != 0: #or (isinstance(index, int) and index != 0):
             self.set(index, value)
         else:    
             super(Array, self).__setitem__(index, value)

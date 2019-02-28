@@ -1,6 +1,6 @@
 import unittest
 import contextlib
-import numpy
+import numpy as np
 
 from pathlib import Path, PurePath
 from BioPlate.array import Array
@@ -82,7 +82,7 @@ class TestBioPlateArray(unittest.TestCase):
 
     def test_add_plate_in_cache(self):
         Array._add_plate_in_cache(12345, self.plate2)
-        numpy.testing.assert_array_equal(self.plate2, Array._PLATE_CACHE[12345])
+        np.testing.assert_array_equal(self.plate2, Array._PLATE_CACHE[12345])
 
     def test_get_list_id_of_stack(self):
         with self.assertRaises(ValueError):
@@ -104,7 +104,17 @@ class TestBioPlateArray(unittest.TestCase):
         with self.assertRaises(IndexError):
             Array._get_plate_in_stack(id(self.stack1), 10)
             
+    def test_add_set(self):
+        with self.assertRaises(ValueError):
+            self.plate1.set("A[2-4]", {"set1", "set2", "set3"})
             
+    def test_add_tuple(self):
+        self.plate1.set("A[2-4]", ("set1", "set2", "set3"))
+        np.testing.assert_array_equal( self.plate1["A[2-4]"], np.array(["set1", "set2", "set3"]))
 
+    def test__setiem__row(self):
+        self.plate1[1:,2] = "col_2"
+        np.testing.assert_array_equal(self.plate1[:,2], np.array(["2"] + [ "col_2"] * 8  ))
+        
 if __name__ == "__main__":
     unittest.main()
