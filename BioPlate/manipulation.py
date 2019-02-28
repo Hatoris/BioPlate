@@ -165,6 +165,10 @@ class BioPlateManipulation:
         return self
         
     def _set_selector(self, well, value, merge):
+        """
+        This function evalute if value to assign is a list or a tuple and call the apptopriate subfunction
+        
+        """
         index = BioPlateMatrix(str(well))
         try:
             if self.is_list_tuple_set(value):
@@ -175,6 +179,10 @@ class BioPlateManipulation:
             raise ValueError(f"Can not assign {value} to {well}")
 
     def _basic_set(self, index, value, merge, part=None):
+        """
+        Evaluate if value should be apply to __setitem__ or slice of it
+        
+        """
         if merge:
             value = self._merge_value(index, value, part)
         if part:
@@ -183,16 +191,28 @@ class BioPlateManipulation:
             self._set(index, value)
 
     def _merge_value(self, index, value, part):
+        """
+        Update value with existing value of selected well and merge it
+        """
         previous_value = self[index.row, index.column][:part]
         return ncd.add(previous_value, value)
                         
     def _set(self, index, value):
+        """
+        Call __setitem__ of bioplate and qssign value on it
+        """
         self[index.row, index.column] = value
 
     def _set_part(self, index, value, part):
+        """
+        Call __setitem__ and slice it to fit the number of value to assign
+        """
         self[index.row, index.column][:part] = value
 
     def _set_list(self, index, value, merge):
+        """
+        Evaluate if a list should be reshape  or setitem should be sliced
+        """
         plate_shape = self[index.row, index.column].shape
         len_plate_shape = len(plate_shape)
         if len_plate_shape > 1:
@@ -201,11 +221,17 @@ class BioPlateManipulation:
             self._set_slice(index, value, merge)
             
     def _set_reshape(self, index, value, plate_shape, merge):
+        """
+        Reshape value if needed
+        """
         if index.pos == "R":
             value = np.reshape(value, (plate_shape[0], 1))
         self._basic_set(index, value, merge)           
         
     def _set_slice(self,  index, value, merge):
+        """
+        Evaluate the slice value given the list len
+        """
         part = len(value)
         self._basic_set(index, value, merge, part)
 
