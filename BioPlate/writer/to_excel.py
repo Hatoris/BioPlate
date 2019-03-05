@@ -273,13 +273,16 @@ class BioPlateToExcel:
         return [key if key != "" else self.empty for key in key_list]
 
     def _header_count(self, len_header, Inserts=False):
-        if len_header == 2:
-            hd = ["infos", "count"]
-        elif len_header == 3:
+        """
+        Add to sheet appropriate columns names, depending on number of row in each row
+        """
+        hd = ["infos", "count"]
+        if len_header == 3:
             if not Inserts:
-                hd = ["plate", "infos", "count"]
+                hd.insert(0, "plate")
             else:
-                hd = ["position", "infos", "count"]
+                hd.insert(0, "position")
         elif len_header == 4:
-            hd = ["plate", "position", "infos", "count"]
+            hd.insert(0, "plate")
+            hd.insert(1, "position")           
         self.plate_count.write_row(0, 0, hd)
