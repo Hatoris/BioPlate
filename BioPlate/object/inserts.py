@@ -15,10 +15,10 @@ from collections import OrderedDict
 
 import numpy as np
 
-from BioPlate.array import Array
-from BioPlate.manipulation import BioPlateManipulation
-from BioPlate.stack import Stack
-from BioPlate.matrix import BioPlateMatrix
+from BioPlate.core.array import Array
+from BioPlate.core.manipulation import BioPlateManipulation
+from BioPlate.core.matrix import BioPlateMatrix
+from BioPlate.object.stack import Stack
 
 
 class Inserts(Array, BioPlateManipulation):

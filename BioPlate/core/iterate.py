@@ -17,16 +17,6 @@ import numpy as np
 class BioPlateIterate:
     """A row is symbolise by it's letter, a column by a number"""
 
-#    @overload
-#    def __new__(
-#        cls,
-#        plate: np.ndarray,
-#        order: str = "C",
-#        accumulate: bool = True,
-#        OnlyValue: bool = False,
-#    ) -> Iterator:  # pragma: no cover
-#        pass
-
     def  __new__(
         cls,
         plate: np.ndarray,

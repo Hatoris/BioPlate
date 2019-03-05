@@ -3,9 +3,9 @@ from io import BytesIO
 import xlsxwriter
 
 from BioPlate import BioPlate
-from BioPlate.inserts import Inserts
-from BioPlate.stack import Stack
-from BioPlate.plate import Plate
+from BioPlate.object.inserts import Inserts
+from BioPlate.object.stack import Stack
+from BioPlate.object.plate import Plate
 
 class BioPlateToExcel:
     """Past BioPlate object to excel file.     
@@ -123,7 +123,7 @@ class BioPlateToExcel:
             return None
 
     def __header_format_representation(self, format):
-        """Function to pass heqdwr format representation to workbook object
+        """Function to pass header format representation to workbook object
         
         Parameters
         ---------------
@@ -253,24 +253,24 @@ class BioPlateToExcel:
     def __count(self, BPlate):
         row = 0
         for keys, values in BPlate.count().items():
-            if not isinstance(values, dict):
-                keys = keys if keys != "" else self.empty
-                V = [keys, values]
-                row += 1
-                yield row, V
-            else:
+            if isinstance(values, dict):
                 for key, value in values.items():
-                    if not isinstance(value, dict):
-                        key = key if key != "" else self.empty
-                        V = [keys, key, value]
-                        row += 1
-                        yield row, V
-                    else:
+                    if isinstance(value, dict):
                         for k, v in value.items():
-                            k = k if k != "" else self.empty
-                            V = [keys, key, k, v]
                             row += 1
-                            yield row, V
+                            yield row, self._count_empty([keys, key, k, v])                            
+                    else:
+                        row += 1
+                        yield row, self._count_empty([keys, key, value])
+            else:
+                row += 1
+                yield row, self._count_empty([keys, values])
+                
+    def _count_empty(self, key_list):
+        """
+        Evaluate if key_list is compose of empty string, if True return the empty value set when class is instantiate, otherwise return the key
+        """
+        return [key if key != "" else self.empty for key in key_list]
 
     def _header_count(self, len_header, Inserts=False):
         if len_header == 2:

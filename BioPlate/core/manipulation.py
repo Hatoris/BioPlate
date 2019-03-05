@@ -12,13 +12,14 @@ from typing import (
 from collections.abc import Iterable
 
 import numpy as np
+import pandas as pd
 import numpy.core.defchararray as ncd
 from tabulate import tabulate
 
-from BioPlate.count import BioPlateCount
+from BioPlate.core.count import BioPlateCount
+from BioPlate.core.iterate import BioPlateIterate
+from BioPlate.core.matrix import BioPlateMatrix
 from BioPlate.database.plate_historic_db import PlateHist
-from BioPlate.iterate import BioPlateIterate
-from BioPlate.matrix import BioPlateMatrix
 
 
 class BioPlateManipulation:
@@ -262,7 +263,7 @@ class BioPlateManipulation:
         multiple_well : np.array
             get back all value eg : "2[B-G]"
         multiple_well_multiple_identifier : list
-            return a list of eqch given arguments
+            return a list of each given arguments
                  
         """
         if len(well) > 1:

@@ -4,7 +4,7 @@ import numpy as np
 
 from pathlib import Path, PurePath
 from BioPlate import BioPlate
-from BioPlate.count import BioPlateCount
+from BioPlate.core.count import BioPlateCount
 
 
 class TestPlate(unittest.TestCase):

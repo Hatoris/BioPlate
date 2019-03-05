@@ -1,12 +1,14 @@
 import unittest
 import contextlib
-import numpy as np
-import BioPlate.utilitis as bpu
-
-from pathlib import Path, PurePath
-from BioPlate import BioPlate
-from BioPlate.matrix import *
 from string import ascii_uppercase
+from pathlib import Path, PurePath
+
+import numpy as np
+
+import BioPlate.core.utilitis as bpu
+from BioPlate import BioPlate
+from BioPlate.core.matrix import *
+
 
 class TestMatrix(unittest.TestCase):
     

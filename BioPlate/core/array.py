@@ -11,9 +11,9 @@ from string import ascii_uppercase
 import numpy as np
 
 from BioPlate.database.plate_db import PlateDB
-from BioPlate.matrix import BioPlateMatrix
-import BioPlate.utilitis as bpu
-from BioPlate.manipulation import BioPlateManipulation
+from BioPlate.core.matrix import BioPlateMatrix
+import BioPlate.core.utilitis as bpu
+from BioPlate.core.manipulation import BioPlateManipulation
 
 
 class Array(np.ndarray, BioPlateManipulation):

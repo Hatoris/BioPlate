@@ -3,7 +3,7 @@ import contextlib
 import numpy as np
 
 from pathlib import Path, PurePath
-from BioPlate.array import Array
+from BioPlate.core.array import Array
 from BioPlate import BioPlate
 from BioPlate.database.plate_db import PlateDB
 

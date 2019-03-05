@@ -1,11 +1,13 @@
 import unittest
+from pathlib import Path, PurePath
+import contextlib
+import datetime
+
+import numpy as np
+
 from BioPlate.database.plate_historic_db import PlateHist
 from BioPlate.database.plate_db import PlateDB
 from BioPlate import BioPlate
-from pathlib import Path, PurePath
-import contextlib
-import numpy as np
-import datetime
 
 
 class TestPlateDB(unittest.TestCase):

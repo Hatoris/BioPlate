@@ -1,10 +1,11 @@
 import unittest
-from BioPlate.database.plate_db import PlateDB
 import contextlib
 from pathlib import Path, PurePath
+
 from sqlalchemy import exc
 import sqlite3
 
+from BioPlate.database.plate_db import PlateDB
 
 class TestPlateDB(unittest.TestCase):
     @classmethod

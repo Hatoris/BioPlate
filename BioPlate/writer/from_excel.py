@@ -5,10 +5,10 @@ from typing import List, Tuple, Dict, Callable, Union, Iterable, Any, Iterator, 
 import pyexcel_xlsx as pex
 
 from BioPlate import BioPlate
-from BioPlate.inserts import Inserts
-from BioPlate.plate import Plate
-from BioPlate.stack import Stack
-from BioPlate.utilitis import _LETTER
+from BioPlate.object.inserts import Inserts
+from BioPlate.object.plate import Plate
+from BioPlate.object.stack import Stack
+from BioPlate.core.utilitis import _LETTER
 
 
 class BioPlateFromExcel:

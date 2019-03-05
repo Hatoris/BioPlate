@@ -1,15 +1,15 @@
 import unittest
 import contextlib
-import numpy as np
-import openpyxl
-
 from pathlib import Path, PurePath
-from pyexcel_xlsx import get_data
-from BioPlate import BioPlate
-from BioPlate.writer.from_excel import BioPlateFromExcel, _BioPlateFromExcel
 from typing import Union, List
 from io import BytesIO
 
+import numpy as np
+import openpyxl
+from pyexcel_xlsx import get_data
+
+from BioPlate import BioPlate
+from BioPlate.writer.from_excel import BioPlateFromExcel, _BioPlateFromExcel
 
 def remove_sheet(
     workbookname: str, sheetnames: Union[List, str] = ["plate_count", "plate_data"]

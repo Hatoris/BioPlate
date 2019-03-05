@@ -13,9 +13,9 @@ from typing import (
 
 from collections import OrderedDict
 
-from BioPlate.plate import Plate
-from BioPlate.inserts import Inserts
-from BioPlate.stack import Stack
+from BioPlate.object.plate import Plate
+from BioPlate.object.inserts import Inserts
+from BioPlate.object.stack import Stack
 
 
 @overload
@@ -73,7 +73,7 @@ def BioPlate(*args, **kwargs):
       plate_history_id : Dict
           id of plate
        inserts : bool, optional
-           if plate objwct is an inserts
+           if plate object is an inserts
       Return
       -----------
       plate object

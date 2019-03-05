@@ -26,7 +26,7 @@ class PlateHist(Database):
         @hybrid_property
         def plate(self):
             if isinstance(self.plate_array, list):
-                return BioPlate.stack.Stack(self.plate_array)
+                return BioPlate.object.stack.Stack(self.plate_array)
             else:
                 return self.plate_array
 

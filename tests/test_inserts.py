@@ -1,14 +1,15 @@
 import unittest
 import contextlib
-import numpy as np
-import BioPlate.utilitis as bpu
-
+from string import ascii_uppercase
 from pathlib import Path, PurePath
+
+import numpy as np
+from tabulate import tabulate
+
 from BioPlate import BioPlate
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
-from string import ascii_uppercase
-from tabulate import tabulate
+import BioPlate.core.utilitis as bpu
 
 
 class TestPlate(unittest.TestCase):

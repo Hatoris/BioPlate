@@ -15,8 +15,8 @@ from collections import OrderedDict
 
 import numpy as np
 
-from BioPlate.array import Array
-from BioPlate.manipulation import BioPlateManipulation
+from BioPlate.core.array import Array
+from BioPlate.core.manipulation import BioPlateManipulation
 
 
 class Stack(BioPlateManipulation):

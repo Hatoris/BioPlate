@@ -1,12 +1,13 @@
 import unittest
 import contextlib
-import numpy as np
-
 from pathlib import Path, PurePath
-from BioPlate import BioPlate
-from BioPlate.stack import Stack
 from string import ascii_uppercase
+
+import numpy as np
 from tabulate import tabulate
+
+from BioPlate import BioPlate
+from BioPlate.object.stack import Stack
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
 

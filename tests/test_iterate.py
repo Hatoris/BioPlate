@@ -1,11 +1,13 @@
 import unittest
 import contextlib
+from string import ascii_uppercase
+from pathlib import Path, PurePath
+
 import numpy as np
 
-from pathlib import Path, PurePath
 from BioPlate import BioPlate
-from BioPlate.iterate import BioPlateIterate
-from string import ascii_uppercase
+from BioPlate.core.iterate import BioPlateIterate
+
 
 
 class TestIterate(unittest.TestCase):

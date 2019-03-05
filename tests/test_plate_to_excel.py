@@ -1,16 +1,16 @@
 import unittest
 import contextlib
-import numpy as np
-
 from pathlib import Path, PurePath
+from string import ascii_uppercase
+
+import numpy as np
 from pyexcel_xlsx import get_data
+from tabulate import tabulate
+
 from BioPlate import BioPlate
 from BioPlate.writer.to_excel import BioPlateToExcel
 from BioPlate.database.plate_db import PlateDB
 from BioPlate.database.plate_historic_db import PlateHist
-from string import ascii_uppercase
-from tabulate import tabulate
-
 
 def remove_tail(liste):
     lis = liste[::-1]

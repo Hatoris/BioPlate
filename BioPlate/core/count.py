@@ -14,7 +14,7 @@ from typing import (
 
 import numpy as np
 
-from BioPlate.iterate import BioPlateIterate
+from BioPlate.core.iterate import BioPlateIterate
 
 
 class BioPlateCount:

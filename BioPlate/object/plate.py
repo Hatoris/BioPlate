@@ -14,9 +14,9 @@ import numpy as np
 
 from collections import OrderedDict
 
-from BioPlate.array import Array
-from BioPlate.manipulation import BioPlateManipulation
-from BioPlate.stack import Stack
+from BioPlate.core.array import Array
+from BioPlate.core.manipulation import BioPlateManipulation
+from BioPlate.object.stack import Stack
 
 
 class Plate(Array, BioPlateManipulation):

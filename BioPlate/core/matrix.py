@@ -3,7 +3,7 @@ from typing import Tuple, Dict, NamedTuple, Optional, Union, List
 
 import numpy as np
 
-import BioPlate.utilitis as bpu
+import BioPlate.core.utilitis as bpu
 
 
 class Matrix(NamedTuple):  # pragma: no cover
