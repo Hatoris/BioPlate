@@ -9,7 +9,8 @@ class to_pandas:
       
 class _to_pandas:
    
-   def __init__(self, bp, *args, *kwargs):
+   def __init__(self, bp, *args, **kwargs):
        self.bp = bp
+       
       
       
