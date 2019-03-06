@@ -86,6 +86,11 @@ class Stack(BioPlateManipulation):
             newstack = Array._merge_stack(self.ID, other.ID)
         newstack = list(OrderedDict.fromkeys(newstack))
         return Stack(newstack)
+    
+    @property
+    def shape(self):
+        return np.array(self).shape
+        
 
     def change_args(func: Any):
         def wrapper(self, *args, **kwargs):
