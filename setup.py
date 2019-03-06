@@ -17,7 +17,7 @@ setup(
     url = "https://github.com/Hatoris/BioPlate",
     project_urls={ 'Documentation': 'https://hatoris.github.io/BioPlate/html/index.html',
                    'Source': 'https://github.com/Hatoris/BioPlate'},
-    packages=['BioPlate', 'BioPlate/database', 'BioPlate/writer'],
+    packages=['BioPlate', 'BioPlate/database', 'BioPlate/writer', 'BioPlate/core', 'BioPlate/object'],
     install_requires=[
         'sqlalchemy>=1.2',
         'tabulate>=0.8',
@@ -27,7 +27,8 @@ setup(
         'pyexcel>=0.5',
         'pyexcel_xlsx>=0.5',
         'pyexcel_xls>=0.5',
-        'typing>=3.6.4'
+        'typing>=3.6.4',
+        'pandas>=0.22'
     ],
     long_description=read('README.md'),  
     long_description_content_type="text/markdown",
