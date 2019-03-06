@@ -67,18 +67,32 @@ class BioPlateIterate:
 
     @classmethod
     def _iterate(cls) -> Iterator:
-        bp = cls.plate.name == "Plate"
-        bpi = cls.plate.name == "Inserts"
-        bps = cls.plate.name == "Stack"
-        if bp:
+        if len(cls.plate.shape) == 2:
             yield from cls.__iterate(cls.plate)
         else:
-            for plat in cls.plate:
-                if bps and plat.name == "Inserts":
-                    for pl in plat:
-                        yield from cls.__iterate(pl)
-                else:
-                    yield from cls.__iterate(plat)
+             yield from cls._iterate_base(cls.plate)
+
+    @classmethod
+    def _iterate_base(cls, plat) -> Iterator:
+        if len(plat.shape) == 2:
+            yield from cls.__iterate(plat)
+        else:
+            for pl in plat:
+                yield from cls._iterate_base(pl)
+            
+                                                                            
+        #bp = cls.plate.name == "Plate"
+#        bpi = cls.plate.name == "Inserts"
+#        bps = cls.plate.name == "Stack"
+#        if bp:
+#            yield from cls.__iterate(cls.plate)
+#        else:
+#            for plat in cls.plate:
+#                if bps and plat.name == "Inserts":
+#                    for pl in plat:
+#                        yield from cls.__iterate(pl)
+#                else:
+#                    yield from cls.__iterate(plat)
 
     @classmethod
     def __iterate(
