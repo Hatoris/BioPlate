@@ -186,12 +186,10 @@ class _BioPlateFromExcel:
         if self.plate_infos is None:
             blank_line = value.count([])
             if blank_line >= 1:
-                if blank_line > 1:
-                    stack = True
-                else:
-                    stack = False
                 if self.is_insert(value):
-                    return stack
+                    if blank_line > 1:
+                        return True
+                    return False
                 else:
                     return True  # two Plate
             else:
@@ -357,16 +355,24 @@ class _BioPlateFromExcel:
         Type, stack, column, row = self._get_plate_informations(values, sheetname)
         plate = self._instance_of_plate(Type, column, row)
         if plate.name == "Plate":
-            plates, rest = self._pre_bp_iterate(values, row)
-            for i, val in self._iterate_bp_value(plates, row):
-                plate.set(_LETTER[i], val)
+            rest = self._set_Plate(plate, values, row)
         elif plate.name == "Inserts":
-            plates, rest = self._pre_bpi_iterate(values, row)
-            for i, position, val in self._iterate_bpi_value(plates, row):
-                getattr(plate, position).set(_LETTER[i], val)
+            rest = self._set_Inserts(plate, values, row)
         yield plate
         if rest:
             yield from self._get_one_plate(rest, sheetname)
+
+    def _set_Plate(self, plate, values, row):
+        plates, rest = self._pre_bp_iterate(values, row)
+        for i, val in self._iterate_bp_value(plates, row):
+            plate.set(_LETTER[i], val)
+        return rest
+
+    def _set_Inserts(self, plate, values, row):
+        plates, rest = self._pre_bpi_iterate(values, row)
+        for i, position, val in self._iterate_bpi_value(plates, row):
+            getattr(plate, position).set(_LETTER[i], val)
+        return rest
 
     def _iterate_bpi_value(
         self, plates: List[List], row: int
@@ -389,16 +395,12 @@ class _BioPlateFromExcel:
                                 
         """
         position = "top"
+        rm_header = slice(1, None, None) if self.plate_infos is None else slice(None)    
         for plate in plates:
-            if self.plate_infos is None:
-                for i, val in enumerate(plate[1:]):
-                    i = i % row
-                    yield i, position, val[1:]
-            else:
-                for i, val in enumerate(plate):
-                    i = i % row
-                    yield i, position, val
-            position = "top" if position == "bot" else "bot"
+            for i, val in enumerate(plate[rm_header]):
+                i = i % row
+                yield i, position, val[rm_header]
+            position = "bot"
 
     def _iterate_bp_value(self, plate: List[List], row: int) -> Iterator[Tuple[int, List]]:
         """yield row index and value of given well for Plate.
