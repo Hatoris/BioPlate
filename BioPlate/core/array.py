@@ -67,7 +67,7 @@ class Array(np.ndarray, BioPlateManipulation):
     ) -> None:
         if isinstance(index, str):
             self.set(index, value)
-        else:    
+        else:
             super(Array, self).__setitem__(index, value)
 
     @overload
@@ -94,17 +94,10 @@ class Array(np.ndarray, BioPlateManipulation):
         -------
 
         """
-        try:
-            if isinstance(args[0], list):
-                return args[0]
-            elif len(args) == 2 or isinstance(args[0], dict):
-                columns, rows = Array.get_columns_rows(*args, **kwargs)
-                if isinstance(columns, int) and isinstance(rows, int):
-                    return Array.bio_plate_array(columns, rows)
-                else:
-                    raise ValueError
-        except ValueError:
-            raise ValueError(f"Something wrong with {args}")
+        if isinstance(args[0], list): #used by stack 
+            return args[0]
+        columns, rows = Array.get_columns_rows(*args, **kwargs)
+        return Array.bio_plate_array(columns, rows)
 
     @overload
     def get_columns_rows(
@@ -141,33 +134,32 @@ class Array(np.ndarray, BioPlateManipulation):
         Raises
         -----------
         AttributeError
-            if args and kwargs pass can be used to return columns and rows value
+            if args and kwargs pass can not be used to return columns and rows value
         
         """
         dict_in = isinstance(args[0], dict)
-        if len(args) == 2 and not dict_in:
+        all_int = all(isinstance(arg, int) for arg in args)
+        if dict_in:
+            return Array.get_column_row_from_db(args[0],  **kwargs)
+        elif all_int:
             columns, rows = args
-            plate = None
-        elif (len(args) == 1 or len(args) == 2) and dict_in:
-            try:
-                if "db_name" in kwargs:
-                    pdb = PlateDB(db_name=kwargs["db_name"])
-                else:
-                    pdb = PlateDB()
-                pair = list(args[0].items())
-                k, arg = pair[0]
-                plate = pdb.get_one_plate(str(arg), key=str(k))
-                columns = plate.numColumns
-                rows = plate.numRows
-            except AttributeError:
-                raise AttributeError(f"invalid format : {dict}")
-        elif len(args) == 1:
-            return (0,)
-        else:
-            raise AttributeError(
+            return columns, rows
+        raise AttributeError(
                 "You should call by passing column, row or {'key' : 'value'} of PlateDB"
             )
-        return columns, rows
+
+    def get_column_row_from_db(dict_infos, **kwargs):
+        db_name = kwargs.get("db_name", False)
+        try:
+            if db_name:
+                pdb = PlateDB(db_name=db_name)
+            else:
+                pdb = PlateDB()
+            key, value = list(*dict_infos.items())
+            plate = pdb.get_one_plate(str(value), key=str(key))
+            return plate.numColumns, plate.numRows
+        except AttributeError:
+            raise AttributeError(f"invalid format : {dict_infos}")
 
     def bio_plate_array(columns: int, rows: int) -> np.ndarray:
         """

@@ -53,12 +53,17 @@ class TestBioPlateArray(unittest.TestCase):
         pass
 
     def test_bioplatearray(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(AttributeError):
             Array.bioplatearray(2, ["test1"])
+    
+    def test_bioplatearray_list(self):
         self.assertEqual(Array.bioplatearray([2, 3, 5]), [2, 3, 5])
 
     def test_get_columns_rows(self):
-        self.assertEqual(Array.get_columns_rows(["test1"]), (0,))
+        with self.assertRaises(AttributeError):
+            self.assertEqual( Array.get_columns_rows(["test1"]), (0,))
+        
+    def test_get_columns_rows1(self):
         with self.assertRaises(AttributeError):
             Array.get_columns_rows(["test1"], ["test2"], [1, 2, 3])
 
