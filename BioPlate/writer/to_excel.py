@@ -145,14 +145,13 @@ class BioPlateToExcel:
         """
         if isinstance(BPlate, Plate):
             self._representation(BPlate)
-        elif isinstance(BPlate, Stack):
-            for plate in BPlate:
-                if isinstance(plate, Plate):
-                    self._representation(plate)
-                elif isinstance(plate, Inserts):
-                    self._representation_inserts(plate)
         elif isinstance(BPlate, Inserts):
             self._representation_inserts(BPlate)
+        elif isinstance(BPlate, Stack):
+            for plate in BPlate:
+                self.representation(plate)
+        else:
+             raise ValueError("BioPlate is not a instance of Plate, Inserts or Stack")
 
     def _representation(self, plate):
         """Pass Plate representation to spreadsheet
@@ -253,19 +252,22 @@ class BioPlateToExcel:
     def __count(self, BPlate):
         row = 0
         for keys, values in BPlate.count().items():
-            if isinstance(values, dict):
-                for key, value in values.items():
-                    if isinstance(value, dict):
-                        for k, v in value.items():
-                            row += 1
-                            yield row, self._count_empty([keys, key, k, v])                            
-                    else:
-                        row += 1
-                        yield row, self._count_empty([keys, key, value])
-            else:
+            for row_data in self._deep_count(values, keys):
                 row += 1
-                yield row, self._count_empty([keys, values])
-                
+                yield row, row_data
+
+    def _deep_count(self, values, *args):
+        args = list(args)
+        if isinstance(values, dict):
+            for key, value in values.items():
+                args.append(key)
+                yield from self._deep_count(value, *args)
+                args = args[:-1]
+        else:
+            args.append(values)
+            yield self._count_empty(args)
+            
+                                      
     def _count_empty(self, key_list):
         """
         Evaluate if key_list is compose of empty string, if True return the empty value set when class is instantiate, otherwise return the key

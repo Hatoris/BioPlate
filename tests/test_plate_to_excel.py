@@ -317,6 +317,10 @@ class TestPlateToExcel(unittest.TestCase):
         rm_empty = like_read_excel(self.Inserts)
         self.assertEqual(read_excel, rm_empty)
 
+    def test_representation_error(self):
+        with self.assertRaises(ValueError):
+            self.PTE.representation([1, 2])
+            
     def test_representation_BioPlateInserts_hd(self):
         c = {"header": False}
         read_excel = as_read_excel(
