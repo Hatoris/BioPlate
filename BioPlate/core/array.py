@@ -185,10 +185,12 @@ class Array(np.ndarray, BioPlateManipulation):
               ['B', '', '', '']
               ['C', '', '', ''] ]
             """
-        BParray = np.zeros([rows + 1, columns + 1], dtype="U100")
-        BParray[0] = np.arange(columns + 1)
-        BParray[1 : rows + 1, 0] = np.array(list(ascii_uppercase))[0:rows]
-        BParray[0, 0] = " "
+        letter = bpu._LETTER[0:rows]
+        rows += 1
+        columns += 1
+        BParray = np.zeros([rows, columns], dtype="U100")
+        BParray[0,1:] = np.arange(1, columns)
+        BParray[1 : rows, 0] = letter
         return BParray
 
     def _get_plate_in_cache(plate_id: int) -> np.ndarray:

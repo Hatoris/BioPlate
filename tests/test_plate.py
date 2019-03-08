@@ -91,7 +91,7 @@ class TestPlate(unittest.TestCase):
             np.array(
                 [
                     [
-                        " ",
+                        "",
                         "1",
                         "2",
                         "3",
@@ -122,7 +122,7 @@ class TestPlate(unittest.TestCase):
             np.array(
                 [
                     [
-                        " ",
+                        "",
                         "1",
                         "2",
                         "3",
@@ -162,7 +162,7 @@ class TestPlate(unittest.TestCase):
             np.array(
                 [
                     [
-                        " ",
+                        "",
                         "1",
                         "2",
                         "3",
@@ -204,7 +204,7 @@ class TestPlate(unittest.TestCase):
             np.array(
                 [
                     [
-                        " ",
+                        "",
                         "1",
                         "2",
                         "3",
@@ -271,7 +271,7 @@ class TestPlate(unittest.TestCase):
             np.array(
                 [
                     [
-                        " ",
+                        "",
                         "1",
                         "2",
                         "3",
@@ -361,7 +361,7 @@ class TestPlate(unittest.TestCase):
         test_pp = np.array(
                 [
                     [
-                        " ",
+                        "",
                         "1",
                         "2",
                         "3",
