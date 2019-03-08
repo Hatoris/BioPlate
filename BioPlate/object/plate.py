@@ -12,8 +12,6 @@ from typing import (
 )
 import numpy as np 
 
-from collections import OrderedDict
-
 from BioPlate.core.array import Array
 from BioPlate.core.manipulation import BioPlateManipulation
 from BioPlate.object.stack import Stack
@@ -38,6 +36,5 @@ class Plate(Array, BioPlateManipulation):
             newstack = [self.ID] + newstack
         else:
             newstack = [self.ID, other.ID]
-        newstack = list(OrderedDict.fromkeys(newstack))
         return Stack(newstack)
         

@@ -11,8 +11,6 @@ from typing import (
     Callable,
 )
 
-from collections import OrderedDict
-
 import numpy as np
 
 from BioPlate.core.array import Array
@@ -84,7 +82,6 @@ class Stack(BioPlateManipulation):
                 raise ValueError(f"{other} already in stack")
         elif type(self) == type(other):
             newstack = Array._merge_stack(self.ID, other.ID)
-        newstack = list(OrderedDict.fromkeys(newstack))
         return Stack(newstack)
     
     @property
