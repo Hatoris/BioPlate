@@ -46,12 +46,12 @@ class Stack(BioPlateManipulation):
             return Array._get_plate_in_stack(self.ID, index)
         if isinstance(index, tuple):
             plt = Array._get_plate_in_stack(self.ID, index[0])
-            if isinstance(index[1], str):
-                if plt.name == "Inserts":
-                    return plt[index[1], index[2]]
-                return plt[index[1]]
+            if len(index[1:]) ==2:
+                position, well = index[1:]
+                return plt[position, well]
             else:
-                return plt[index[1:]]
+                well = index[-1]
+                return plt.get(well)
 
     def __setitem__(
         self: "Stack",

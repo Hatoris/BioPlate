@@ -89,16 +89,6 @@ class TestBioPlateArray(unittest.TestCase):
         Array._add_plate_in_cache(12345, self.plate2)
         np.testing.assert_array_equal(self.plate2, Array._PLATE_CACHE[12345])
 
-    def test_get_list_id_of_stack(self):
-        with self.assertRaises(ValueError):
-            self.assertEqual(
-                Array._get_list_id_of_stack(self.plate2), [id(self.plate2)]
-            )
-        self.assertEqual(
-            Array._get_list_id_of_stack(self.stack1),
-            [id(self.plate2), id(self.plate3)],
-        )
-
     def test_attributeError(self):
         with self.assertRaises(AttributeError):
             Array({"1" : "a"})

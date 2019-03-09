@@ -26,9 +26,6 @@ class Array(np.ndarray, BioPlateManipulation):
     _PLATE_CACHE: Dict[
         int, np.ndarray
     ] = {}  # contain id as key and np.array plate as value
-    _STACK_CACHE: Dict[
-        int, List[int]
-    ] = {}  # contain id of stak plate as key and list of unique plate bioplatestack cache
 
     def __new__(cls, *args, **kwargs) -> np.ndarray:
         """
@@ -48,9 +45,8 @@ class Array(np.ndarray, BioPlateManipulation):
         else:
             BioPlate = Array.bioplatearray(*args, **kwargs).view(cls)
         ID = id(BioPlate)
-        if ID not in Array._PLATE_CACHE:
-            Array._PLATE_CACHE[ID] = BioPlate
-        return Array._PLATE_CACHE[ID]
+        Array._add_plate_in_cache(ID, BioPlate)
+        return Array._get_plate_in_cache(ID)
 
     def __getitem__(
         self, index: Tuple[Union[int, slice], Union[int, slice], int, str]
@@ -243,7 +239,7 @@ class Array(np.ndarray, BioPlateManipulation):
        [4356278905, 4356789241]
        """
         try:
-            return Array._STACK_CACHE[stack_id]
+            return Array._PLATE_CACHE[stack_id]
         except KeyError:
             raise KeyError(f"stack {stack_id} is not in stack cache")
 
@@ -308,8 +304,8 @@ class Array(np.ndarray, BioPlateManipulation):
        """
         try:
             newstack = (
-                Array._STACK_CACHE[stack1_id]
-                + Array._STACK_CACHE[stack2_id]
+                Array._PLATE_CACHE[stack1_id]
+                + Array._PLATE_CACHE[stack2_id]
             )
             return newstack
         except KeyError:
@@ -342,7 +338,8 @@ class Array(np.ndarray, BioPlateManipulation):
        >>> Array._add_stack_to_cache(123, stack)
        >>>
         """
-        Array._STACK_CACHE[stack_id] = id_list
+        #Array._add_plate_in_cache(stack_id, id_list)
+        Array._PLATE_CACHE[stack_id] = id_list
         return None
 
     def _add_plate_in_cache(plate_id: int, plate: np.ndarray) -> None:
@@ -370,34 +367,4 @@ class Array(np.ndarray, BioPlateManipulation):
        """
         if plate_id not in Array._PLATE_CACHE:
             Array._PLATE_CACHE[plate_id] = plate
-            return None
-
-    def _get_list_id_of_stack(stack_object: "Array") -> List[int]:
-        """
-        Get a list of plate id in stack 
-       
-       Parameters
-       ---------------------
-       stack_object: Stack
-           Stack object
-           
-       Returns
-       --------------
-       id_list
-       
-       Exemples
-       -----------------
-       >>> from BioPlate import BioPlate
-       >>> from BioPlate.array import Array
-       >>> stack = BioPlate(2, 12, 8)
-       >>> Array._get_list_id_of_stack(stack)
-        [4356278905, 4356789241]
-       """
-        if stack_object.name == "Stack":
-            id_list = []
-            for plate in stack_object:
-                plate_id = id(plate)
-                id_list.append(plate_id)
-            return id_list
-        else:
-            raise ValueError("plate_object is not a stack")
+        return None

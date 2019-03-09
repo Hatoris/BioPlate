@@ -26,6 +26,7 @@ class Inserts(Array, BioPlateManipulation):
 
     def __init__(self: "Inserts", *args, **kwargs) -> None:
         self.ID = id(self)
+        self._ind = {"top": 0, "bot": 1, "0": 0, "1": 1, 0: 0, 1: 1}
 
     def __add__(self: "Inserts", other: Union[Stack, "Inserts"]) -> Stack:
         if isinstance(other, Stack):
@@ -74,8 +75,8 @@ class Inserts(Array, BioPlateManipulation):
     def __getitem__(self, index):
         if isinstance(index, tuple):
             if any(isinstance(i, str) for i in index):
-                ind = {"top": 0, "bot": 1, "0": 0, "1": 1, 0: 0, 1: 1}
-                plt = self[ind[index[0]]]
+                ind = self._ind.get(index[0])
+                plt = self[ind]
                 if isinstance(index[1], str):
                     well = BioPlateMatrix(index[1])
                     return plt[well.row, well.column]
@@ -100,8 +101,8 @@ class Inserts(Array, BioPlateManipulation):
     def __setitem__(self, index, value):
         if isinstance(index, tuple):
             if any(isinstance(i, str) for i in index):
-                ind = {"top": 0, "bot": 1, 0: 0, 1: 1}
-                plt = self[ind[index[0]]]
+                ind = self._ind.get(index[0])
+                plt = self[ind]
                 if isinstance(index[1], str):
                     well = BioPlateMatrix(index[1])
                     plt[index[1]] = value
