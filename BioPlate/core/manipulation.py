@@ -202,13 +202,17 @@ class BioPlateManipulation:
         """
         Call __setitem__ of bioplate and qssign value on it
         """
-        self[index.row, index.column] = value
+        self.__setitem__((index.row, index.column), value)
 
     def _set_part(self, index, value, part):
         """
         Call __setitem__ and slice it to fit the number of value to assign
         """
-        self[index.row, index.column][:part] = value
+        #self[index.row, index.column][:part] = value
+        try:
+            self.__getitem__((index.row, index.column)).__setitem__( slice(None, part, None), value)
+        except AttributeError:
+            raise ValueError("Can not assign index to plate")
 
     def _set_list(self, index, value, merge):
         """
