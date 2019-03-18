@@ -231,7 +231,7 @@ class BioPlateManipulation:
         """
         if index.pos == "R":
             value = np.reshape(value, (plate_shape[0], 1))
-        self._basic_set(index, value, merge)           
+        self._basic_set(index, value, merge)
         
     def _set_slice(self,  index, value, merge):
         """

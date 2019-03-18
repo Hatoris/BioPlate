@@ -32,9 +32,22 @@ class Index:
         return well
 
     def index_str(index):
-        base = {"top" : 0, "bot" : 1, "0" : 0, "1" : 1}
+        base = {"top" : 0, "bot" : 1}
         well = base.get(index, False)
         if well is not False:
             return well
         well = bpm(index)
         return (well.row, well.column)
+       
+    def is_string_in(index):
+        if Index.is_string(index):
+            return True
+        elif isinstance(index, (tuple, list)):
+            for ind in index:
+                if Index.is_string(ind):
+                    return True
+                pass
+        return False
+       
+    def is_string(index):
+        return isinstance(index, str)
