@@ -52,9 +52,11 @@ class Array(np.ndarray, BioPlateManipulation):
     def __getitem__(
         self, index: Tuple[Union[int, slice], Union[int, slice], int, str]
     ) -> np.ndarray:
-        if Index.is_string(index):
-            index = BioPlateMatrix(index)
-            return self[index.row, index.column]
+#        if Index.is_string(index):
+#            index = BioPlateMatrix(index)
+#            return self[index.row, index.column]
+        if Index.is_string_in(index):
+            index = Index(index)
         return super(Array, self).__getitem__(index)
 
     def __setitem__(
@@ -62,7 +64,7 @@ class Array(np.ndarray, BioPlateManipulation):
         index: Tuple[Union[int, slice], Union[int, slice]],
         value: Union[List[int], List[str], int, str],
     ) -> None:
-        if Index.is_string(index):
+        if Index.is_string_in(index):
             self.set(index, value)
         else:
             super(Array, self).__setitem__(index, value)
