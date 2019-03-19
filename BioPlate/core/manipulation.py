@@ -248,7 +248,7 @@ class BioPlateManipulation:
             return True
         elif isinstance(object, set):
              raise ValueError("Set object can not be used to assign value")
-        return False           
+        return False
                                                        
     def get(
         self: "BioPlateManipulation", *well: str

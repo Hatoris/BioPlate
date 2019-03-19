@@ -8,7 +8,7 @@ class Index:
     
     CACHE = {}
    
-    def __new__(cls, index, **kwargs):
+    def __new__(cls, *index, **kwargs):
        id_index = id(index)
        if id_index not in Index.CACHE:
            Index.CACHE[id_index] =  Index.serialize_index(index)

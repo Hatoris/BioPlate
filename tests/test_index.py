@@ -15,6 +15,9 @@ class TestIndex(unittest.TestCase):
         
     def test_slice(self):
         self.assertEqual(Index((slice(None, 3, 1), slice(None, 2, None))),(slice(None, 3, 1), slice(None, 2, None)))
+        
+    def test_int_str(self):
+        self.assertEqual(Index((1, "1")), (1, slice(1, None, None), 1))
  
 if __name__ == "__main__":
     unittest.main() 
