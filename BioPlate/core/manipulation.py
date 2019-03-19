@@ -19,7 +19,9 @@ from tabulate import tabulate
 from BioPlate.core.count import BioPlateCount
 from BioPlate.core.iterate import BioPlateIterate
 from BioPlate.core.matrix import BioPlateMatrix
+from BioPlate.core.index import Index
 from BioPlate.database.plate_historic_db import PlateHist
+
 
 
 class BioPlateManipulation:
@@ -106,9 +108,13 @@ class BioPlateManipulation:
             well, *trash = args
             value = None
             return well, value
-        if len(args) == 2:
+        elif len(args) == 2:
             well, value, *trash = args
             return well, value
+        elif len(args) == 3:
+            *well, value = args
+            return well, value
+            
 
     @overload
     def set(

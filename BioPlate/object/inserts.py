@@ -17,6 +17,7 @@ from BioPlate.core.array import Array
 from BioPlate.core.manipulation import BioPlateManipulation
 from BioPlate.core.matrix import BioPlateMatrix
 from BioPlate.object.stack import Stack
+from BioPlate.core.index import Index
 
 
 class Inserts(Array, BioPlateManipulation):
@@ -35,52 +36,6 @@ class Inserts(Array, BioPlateManipulation):
         else:
             newstack = [self.ID, other.ID]
         return Stack(newstack)
-
-    @overload
-    def __getitem__(
-        self: "Inserts", index: int
-    ) -> Union[np.ndarray, str]:  # pragma: no cover
-        pass
-
-    @overload
-    def __getitem__(
-        self: "Inserts", index: Tuple[int, int]
-    ) -> Union[np.ndarray, str]:  # pragma: no cover
-        pass
-
-    @overload
-    def __getitem__(
-        self: "Inserts", index: Union[slice, int]
-    ) -> Union[np.ndarray, str]:  # pragma: no cover
-        pass
-
-    @overload
-    def __getitem__(
-        self: "Inserts", index: Tuple[str, str]
-    ) -> Union[np.ndarray, str]:  # pragma: no cover
-        pass
-
-    @overload
-    def __getitem__(
-        self: "Inserts", index: str
-    ) -> Union[np.ndarray, str]:  # pragma: no cover
-        pass
-
-    @overload
-    def __getitem__(
-        self: "Inserts", index: Tuple[Union[int, slice], Union[int, slice], int, str]
-    ) -> Union[np.ndarray, str]:  # pragma: no cover
-        pass
-
-    def __getitem__(self, index):
-        if isinstance(index, tuple):
-            if any(isinstance(i, str) for i in index):
-                ind = self._ind.get(index[0])
-                plt = self[ind]
-                if isinstance(index[1], str):
-                    well = BioPlateMatrix(index[1])
-                    return plt[well.row, well.column]
-        return super(Inserts, self).__getitem__(index)
 
     @overload
     def __setitem__(

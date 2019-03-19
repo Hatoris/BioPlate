@@ -52,9 +52,6 @@ class Array(np.ndarray, BioPlateManipulation):
     def __getitem__(
         self, index: Tuple[Union[int, slice], Union[int, slice], int, str]
     ) -> np.ndarray:
-#        if Index.is_string(index):
-#            index = BioPlateMatrix(index)
-#            return self[index.row, index.column]
         if Index.is_string_in(index):
             index = Index(index)
         return super(Array, self).__getitem__(index)
