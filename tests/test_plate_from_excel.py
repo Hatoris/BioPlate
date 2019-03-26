@@ -217,7 +217,6 @@ class TestPlateFromExcel(unittest.TestCase):
         From = BioPlateFromExcel(
             "test.xlsx", plate_infos=infos, sheets=["plate_representation"]
         )
-        #print(From["plate_representation"])
         self.assertIsInstance(From, dict)
         np.testing.assert_array_equal(self.stacki, From["plate_representation"])
 

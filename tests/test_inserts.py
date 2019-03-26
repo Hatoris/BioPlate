@@ -232,10 +232,6 @@ class TestInserts(unittest.TestCase):
         self.assertEqual(ins.top.get("A4"), "te_3")
         self.assertEqual(ins.top.get("B5"), "t_4")
         self.assertEqual(ins.top.get("C5"), "t_5")
-        
-    def test_raise_inserts(self):
-        with self.assertRaises(ValueError):
-            self.Inserts.set("A5", "martin")
             
     def test_insert_set_get(self):
         ii = BioPlate(12, 8, inserts=True)

@@ -344,7 +344,7 @@ class _BioPlateFromExcel:
     def _set_Inserts(self, plate, values, row):
         plates, rest = self._pre_bpi_iterate(values, row)
         for i,  position, val in self._iterate_bpi_value(plates, row):
-            getattr(plate, position).set(_LETTER[i], val)
+            plate.set(position, _LETTER[i], val)
         return rest
 
     def _iterate_bpi_value(
