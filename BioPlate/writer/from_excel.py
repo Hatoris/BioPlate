@@ -306,34 +306,6 @@ class _BioPlateFromExcel:
             yield [value[:row], value[row + 1 : rowS]]
             yield value[rowS:]
 
-    @overload
-    def _instance_of_plate(self, Type : Callable[[int, int], Plate], column : int, row : int):#pragma: no cover
-        pass
-
-    @overload
-    def _instance_of_plate(self, Type : Callable[[int, int], Inserts], column : int, row : int):#pragma: no cover
-        pass
-
-    def _instance_of_plate(self, Type , column , row):
-        """instantiate a plate object with column and row number.
-        
-        Parameters
-        ----------------
-        Type : ``Plate``, ``Inserts``
-            class definitions to instanciate
-        column : int
-            number of column in plate object
-        row : int
-            number of row in plate object
-            
-        Returns
-        ----------
-        instanciate_plate: ``Plate``, ``Inserts``
-            instanciate object with right number of columns and rows
-        
-        """
-        return Type(column, row)
-
     def _get_one_plate(self, values: List[List], sheetname: str) -> Iterator:
         """yield plate object representation from list for a given sheetname
         
@@ -354,7 +326,7 @@ class _BioPlateFromExcel:
         
         """
         Type, stack, column, row = self._get_plate_informations(values, sheetname)
-        plate = self._instance_of_plate(Type, column, row)
+        plate = Type(column, row)
         if plate.name == "Plate":
             rest = self._set_Plate(plate, values, row)
         elif plate.name == "Inserts":
@@ -371,7 +343,7 @@ class _BioPlateFromExcel:
 
     def _set_Inserts(self, plate, values, row):
         plates, rest = self._pre_bpi_iterate(values, row)
-        for i, position, val in self._iterate_bpi_value(plates, row):
+        for i,  position, val in self._iterate_bpi_value(plates, row):
             getattr(plate, position).set(_LETTER[i], val)
         return rest
 
@@ -398,9 +370,8 @@ class _BioPlateFromExcel:
         position = "top"
         rm_header = slice(1, None, None) if self.plate_infos is None else slice(None)    
         for plate in plates:
-            for i, val in enumerate(plate[rm_header]):
-                i = i % row
-                yield i, position, val[rm_header]
+            for i, val in self._iterate_bp_value(plate, row):
+                yield  i, position, val
             position = "bot"
 
     def _iterate_bp_value(self, plate: List[List], row: int) -> Iterator[Tuple[int, List]]:
@@ -420,12 +391,8 @@ class _BioPlateFromExcel:
         Infos : Tuple[int, str]
             Yields infos to assign value on Plate
                                 
-        """        
-        if self.plate_infos is None:
-            for i, val in enumerate(plate[1:]):
-                i = i % row
-                yield i, val[1:]
-        else:
-            for i, val in enumerate(plate):
-                i = i % row
-                yield i, val
+        """
+        rm_header = slice(1, None, None) if self.plate_infos is None else slice(None)
+        for i, val in enumerate(plate[rm_header]):
+            i = i % row
+            yield i, val[rm_header]
