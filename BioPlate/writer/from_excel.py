@@ -3,6 +3,7 @@ import sys
 from typing import List, Tuple, Dict, Callable, Union, Iterable, Any, Iterator, overload
 
 import pyexcel_xlsx as pex
+import numpy as np
 
 from BioPlate import BioPlate
 from BioPlate.object.inserts import Inserts

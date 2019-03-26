@@ -12,7 +12,7 @@ from BioPlate.database.plate_historic_db import PlateHist
 import BioPlate.core.utilitis as bpu
 
 
-class TestPlate(unittest.TestCase):
+class TestInserts(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """

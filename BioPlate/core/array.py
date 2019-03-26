@@ -53,7 +53,7 @@ class Array(np.ndarray, BioPlateManipulation):
         self, index: Tuple[Union[int, slice], Union[int, slice], int, str]
     ) -> np.ndarray:
         if Index.is_string_in(index):
-            index = Index(index)
+            pos, index = Index(index)
         return super(Array, self).__getitem__(index)
 
     def __setitem__(
