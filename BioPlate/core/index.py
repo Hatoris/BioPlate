@@ -39,7 +39,7 @@ class Index:
         return pos, well
 
     def index_str(index):
-        base = {"top" : 0, "bot" : 1}
+        base = {"top" : 0, "bot" : 1, "TOP" : 0, "BOT" : 1}
         well = base.get(index, False)
         if well is not False:
             return well
@@ -53,7 +53,6 @@ class Index:
             for ind in index:
                 if Index.is_string(ind):
                     return True
-                pass
         return False
        
     def is_string(index):

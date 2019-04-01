@@ -2,7 +2,6 @@ from io import BytesIO
 
 import xlsxwriter
 
-from BioPlate import BioPlate
 from BioPlate.object.inserts import Inserts
 from BioPlate.object.stack import Stack
 from BioPlate.object.plate import Plate
@@ -200,14 +199,17 @@ class BioPlateToExcel:
         """
         order = self.order if order is None else order
         accumulate = self.accumulate if accumulate is None else accumulate
-        if isinstance(BPlate, Inserts) or isinstance(
-            BPlate[0], Inserts
-        ):
-            self._data(
-                BPlate, accumulate=accumulate, order=order, inserts=True, header=header
+        inserts = self.inserts_in(BPlate)
+        self._data(
+                BPlate, accumulate=accumulate, order=order, inserts=inserts, header=header
             )
-        else:
-            self._data(BPlate, accumulate=accumulate, order=order, header=header)
+
+    def inserts_in(self, BPlate):
+        if isinstance(BPlate, Inserts):
+            return True
+        elif isinstance(BPlate[0], Inserts):
+            return True
+        return False
 
     def _data(self, BPlate, accumulate=True, order="C", header=None, inserts=False):
         for row, value in enumerate(
@@ -215,12 +217,15 @@ class BioPlateToExcel:
         ):
             self.plate_data.write_row(row, 0, value)
         len_column = len(value) - 1
-        if not inserts:
-            hd = self.__header_data_BP(len_column, accumulate=accumulate)
-        else:
-            hd = self.__header_data_Inserts(len_column, accumulate=accumulate)
-        head = hd if header is None else header
-        self.plate_data.write_row(0, 0, head)
+        if header is None:
+            header = self._data_header(len_column, inserts, accumulate)
+        self.plate_data.write_row(0, 0, header)
+
+    def _data_header(self, len_column, inserts, accumulate):
+        if inserts:
+            return self.__header_data_Inserts(len_column, accumulate=accumulate)
+        return self.__header_data_BP(len_column, accumulate=accumulate)
+        
 
     def __header_data_BP(self, len_column, accumulate=True):
         hd = ["well"]
@@ -241,13 +246,27 @@ class BioPlateToExcel:
         hd = hd + header
         return hd
 
+    def __data_header(self, len_column, accumulate=True, inserts=False):
+        header = ["well"]
+        if inserts:
+            len_column = len_column // 2
+            base_hd = ["top", "bot"]
+        else:
+            base_hd = ["value"]
+        Add = lambda *args: args[0] if not accumulate else args[0] + str(args[1])
+        print( list(map(Add, zip(base_hd, range(len_column)))))
+        header += list(map(Add, zip(base_hd, range(len_column))))
+        return header
+        
     def count(self, BPlate):
         self._count(BPlate)
 
     def _count(self, BPlate):
-        for row, V in self.__count(BPlate):
-            self.plate_count.write_row(row, 0, V)
-        self._header_count(len(V), Inserts=isinstance(BPlate, Inserts))
+        for row, value in self.__count(BPlate):
+            self.plate_count.write_row(row, 0, value)
+        len_header = len(value)
+        inserts = isinstance(BPlate, Inserts)
+        self._header_count(len_header, inserts)
 
     def __count(self, BPlate):
         row = 0

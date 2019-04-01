@@ -28,7 +28,7 @@ class BioPlateFromExcel:
 class _BioPlateFromExcel:
 
     def __init__(self, file_name : str, sheets : List[str] =None, plate_infos : Dict[str, Dict]=None):
-        """This class load plate representation and data fron excel file. If no sheetnames are specifed all sheets will be process. If plate are only data and no headers are present, you should provide a plate information. Eg : {"sheetname" : { "row" : 9, "column" : 12, "stack" : True, "type" : "BioPlate"}}
+        """This class load plate representation and data fron excel file. If no sheetnames are specifed all sheets will be process. If plate are only data and no headers are present, you should provide a plate information. Eg : {"sheetname" : { "row" : 9, "column" : 12, "stack" : True, "type" : "Plate"}}
         
         Parameters
         --------------------
@@ -267,12 +267,10 @@ class _BioPlateFromExcel:
         """
         if self.plate_infos is None:
             # 1 header + 1 empty
-            yield value[: row + 1]
-            yield value[row + 2 :]
+            return value[: row + 1], value[row + 2 :]
         else:
             # 0 header + 1 empty
-            yield value[:row]
-            yield value[row + 1 :]
+            return value[:row], value[row + 1 :]
 
     def _pre_bpi_iterate(self, value : List[List], row : int)-> Iterator:
         """Split value from a sheet into chunck of inserts.
@@ -298,13 +296,11 @@ class _BioPlateFromExcel:
         if self.plate_infos is None:
             # 2 plate + 2 header + 2 empty
             rowS = row + row + 2 + 2
-            yield [value[: row + 1], value[row + 2 : rowS]]
-            yield value[rowS:]
+            return [value[: row + 1], value[row + 2 : rowS]], value[rowS:]
         else:
             # 2 plate + 2 empty, no header
             rowS = row + row + 2
-            yield [value[:row], value[row + 1 : rowS]]
-            yield value[rowS:]
+            return [value[:row], value[row + 1 : rowS]], value[rowS:]
 
     def _get_one_plate(self, values: List[List], sheetname: str) -> Iterator:
         """yield plate object representation from list for a given sheetname
@@ -327,28 +323,57 @@ class _BioPlateFromExcel:
         """
         Type, stack, column, row = self._get_plate_informations(values, sheetname)
         plate = Type(column, row)
-        if plate.name == "Plate":
-            rest = self._set_Plate(plate, values, row)
-        elif plate.name == "Inserts":
-            rest = self._set_Inserts(plate, values, row)
+        rest = self._set(plate, values, row)
         yield plate
         if rest:
             yield from self._get_one_plate(rest, sheetname)
 
-    def _set_Plate(self, plate, values, row):
-        plates, rest = self._pre_bp_iterate(values, row)
-        for i, val in self._iterate_bp_value(plates, row):
-            plate.set(_LETTER[i], val)
+    def _set(self, plate, values, row):
+        """ Set value in a new plate and return the followinf value
+        
+        Parameters
+        -----------------
+        plate : Plate or Insert 
+            Instance of Plate or Insert
+        values : List[List]
+            Value retrive in one sheet
+        row : int 
+            Number of row in one plate 
+        
+        Returns
+        ------------
+        rest : List[List] or List
+        Reminder values not assign to Plate or Inserts after the first iteration. If rest is empty, all value in the given sheet have been assign.
+        
+        """
+        rm_header = slice(1, None, None) if self.plate_infos is None else slice(None)
+        pre_iterate, iterate_values = self.plate_iterator_interface(plate)
+        plates, rest = pre_iterate(values, row)
+        for *index, val in iterate_values(plates, row, rm_header):
+            plate.set(*index, val)
         return rest
 
-    def _set_Inserts(self, plate, values, row):
-        plates, rest = self._pre_bpi_iterate(values, row)
-        for i,  position, val in self._iterate_bpi_value(plates, row):
-            plate.set(position, _LETTER[i], val)
-        return rest
+    def plate_iterator_interface(self, plate):
+        """Select functions to apply on values.
+        
+        Parameters
+        ---------------
+        plate : Plate or Inserts
+            Instance of Plate or Inserts
+            
+        Returns
+        ----------
+        functions : Tuple[function]
+            return (pre_bp_iterate, iterate_bp_value) or (pre_bpi_iterate, iterate_bpi_value)
+        
+        """
+        if isinstance(plate, Plate):
+            return self._pre_bp_iterate, self._iterate_bp_value
+        else:
+            return self._pre_bpi_iterate, self._iterate_bpi_value
 
     def _iterate_bpi_value(
-        self, plates: List[List], row: int
+        self, plates: List[List], row: int, rm_header : slice
     ) -> Union[Iterator[Tuple[int, str, List]]]:
         """yield row index, position (top or bottom) and value of given well for Inserts.
         
@@ -358,6 +383,8 @@ class _BioPlateFromExcel:
             list of element return by `pyexcel_xlsx.get_data`_
         row : int
             index of row
+        rm_header : slice
+            remove header, this is a slice with all value in row or by removing the first one.
                     
             .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file        
         
@@ -368,13 +395,12 @@ class _BioPlateFromExcel:
                                 
         """
         position = "top"
-        rm_header = slice(1, None, None) if self.plate_infos is None else slice(None)    
         for plate in plates:
-            for i, val in self._iterate_bp_value(plate, row):
-                yield  i, position, val
+            for letter, val  in self._iterate_bp_value(plate, row, rm_header):
+                yield  position, letter, val 
             position = "bot"
 
-    def _iterate_bp_value(self, plate: List[List], row: int) -> Iterator[Tuple[int, List]]:
+    def _iterate_bp_value(self, plate: List[List], row: int, rm_header : slice) -> Iterator[Tuple[int, List]]:
         """yield row index and value of given well for Plate.
         
         Parameters
@@ -383,7 +409,9 @@ class _BioPlateFromExcel:
             list of element return by `pyexcel_xlsx.get_data`_
         row : int
             index of row
-                    
+        rm_header : slice
+            remove header, this is a slice with all value in row or by removing the first one
+              
             .. _pyexcel_xlsx.get_data: https://pythonhosted.org/pyexcel-xlsx/index.html?highlight=get#read-from-an-xlsx-file        
         
         Yields
@@ -392,7 +420,6 @@ class _BioPlateFromExcel:
             Yields infos to assign value on Plate
                                 
         """
-        rm_header = slice(1, None, None) if self.plate_infos is None else slice(None)
         for i, val in enumerate(plate[rm_header]):
             i = i % row
-            yield i, val[rm_header]
+            yield _LETTER[i], val[rm_header]
