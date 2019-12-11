@@ -1,41 +1,13 @@
 import re
-from typing import Tuple, Dict, NamedTuple, Optional, Union, List
+from functools import lru_cache
+from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 
 import numpy as np
 
 import BioPlate.core.utilitis as bpu
 
-
-class Matrix(NamedTuple):  # pragma: no cover
-    pos: str
-    row: Union[int, slice]
-    column: Union[int, slice]
-
-
-class BioPlateMatrix(Matrix):
-    """
-    Evaluate user call and return usefull information to interact with plate. Calls are cache in dict.
-    format of well :
-        - B5
-        - 6A
-        - C[2,8]
-        - 4[C,G]
-        - 1-8[A,C]
-        - A-G[1,8]
-        - A
-        - 3
-    """
-
-    _WELL_CACHE: Dict[str, bpu.EL] = dict()
-
-    def __new__(cls, well: str) -> bpu.EL:
-        well = str(well).replace(" ", "")
-        is_zero(well)
-        if well not in BioPlateMatrix._WELL_CACHE:
-            result = well_to_index(well)
-            BioPlateMatrix._WELL_CACHE[well] = result
-        return BioPlateMatrix._WELL_CACHE[well]
-      
+   
+@lru_cache(maxsize=128)
 def  well_to_index(well : str) -> bpu.EL:
     """
     from a raw string representing well, convert it to an index for slicing BioPlate object
@@ -53,6 +25,7 @@ def  well_to_index(well : str) -> bpu.EL:
         - row slicing aka first dimension of numpy array
         - column slicing aka second dimension of numpy array
     """
+    is_zero(well)
     left, right = split_well_infos(well)
     pos = position(left)
     row, column, pos = index_formater(left, right, pos)
