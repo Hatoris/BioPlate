@@ -17,6 +17,7 @@ from BioPlate.core.array import Array
 from BioPlate.core.manipulation import BioPlateManipulation
 from BioPlate.core.matrix import well_to_index
 from BioPlate.object.stack import Stack
+from BioPlate.core.index import Index
 
 
 class Inserts(Array, BioPlateManipulation):
@@ -116,23 +117,3 @@ class Inserts(Array, BioPlateManipulation):
     @property
     def bot(self: "Inserts") -> np.ndarray:
         return self[1]
-
-    def force_position(func: Callable) -> Callable:
-        def wrapper(self, *args, **kwargs):
-            if len(self.shape) > 2:
-                raise ValueError(
-                    "You didn't select a part of the plate, either top or bot'"
-                )
-            else:
-                return func(self, *args, **kwargs)
-
-        return wrapper
-
-    @force_position
-    def set(self, *args, **kwargs):
-        super().set(*args, **kwargs)
-        return self
-
-    @force_position
-    def get(self, *args):
-        return super().get(*args)

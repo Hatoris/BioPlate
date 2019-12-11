@@ -204,6 +204,7 @@ class TestPlateFromExcel(unittest.TestCase):
         np.testing.assert_array_equal(self.stack, From["plate_representation"])
 
     def test_BioPlateFromExcel_nohd_bpsi(self):
+        #print(self.stacki)
         self.stacki.to_excel("test.xlsx", header=False)
         infos = {
             "plate_representation": {

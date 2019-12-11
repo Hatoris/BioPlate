@@ -14,6 +14,7 @@ from BioPlate.database.plate_db import PlateDB
 from BioPlate.core.matrix import well_to_index
 import BioPlate.core.utilitis as bpu
 from BioPlate.core.manipulation import BioPlateManipulation
+from BioPlate.core.index import Index
 
 
 class Array(np.ndarray, BioPlateManipulation):
@@ -61,7 +62,7 @@ class Array(np.ndarray, BioPlateManipulation):
         index: Tuple[Union[int, slice], Union[int, slice]],
         value: Union[List[int], List[str], int, str],
     ) -> None:
-        if isinstance(index, str):
+        if Index.is_string_in(index):
             self.set(index, value)
         else:
             super().__setitem__(index, value)

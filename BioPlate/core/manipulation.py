@@ -18,8 +18,14 @@ from tabulate import tabulate
 
 from BioPlate.core.count import BioPlateCount
 from BioPlate.core.iterate import BioPlateIterate
+<<<<<<< HEAD
 from BioPlate.core.matrix import well_to_index
+=======
+from BioPlate.core.matrix import BioPlateMatrix
+from BioPlate.core.index import Index
+>>>>>>> 1c4bba08b2cd7ddaa26ff87c48fe9328352a6344
 from BioPlate.database.plate_historic_db import PlateHist
+
 
 
 class BioPlateManipulation:
@@ -103,12 +109,16 @@ class BioPlateManipulation:
 
         """
         if len(args) == 1:
-            well, *trash = args
+            well, *_ = args
             value = None
             return well, value
-        if len(args) == 2:
-            well, value, *trash = args
+        elif len(args) == 2:
+            well, value, *_ = args
             return well, value
+        elif len(args) == 3:
+            *well, value = args
+            return well, value
+            
 
     @overload
     def set(
@@ -173,13 +183,13 @@ class BioPlateManipulation:
         index = well_to_index(str(well))
         try:
             if self.is_list_tuple_set(value):
-                self._set_list(index, value, merge)
+                self._set_list(index, value, merge, pos)
             else:
                 self._basic_set(index, value, merge)
         except TypeError:
             raise ValueError(f"Can not assign {value} to {well}")
 
-    def _basic_set(self, index, value, merge, part=None):
+    def _basic_set(self, index, value, merge,  part=None):
         """
         Evaluate if value should be apply to __setitem__ or slice of it
         
@@ -195,37 +205,36 @@ class BioPlateManipulation:
         """
         Update value with existing value of selected well and merge it
         """
-        previous_value = self[index.row, index.column][:part]
+        previous_value = self[index][:part]
         return ncd.add(previous_value, value)
                         
     def _set(self, index, value):
         """
         Call __setitem__ of bioplate and qssign value on it
         """
-        self.__setitem__((index.row, index.column), value)
+        self.__setitem__(index, value)
 
     def _set_part(self, index, value, part):
         """
         Call __setitem__ and slice it to fit the number of value to assign
         """
-        #self[index.row, index.column][:part] = value
         try:
-            self.__getitem__((index.row, index.column)).__setitem__( slice(None, part, None), value)
+            self.__getitem__(index).__setitem__( slice(None, part, None), value)
         except AttributeError:
             raise ValueError("Cannot assign index to plate")
 
-    def _set_list(self, index, value, merge):
+    def _set_list(self, index, value, merge, pos):
         """
         Evaluate if a list should be reshape  or setitem should be sliced
         """
-        plate_shape = self[index.row, index.column].shape
+        plate_shape = self[index].shape
         len_plate_shape = len(plate_shape)
         if len_plate_shape > 1:
-            self._set_reshape(index, value, plate_shape, merge)
+            self._set_reshape(index, value, plate_shape, merge, pos)
         else:
             self._set_slice(index, value, merge)
             
-    def _set_reshape(self, index, value, plate_shape, merge):
+    def _set_reshape(self, index, value, plate_shape, merge, pos):
         """
         Reshape value if needed
         """
@@ -243,15 +252,15 @@ class BioPlateManipulation:
         part = len(value)
         self._basic_set(index, value, merge, part)
 
-    def  is_list_tuple_set(self, object):
+    def  is_list_tuple_set(self, value):
         """
         Evaluate if object is a list, a tuple or a set and return True otherwise False
         """
-        if isinstance(object, (list, tuple)):
+        if isinstance(value, (list, tuple)):
             return True
-        elif isinstance(object, set):
+        elif isinstance(value, set):
              raise ValueError("Set object can not be used to assign value")
-        return False           
+        return False
                                                        
     def get(
         self: "BioPlateManipulation", *well: str

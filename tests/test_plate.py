@@ -672,7 +672,7 @@ class TestPlate(unittest.TestCase):
 
     def test_all_C(self):
         pl = BioPlate(6, 4)
-        pl.set(2, [3, 4])
+        pl.set("2", [3, 4])
         np.testing.assert_array_equal(pl.get(2).tolist(), ["3", "4", "", ""])
 
     def test_multi_get(self):
