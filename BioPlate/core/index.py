@@ -1,7 +1,7 @@
 from typing import *
 
 
-from BioPlate.core.matrix import BioPlateMatrix as bpm
+from BioPlate.core.matrix import well_to_index
 
 
 class Index:
@@ -36,5 +36,5 @@ class Index:
         well = base.get(index, False)
         if well is not False:
             return well
-        well = bpm(index)
+        well = well_to_index(index)
         return (well.row, well.column)

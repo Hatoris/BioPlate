@@ -18,7 +18,7 @@ from tabulate import tabulate
 
 from BioPlate.core.count import BioPlateCount
 from BioPlate.core.iterate import BioPlateIterate
-from BioPlate.core.matrix import BioPlateMatrix
+from BioPlate.core.matrix import well_to_index
 from BioPlate.database.plate_historic_db import PlateHist
 
 
@@ -170,7 +170,7 @@ class BioPlateManipulation:
         This function evalute if value to assign is a list or a tuple and call the apptopriate subfunction
         
         """
-        index = BioPlateMatrix(str(well))
+        index = well_to_index(str(well))
         try:
             if self.is_list_tuple_set(value):
                 self._set_list(index, value, merge)
@@ -212,7 +212,7 @@ class BioPlateManipulation:
         try:
             self.__getitem__((index.row, index.column)).__setitem__( slice(None, part, None), value)
         except AttributeError:
-            raise ValueError("Can not assign index to plate")
+            raise ValueError("Cannot assign index to plate")
 
     def _set_list(self, index, value, merge):
         """
@@ -230,7 +230,10 @@ class BioPlateManipulation:
         Reshape value if needed
         """
         if index.pos == "R":
-            value = np.reshape(value, (plate_shape[0], 1))
+            try:
+                value = np.reshape(value, (plate_shape[0], 1))
+            except ValueError:
+                raise ValueError(f"cannot reshape {value} ({len(value)}) based on index : {plate_shape[0]} ")
         self._basic_set(index, value, merge)           
         
     def _set_slice(self,  index, value, merge):

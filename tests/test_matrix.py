@@ -13,16 +13,16 @@ from BioPlate.core.matrix import *
 class TestMatrix(unittest.TestCase):
     
     def test_general(self):
-        self.assertEqual(BioPlateMatrix("A2"), bpu.EL("W", 1, 2))
-        self.assertEqual(BioPlateMatrix("5G"), bpu.EL("W", 7, 5))
-        self.assertEqual(BioPlateMatrix("2-10[A]"), bpu.EL("C", 1, slice(2, 11, 1)))
-        self.assertEqual(BioPlateMatrix("B[2,8]"), bpu.EL("R", 2, slice(2, 9, 1)))
-        self.assertEqual(BioPlateMatrix("2[B-G]"), bpu.EL("C", slice(2, 8, 1), 2))
+        self.assertEqual(well_to_index("A2"), bpu.EL("W", 1, 2))
+        self.assertEqual(well_to_index("5G"), bpu.EL("W", 7, 5))
+        self.assertEqual(well_to_index("2-10[A]"), bpu.EL("C", 1, slice(2, 11, 1)))
+        self.assertEqual(well_to_index("B[2,8]"), bpu.EL("R", 2, slice(2, 9, 1)))
+        self.assertEqual(well_to_index("2[B-G]"), bpu.EL("C", slice(2, 8, 1), 2))
         self.assertEqual(
-            BioPlateMatrix("A-G[1-8]"), bpu.EL("R", slice(1, 8, 1), slice(1, 9, 1))
+            well_to_index("A-G[1-8]"), bpu.EL("R", slice(1, 8, 1), slice(1, 9, 1))
         )
         self.assertEqual(
-            BioPlateMatrix("1-8[A-G]"), bpu.EL("C", slice(1, 8, 1), slice(1, 9, 1))
+            well_to_index("1-8[A-G]"), bpu.EL("C", slice(1, 8, 1), slice(1, 9, 1))
         )
         
     def test_split_well_infos(self):

@@ -11,7 +11,7 @@ from string import ascii_uppercase
 import numpy as np
 
 from BioPlate.database.plate_db import PlateDB
-from BioPlate.core.matrix import BioPlateMatrix
+from BioPlate.core.matrix import well_to_index
 import BioPlate.core.utilitis as bpu
 from BioPlate.core.manipulation import BioPlateManipulation
 
@@ -52,7 +52,7 @@ class Array(np.ndarray, BioPlateManipulation):
         self, index: Tuple[Union[int, slice], Union[int, slice], int, str]
     ) -> np.ndarray:
         if isinstance(index, str):
-            well = BioPlateMatrix(index)
+            well = well_to_index(index)
             return self[well.row, well.column]
         return super(Array, self).__getitem__(index)
 

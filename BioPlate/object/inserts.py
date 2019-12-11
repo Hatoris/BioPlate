@@ -15,7 +15,7 @@ import numpy as np
 
 from BioPlate.core.array import Array
 from BioPlate.core.manipulation import BioPlateManipulation
-from BioPlate.core.matrix import BioPlateMatrix
+from BioPlate.core.matrix import well_to_index
 from BioPlate.object.stack import Stack
 
 
@@ -78,7 +78,7 @@ class Inserts(Array, BioPlateManipulation):
                 ind = self._ind.get(index[0])
                 plt = self[ind]
                 if isinstance(index[1], str):
-                    well = BioPlateMatrix(index[1])
+                    well = well_to_index(index[1])
                     return plt[well.row, well.column]
         return super(Inserts, self).__getitem__(index)
 
@@ -104,7 +104,7 @@ class Inserts(Array, BioPlateManipulation):
                 ind = self._ind.get(index[0])
                 plt = self[ind]
                 if isinstance(index[1], str):
-                    well = BioPlateMatrix(index[1])
+                    well = well_to_index(index[1])
                     plt[index[1]] = value
                     return
         super(Inserts, self).__setitem__(index, value)
