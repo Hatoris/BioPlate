@@ -54,7 +54,7 @@ class Array(np.ndarray, BioPlateManipulation):
         if isinstance(index, str):
             well = well_to_index(index)
             return self[well.row, well.column]
-        return super(Array, self).__getitem__(index)
+        return super().__getitem__(index)
 
     def __setitem__(
         self,
@@ -64,7 +64,7 @@ class Array(np.ndarray, BioPlateManipulation):
         if isinstance(index, str):
             self.set(index, value)
         else:
-            super(Array, self).__setitem__(index, value)
+            super().__setitem__(index, value)
 
     @overload
     def bioplatearray(
