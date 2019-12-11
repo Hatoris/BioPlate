@@ -18,12 +18,8 @@ from tabulate import tabulate
 
 from BioPlate.core.count import BioPlateCount
 from BioPlate.core.iterate import BioPlateIterate
-<<<<<<< HEAD
 from BioPlate.core.matrix import well_to_index
-=======
-from BioPlate.core.matrix import BioPlateMatrix
 from BioPlate.core.index import Index
->>>>>>> 1c4bba08b2cd7ddaa26ff87c48fe9328352a6344
 from BioPlate.database.plate_historic_db import PlateHist
 
 
@@ -180,7 +176,7 @@ class BioPlateManipulation:
         This function evalute if value to assign is a list or a tuple and call the apptopriate subfunction
         
         """
-        index = well_to_index(str(well))
+        pos, index = Index(well)
         try:
             if self.is_list_tuple_set(value):
                 self._set_list(index, value, merge, pos)
@@ -238,7 +234,7 @@ class BioPlateManipulation:
         """
         Reshape value if needed
         """
-        if index.pos == "R":
+        if pos == "R":
             try:
                 value = np.reshape(value, (plate_shape[0], 1))
             except ValueError:

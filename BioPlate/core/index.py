@@ -44,4 +44,16 @@ class Index:
         if well is not False:
             return well
         well = well_to_index(index)
-        return (well.row, well.column)
+        return well.pos, (well.row, well.column)
+       
+    def is_string_in(index):
+        if Index.is_string(index):
+            return True
+        elif isinstance(index, (tuple, list)):
+            for ind in index:
+                if Index.is_string(ind):
+                    return True
+        return False
+       
+    def is_string(index):
+        return isinstance(index, str)
