@@ -29,7 +29,7 @@ class OneSet:
         self.value = value
 
 
-        def _basic_set(self, bioplate):
+    def _basic_set(self, bioplate):
         """
         Evaluate if value should be apply to __setitem__ or slice of it
         
